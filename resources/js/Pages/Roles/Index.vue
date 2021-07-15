@@ -1,0 +1,79 @@
+<template>
+    <BreezeAuthenticatedLayout>
+        <template #header>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                Role's Management
+            </h2>
+        </template>
+        <div class="container-fluid">
+            <div class="card flex h-screen justify-center mt-5">
+                <div class="card-header">
+                    <card-header
+                        :create="route('roles.create')"
+                        :searchMethod="search"
+                    ></card-header>
+                </div>
+                <div class="card-body table-responsive">
+                    <table class="table table-bordered text-center">
+                        <thead>
+                            <tr>
+                                <th>SL</th>
+                                <th>Name</th>
+                                <th>Guard</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                v-for="(role, index) in roles.data"
+                                :key="role.id"
+                            >
+                                <td>
+                                    {{ index + 1 }}
+                                </td>
+                                <td>
+                                    {{ role.name }}
+                                </td>
+                                <td>
+                                    {{ role.guard_name }}
+                                </td>
+                                <td>
+                                    <Actions
+                                        :editUrl="route('roles.edit', role.id)"
+                                        :deleteUrl="
+                                            route('roles.destroy', role.id)
+                                        "
+                                    ></Actions>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <Paginator :paginator="roles"> </Paginator>
+                </div>
+                <div class="card-footer"></div>
+            </div>
+        </div>
+    </BreezeAuthenticatedLayout>
+</template>
+<script>
+import BreezeAuthenticatedLayout from "@/Layouts/Authenticated";
+import CardHeader from "@/Shared/CardHeader";
+import Actions from "@/Shared/Actions";
+import Paginator from "@/Components/Paginator";
+
+export default {
+    name: "index",
+    props: ["roles"],
+    components: {
+        BreezeAuthenticatedLayout,
+        CardHeader,
+        Actions,
+        Paginator,
+    },
+    methods: {
+        search(param) {
+            this.$inertia.replace(route("roles.index", { search: param }));
+        },
+    },
+};
+</script>
