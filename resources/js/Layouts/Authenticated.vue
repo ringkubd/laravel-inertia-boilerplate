@@ -83,6 +83,12 @@
                                                 User
                                             </breeze-dropdown-link>
                                             <breeze-dropdown-link
+                                                :href="route('user_role.index')"
+                                                :active="route().current('users')"
+                                            >
+                                                User's Role
+                                            </breeze-dropdown-link>
+                                            <breeze-dropdown-link
                                                 :href="route('roles.index')"
                                                 :active="route().current('roles')"
                                             >

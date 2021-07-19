@@ -96,7 +96,7 @@ export default {
             if (query) {
                 where = {'name': query}
             }
-            const response = await fetch(route('get_user', where))
+            const response = await fetch(route('users.get', where))
 
             const data = await response.json();
             const finalData = data.map((item) => {
@@ -110,7 +110,7 @@ export default {
             if (query) {
                 where = {'name': query}
             }
-            const response = await fetch(route('get_roles', where))
+            const response = await fetch(route('roles.get', where))
 
             const data = await response.json();
             const finalData = data.data.map((item) => {
@@ -119,18 +119,19 @@ export default {
             return finalData;
         },
         async onSelectUser(){
-            const response = await fetch(route('user_roles',this.selectedUser))
+            const response = await fetch(route('users.roles',this.selectedUser))
             const responseJson = await response.json()
             this.selectedRoles = responseJson.map((item) => {
                 return item.id;
             });
+            console.log(responseJson)
         },
         submitForm(){
             const formData = {
                 user: this.selectedUser,
                 roles: this.selectedRoles
             }
-            this.$inertia.put(route('put_user_role'), formData)
+            this.$inertia.put(route('user_role.put'), formData)
         }
     }
 };

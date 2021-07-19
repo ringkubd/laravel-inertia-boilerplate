@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Spatie\Permission\Models\Permission;
 
@@ -32,8 +33,10 @@ class PermissionController extends Controller
     public function create()
     {
         $permission = new Permission();
+        $modules = $this->module();
         return Inertia::render('Permission/Create',[
             'permission' => $permission,
+            'modules' => $modules
         ]);
     }
 
@@ -47,9 +50,14 @@ class PermissionController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'guard_name' => 'required'
+            'guard_name' => 'required',
+            'module' => 'required'
         ]);
-        $permission = Permission::create($request->all());
+        $data = $request->all();
+        if ($request->has('module') && count(explode('_', $request->name)) < 2) {
+            $data['name'] = $request->name ."_". $request->module;
+        }
+        $permission = Permission::create($data);
         return redirect()->route('permission.index')->withFlash('success', 'Permission store successfully');
     }
 
@@ -73,8 +81,10 @@ class PermissionController extends Controller
     public function edit($id)
     {
         $permission = Permission::find($id);
+        $modules = $this->module();
         return Inertia::render('Permission/Edit', [
-            'permission' => $permission
+            'permission' => $permission,
+            'modules' => $modules
         ]);
     }
 
@@ -90,8 +100,13 @@ class PermissionController extends Controller
         $request->validate([
             'name' => 'required',
             'guard_name' => 'required',
+            'module' => 'required'
         ]);
-        $permission = Permission::find($id)->update($request->all());
+        $data = $request->all();
+        if ($request->has('module') && count(explode('_', $request->name)) < 2) {
+            $data['name'] = $request->name ."_". $request->module;
+        }
+        $permission = Permission::find($id)->update($data);
         return redirect()->route('permission.index')->withFlash('success', 'Permission updated successfully');
     }
 
@@ -105,5 +120,18 @@ class PermissionController extends Controller
     {
         $role = Permission::find($id)->delete();
         return redirect()->route('permission.index')->withFlash('success', "Permission successfully removed");
+    }
+
+    protected function module(){
+        $routes = Route::getRoutes();
+        $routeName = [];
+        foreach ($routes as $route){
+            $module =  explode('.',$route->getName());
+            if (count($module) > 1 && !in_array($module[0], $routeName)) {
+                $routeName [] = $module[0];
+            }
+
+        }
+        return $routeName;
     }
 }

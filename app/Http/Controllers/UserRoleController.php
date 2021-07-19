@@ -18,9 +18,9 @@ class UserRoleController extends Controller
             'user' => 'required|int',
             'roles' => 'required|array'
         ]);
-        User::query()
+        $user = User::query()
             ->find($request->user)->syncRoles($request->roles);
-        return redirect()->route('user_role_index')->withFlash("success", "Successfully updated");
+        return redirect()->route('user_role.index')->withFlash("success", "Successfully updated");
     }
 
     /**
@@ -76,7 +76,7 @@ class UserRoleController extends Controller
      * @return mixed
      */
     public function userPermission(User $user){
-        return User::query()->first()->getDirectPermissions()->toJson();
+        return $user->getDirectPermissions()->toJson();
     }
 
     /**
@@ -84,6 +84,6 @@ class UserRoleController extends Controller
      * @return mixed
      */
     public function userRoles(User $user){
-        return User::query()->first()->roles()->get()->toJson();
+        return $user->roles()->get()->toJson();
     }
 }

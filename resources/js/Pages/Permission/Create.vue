@@ -14,6 +14,7 @@
                         :isUpdate="false"
                         :permission="permission"
                         :errors="errors"
+                        :modules="modules"
                     ></formModule>
                 </div>
             </div>
@@ -26,7 +27,7 @@ import Back from "@/Shared/Back";
 import formModule from "./Form";
 export default {
     name: "Create",
-    props: ["permission", "errors"],
+    props: ["permission", "errors", 'modules'],
     components: {
         BreezeAuthenticatedLayout,
         Back,

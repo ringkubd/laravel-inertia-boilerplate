@@ -36,11 +36,24 @@ require __DIR__.'/auth.php';
 Route::resource('roles', RolesController::class);
 Route::resource('permission', PermissionController::class);
 
-Route::put('user_role', UserRoleController::class)->name('put_user_role');
-Route::get('user_role', [UserRoleController::class, "index"])->name('user_role_index');
-Route::get('get_user', [UserRoleController::class, "getUser"])->name('get_user');
-Route::get('get_permission', [UserRoleController::class, "getPermission"])->name('get_permission');
-Route::get('get_roles', [UserRoleController::class, "getRoles"])->name('get_roles');
-Route::get('user_permission/{user}', [UserRoleController::class, "userPermission"])->name('user_permission');
-Route::get('user_roles/{user}', [UserRoleController::class, "userRoles"])->name('user_roles');
+Route::put('user_role', UserRoleController::class)->name('user_role.put');
+Route::get('user_role', [UserRoleController::class, "index"])->name('user_role.index');
+Route::get('get_user', [UserRoleController::class, "getUser"])->name('users.get');
+Route::get('get_permission', [UserRoleController::class, "getPermission"])->name('permissions.get');
+Route::get('get_roles', [UserRoleController::class, "getRoles"])->name('roles.get');
+Route::get('user_permission/{user}', [UserRoleController::class, "userPermission"])->name('users.permission');
+Route::get('user_roles/{user}', [UserRoleController::class, "userRoles"])->name('users.roles');
 Route::resource('users', \App\Http\Controllers\UserController::class);
+// Sync Roles Permissions
+Route::get('role_permission/{role?}', [\App\Http\Controllers\RolePermissionController::class, 'get'])->name('roles.permissions');
+Route::put('role_permission/{role}', [\App\Http\Controllers\RolePermissionController::class, 'update'])->name('roles.permissions_update');
+Route::get('role_get_permission/{role}', [\App\Http\Controllers\RolePermissionController::class, 'getRolePermissions'])->name('roles.get_permissions');
+
+// Update User Permissions
+Route::get('user_direct_permission/{user?}', [\App\Http\Controllers\UserPermissionController::class, 'index'])->name('users.direct_permission');
+Route::put('user_direct_permission_update/{user}', [\App\Http\Controllers\UserPermissionController::class, 'updateUserPermissions'])->name('users.direct_permission_update');
+Route::get('user_permission_json/{user}', [\App\Http\Controllers\UserPermissionController::class, "getUserPermissions"])->name('users.permission_json');
+
+
+// Test
+

@@ -39,6 +39,7 @@
                 ></font-awesome-icon>
             </jet-button>
         </inertia-link>
+        <slot></slot>
     </div>
 </template>
 

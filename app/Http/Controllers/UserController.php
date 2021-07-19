@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -19,7 +20,9 @@ class UserController extends Controller
         return Inertia::render('Users/Index', [
             'users' => User::when($request->search, function ($q, $v){
                 $q->where('name', 'like', "%{$v}%");
-            })->paginate()
+            })->with(['roles' => function($q){
+                $q->select('name');
+            }])->paginate()
         ]);
     }
 
@@ -30,8 +33,10 @@ class UserController extends Controller
      */
     public function create()
     {
+        $roles = Role::all();
         return Inertia::render('Users/Create', [
-            'user' => new User()
+            'user' => new User(),
+            'roles' => $roles
         ]);
     }
 
@@ -49,11 +54,12 @@ class UserController extends Controller
             'password' => 'required|confirmed'
         ]);
 
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password)
         ]);
+        $user->syncRoles($request->roles ?? []);
         return redirect()->route('users.index')->withFlash("success", "User successfully created.");
 
     }
@@ -78,7 +84,9 @@ class UserController extends Controller
     public function edit($id)
     {
         return Inertia::render('Users/Edit', [
-            'user' => User::find($id),
+            'user' => User::with(['roles' => function($q){
+                $q->select('name', 'id');
+            }])->find($id),
         ]);
     }
 
@@ -97,7 +105,7 @@ class UserController extends Controller
             'password' => 'required|confirmed'
         ]);
 
-        User::findOrFail($id)->update([
+        $user = User::findOrFail($id)->syncRoles($request->roles ?? [])->update([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password)
