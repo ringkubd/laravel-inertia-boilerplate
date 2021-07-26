@@ -14,10 +14,13 @@ createInertiaApp({
         createApp({
             render: () => h(app, props),
         })
-            .mixin({ methods: { route } })
+            .mixin({
+                methods: {
+                    route,
+                },
+            })
             .use(plugin)
             .component("font-awesome-icon", FontAwesomeIcon)
-            // .component("multiselect", Multiselect)
             .mount(el);
     },
 });

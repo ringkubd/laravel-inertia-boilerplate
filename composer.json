@@ -15,7 +15,8 @@
         "laravel/tinker": "^2.5",
         "spatie/laravel-permission": "^4.2",
         "svnwa/inertiavuepaginator": "^1.0",
-        "tightenco/ziggy": "^1.0"
+        "tightenco/ziggy": "^1.0",
+        "beyondcode/laravel-websockets": "^1.12"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
@@ -31,7 +32,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app/Helpers/conversation.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

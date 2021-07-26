@@ -108,6 +108,9 @@
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ml-6">
+                            <div align="left" width="10" class="border-1 border-green-400 border-solid rounded">
+                                <span class="inline-flex border-1px rounded-md"> {{onlineFriends.length}} </span>
+                            </div>
                             <!-- Settings Dropdown -->
                             <div class="ml-3 relative">
                                 <breeze-dropdown align="right" width="48">
@@ -301,6 +304,7 @@ import BreezeNavLink from "@/Components/NavLink";
 import BreezeResponsiveNavLink from "@/Components/ResponsiveNavLink";
 
 export default {
+    props: ['user', 'auth', 'online'],
     components: {
         BreezeApplicationLogo,
         BreezeDropdown,
@@ -308,11 +312,82 @@ export default {
         BreezeNavLink,
         BreezeResponsiveNavLink,
     },
-
     data() {
         return {
             showingNavigationDropdown: false,
+            onlineFriends: [],
+            offlineFriends: []
         };
+    },
+    methods: {
+        refreshClient(){
+        },
+        addOnlineFriend(user){
+            let app = this.$page.props
+            if(this.onlineFriends.indexOf(user) < 0 && app.user.id != user.id){
+                this.onlineFriends.push(user)
+            }
+        },
+        removeOfflineFriend(offlineUser){
+            this.onlineFriends = this.onlineFriends.filter(user => {
+                return user.id != offlineUser.id;
+            })
+        },
+        addOfflineFriend(user){
+            let app = this.$page.props
+            if(this.offlineFriends.indexOf(user) < 0 && app.user.id != user.id){
+                this.offlineFriends.push(user)
+            }
+        },
+        removeOnlineFriend(onlineUser){
+            this.offlineFriends = this.offlineFriends.filter(user => {
+                return user.id != onlineUser.id;
+            })
+        }
+    },
+    created() {
+        let app = this;
+        app.channel
+            .subscribed(user => {
+            })
+            .joining(user => {
+                axios.put(route('online', user.id))
+            })
+            .leaving(user => {
+                axios.put(route('offline', user.id))
+            })
+            .listen("OnlineEvent", e => {
+                app.addOnlineFriend(e.user);
+                app.removeOnlineFriend(e.user);
+            })
+            .listen('OfflineEvent', e => {
+                app.removeOfflineFriend(e.user);
+                app.addOfflineFriend(e.user)
+            });
+        window.setInterval(function () {
+            app.refreshClient();
+        }, 60000);
+    },
+    computed:{
+        channel () {
+            return window.Echo.join("user_online_status");
+        },
+        connection () {
+            return window.Echo.connector.pusher.connection;
+        }
+    },
+    mounted () {
+        let app = this.$page.props
+        this.onlineFriends = app.online.filter(user => {
+            return user.id != app.user.id;
+        })
+        this.offlineFriends = app.offline.filter(user => {
+            return user.id != app.user.id;
+        })
+        console.log(app.offline)
+    },
+    beforeDestroy () {
+        window.Echo.leave("user_online_status");
     },
 };
 </script>

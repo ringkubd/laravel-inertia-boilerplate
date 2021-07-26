@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -37,11 +38,24 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'user' => $request->user(),
             'flash' => [
                 'message' => fn () => $request->session()->get('message'),
                 'error' => fn () => $request->session()->get('error'),
                 'success' => fn () => $request->session()->get('success')
             ],
+            'online' => User::where('online', 1)
+                ->whereNot('id', $request->user()->id)
+                ->whereHas('conversationUsers', function ($q) use($request){
+                    $q->where('user_id', $request->user()->id);
+                })
+                ->get() ?? [],
+            'offline' => User::where('online', 0)
+                ->whereNot('id', $request->user()->id)
+                ->whereHas('conversationUsers', function ($q)use($request){
+                    $q->where('user_id', $request->user()->id);
+                })
+                ->get() ?? []
         ]);
     }
 }

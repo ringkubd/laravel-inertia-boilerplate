@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RolesController;
+use App\Http\Controllers\UserOfflineController;
+use App\Http\Controllers\UserOnlineController;
 use App\Http\Controllers\UserRoleController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -57,3 +60,10 @@ Route::get('user_permission_json/{user}', [\App\Http\Controllers\UserPermissionC
 
 // Test
 
+Route::resource('conversation', ConversationController::class);
+
+//User Online Status
+Route::put('online/{user}', UserOnlineController::class)->name('online');
+Route::put('offline/{user}', UserOfflineController::class)->name('offline');
+
+// conversation
