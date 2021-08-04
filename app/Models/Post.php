@@ -13,11 +13,11 @@ class Post extends Model
     protected $guarded = ['id'];
 
     public function author(){
-        return $this->hasOne(User::class, 'author');
+        return $this->hasOne(User::class, 'id', 'author');
     }
 
     public function categories(){
-        return $this->belongsToMany(Category::class)->whereNull('parent_id')->with('childCategory');
+        return $this->belongsToMany(Category::class, 'post_category')->whereNull('parent_id')->with('childCategory');
     }
 
     public function comments(){

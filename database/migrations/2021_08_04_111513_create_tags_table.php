@@ -19,6 +19,7 @@ class CreateTagsTable extends Migration
             $table->string('meta_title');
             $table->string('slug')->unique()->index();
             $table->text('content')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

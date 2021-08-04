@@ -15,9 +15,17 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::with('categories', 'comments', 'tags', 'author', 'metas')->get();
+        $posts = Post::query()
+            ->with('categories', 'comments', 'tags', 'author', 'metas')
+            ->when($request->search, function($q, $v){
+                $q->where('title', 'like', "%{$v}%")
+                    ->orWhere('slug', 'like', "%{$v}%");
+            })
+            ->where('post_type', 'post')
+            ->get();
+
         return Inertia::render($this->component . 'Index', [
             'posts' => $posts
         ]);
