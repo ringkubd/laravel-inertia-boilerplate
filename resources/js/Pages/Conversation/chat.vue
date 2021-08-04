@@ -3,6 +3,7 @@
         <template #header>
             <h2>Conversation</h2>
         </template>
+        <template v-slot:default="slotProps">
         <div class="flex h-screen antialiased text-gray-800">
             <div class="flex flex-row h-full w-full overflow-x-hidden">
                 <div class="flex flex-col py-8 pl-6 pr-2 w-64 bg-white flex-shrink-0">
@@ -37,7 +38,7 @@
                                 class="h-full w-full"
                             />
                         </div>
-                        <div class="text-sm font-semibold mt-2">Aminos Co.</div>
+                        <div class="text-sm font-semibold mt-2">{{user.name}}.</div>
                         <div class="text-xs text-gray-500">Lead UI/UX Designer</div>
                         <div class="flex flex-row items-center mt-3">
                             <div
@@ -50,86 +51,49 @@
                     </div>
                     <div class="flex flex-col mt-8">
                         <div class="flex flex-row items-center justify-between text-xs">
-                            <span class="font-bold">Active Conversations</span>
+                            <span class="font-bold">Online</span>
                             <span
                                 class="flex items-center justify-center bg-gray-300 h-4 w-4 rounded-full"
-                            >4</span
+                            >{{slotProps.onlineFriends.length}}</span
                             >
                         </div>
-                        <div class="flex flex-col space-y-1 mt-4 -mx-2 h-48 overflow-y-auto">
+                        <div class="flex flex-col space-y-1 mt-4 -mx-2 h-48 overflow-y-auto" v-if="slotProps.onlineFriends.length > 0">
                             <button
-                                class="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2"
-                            >
-                                <div
-                                    class="flex items-center justify-center h-8 w-8 bg-indigo-200 rounded-full"
-                                >
-                                    H
-                                </div>
-                                <div class="ml-2 text-sm font-semibold">Henry Boyd</div>
-                            </button>
-                            <button
-                                class="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2"
+                                class="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2"  v-for="onl in online"
                             >
                                 <div
                                     class="flex items-center justify-center h-8 w-8 bg-gray-200 rounded-full"
                                 >
-                                    M
+                                    {{firstLetter(onl.name)}}
                                 </div>
-                                <div class="ml-2 text-sm font-semibold">Marta Curtis</div>
-                                <div
-                                    class="flex items-center justify-center ml-auto text-xs text-white bg-red-500 h-4 w-4 rounded leading-none"
-                                >
-                                    2
+                                <div class="ml-2 text-sm font-semibold">{{onl.name}}</div>
+                                <div class="flex items-center justify-center ml-auto text-xs text-white bg-red-500 h-4 w-4 rounded leading-none" v-if="onl.conversation.length > 0">
+                                    {{onl.conversation[0].messages.length}}
                                 </div>
-                            </button>
-                            <button
-                                class="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2"
-                            >
-                                <div
-                                    class="flex items-center justify-center h-8 w-8 bg-orange-200 rounded-full"
-                                >
-                                    P
-                                </div>
-                                <div class="ml-2 text-sm font-semibold">Philip Tucker</div>
-                            </button>
-                            <button
-                                class="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2"
-                            >
-                                <div
-                                    class="flex items-center justify-center h-8 w-8 bg-pink-200 rounded-full"
-                                >
-                                    C
-                                </div>
-                                <div class="ml-2 text-sm font-semibold">Christine Reid</div>
-                            </button>
-                            <button
-                                class="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2"
-                            >
-                                <div
-                                    class="flex items-center justify-center h-8 w-8 bg-purple-200 rounded-full"
-                                >
-                                    J
-                                </div>
-                                <div class="ml-2 text-sm font-semibold">Jerry Guzman</div>
                             </button>
                         </div>
+
+
                         <div class="flex flex-row items-center justify-between text-xs mt-6">
-                            <span class="font-bold">Archivied</span>
+                            <span class="font-bold">Offline</span>
                             <span
                                 class="flex items-center justify-center bg-gray-300 h-4 w-4 rounded-full"
-                            >7</span
+                            >{{slotProps.offlineFriends.length}}</span
                             >
                         </div>
-                        <div class="flex flex-col space-y-1 mt-4 -mx-2">
+                        <div class="flex flex-col space-y-1 mt-4 -mx-2" v-if="slotProps.onlineFriends.length > 0">
                             <button
-                                class="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2"
+                                class="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2"  v-for="off in offline"
                             >
                                 <div
-                                    class="flex items-center justify-center h-8 w-8 bg-indigo-200 rounded-full"
+                                    class="flex items-center justify-center h-8 w-8 bg-gray-200 rounded-full"
                                 >
-                                    H
+                                    {{firstLetter(off.name)}}
                                 </div>
-                                <div class="ml-2 text-sm font-semibold">Henry Boyd</div>
+                                <div class="ml-2 text-sm font-semibold">{{off.name}}</div>
+                                <div class="flex items-center justify-center ml-auto text-xs text-white bg-red-500 h-4 w-4 rounded leading-none" v-if="off.conversation.length > 0">
+                                    {{off.conversation[0].messages.length}}
+                                </div>
                             </button>
                         </div>
                     </div>
@@ -407,6 +371,7 @@
                 </div>
             </div>
         </div>
+        </template>
     </breeze-authenticated-layout>
 </template>
 
@@ -414,11 +379,27 @@
 import BreezeAuthenticatedLayout from "@/Layouts/Authenticated";
 export default {
     name: "chat",
-    props: [],
+    props: ['online', 'offline', 'user'],
     components: {
         BreezeAuthenticatedLayout
     },
     data() {},
+    mounted(){
+        //console.log(this.offline)
+    },
+    methods: {
+        firstLetter(str){
+            if (str == "") return;
+            return str.charAt(0).toUpperCase()
+        },
+        messageLength(){
+
+        },
+        conversationLength(){
+            const offline = this.offline;
+            const online = this.online;
+        }
+    }
 
 }
 </script>

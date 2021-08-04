@@ -45,17 +45,21 @@ class HandleInertiaRequests extends Middleware
                 'success' => fn () => $request->session()->get('success')
             ],
             'online' => User::where('online', 1)
-                ->whereNot('id', $request->user()->id)
-                ->whereHas('conversationUsers', function ($q) use($request){
-                    $q->where('user_id', $request->user()->id);
-                })
-                ->get() ?? [],
+                    ->where('id', '!=',$request->user()->id ?? "")
+                    ->with(['conversation' => function ($q){
+                        $q->whereHas('conversationUsers', function ($q) {
+                            $q->where('user_id',  request()->user()->id ?? "");
+                        });
+                    }])
+                    ->get() ?? [],
             'offline' => User::where('online', 0)
-                ->whereNot('id', $request->user()->id)
-                ->whereHas('conversationUsers', function ($q)use($request){
-                    $q->where('user_id', $request->user()->id);
-                })
-                ->get() ?? []
+                    ->where('id','!=', $request->user()->id?? "")
+                    ->with(['conversation' => function ($q){
+                        $q->whereHas('conversationUsers', function ($q) {
+                            $q->where('user_id',  request()->user()->id ?? "");
+                        });
+                    }])
+                    ->get() ?? []
         ]);
     }
 }

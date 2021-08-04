@@ -1,12 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Blog;
 
+use App\Http\Controllers\Controller;
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class ConversationController extends Controller
+class PostController extends Controller
 {
+    private $component = "Blog/Admin/Post/";
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +17,10 @@ class ConversationController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Conversation/chat');
+        $posts = Post::with('categories', 'comments', 'tags', 'author', 'metas')->get();
+        return Inertia::render($this->component . 'Index', [
+            'posts' => $posts
+        ]);
     }
 
     /**
@@ -24,7 +30,7 @@ class ConversationController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render($this->component . 'Create', []);
     }
 
     /**
@@ -46,7 +52,7 @@ class ConversationController extends Controller
      */
     public function show($id)
     {
-        //
+        return Inertia::render($this->component . 'Preview', []);
     }
 
     /**
@@ -57,7 +63,10 @@ class ConversationController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Post::find($id);
+        return Inertia::render($this->component . 'Edit', [
+            'post' => $post
+        ]);
     }
 
     /**

@@ -171,10 +171,7 @@
                         <!-- Hamburger -->
                         <div class="-mr-2 flex items-center sm:hidden">
                             <button
-                                @click="
-                                    showingNavigationDropdown =
-                                        !showingNavigationDropdown
-                                "
+                                @click="showingNavigationDropdown = !showingNavigationDropdown"
                                 class="
                                     inline-flex
                                     items-center
@@ -290,7 +287,7 @@
 
             <!-- Page Content -->
             <main>
-                <slot />
+                <slot :onlineFriends="onlineFriends" :offlineFriends="offlineFriends" />
             </main>
         </div>
     </div>
@@ -304,7 +301,7 @@ import BreezeNavLink from "@/Components/NavLink";
 import BreezeResponsiveNavLink from "@/Components/ResponsiveNavLink";
 
 export default {
-    props: ['user', 'auth', 'online'],
+    props: ['user', 'auth', 'online', 'offline'],
     components: {
         BreezeApplicationLogo,
         BreezeDropdown,
@@ -327,6 +324,7 @@ export default {
             if(this.onlineFriends.indexOf(user) < 0 && app.user.id != user.id){
                 this.onlineFriends.push(user)
             }
+            //console.log(this.onlineFriends)
         },
         removeOfflineFriend(offlineUser){
             this.onlineFriends = this.onlineFriends.filter(user => {
@@ -343,12 +341,16 @@ export default {
             this.offlineFriends = this.offlineFriends.filter(user => {
                 return user.id != onlineUser.id;
             })
+        },
+        convertProxyObjectToPojo(proxyObj) {
+            return _.cloneDeep(proxyObj);
         }
     },
     created() {
         let app = this;
         app.channel
             .subscribed(user => {
+                //console.log(users)
             })
             .joining(user => {
                 axios.put(route('online', user.id))
@@ -357,12 +359,15 @@ export default {
                 axios.put(route('offline', user.id))
             })
             .listen("OnlineEvent", e => {
-                app.addOnlineFriend(e.user);
-                app.removeOnlineFriend(e.user);
+                const user = this.convertProxyObjectToPojo(e.user)
+                app.addOnlineFriend(user);
+                app.removeOnlineFriend(user);
+                console.log(user)
             })
             .listen('OfflineEvent', e => {
-                app.removeOfflineFriend(e.user);
-                app.addOfflineFriend(e.user)
+                const user = this.convertProxyObjectToPojo(e.user)
+                app.removeOfflineFriend(user);
+                app.addOfflineFriend(user)
             });
         window.setInterval(function () {
             app.refreshClient();
@@ -384,7 +389,6 @@ export default {
         this.offlineFriends = app.offline.filter(user => {
             return user.id != app.user.id;
         })
-        console.log(app.offline)
     },
     beforeDestroy () {
         window.Echo.leave("user_online_status");

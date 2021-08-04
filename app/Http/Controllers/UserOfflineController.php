@@ -12,6 +12,14 @@ class UserOfflineController extends Controller
     {
         $user->online = 0;
         $user->save();
-        broadcast(new OfflineEvent($user));
+        $userC =  User::query()
+            ->where('id', $user->id)
+            ->with(['conversation' => function ($q) use($user){
+                $q->whereHas('conversationUsers', function ($q) use($user){
+                    $q->where('user_id',  $user->id);
+                });
+            }])
+            ->first();
+        broadcast(new OfflineEvent($userC));
     }
 }

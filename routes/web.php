@@ -6,6 +6,7 @@ use App\Http\Controllers\RolesController;
 use App\Http\Controllers\UserOfflineController;
 use App\Http\Controllers\UserOnlineController;
 use App\Http\Controllers\UserRoleController;
+use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -60,10 +61,28 @@ Route::get('user_permission_json/{user}', [\App\Http\Controllers\UserPermissionC
 
 // Test
 
-Route::resource('conversation', ConversationController::class);
+Route::get('conv', function(){
+    //dd(conversation(2));
+    $user = User::where('online', 0)
+        ->where('id','!=', request()->user()->id?? "")
+        ->with(['conversation' => function ($q){
+            $q->whereHas('conversationUsers', function ($q) {
+                $q->where('user_id',  request()->user()->id ?? "");
+            });
+        }])
+        ->get();
+    dd($user);
+});
 
 //User Online Status
 Route::put('online/{user}', UserOnlineController::class)->name('online');
 Route::put('offline/{user}', UserOfflineController::class)->name('offline');
 
 // conversation
+
+Route::resource('conversation', ConversationController::class);
+
+
+// Blog
+Route::resource('post', \App\Http\Controllers\Blog\PostController::class);
+Route::resource('category', \App\Http\Controllers\Blog\CategoryController::class);

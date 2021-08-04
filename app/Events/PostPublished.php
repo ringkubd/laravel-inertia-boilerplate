@@ -2,30 +2,28 @@
 
 namespace App\Events;
 
-use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class OnlineEvent implements ShouldBroadcast
+class PostPublished implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $user;
+    public $post;
 
     /**
      * Create a new event instance.
      *
-     * @param User $user
+     * @param Post $post
      */
-    public function __construct(User $user)
+    public function __construct(Post $post)
     {
-        $this->user = $user;
+        $this->post = $post;
     }
 
     /**
@@ -35,6 +33,6 @@ class OnlineEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PresenceChannel('user_online_status');
+        return new PrivateChannel('post.'.$this->post->id);
     }
 }

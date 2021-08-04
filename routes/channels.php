@@ -20,3 +20,7 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 Broadcast::channel('user_online_status', function($user){
     return $user;
 });
+
+Broadcast::channel('post.{post}', function($user, \App\Models\Post $post){
+    return (int)$user->id === (int)$post->author;
+});
