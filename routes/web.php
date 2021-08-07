@@ -86,3 +86,4 @@ Route::resource('conversation', ConversationController::class);
 // Blog
 Route::resource('post', \App\Http\Controllers\Blog\PostController::class);
 Route::resource('category', \App\Http\Controllers\Blog\CategoryController::class);
+Route::get('category_options', [\App\Http\Controllers\Blog\CategoryController::class, 'getCategory'])->name('category.get');
