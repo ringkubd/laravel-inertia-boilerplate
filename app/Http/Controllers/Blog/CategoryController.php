@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Blog;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -86,6 +87,7 @@ class CategoryController extends Controller
 
     /**
      * @param Request $request
+     * @return string
      */
     public function getCategory(Request $request)
     {
@@ -95,5 +97,30 @@ class CategoryController extends Controller
             })
             ->paginate(50)
             ->toJson();
+    }
+
+    /**
+     * @param Request $request
+     * @return string
+     */
+    public function getTag(Request $request)
+    {
+        return Tag::query()
+            ->when($request->title, function ($q, $v){
+                $q->where('title', 'like', "%$v%");
+            })
+            ->paginate(50)
+            ->toJson();
+    }
+
+    /**
+     * @param Request $request
+     * @return string
+     */
+    public function createTag(Request $request)
+    {
+        $slug = str_replace(' ', '_',$request->title);
+        return Tag::query()
+            ->create(['title' => $request->title, 'meta_title' => $request->title, 'slug' => $slug]);
     }
 }

@@ -18,8 +18,13 @@
         <!-- Scripts -->
         @routes
         <script src="{{ mix('js/app.js') }}" defer></script>
+        <script type="text/javascript" src="/js/ckfinder/ckfinder.js"></script>
+        <script>
+            CKFinder.config( { connectorPath: route('ckfinder_connector') } );
+        </script>
     </head>
     <body class="font-sans antialiased">
+    @include('ckfinder::setup')
         @inertia
 
         @env ('local')

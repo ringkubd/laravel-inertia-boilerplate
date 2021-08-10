@@ -10,7 +10,7 @@
                         <back :back-url="route('post.index')"></back>
                     </div>
                     <div class="card-body">
-                        <Form :user="user" :errors="errors"></Form>
+                        <Form :user="user" :errors="errors" :formContent="post" :categories="categories" :tags="tags" :submitForm="updateForm" form-type="update"></Form>
                     </div>
                 </div>
             </div>
@@ -24,8 +24,13 @@ import Back from "@/Shared/Back";
 import Form from "./Form"
 export default {
     name: "Edit",
-    props: ['user', 'errors'],
-    components: {Back, Authenticated, Form}
+    props: ['user', 'errors', 'post', 'categories', 'tags'],
+    components: {Back, Authenticated, Form},
+    methods: {
+        updateForm(formData){
+            this.$inertia.put(route('post.update', this.post.id), formData)
+        }
+    }
 }
 </script>
 

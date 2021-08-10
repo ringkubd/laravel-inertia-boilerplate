@@ -15,28 +15,25 @@
                             <tr>
                                 <th>Sl#</th>
                                 <th>Title</th>
-                                <th>Meta Title</th>
                                 <th>Slug</th>
-                                <th>Published</th>
-                                <th>Summary</th>
-                                <th>Content</th>
+                                <th>Categories</th>
+                                <th>Tags</th>
                                 <th>Thumbnail</th>
                                 <th>Author</th>
                                 <th>Status</th>
+                                <th>Modified</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="(post, index) in posts">
+                            <tr v-for="(post, index) in posts.data">
                                 <td>{{index + 1}}</td>
                                 <td>{{post.title}}</td>
-                                <td>{{post.meta_title}}</td>
                                 <td>{{post.slug}}</td>
-                                <td>{{post.published_at}}</td>
-                                <td>{{post.summary}}</td>
-                                <td>{{post.content}}</td>
+                                <td v-html="categories(post.categories)"></td>
+                                <td v-html="tags(post.tags)"></td>
                                 <td>
-                                    <img src="" v-if="post.thumbnail" :src="post.thumbnail" alt="">
+                                    <img v-if="post.thumbnail" :src="post.thumbnail"  width="50" :alt="post.title">
                                 </td>
                                 <td>
                                     {{post.author.name}}
@@ -44,6 +41,7 @@
                                 <td>
                                     {{post.post_status}}
                                 </td>
+                                <td>{{post.updated_at}}</td>
                                 <td>
                                     <Actions :edit-url="route('post.edit', post.id)" :delete-url="route('post.destroy', post.id)"></Actions>
                                 </td>
@@ -53,7 +51,7 @@
                         </table>
                     </div>
                     <div class="card-footer">
-
+                        <paginator :paginator="posts"></paginator>
                     </div>
                 </div>
             </div>
@@ -65,17 +63,35 @@
 import Authenticated from "@/Layouts/Authenticated";
 import CardHeader from "@/Shared/CardHeader";
 import Actions from "@/Shared/Actions";
+import Paginator from "@/Components/Paginator";
 export default {
     name: "Index",
     props: ['user', 'posts'],
-    components: {Actions, CardHeader, Authenticated},
+    components: {Paginator, Actions, CardHeader, Authenticated},
     data(){
         return {
+
         }
     },
     methods: {
-        search() {
-
+        search(param) {
+            this.$inertia.replace(route('post.index', {'search': param}))
+        },
+        categories(categories) {
+            let categoryLink = ""
+            categories.forEach((value) => {
+                let link = "<a href='"+route('category.show', value.id) +"'>" + value.title + "</a>,"
+                categoryLink += link
+            })
+            return categoryLink;
+        },
+        tags(tags) {
+            let tagLink = ""
+            tags.forEach((value) => {
+                let link = "<a href='"+route('tag.show', value.id) +"'>" + value.title + "</a>,"
+                tagLink += link
+            })
+            return tagLink;
         }
     }
 }

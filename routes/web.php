@@ -86,4 +86,17 @@ Route::resource('conversation', ConversationController::class);
 // Blog
 Route::resource('post', \App\Http\Controllers\Blog\PostController::class);
 Route::resource('category', \App\Http\Controllers\Blog\CategoryController::class);
+Route::resource('tag', \App\Http\Controllers\Blog\TagsController::class);
 Route::get('category_options', [\App\Http\Controllers\Blog\CategoryController::class, 'getCategory'])->name('category.get');
+Route::get('tag_options', [\App\Http\Controllers\Blog\CategoryController::class, 'getTag'])->name('tag.get');
+Route::post('tag_options', [\App\Http\Controllers\Blog\CategoryController::class, 'createTag'])->name('tag.insert');
+Route::post('fileUpload', [\App\Http\Controllers\Blog\PostController::class, 'fileUpload'])->name('post.fileupload');
+
+// CKFinder
+Route::any('/ckfinder/connector', '\CKSource\CKFinderBridge\Controller\CKFinderController@requestAction')
+    ->name('ckfinder_connector');
+
+Route::any('/ckfinder/browser', '\CKSource\CKFinderBridge\Controller\CKFinderController@browserAction')
+    ->name('ckfinder_browser');
+Route::any('/ckfinder/examples/{example?}', 'CKSource\CKFinderBridge\Controller\CKFinderController@examplesAction')
+    ->name('ckfinder_examples');
