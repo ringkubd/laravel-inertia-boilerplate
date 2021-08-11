@@ -4,10 +4,10 @@
             <h2>User Role Management</h2>
         </template>
         <div class="container-fluid">
-            <div class="flex h-screen w-screen justify-center">
-                <div class="card w-2/3">
-                    <div class="card-header"></div>
-                    <div class="card-body">
+            <div class="card w-100 bg-light">
+                <div class="card-header"></div>
+                <div class="card-body row">
+                    <div class="col-md-6 offset-md-3">
                         <form action="" @submit.prevent="submitForm">
                             <div class="row mb-3">
                                 <label for="user" class="col-sm-2 col-form-label">User</label>
@@ -22,7 +22,6 @@
                                         :searchable="true"
                                         limit="50"
                                         @select="onSelectUser"
-                                        :loading="true"
                                         :options="async function(query) {
                                                 return await fetchUser(query)
                                               }"
@@ -42,7 +41,6 @@
                                         :searchable="true"
                                         mode="multiple"
                                         limit="50"
-                                        :loading="true"
                                         :options="async function(query) {
                                                 return await fetchRoles(query)
                                               }"
@@ -57,8 +55,8 @@
                             </div>
                         </form>
                     </div>
-                    <div class="card-footer"></div>
                 </div>
+                <div class="card-footer"></div>
             </div>
         </div>
     </authenticated-layout>

@@ -14,7 +14,7 @@
                     ></card-header>
                 </div>
                 <div class="card-body table-responsive">
-                    <table class="table table-bordered text-center">
+                    <table class="table table-secondary table-striped text-center">
                         <thead>
                             <tr>
                                 <th>SL</th>

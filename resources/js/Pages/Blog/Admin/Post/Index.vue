@@ -10,7 +10,7 @@
                         <CardHeader :create="route('post.create')" :index="route('post.index')" :search-method="search"></CardHeader>
                     </div>
                     <div class="card-body">
-                        <table class="table table-bordered">
+                        <table class="table table-secondary table-striped">
                             <thead>
                             <tr>
                                 <th>Sl#</th>
@@ -41,9 +41,9 @@
                                 <td>
                                     {{post.post_status}}
                                 </td>
-                                <td>{{post.updated_at}}</td>
+                                <td>{{modifiedFromNow(post.updated_at)}}</td>
                                 <td>
-                                    <Actions :edit-url="route('post.edit', post.id)" :delete-url="route('post.destroy', post.id)"></Actions>
+                                    <Actions :edit-url="route('post.edit', post.id)" :delete-url="route('post.destroy', post.id)" :detail-url="route('post.show', post.slug)"></Actions>
                                 </td>
                             </tr>
                             </tbody>
@@ -64,6 +64,7 @@ import Authenticated from "@/Layouts/Authenticated";
 import CardHeader from "@/Shared/CardHeader";
 import Actions from "@/Shared/Actions";
 import Paginator from "@/Components/Paginator";
+import moment from "moment";
 export default {
     name: "Index",
     props: ['user', 'posts'],
@@ -92,6 +93,9 @@ export default {
                 tagLink += link
             })
             return tagLink;
+        },
+        modifiedFromNow(dateTime){
+           return moment(dateTime, 'YYYY-MM-DDTh:mm:ss').fromNow()
         }
     }
 }

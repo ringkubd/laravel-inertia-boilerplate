@@ -92,6 +92,8 @@ Route::get('tag_options', [\App\Http\Controllers\Blog\CategoryController::class,
 Route::post('tag_options', [\App\Http\Controllers\Blog\CategoryController::class, 'createTag'])->name('tag.insert');
 Route::post('fileUpload', [\App\Http\Controllers\Blog\PostController::class, 'fileUpload'])->name('post.fileupload');
 
+Route::get('related_post', [\App\Http\Controllers\Blog\PostController::class, 'postByCategories'])->name('post.related_post');
+
 // CKFinder
 Route::any('/ckfinder/connector', '\CKSource\CKFinderBridge\Controller\CKFinderController@requestAction')
     ->name('ckfinder_connector');

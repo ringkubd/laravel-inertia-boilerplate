@@ -14,7 +14,8 @@
             as="button"
             type="button"
             :href="detailUrl"
-            v-if="isDetails"
+            v-if="detailUrl"
+            target="_blank"
         >
             <jet-button type="submit" class="btn-success">
                 <font-awesome-icon

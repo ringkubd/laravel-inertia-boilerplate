@@ -6,17 +6,27 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class CategoryController extends Controller
 {
+    private $component_base = "Blog/Admin/Category/";
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return Inertia::render($this->component_base.'Index', [
+            "categories" => Category::query()
+                ->when($request->search, function ($query, $va){
+                    $query->where('title','like', "%$va%" );
+                })
+                ->with('childCategory')
+                ->whereNull('parent_id')
+                ->paginate()
+        ]);
     }
 
     /**
@@ -82,7 +92,9 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Category::where('parent_id', $id)->update(['parent_id', null]);
+        Category::find($id)->delete();
+        return redirect()->route('category.index')->withFlash('success', 'Category deleted successfully');
     }
 
     /**

@@ -22,8 +22,8 @@
                         <div class="col-12">
                             <label for="content" class="form-label">Content</label>
                             <ckeditor id="content" v-model="formData.content" :editor="ckeditor" :config="ckeditorConfig"></ckeditor>
-                            <div v-if="errors.title" class="text-danger">
-                                {{ errors.title }}
+                            <div v-if="errors.content" class="text-danger">
+                                {{ errors.content }}
                             </div>
                         </div>
                     </div>

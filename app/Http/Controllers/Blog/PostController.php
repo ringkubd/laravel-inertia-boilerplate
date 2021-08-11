@@ -15,7 +15,7 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function index(Request $request)
     {
@@ -37,7 +37,7 @@ class PostController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function create()
     {
@@ -57,9 +57,9 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required',
-            'meta_title' => 'required',
-            'slug' => 'required',
+            'title' => 'required|unique:posts',
+            'meta_title' => 'required|unique:posts',
+            'slug' => 'required|unique:posts',
             'content' => 'required',
             'post_status' => 'required',
             'categories' => 'required',
@@ -76,10 +76,11 @@ class PostController extends Controller
         $post->categories()->sync($categories);
         $tags = array_map(function($tag){
             if ((int)$tag == 0) {
-                return $tag;
+                $tag = Tag::where('title', $tag)->first();
+                $tag = $tag->id;
             }
+            return $tag;
         }, $tags);
-        dd($tags);
         $post->tags()->sync($tags);
         return redirect()->route('post.index')->withFlash('success', 'Post stored successfully');
     }
@@ -92,7 +93,28 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        return Inertia::render($this->component . 'Preview', []);
+        if ((int) $id == 0 ) {
+            $post = Post::query()
+                ->where('slug', $id)
+                ->with('categories')
+                ->with('tags')
+                ->with('author')
+                ->first();
+        }else{
+            $post = Post::query()
+                ->where('id', $id)
+                ->with('categories')
+                ->with('tags')
+                ->with('author')
+                ->first();
+        }
+
+        $related_post = $this->postByCategories($post->categories->pluck('title')->toArray(), $id);
+
+        return Inertia::render($this->component . 'Preview', [
+            'post' => $post,
+            'related_post' => $related_post
+        ]);
     }
 
     /**
@@ -170,6 +192,7 @@ class PostController extends Controller
 
     /**
      * @param Request $request
+     * @return string|void
      */
 
     public function fileUpload(Request $request){
@@ -190,5 +213,24 @@ class PostController extends Controller
             $request->file('thumbnail')->move(public_path('images'), $File_Name);
             return asset('/images/thumbnail/'. $File_Name);
         }
+    }
+
+    /**
+     * @param array $categories
+     * @return mixed
+     */
+
+    private function postByCategories(Array $categories, $slug){
+        return Post::query()
+            ->whereHas('categories', function ($q) use($categories) {
+                $q->whereIn('title', $categories);
+            })
+            ->where('slug', '!=', $slug)
+            ->wherePostStatus('active')
+            ->with('categories')
+            ->with('tags')
+            ->with('author')
+            ->limit(5)
+            ->get();
     }
 }
