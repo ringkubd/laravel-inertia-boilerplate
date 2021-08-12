@@ -13,7 +13,7 @@ class Category extends Model
     protected $guarded = ['id'];
 
     public function parentCategory(){
-        return $this->hasOne(Category::class, 'parent_id');
+        return $this->hasOne(Category::class, 'id', 'parent_id');
     }
 
     public function childCategory(){

@@ -22,6 +22,7 @@
                         <div class="col-12">
                             <label for="content" class="form-label">Content</label>
                             <ckeditor id="content" v-model="formData.content" :editor="ckeditor" :config="ckeditorConfig"></ckeditor>
+                            <input type="hidden" class="form-control hidden" v-model="summary" id="" cols="30" rows="10"/>
                             <div v-if="errors.content" class="text-danger">
                                 {{ errors.content }}
                             </div>
@@ -130,14 +131,18 @@ export default {
                         'fontfamily', 'fontsize', 'fontColor', 'fontBackgroundColor', '|',
                         'code', 'codeBlock', '|',
                         'insertTable', '|',
+                        'clipboard', '|',
                         'outdent', 'indent', '|',
                         'uploadImage', 'blockQuote', '|',
-                        'undo', 'redo', 'ckfinder'
+                        'undo', 'redo', 'ckfinder',
                     ],
                     shouldNotGroupWhenFull: true
                 },
                 ckfinder: {
                     uploadUrl: route('ckfinder_connector')+"?command=QuickUpload&type=Files&responseType=json"
+                },
+                alignment: {
+                    options: [ 'left', 'right', 'center' , 'justify']
                 }
 
             },
@@ -147,7 +152,7 @@ export default {
                 slug: this.formContent.slug,
                 published_at: this.formContent.published_at,
                 post_type: this.formContent.post_type,
-                summary: this.formContent.summary,
+                summary: '',
                 content: this.formContent.content,
                 thumbnail: this.formContent.thumbnail,
                 author: this.user.id,
@@ -161,8 +166,8 @@ export default {
     },
     methods: {
         update(){
+            console.log(this.formData)
             this.submitForm(this.formData)
-            //console.log(this.formData)
         },
         async fetchCategories(query){
             let where = ''
@@ -180,7 +185,6 @@ export default {
         ,
         async fetchTags(query){
             let where = ''
-
             if (query) {
                 where = {'name': query}
             }
@@ -225,12 +229,20 @@ export default {
             const slugify = title
                 .replace(/ /g,'_')
                 .replace(/[^\w-]+/g,'');
-            console.log(slugify)
-            this.formData.slug = slugify
+
+            this.formData.slug = slugify.substr(0,30)
             this.formData.meta_title = this.formData.title;
             return baseUrl + slugify
         },
-        meta_title(){
+        summary(){
+            if(this.formData.content != undefined){
+                let htmlContent = new DOMParser().parseFromString(this.formData.content, 'text/html');
+                this.formData.summary = htmlContent.body.textContent;
+                console.log(this.formData.summary)
+                return htmlContent.body.textContent;
+            }else{
+                return  "";
+            }
 
         }
     }

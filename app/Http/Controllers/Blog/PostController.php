@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Intervention\Image\Facades\Image;
 
@@ -163,7 +164,7 @@ class PostController extends Controller
         unset($data['tags']);
         $categories = $data['categories'];
         unset($data['categories']);
-        unset($data['summary']);
+        $data['summary'] = Str::words($data['summary'], 100);
         $post = Post::find($id);
         $post->update($data);
         $post->categories()->sync($categories);

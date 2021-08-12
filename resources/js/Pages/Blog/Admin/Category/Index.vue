@@ -11,10 +11,11 @@
                     </div>
                     <div class="card-body">
                         <table class="table table-secondary table-striped">
-                            <thead class="text-center">
+                            <thead>
                             <tr>
                                 <th>Sl#</th>
                                 <th>Title</th>
+                                <th>Parent</th>
                                 <th>Description</th>
                                 <th>Modified</th>
                                 <th>Action</th>
@@ -24,6 +25,11 @@
                             <tr v-for="(category, index) in categories.data">
                                 <td>{{index + 1}}</td>
                                 <td>{{category.title}}</td>
+                                <td>
+                                    <span v-if="category.parent_category">
+                                        {{category.parent_category.title}}
+                                    </span>
+                                </td>
                                 <td>{{category.description}}</td>
                                 <td>{{modifiedFromNow(category.updated_at)}}</td>
                                 <td>

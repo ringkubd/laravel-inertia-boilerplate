@@ -10,6 +10,7 @@
         "production": "mix --production"
     },
     "devDependencies": {
+        "@ckeditor/ckeditor5-alignment": "^29.1.0",
         "@inertiajs/inertia": "^0.9.0",
         "@inertiajs/inertia-vue3": "^0.4.0",
         "@inertiajs/progress": "^0.2.4",
@@ -27,7 +28,11 @@
         "vue-loader": "^16.1.2"
     },
     "dependencies": {
+        "@ckeditor/ckeditor5-autoformat": "^29.1.0",
         "@ckeditor/ckeditor5-build-classic": "^29.1.0",
+        "@ckeditor/ckeditor5-clipboard": "^29.1.0",
+        "@ckeditor/ckeditor5-code-block": "^29.1.0",
+        "@ckeditor/ckeditor5-pagination": "^29.1.0",
         "@ckeditor/ckeditor5-upload": "^29.1.0",
         "@ckeditor/ckeditor5-vue": "^2.0.1",
         "@fortawesome/fontawesome-svg-core": "^1.2.35",
@@ -43,8 +48,10 @@
         "jquery": "^3.6.0",
         "laravel-echo": "^1.11.0",
         "moment": "^2.29.1",
+        "npm-check-updates": "^11.8.3",
         "postcss-import": "^14.0.2",
         "pusher-js": "^7.0.3",
+        "update": "^0.7.4",
         "vue": "^3.1.4"
     }
 }

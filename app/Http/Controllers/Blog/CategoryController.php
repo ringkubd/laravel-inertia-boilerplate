@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Blog;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -24,7 +25,7 @@ class CategoryController extends Controller
                     $query->where('title','like', "%$va%" );
                 })
                 ->with('childCategory')
-                ->whereNull('parent_id')
+                ->with('parentCategory')
                 ->paginate()
         ]);
     }
@@ -36,7 +37,11 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        $category = new Category();
+        return Inertia::render($this->component_base.'Create', [
+            'category' => $category,
+            'parent' => ""
+        ]);
     }
 
     /**
@@ -47,7 +52,13 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $category =  new Category();
+        $request->validate([
+            'title' => 'required',
+            'meta_title' => 'required'
+        ]);
+        $category->create($request->all());
+        return redirect()->route('category.index')->withFlash('success', 'Category store successfully');
     }
 
     /**
@@ -58,7 +69,14 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        //
+        $category = Category::find($id);
+        $category_post = Post::whereHas('categories', function ($q) use ($id) {
+            $q->where('categories.id', $id);
+        })->with('author')->with('tags')->get();
+        return Inertia::render($this->component_base.'Preview', [
+            'category' => $category,
+            'category_post' => $category_post
+        ]);
     }
 
     /**
@@ -69,7 +87,11 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = Category::with('parentCategory')->find($id);
+        return Inertia::render($this->component_base.'Edit', [
+            'category' => $category,
+            'parent' => $category->parentCategory->id ?? ""
+        ]);
     }
 
     /**
@@ -81,7 +103,13 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $category =  Category::find($id);
+        $request->validate([
+            'title' => 'required',
+            'meta_title' => 'required'
+        ]);
+        $category->update($request->all());
+        return redirect()->route('category.index')->withFlash('success', 'Category updated successfully');
     }
 
     /**
@@ -92,7 +120,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        Category::where('parent_id', $id)->update(['parent_id', null]);
+        Category::where('parent_id', $id)->update(['parent_id' =>  null]);
         Category::find($id)->delete();
         return redirect()->route('category.index')->withFlash('success', 'Category deleted successfully');
     }
