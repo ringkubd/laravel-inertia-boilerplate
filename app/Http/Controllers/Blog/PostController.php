@@ -13,6 +13,10 @@ use Intervention\Image\Facades\Image;
 class PostController extends Controller
 {
     private $component = "Blog/Admin/Post/";
+
+    public function __construct(){
+        $this->authorizeResource(Post::class);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -31,7 +35,9 @@ class PostController extends Controller
             ->paginate();
 
         return Inertia::render($this->component . 'Index', [
-            'posts' => $posts
+            'posts' => $posts,
+            'can_edit' => auth()->user()->hasPermissionTo('update_post'),
+            'can_delete' => auth()->user()->hasPermissionTo('delete_post'),
         ]);
     }
 
@@ -187,8 +193,11 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        $post = Post::find($id)->delete();
-        return redirect()->route('post.index')->withFlash('success', 'Post deleted successfully');
+        if (auth()->user()->can('delete_post')) {
+            $post = Post::find($id)->delete();
+            return redirect()->route('post.index')->withFlash('success', 'Post deleted successfully');
+        }
+        abort(403);
     }
 
     /**

@@ -12,6 +12,10 @@ use Inertia\Inertia;
 class CategoryController extends Controller
 {
     private $component_base = "Blog/Admin/Category/";
+
+    public function __construct(){
+        $this->authorizeResource(Category::class);
+    }
     /**
      * Display a listing of the resource.
      *
