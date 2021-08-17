@@ -237,9 +237,12 @@ export default {
         summary(){
             if(this.formData.content != undefined){
                 let htmlContent = new DOMParser().parseFromString(this.formData.content, 'text/html');
-                this.formData.summary = htmlContent.body.textContent;
-                console.log(this.formData.summary)
-                return htmlContent.body.textContent;
+                let textContent = htmlContent.body.textContent;
+                let maxLength = 500
+                let trimmedString = textContent.substr(0, maxLength);
+                trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")))
+                this.formData.summary = trimmedString;
+                return trimmedString;
             }else{
                 return  "";
             }

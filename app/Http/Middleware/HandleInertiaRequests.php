@@ -59,7 +59,10 @@ class HandleInertiaRequests extends Middleware
                             $q->where('user_id',  request()->user()->id ?? "");
                         });
                     }])
-                    ->get() ?? []
+                    ->get() ?? [],
+            'public_menus' => [
+                "About Us" => url('about_us')
+            ]
         ]);
     }
 }

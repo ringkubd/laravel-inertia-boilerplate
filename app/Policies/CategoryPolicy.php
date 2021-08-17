@@ -21,6 +21,7 @@ class CategoryPolicy
         if ($user->can('view_category')) {
             return true;
         }
+        return false;
     }
 
     /**
@@ -72,6 +73,7 @@ class CategoryPolicy
         if ($user->can('delete_category')) {
             return true;
         }
+        return false;
     }
 
     /**

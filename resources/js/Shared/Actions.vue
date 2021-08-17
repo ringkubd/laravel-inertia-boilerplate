@@ -1,6 +1,11 @@
 <template>
     <div class="flex justify-center">
-        <inertia-link as="button" type="button" :href="editUrl">
+        <inertia-link
+            as="button"
+            type="button"
+            :href="editUrl"
+            v-if="can.update"
+        >
             <jet-button type="submit">
                 <font-awesome-icon
                     icon="pen"
@@ -31,6 +36,7 @@
             as="button"
             type="button"
             :href="deleteUrl"
+            v-if="can.delete"
         >
             <jet-button type="submit" class="btn-danger">
                 <font-awesome-icon
@@ -52,7 +58,16 @@ library.add(faPen, faTrash, faInfo);
 
 export default {
     name: "Actions",
-    props: ["editUrl", "deleteUrl", "isDetails", "detailUrl"],
+    props: {
+        editUrl: Boolean,
+        deleteUrl: Boolean,
+        isDetails: Boolean,
+        detailUrl: Boolean,
+        can: {
+            type: Object,
+            default: []
+        }
+    },
     components: { JetButton },
     data() {
         return {

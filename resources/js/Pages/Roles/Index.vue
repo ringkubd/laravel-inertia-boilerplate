@@ -11,6 +11,7 @@
                     <card-header
                         :create="route('roles.create')"
                         :searchMethod="search"
+                        :can="can"
                     ></card-header>
                 </div>
                 <div class="card-body table-responsive">
@@ -43,6 +44,7 @@
                                         :deleteUrl="
                                             route('roles.destroy', role.id)
                                         "
+                                        :can="can"
                                     >
                                         <inertia-link as="button" type="button" :href="route('roles.permissions', role.id)">
                                             <jet-button type="submit" class="btn-secondary">
@@ -81,7 +83,7 @@ library.add(faPen,faBars);
 
 export default {
     name: "index",
-    props: ["roles"],
+    props: ["roles", 'can'],
     components: {
         BreezeAuthenticatedLayout,
         CardHeader,

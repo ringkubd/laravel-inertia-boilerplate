@@ -7,7 +7,7 @@
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-header">
-                        <CardHeader :create="route('post.create')" :index="route('post.index')" :search-method="search"></CardHeader>
+                        <CardHeader :can="can" :create="route('post.create')" :index="route('post.index')" :search-method="search"></CardHeader>
                     </div>
                     <div class="card-body">
                         <table class="table table-secondary table-striped">
@@ -30,8 +30,20 @@
                                 <td>{{index + 1}}</td>
                                 <td>{{post.title}}</td>
                                 <td>{{post.slug}}</td>
-                                <td v-html="categories(post.categories)"></td>
-                                <td v-html="tags(post.tags)"></td>
+                                <td>
+                                    <inertia-link v-for="category in post.categories" type="button" :href="route('category.show', 1)">
+                                        <jet-button type="submit" class="btn btn-sm btn-success mr-1 p-0 rounded">
+                                            {{category.title}}
+                                        </jet-button>
+                                    </inertia-link>
+                                </td>
+                                <td>
+                                    <inertia-link v-for="tag in post.tags" type="button" :href="route('category.show', 1)">
+                                        <jet-button type="submit" class="btn btn-sm mr-1 p-0 btn-success rounded">
+                                            {{tag.title}}
+                                        </jet-button>
+                                    </inertia-link>
+                                </td>
                                 <td>
                                     <img v-if="post.thumbnail" :src="post.thumbnail"  width="50" :alt="post.title">
                                 </td>
@@ -43,7 +55,7 @@
                                 </td>
                                 <td>{{modifiedFromNow(post.updated_at)}}</td>
                                 <td>
-                                    <Actions :edit-url="route('post.edit', post.id)" :delete-url="route('post.destroy', post.id)" :detail-url="route('post.show', post.slug)"></Actions>
+                                    <Actions :can="can" :edit-url="route('post.edit', post.id)" :delete-url="route('post.destroy', post.id)" :detail-url="route('post.show', post.slug)"></Actions>
                                 </td>
                             </tr>
                             </tbody>
@@ -67,7 +79,7 @@ import Paginator from "@/Components/Paginator";
 import moment from "moment";
 export default {
     name: "Index",
-    props: ['user', 'posts'],
+    props: ['user', 'posts', 'can'],
     components: {Paginator, Actions, CardHeader, Authenticated},
     data(){
         return {
@@ -81,7 +93,7 @@ export default {
         categories(categories) {
             let categoryLink = ""
             categories.forEach((value) => {
-                let link = "<a href='"+route('category.show', value.id) +"'>" + value.title + "</a>,"
+                let link = "<a class='btn btn-sm btn-success rounded' href='"+route('category.show', value.id) +"'>" + value.title + "</a>"
                 categoryLink += link
             })
             return categoryLink;

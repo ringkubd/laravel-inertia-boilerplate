@@ -1,8 +1,5 @@
 <template>
-    <authenticated>
-        <template #header>
-            {{post.title}}
-        </template>
+    <guest>
         <template #default>
             <div  class="bg-white font-sans leading-normal tracking-normal">
                 <!--Title-->
@@ -81,15 +78,16 @@
                 </div>
             </div>
         </template>
-    </authenticated>
+    </guest>
 </template>
 
 <script>
 import Authenticated from "@/Layouts/Authenticated";
 import moment from "moment";
+import Guest from "@/Layouts/Guest";
 export default {
     name: "Preview",
-    components: {Authenticated},
+    components: {Guest, Authenticated},
     props: ['post', 'user', 'related_post'],
     data() {
         return {

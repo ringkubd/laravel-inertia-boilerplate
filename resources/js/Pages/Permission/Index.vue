@@ -11,6 +11,7 @@
                     <card-header
                         :create="route('permission.create')"
                         :searchMethod="search"
+                        :can="can"
                     ></card-header>
                 </div>
                 <div class="card-body table-responsive">
@@ -39,6 +40,7 @@
                                 </td>
                                 <td>
                                     <Actions
+                                        :can="can"
                                         :editUrl="
                                             route(
                                                 'permission.edit',
@@ -71,7 +73,7 @@ import Paginator from "@/Components/Paginator";
 
 export default {
     name: "index",
-    props: ["permissions"],
+    props: ["permissions", 'can'],
     components: {
         BreezeAuthenticatedLayout,
         CardHeader,

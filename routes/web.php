@@ -85,6 +85,7 @@ Route::resource('conversation', ConversationController::class);
 
 // Blog
 Route::resource('post', \App\Http\Controllers\Blog\PostController::class);
+Route::resource('page', \App\Http\Controllers\Blog\PageController::class);
 Route::resource('category', \App\Http\Controllers\Blog\CategoryController::class);
 Route::resource('tag', \App\Http\Controllers\Blog\TagsController::class);
 Route::get('category_options', [\App\Http\Controllers\Blog\CategoryController::class, 'getCategory'])->name('category.get');
@@ -102,3 +103,6 @@ Route::any('/ckfinder/browser', '\CKSource\CKFinderBridge\Controller\CKFinderCon
     ->name('ckfinder_browser');
 Route::any('/ckfinder/examples/{example?}', 'CKSource\CKFinderBridge\Controller\CKFinderController@examplesAction')
     ->name('ckfinder_examples');
+
+// page
+Route::get('{slug}', [\App\Http\Controllers\Blog\PageController::class, 'show']);

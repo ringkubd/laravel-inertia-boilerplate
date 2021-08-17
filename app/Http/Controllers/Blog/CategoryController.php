@@ -6,23 +6,25 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Inertia\Inertia;
 
 class CategoryController extends Controller
 {
     private $component_base = "Blog/Admin/Category/";
 
-    public function __construct(){
-        $this->authorizeResource(Category::class);
-    }
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
+     * @throws AuthorizationException
      */
     public function index(Request $request)
     {
+        $this->authorize('view_category');
         return Inertia::render($this->component_base.'Index', [
             "categories" => Category::query()
                 ->when($request->search, function ($query, $va){
@@ -30,17 +32,24 @@ class CategoryController extends Controller
                 })
                 ->with('childCategory')
                 ->with('parentCategory')
-                ->paginate()
+                ->paginate(),
+            "can" => [
+                'create' => auth()->user()->can('create_category'),
+                'update' => auth()->user()->can('update_category'),
+                'delete' => auth()->user()->can('delete_category'),
+                'view' => auth()->user()->can('view_category'),
+            ]
         ]);
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
+        $this->authorize('create_category');
         $category = new Category();
         return Inertia::render($this->component_base.'Create', [
             'category' => $category,
@@ -51,11 +60,13 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
+     * @throws AuthorizationException
      */
     public function store(Request $request)
     {
+        $this->authorize('create_category');
         $category =  new Category();
         $request->validate([
             'title' => 'required',
@@ -69,7 +80,7 @@ class CategoryController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show($id)
     {
@@ -86,11 +97,13 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
+     * @throws AuthorizationException
      */
     public function edit($id)
     {
+        $this->authorize('update_category');
         $category = Category::with('parentCategory')->find($id);
         return Inertia::render($this->component_base.'Edit', [
             'category' => $category,
@@ -101,12 +114,14 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param int $id
+     * @return Response
+     * @throws AuthorizationException
      */
     public function update(Request $request, $id)
     {
+        $this->authorize('update_category');
         $category =  Category::find($id);
         $request->validate([
             'title' => 'required',
@@ -119,11 +134,13 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
+     * @throws AuthorizationException
      */
     public function destroy($id)
     {
+        $this->authorize('delete_category');
         Category::where('parent_id', $id)->update(['parent_id' =>  null]);
         Category::find($id)->delete();
         return redirect()->route('category.index')->withFlash('success', 'Category deleted successfully');

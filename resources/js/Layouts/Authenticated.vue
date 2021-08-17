@@ -155,16 +155,16 @@
                                                 Post
                                             </breeze-dropdown-link>
                                             <breeze-dropdown-link
+                                                :href="route('page.index')"
+                                                :active="route().current('page.*')"
+                                            >
+                                                Pages
+                                            </breeze-dropdown-link>
+                                            <breeze-dropdown-link
                                                 :href="route('category.index')"
                                                 :active="route().current('category.*')"
                                             >
                                                 Category
-                                            </breeze-dropdown-link>
-                                            <breeze-dropdown-link
-                                                :href="route('tag.index')"
-                                                :active="route().current('tag.*')"
-                                            >
-                                                Tag
                                             </breeze-dropdown-link>
                                         </template>
                                     </breeze-dropdown>

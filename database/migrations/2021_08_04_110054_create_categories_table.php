@@ -18,7 +18,7 @@ class CreateCategoriesTable extends Migration
             $table->bigInteger('parent_id')->nullable();
             $table->string('title');
             $table->string('meta_title');
-            $table->string('description', 500)->nullable();
+            $table->text('description')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

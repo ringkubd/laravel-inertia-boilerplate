@@ -4,8 +4,10 @@
             <h2>User Role Management</h2>
         </template>
         <div class="container-fluid">
-            <div class="card w-100 bg-light">
-                <div class="card-header"></div>
+            <div class="card w-100 bg-secondary" style="--bs-bg-opacity:.2">
+                <div class="card-header">
+                    <back :backUrl="route('users.index')"></back>
+                </div>
                 <div class="card-body row">
                     <div class="col-md-6 offset-md-3">
                         <form action="" @submit.prevent="submitForm">
@@ -66,11 +68,13 @@ import AuthenticatedLayout from "@/Layouts/Authenticated";
 import CardHeader from "@/Shared/CardHeader";
 import Actions from "@/Shared/Actions";
 import Multiselect from '@vueform/multiselect'
+import Back from "@/Shared/Back";
 
 export default {
     name: "UserRole",
     props: ["users", "roles"],
     components: {
+        Back,
         AuthenticatedLayout,
         CardHeader,
         Actions,

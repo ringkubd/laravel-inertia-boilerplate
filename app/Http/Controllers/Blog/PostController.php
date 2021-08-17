@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Intervention\Image\Facades\Image;
@@ -14,9 +15,6 @@ class PostController extends Controller
 {
     private $component = "Blog/Admin/Post/";
 
-    public function __construct(){
-        $this->authorizeResource(Post::class);
-    }
     /**
      * Display a listing of the resource.
      *
@@ -24,6 +22,7 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('view_post');
         $posts = Post::query()
             ->with('categories', 'comments', 'tags', 'author', 'metas')
             ->when($request->search, function($q, $v){
@@ -36,8 +35,11 @@ class PostController extends Controller
 
         return Inertia::render($this->component . 'Index', [
             'posts' => $posts,
-            'can_edit' => auth()->user()->hasPermissionTo('update_post'),
-            'can_delete' => auth()->user()->hasPermissionTo('delete_post'),
+            'can' => [
+                'create' => auth()->user()->can('create_post'),
+                'update' => auth()->user()->can('update_post'),
+                'delete' => auth()->user()->can('delete_post'),
+            ],
         ]);
     }
 
@@ -48,6 +50,7 @@ class PostController extends Controller
      */
     public function create()
     {
+        $this->authorize('create_post');
         return Inertia::render($this->component . 'Create',  [
             'post' => new Post(),
             'categories' => [],
@@ -63,6 +66,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create_post');
         $request->validate([
             'title' => 'required|unique:posts',
             'meta_title' => 'required|unique:posts',
@@ -132,6 +136,7 @@ class PostController extends Controller
      */
     public function edit($id)
     {
+        $this->authorize('update_post');
         $post = Post::query()
             ->where('id', $id)
             ->with('categories')
@@ -156,6 +161,7 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->authorize('update_post');
         $request->validate([
             'title' => 'required',
             'meta_title' => 'required',
@@ -193,6 +199,7 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('delete_post');
         if (auth()->user()->can('delete_post')) {
             $post = Post::find($id)->delete();
             return redirect()->route('post.index')->withFlash('success', 'Post deleted successfully');

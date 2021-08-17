@@ -1,8 +1,5 @@
 <template>
-    <authenticated>
-        <template #header>
-            {{category.title}}
-        </template>
+    <guest>
         <template #default>
             <div  class="bg-white font-sans leading-normal tracking-normal">
                 <!--Title-->
@@ -14,7 +11,7 @@
                 <!--image-->
 
                 <!--Container-->
-                <div class="container max-w-5xl mx-auto -mt-32">
+                <div class="container max-w-5xl mx-auto mt-1">
 
                     <div class="mx-0 sm:mx-6">
                         <!-- category Content-->
@@ -65,15 +62,16 @@
                 </div>
             </div>
         </template>
-    </authenticated>
+    </guest>
 </template>
 
 <script>
 import Authenticated from "@/Layouts/Authenticated";
 import moment from "moment";
+import Guest from "@/Layouts/Guest";
 export default {
     name: "Preview",
-    components: {Authenticated},
+    components: {Guest, Authenticated},
     props: ['category', 'user', 'category_post'],
     data() {
         return {

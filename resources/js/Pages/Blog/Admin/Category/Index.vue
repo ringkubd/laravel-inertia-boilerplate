@@ -7,7 +7,7 @@
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-header">
-                        <CardHeader :create="route('category.create')" :index="route('category.index')" :search-method="search"></CardHeader>
+                        <CardHeader  :can="can" :create="route('category.create')" :index="route('category.index')" :search-method="search"></CardHeader>
                     </div>
                     <div class="card-body">
                         <table class="table table-secondary table-striped">
@@ -33,7 +33,7 @@
                                 <td>{{category.description}}</td>
                                 <td>{{modifiedFromNow(category.updated_at)}}</td>
                                 <td>
-                                    <Actions :edit-url="route('category.edit', category.id)" :delete-url="route('category.destroy', category.id)" :detail-url="route('category.show', category.id)"></Actions>
+                                    <Actions :can="can" :edit-url="route('category.edit', category.id)" :delete-url="route('category.destroy', category.id)" :detail-url="route('category.show', category.id)"></Actions>
                                 </td>
                             </tr>
                             </tbody>
@@ -59,7 +59,7 @@ import CardHeader from "@/Shared/CardHeader";
 
 export default {
     name: "Index",
-    props: ['categories'],
+    props: ['categories', 'can'],
     components: {CardHeader, Paginator, Actions, Authenticated},
     data(){
         return {

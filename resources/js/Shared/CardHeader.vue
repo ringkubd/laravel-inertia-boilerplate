@@ -1,7 +1,7 @@
 <template>
     <div class="pt-0 grid md:grid-cols-4">
         <div class="flex-col">
-            <inertia-link type="button" as="button" :href="create"
+            <inertia-link type="button" as="button" :href="create" v-if="can.create"
                 ><jet-button type="button">
                     <font-awesome-icon
                         icon="plus"
@@ -38,7 +38,14 @@ library.add(faPlus);
 
 export default {
     name: "CardHeader",
-    props: ["index", "create", "searchMethod"],
+    props: {
+        create: Boolean,
+        searchMethod: Function,
+        can: {
+            type: Object,
+            default: []
+        }
+    },
     components: {
         Button,
     },
