@@ -102,6 +102,10 @@ library.add(faPen,faBars);
 export default {
     name: "index",
     props: ["users"],
+    data() {
+        return {
+        }
+    },
     components: {
         BreezeAuthenticatedLayout,
         CardHeader,
@@ -112,7 +116,9 @@ export default {
     methods: {
         search(param) {
             this.$inertia.replace(route("users.index", { search: param }));
-        },
+        }
     },
+    computed:{
+    }
 };
 </script>

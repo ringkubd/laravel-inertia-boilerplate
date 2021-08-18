@@ -42,6 +42,6 @@ class UserPermissionController extends Controller
      */
 
     public function getUserPermissions(User $user){
-        return $user->permissions()->pluck('id')->toJson();
+        return $user->getAllPermissions()->pluck('id')->toJson();
     }
 }

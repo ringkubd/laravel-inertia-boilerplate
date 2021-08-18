@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
+use DB;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreatePermissionTables extends Migration
 {
@@ -37,6 +38,11 @@ class CreatePermissionTables extends Migration
 
             $table->unique(['name', 'guard_name']);
         });
+        
+        DB::table($tableNames['roles'])->create([
+            'name' => 'Super Admin',
+            'guard_name' => 'web',
+        ]);
 
         Schema::create($tableNames['model_has_permissions'], function (Blueprint $table) use ($tableNames, $columnNames) {
             $table->unsignedBigInteger('permission_id');
@@ -69,6 +75,12 @@ class CreatePermissionTables extends Migration
             $table->primary(['role_id', $columnNames['model_morph_key'], 'model_type'],
                     'model_has_roles_role_model_type_primary');
         });
+
+        DB::table($tableNames['model_has_roles'])->create([
+            'role_id' => 1,
+            'model_type' => 'App\Models\User',
+            'model_id' => 1,
+        ]);
 
         Schema::create($tableNames['role_has_permissions'], function (Blueprint $table) use ($tableNames) {
             $table->unsignedBigInteger('permission_id');
