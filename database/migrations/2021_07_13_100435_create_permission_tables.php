@@ -37,10 +37,30 @@ class CreatePermissionTables extends Migration
             $table->unique(['name', 'guard_name']);
         });
 
-        DB::table($tableNames['roles'])->insert([
-            'name' => 'Super Admin',
-            'guard_name' => 'web',
-        ]);
+        DB::table($tableNames['roles'])->insert(
+            [
+                [
+                    'name' => 'Super Admin',
+                    'guard_name' => 'web',
+                ],
+                [
+                    'name' => 'Student',
+                    'guard_name' => 'web',
+                ],
+                [
+                    'name' => 'Instructor',
+                    'guard_name' => 'web',
+                ],
+                [
+                    'name' => 'Admin',
+                    'guard_name' => 'web',
+                ],
+                [
+                    'name' => 'Super',
+                    'guard_name' => 'web',
+                ]
+            ]
+        );
 
         Schema::create($tableNames['model_has_permissions'], function (Blueprint $table) use ($tableNames, $columnNames) {
             $table->unsignedBigInteger('permission_id');
@@ -55,7 +75,7 @@ class CreatePermissionTables extends Migration
                 ->onDelete('cascade');
 
             $table->primary(['permission_id', $columnNames['model_morph_key'], 'model_type'],
-                    'model_has_permissions_permission_model_type_primary');
+                'model_has_permissions_permission_model_type_primary');
         });
 
         Schema::create($tableNames['model_has_roles'], function (Blueprint $table) use ($tableNames, $columnNames) {
@@ -71,7 +91,7 @@ class CreatePermissionTables extends Migration
                 ->onDelete('cascade');
 
             $table->primary(['role_id', $columnNames['model_morph_key'], 'model_type'],
-                    'model_has_roles_role_model_type_primary');
+                'model_has_roles_role_model_type_primary');
         });
 
         DB::table($tableNames['model_has_roles'])->insert([
