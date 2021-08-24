@@ -1,7 +1,7 @@
 <template>
     <Authenticated>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Category Management</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Trade Management</h2>
         </template>
         <template #default>
             <div class="container-fluid">
@@ -10,7 +10,7 @@
                         <CardHeader  :can="can" :create="route('trade.create')" :index="route('trade.index')" :search-method="search"></CardHeader>
                     </div>
                     <div class="card-body">
-                        <table class="table table-secondary table-striped">
+                        <table class="table table-secondary table-striped text-center">
                             <thead>
                             <tr>
                                 <th>Sl#</th>
@@ -62,7 +62,7 @@ export default {
             return moment(dateTime, 'YYYY-MM-DDTh:mm:ss').fromNow()
         },
         search(param){
-            this.$inertia.replace(route('category.index', {'search': param}))
+            this.$inertia.replace(route('trade.index', {'search': param}))
         },
         tradeType(isMadrasa){
             return isMadrasa ? "Madrasa" : "Polytechnic"

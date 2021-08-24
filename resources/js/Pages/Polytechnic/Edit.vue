@@ -1,10 +1,12 @@
 <template>
     <app-layout>
         <template #header>
-            <h2>Edit Madrasa</h2>
+            <page-header>
+                Edit Polytechnic
+            </page-header>
         </template>
 
-        <div class="container">
+        <div class="container-fluid">
             <Form :dbValue="dbValue" :errors="errors" :submitForm="submit" :createForm="false"/>
         </div>
     </app-layout>
@@ -27,7 +29,7 @@ export default {
     },
     methods: {
         submit(formData){
-            this.$inertia.put(route('madrasa.update', this.dbValue.id), formData)
+            this.$inertia.put(route('polytechnic.update', this.dbValue.id), formData)
         }
     },
     mounted() {

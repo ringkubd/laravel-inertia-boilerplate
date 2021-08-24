@@ -16,6 +16,7 @@ class CreatePolytechnicsTable extends Migration
         Schema::create('polytechnics', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('email')->nullable();
             $table->string('address');
             $table->string('contact_number');
             $table->integer('institution_number')->nullable();

@@ -114,7 +114,7 @@ class PolytechnicController extends Controller
             'contact_number' => 'required',
             'institution_number' => 'required',
         ]);
-        Polytechnic::findOrFail($id)->update($request->all());
+        $updated = Polytechnic::findOrFail($id)->update($request->all());
         return Redirect::route('polytechnic.index');
     }
 

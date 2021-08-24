@@ -1,39 +1,35 @@
 <template>
     <app-layout>
         <template #header>
-            <h2>Madrasa Information</h2>
+            <page-header>
+                Polytechnic Management
+            </page-header>
         </template>
         <div class="container-fluid">
             <div class="card card-default">
                 <div class="card-header">
-                    <CardHeader :can="can" :create="route('madrasa.create')" :search-method="search"></CardHeader>
+                    <CardHeader :can="can" :create="route('polytechnic.create')" :search-method="search"></CardHeader>
                 </div>
                 <table class="table table-hover">
                     <thead>
                     <tr>
                         <th>Name</th>
-                        <th>District</th>
-                        <th>Address</th>
-                        <th>Telephone</th>
-                        <th>Mobile</th>
                         <th>Email</th>
-                        <th>Fax</th>
-                        <th>Principal</th>
+                        <th>Contact</th>
+                        <th>Address</th>
+                        <th>Institute Number</th>
                         <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="madrasa in data" :key="madrasa.id">
-                        <td>{{madrasa.name}}</td>
-                        <td>{{madrasa.district}}</td>
-                        <td>{{madrasa.address}}</td>
-                        <td>{{madrasa.telephone}}</td>
-                        <td>{{madrasa.mobile}}</td>
-                        <td>{{madrasa.email}}</td>
-                        <td>{{madrasa.fax}}</td>
-                        <td></td>
+                    <tr v-for="polytechnic in data" :key="polytechnic.id">
+                        <td>{{polytechnic.name}}</td>
+                        <td>{{polytechnic.email}}</td>
+                        <td>{{polytechnic.contact_number}}</td>
+                        <td>{{polytechnic.address}}</td>
+                        <td>{{polytechnic.institution_number}}</td>
                         <td>
-                            <Actions :can="can" :delete-url="route('madrasa.destroy', madrasa.id)" :edit-url="route('madrasa.edit', madrasa.id)"></Actions>
+                            <Actions :can="can" :delete-url="route('polytechnic.destroy', polytechnic.id)" :edit-url="route('polytechnic.edit', polytechnic.id)"></Actions>
                         </td>
                     </tr>
                     </tbody>
@@ -70,7 +66,7 @@ export default {
     },
     methods: {
         search(searchItem){
-            this.$inertia.replace(route('madrasa.index', {'search': searchItem}))
+            this.$inertia.replace(route('polytechnic.index', {'search': searchItem}))
         }
     },
 }

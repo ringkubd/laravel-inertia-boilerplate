@@ -1,10 +1,10 @@
 <template>
     <app-layout>
         <template #header>
-            <h2>Add New Madrasa</h2>
+            <page-header>Add New Polytechnic</page-header>
         </template>
 
-        <div class="container">
+        <div class="container-fluid">
             <Form :dbValue="dbValue" :errors="errors" :submitForm="submit" :createForm="true"/>
         </div>
     </app-layout>
@@ -13,9 +13,10 @@
 <script>
 import AppLayout from "@/Layouts/Authenticated";
 import Form from "./Form";
+import PageHeader from "@/Shared/PageHeader"
 export default {
     name: "add",
-    components: {Form, AppLayout},
+    components: {Form, AppLayout, PageHeader},
     props: ['data', 'flash'],
     data(){
         return {
@@ -24,7 +25,7 @@ export default {
     },
     methods: {
         submit(formData){
-            this.$inertia.post('/madrasa', formData)
+            this.$inertia.post('/polytechnic', formData)
         }
     },
     mounted() {
