@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -35,13 +36,33 @@ class HandleInertiaRequests extends Middleware
     {
         return array_merge(parent::share($request), [
             'auth' => [
-                'user' => $request->user(),
+                'user' => $request->user()
             ],
+            'user' => $request->user(),
             'flash' => [
                 'message' => fn () => $request->session()->get('message'),
                 'error' => fn () => $request->session()->get('error'),
                 'success' => fn () => $request->session()->get('success')
             ],
+            'online' => User::where('online', 1)
+                    ->where('id', '!=',$request->user()->id ?? "")
+                    ->with(['conversation' => function ($q){
+                        $q->whereHas('conversationUsers', function ($q) {
+                            $q->where('user_id',  request()->user()->id ?? "");
+                        });
+                    }])
+                    ->get() ?? [],
+            'offline' => User::where('online', 0)
+                    ->where('id','!=', $request->user()->id?? "")
+                    ->with(['conversation' => function ($q){
+                        $q->whereHas('conversationUsers', function ($q) {
+                            $q->where('user_id',  request()->user()->id ?? "");
+                        });
+                    }])
+                    ->get() ?? [],
+            'public_menus' => [
+                "About Us" => url('about_us')
+            ]
         ]);
     }
 }
