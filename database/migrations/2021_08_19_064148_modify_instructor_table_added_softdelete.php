@@ -13,7 +13,7 @@ class ModifyInstructorTableAddedSoftdelete extends Migration
      */
     public function up()
     {
-        Schema::table('instructors', function (Blueprint $table) {
+        Schema::table('instructor_information', function (Blueprint $table) {
             $table->softDeletes();
         });
     }
