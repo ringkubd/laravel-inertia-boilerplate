@@ -58,7 +58,20 @@ Route::get('user_direct_permission/{user?}', [\App\Http\Controllers\UserPermissi
 Route::put('user_direct_permission_update/{user}', [\App\Http\Controllers\UserPermissionController::class, 'updateUserPermissions'])->name('users.direct_permission_update');
 Route::get('user_permission_json/{user}', [\App\Http\Controllers\UserPermissionController::class, "getUserPermissions"])->name('users.permission_json');
 
+// Students Management
+Route::resource('student', \App\Http\Controllers\StudentsManagementController::class);
 
+// Madrasa Management
+Route::resource('madrasa', \App\Http\Controllers\MadrasaController::class);
+
+// Polytechnic
+Route::resource('polytechnic', \App\Http\Controllers\PolytechnicController::class);
+
+// Trade
+Route::resource('trade', \App\Http\Controllers\TradeController::class);
+
+// Trade
+Route::resource('document', \App\Http\Controllers\DocumentEditorController::class);
 // Test
 
 Route::get('conv', function(){
