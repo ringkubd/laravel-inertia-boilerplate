@@ -120,7 +120,7 @@ export default {
         return {
             ckeditor: ClassicEditor,
             ckeditorConfig: {
-                height: "800",
+                height: "1000",
                 toolbar: {
                     items: [
                         'heading', '|',

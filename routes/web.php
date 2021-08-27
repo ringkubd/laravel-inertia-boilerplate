@@ -67,8 +67,11 @@ Route::resource('madrasa', \App\Http\Controllers\MadrasaController::class);
 // Polytechnic
 Route::resource('polytechnic', \App\Http\Controllers\PolytechnicController::class);
 
-// Polytechnic
+// Trade
 Route::resource('trade', \App\Http\Controllers\TradeController::class);
+
+// Trade
+Route::resource('document', \App\Http\Controllers\DocumentEditorController::class);
 // Test
 
 Route::get('conv', function(){
