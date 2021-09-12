@@ -1,4 +1,7 @@
 <template>
+    <Head>
+        <title>{{title}}</title>
+    </Head>
     <div class="min-h-screen min-w-screen bg-gray-100">
         <div>
             <header id="top" class="w-full flex flex-col fixed sm:relative bg-white pin-t pin-r pin-l">

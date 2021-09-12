@@ -81,7 +81,7 @@
                                 {{student.madrasha ? student.madrasha.name : ""}}
                             </td>
                             <td>
-                                {{student.polytechnic.name}}
+                                {{student.polytechnic ? student.polytechnic.name : ""}}
                             </td>
                             <td>
                                 {{ student.semester }}

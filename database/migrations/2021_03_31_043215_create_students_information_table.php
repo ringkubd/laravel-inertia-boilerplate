@@ -41,7 +41,7 @@ class CreateStudentsInformationTable extends Migration
             $table->string('photo')->nullable();
             $table->string('id_card')->nullable();
             $table->bigInteger('nid')->nullable();
-            $table->integer('bank_account')->nullable();
+            $table->bigInteger('bank_account')->nullable();
             $table->string('bank_branch')->nullable();
             $table->string('bank_name')->default("Islami Bank")->nullable();
             $table->text('present_address')->nullable();

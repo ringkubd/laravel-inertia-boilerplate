@@ -71,6 +71,9 @@ Route::resource('polytechnic', \App\Http\Controllers\PolytechnicController::clas
 Route::resource('trade', \App\Http\Controllers\TradeController::class);
 
 // Trade
+Route::resource('teacher', \App\Http\Controllers\TeacherController::class);
+
+// Trade
 Route::resource('document', \App\Http\Controllers\DocumentEditorController::class);
 // Test
 

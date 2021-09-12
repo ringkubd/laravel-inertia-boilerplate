@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 const el = document.getElementById("app");
 
 createInertiaApp({
+    title: title => `${title} - Four Year Diploma Project Management`,
     resolve: (name) => require(`./Pages/${name}`),
     setup({ el, app, props, plugin }) {
         createApp({
