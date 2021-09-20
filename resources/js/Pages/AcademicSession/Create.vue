@@ -1,7 +1,7 @@
 <template>
     <app-layout>
         <template #header>
-            <h2>Add New Madrasa</h2>
+            <h2>Add New Session</h2>
         </template>
 
         <div class="container">

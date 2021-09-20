@@ -1,7 +1,7 @@
 <template>
     <div class="pt-0 grid md:grid-cols-4">
-        <div class="flex-col">
-            <inertia-link type="button" as="button" :href="create" v-if="can.create"
+        <div class="flex-col" v-if="create">
+            <inertia-link type="button" as="button" :href="create" v-if="can.create && create"
                 ><jet-button type="button">
                     <font-awesome-icon
                         icon="plus"

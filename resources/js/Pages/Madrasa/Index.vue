@@ -1,4 +1,7 @@
 <template>
+    <Head>
+        <title>Madrasa's Management</title>
+    </Head>
     <app-layout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Madrasa Information</h2>
@@ -8,7 +11,7 @@
                 <div class="card-header">
                     <CardHeader :can="can" :create="route('madrasa.create')" :search-method="search"></CardHeader>
                 </div>
-                <table class="table table-hover">
+                <table class="table table-secondary table-striped text-center">
                     <thead>
                     <tr>
                         <th>Name</th>

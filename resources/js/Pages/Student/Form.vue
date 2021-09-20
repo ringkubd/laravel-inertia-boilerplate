@@ -185,7 +185,7 @@
                             </div>
                             <div class="col-md">
                                 <label for="diploma_session">Session</label>
-                                <select name="diploma_session" id="diploma_session" class="form-control" required v-model="form.polytechnic_session">
+                                <select name="diploma_session" id="diploma_session" class="form-control" v-model="form.polytechnic_session">
                                     <option v-for="acsession in academic_session" :value="acsession.session">{{acsession.session}}</option>
                                 </select>
                                 <div v-if="errors.polytechnic_session" class="text-danger">

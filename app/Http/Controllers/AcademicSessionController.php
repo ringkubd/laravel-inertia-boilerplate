@@ -2,18 +2,35 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AcademicSession;
+use App\Rules\AcademicSessionValidation;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class AcademicSessionController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $data = AcademicSession::query()
+            ->select('id', 'session')
+            ->when($request->search, function ($q, $v) {
+                $q->where('session', 'like', "%$v%");
+            })
+            ->paginate();
+        return Inertia::render('AcademicSession/Index', [
+            'data' => $data,
+            'can' => [
+                'create' => auth()->user()->hasrole('Super Admin'),
+                'update' => auth()->user()->hasrole('Super Admin'),
+                'delete' => auth()->user()->hasrole('Super Admin'),
+                'view' => auth()->user()->hasrole('Super Admin'),
+            ]
+        ]);
     }
 
     /**
@@ -34,7 +51,13 @@ class AcademicSessionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'academic_session' => ['required', new AcademicSessionValidation, 'unique:academic_sessions,session']
+        ]);
+        $data = AcademicSession::create([
+            'session' => $request->input('academic_session'),
+        ]);
+        return redirect()->route('academic_session.index');
     }
 
     /**
@@ -79,6 +102,7 @@ class AcademicSessionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $academic_session = AcademicSession::find($id)->delete();
+        return redirect()->route('academic_session.index');
     }
 }

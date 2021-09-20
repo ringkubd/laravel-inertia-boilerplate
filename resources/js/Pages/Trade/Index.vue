@@ -1,4 +1,7 @@
 <template>
+    <Head>
+        <title>Trade's Management</title>
+    </Head>
     <Authenticated>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Trade Management</h2>

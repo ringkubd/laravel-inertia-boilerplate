@@ -10,10 +10,10 @@
                         <form action="" v-on:load="onloadForm()" @submit.prevent="postData">
                             <div class="row mb-4">
                                 <div class="col">
-                                    <label for="name">Name</label>
-                                    <input name="name" type="text" class="form-control" id="name" tabindex="1" v-model="formData.name">
-                                    <div v-if="errors.name" class="text-danger">
-                                        {{ errors.name }}
+                                    <label for="session">Session</label>
+                                    <input name="name" type="text" class="form-control" id="name" tabindex="1" v-model="formData.session">
+                                    <div v-if="errors.session" class="text-danger">
+                                        {{ errors.session }}
                                     </div>
                                 </div>
                                 <div class="col">

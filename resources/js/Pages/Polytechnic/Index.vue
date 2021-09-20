@@ -1,4 +1,7 @@
 <template>
+    <Head>
+        <title>Polytechnic's Management</title>
+    </Head>
     <app-layout>
         <template #header>
             <page-header>
@@ -10,7 +13,7 @@
                 <div class="card-header">
                     <CardHeader :can="can" :create="route('polytechnic.create')" :search-method="search"></CardHeader>
                 </div>
-                <table class="table table-hover">
+                <table class="table table-secondary table-striped">
                     <thead>
                     <tr>
                         <th>Name</th>

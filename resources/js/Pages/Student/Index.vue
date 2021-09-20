@@ -32,7 +32,7 @@
                     </CardHeader>
                 </div>
                 <div class="card-body table-responsive">
-                    <table class="table table-bordered text-center">
+                    <table class="table table-striped table-secondary text-center">
                         <thead>
                         <tr>
                             <th>Sl#</th>
