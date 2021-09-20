@@ -6,7 +6,7 @@
         <div class="container-fluid">
             <div class="card mt-5 min-vh-100">
                 <div class="card-header">
-                    <CardHeader :can="can" :create="route('student.create')" :SearchMethod="search">
+                    <CardHeader :can="can" :create="route('student.create')" :search-method="search">
                         <template #first>
                             <div class="form-group row">
                                 <label for="trade" class="col-sm-3 col-form-label">Trade</label>

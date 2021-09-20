@@ -221,6 +221,12 @@
                                             >
                                                 Madrasa
                                             </breeze-dropdown-link>
+                                            <breeze-dropdown-link
+                                                :href="route('teacher.index')"
+                                                :active="route().current('teacher.*')"
+                                            >
+                                                Teacher
+                                            </breeze-dropdown-link>
                                         </template>
                                     </breeze-dropdown>
                                 </div>

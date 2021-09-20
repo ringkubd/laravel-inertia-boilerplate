@@ -2,26 +2,22 @@
     <authenticated>
         <template #header>
             <page-header>
-                Add Student
+                Add Teacher
             </page-header>
         </template>
         <template #default>
             <div class="container-fluid">
                 <Form :errors="errors"
-                      :polytechnic="polytechnic"
                       :madrasa="madrasa"
                       :user="user"
                       :banks="banks"
                       :selected_bank="selected_bank"
-                      :student="student"
+                      :teacher="teacher"
                       :createForm="true"
                       :postForm="submitForm"
                       :selected_trade="selected_trade"
-                      :selected_session="selected_session"
-                      :trade_polytechnic="trade_polytechnic"
-                      :trade_madrasa="trade_madrasa"
-                      :academic_session="academic_session">
-
+                      :designation="designation"
+                      :trades="trades">
                 </Form>
             </div>
         </template>
@@ -31,17 +27,17 @@
 <script>
 import Authenticated from "@/Layouts/Authenticated";
 import PageHeader from "@/Shared/PageHeader";
-import Form from "@/Pages/Student/Form";
+import Form from "@/Pages/Teacher/Form";
 export default {
     name: "Create",
-    props: ['student', 'selected_trade', 'selected_session', 'academic_session', 'trade_madrasa', 'trade_polytechnic', 'banks', 'selected_bank', 'user', 'polytechnic', 'madrasa', 'errors'],
+    props: ['teacher', 'selected_trade', 'trades', 'banks', 'selected_bank', 'user', 'madrasa', 'errors', 'designation'],
     components: {Form, PageHeader, Authenticated},
     data(){
 
     },
     methods: {
         submitForm(formData){
-            formData.post(route('student.store'))
+            formData.post(route('teacher.store'))
         }
     }
 }

@@ -120,5 +120,11 @@ Route::any('/ckfinder/browser', '\CKSource\CKFinderBridge\Controller\CKFinderCon
 Route::any('/ckfinder/examples/{example?}', 'CKSource\CKFinderBridge\Controller\CKFinderController@examplesAction')
     ->name('ckfinder_examples');
 
+
+// openssl test
+Route::get('openssl', [\App\Http\Controllers\OpensslManagementController::class, 'generate']);
+Route::get('openssl/encrypt', [\App\Http\Controllers\OpensslManagementController::class, 'publicEncrypt']);
+Route::get('openssl/decrypt', [\App\Http\Controllers\OpensslManagementController::class, 'privateDecrypt']);
+
 // page
 Route::get('{slug}', [\App\Http\Controllers\Blog\PageController::class, 'show']);

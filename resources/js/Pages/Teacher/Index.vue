@@ -9,10 +9,7 @@
         <div class="container-fluid">
             <div class="card mt-5 min-vh-100">
                 <div class="card-header">
-                    <CardHeader :can="can" :create="route('teacher.create')" :SearchMethod="search">
-                        <template #first>
-                            dd
-                        </template>
+                    <CardHeader :can="can" :create="route('teacher.create')" :search-method="search">
                     </CardHeader>
                 </div>
                 <div class="card-body table-responsive">
@@ -36,8 +33,8 @@
                         <tbody>
                             <tr v-for="(teacher, index) in teachers.data">
                                 <td>{{ index + 1 }}</td>
-                                <td>
-                                    {{ teacher.photo }}
+                                <td class="img-thumbnail">
+                                    <img :src="teacher.photo" class="img-thumbnail" v-if="teacher.photo" :alt="teacher.name" width="80">
                                 </td>
                                 <td>
                                     {{ teacher.name }}
@@ -105,7 +102,6 @@ export default {
         }
     },
     mounted() {
-        console.log(this.students)
     }
 }
 </script>

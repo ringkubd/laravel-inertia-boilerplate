@@ -1,8 +1,11 @@
 <template>
+    <Head>
+        <title>Add Teacher|Four year diploma</title>
+    </Head>
     <div class="w-7/10">
         <div class="card">
             <div class="card-header">
-                <back style="margin-top: 0!important" class="mt-0" :back-url="route('student.index')"></back>
+                <back style="margin-top: 0!important" class="mt-0" :back-url="route('teacher.index')"></back>
             </div>
             <div class="card-body">
                 <form action="" enctype="multipart/form-data" @submit.prevent="submitForm">
@@ -30,13 +33,6 @@
                                     </div>
                                 </div>
                                 <div class="col-md">
-                                    <label for="mobile_1">Alt. Mobile</label>
-                                    <input type="tel" id="mobile_1" v-model="form.mobile_1" class="form-control">
-                                    <div v-if="errors.mobile_1" class="text-danger">
-                                        {{ errors.mobile_1 }}
-                                    </div>
-                                </div>
-                                <div class="col-md">
                                     <label for="dob">DoB</label>
                                     <input type="date" id="dob" v-model="form.dob" required class="form-control">
                                     <div v-if="errors.dob" class="text-danger">
@@ -57,13 +53,6 @@
                                     <input type="text"  id="mother_name" required v-model="form.mother_name" class="form-control">
                                     <div v-if="errors.mother_name" class="text-danger">
                                         {{ errors.mother_name }}
-                                    </div>
-                                </div>
-                                <div class="col-md">
-                                    <label for="guardian_mobile">Guardian Contact Number</label>
-                                    <input type="text"  id="guardian_mobile" v-model="form.guardian_mobile" required class="form-control">
-                                    <div v-if="errors.guardian_mobile" class="text-danger">
-                                        {{ errors.guardian_mobile }}
                                     </div>
                                 </div>
                             </div>
@@ -97,135 +86,51 @@
                                     <div v-if="errors.photo" class="text-danger">
                                         {{ errors.photo }}
                                     </div>
-                                    <div class="imagePreviewWrapper" v-if="photoPreview"
-                                         :style="{ 'background-image': `url(${photoPreview})` }"
-                                    ></div>
-                                </div>
-                                <div class="col-md">
-                                    <label for="id_card">ID Card</label>
-                                    <input type="file" id="id_card" class="form-control" ref="id_card" @input="form.id_card = $event.target.files[0]" @change="updateIDCardPreview">
-                                    <div v-if="errors.id_card" class="text-danger">
-                                        {{ errors.id_card }}
-                                    </div>
-                                    <div class="imagePreviewWrapper" v-if="idCardPreview"
-                                         :style="{ 'background-image': `url(${idCardPreview})` }"
-                                    ></div>
+                                    <div class="imagePreviewWrapper" v-if="photoPreview" :style="{ 'background-image': `url(${photoPreview})` }"></div>
                                 </div>
                             </div>
                         </div>
 
                     </fieldset>
                     <fieldset class="row form-group">
-                        <legend>Academic Information (Dakhil)</legend>
+                        <legend>Job Information</legend>
                         <div class="row">
                             <div class="col-md">
-                                <label for="madrasa_trade_id">Trade</label>
-                                <select name="madrasa_trade_id" id="madrasa_trade_id" class="form-control" v-model="form.madrasa_trade_id" required>
-                                    <option v-for="trade in trade_madrasa" :value="trade.name">{{trade.name}}</option>
+                                <label for="trade_id">Trade</label>
+                                <select name="madrasa_trade_id" id="madrasa_trade_id" class="form-control" v-model="form.trade_id" required>
+                                    <option v-for="trade in trades" :value="trade.id">{{trade.name}}</option>
                                 </select>
-                                <div v-if="errors.madrasa_trade_id" class="text-danger">
-                                    {{ errors.madrasa_trade_id }}
-                                </div>
-                            </div>
-                            <div class="col-md">
-                                <label for="class_roll">Class Roll</label>
-                                <input type="number" id="class_roll" v-model="form.class_roll" class="form-control" required>
-                                <div v-if="errors.class_roll" class="text-danger">
-                                    {{ errors.class_roll }}
+                                <div v-if="errors.trade_id" class="text-danger">
+                                    {{ errors.trade_id }}
                                 </div>
                             </div>
                             <div class="col-md">
                                 <label for="madrashas_id">Madrasha</label>
-                                <select name="madrashas_id" id="madrashas_id" class="form-control" required v-model="form.madrasha_id">
+                                <select name="madrashas_id" id="madrashas_id" class="form-control" required v-model="form.madrashas_id">
                                     <option v-for="mad in madrasa" :value="mad.id">{{mad.name}}</option>
                                 </select>
                                 <div v-if="errors.madrashas_id" class="text-danger">
                                     {{ errors.madrashas_id }}
                                 </div>
                             </div>
+                            <div class="col-md">
+                                <label for="joining_date">Joining Date</label>
+                                <input type="date" class="form-control" id="joining_date" v-model="form.joining_date">
+                                <div v-if="errors.joining_date" class="text-danger">
+                                    {{ errors.joining_date }}
+                                </div>
+                            </div>
 
-                        </div>
-                        <div class="row">
                             <div class="col-md">
-                                <label for="ssc_roll">SSC Roll</label>
-                                <input type="number" id="ssc_roll" v-model="form.ssc_roll" class="form-control">
-                                <div v-if="errors.ssc_roll" class="text-danger">
-                                    {{ errors.ssc_roll }}
-                                </div>
-                            </div>
-                            <div class="col-md">
-                                <label for="ssc_registration">SSC Registration</label>
-                                <input type="number" id="ssc_registration" v-model="form.ssc_registration" class="form-control">
-                                <div v-if="errors.ssc_registration" class="text-danger">
-                                    {{ errors.ssc_registration }}
-                                </div>
-                            </div>
-                            <div class="col-md">
-                                <label for="session">Session</label>
-                                <select name="session" id="session" class="form-control" required v-model="form.ssc_session">
-                                    <option v-for="acsession in academic_session" :value="acsession.session">{{acsession.session}}</option>
+                                <label for="designation">Designation</label>
+                                <select name="designation" id="designation" class="form-control" required v-model="form.designation">
+                                    <option v-for="des in designation" :value="des.name">{{des.name}}</option>
                                 </select>
-                                <div v-if="errors.ssc_session" class="text-danger">
-                                    {{ errors.ssc_session }}
+                                <div v-if="errors.designation" class="text-danger">
+                                    {{ errors.designation }}
                                 </div>
                             </div>
-                        </div>
-                    </fieldset>
-                    <fieldset class="row form-group">
-                        <legend>Academic Information (Diploma)</legend>
-                        <div class="row">
-                            <div class="col-md">
-                                <label for="institute">Polytechnic</label>
-                                <select name="" id="institute" v-model="form.polytechnic" class="form-control">
-                                    <option v-for="poly in polytechnic" :value="poly.id">{{poly.name}}</option>
-                                </select>
-                                <div v-if="errors.polytechnic" class="text-danger">
-                                    {{ errors.polytechnic }}
-                                </div>
-                            </div>
-                            <div class="col-md">
-                                <label for="diploma_session">Session</label>
-                                <select name="diploma_session" id="diploma_session" class="form-control" required v-model="form.polytechnic_session">
-                                    <option v-for="acsession in academic_session" :value="acsession.session">{{acsession.session}}</option>
-                                </select>
-                                <div v-if="errors.polytechnic_session" class="text-danger">
-                                    {{ errors.polytechnic_session }}
-                                </div>
-                            </div>
-                            <div class="col-md">
-                                <label for="semester">Semester</label>
-                                <select name="" id="semester" v-model="form.semester" class="form-control">
-                                    <option v-for="index in 8" :value="index">{{index}}</option>
-                                </select>
-                                <div v-if="errors.semester" class="text-danger">
-                                    {{ errors.semester }}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md">
-                                <label for="polytechnic_trade">Polytechnic Trade</label>
-                                <select name="polytechnic_trade" id="polytechnic_trade" class="form-control" v-model="form.polytechnic_trade_id">
-                                    <option v-for="trade in trade_polytechnic" :value="trade.name">{{trade.name}}</option>
-                                </select>
-                                <div v-if="errors.polytechnic_trade" class="text-danger">
-                                    {{ errors.polytechnic_trade }}
-                                </div>
-                            </div>
-                            <div class="col-md">
-                                <label for="polytechnic_registration">Polytechnic Registration</label>
-                                <input type="number" id="polytechnic_registration" v-model="form.polytechnic_registration" class="form-control">
-                                <div v-if="errors.polytechnic_registration" class="text-danger">
-                                    {{ errors.polytechnic_registration }}
-                                </div>
-                            </div>
-                            <div class="col-md">
-                                <label for="polytechnic_roll">Polytechnic Roll</label>
-                                <input type="number" id="polytechnic_roll" v-model="form.polytechnic_roll" class="form-control">
-                                <div v-if="errors.polytechnic_roll" class="text-danger">
-                                    {{ errors.polytechnic_roll }}
-                                </div>
-                            </div>
+
                         </div>
                     </fieldset>
                     <fieldset class="row form-group">
@@ -272,9 +177,6 @@
                                 </div>
                             </div>
                         </div>
-<!--                        Hidden Element-->
-                        <input type="hidden" v-model="currentSession">
-                        <input type="hidden" v-model="currentTrade">
                     </fieldset>
                     <div class="row form-group">
                         <div class="col-4 justify-content-center align-items-end">
@@ -299,45 +201,31 @@ export default {
         Back,
         InputError
     },
-    props: ['student', 'user', 'createForm', 'postForm', 'trade_polytechnic', 'trade_madrasa', 'academic_session', 'banks', 'selected_bank', 'selected_trade', 'selected_session', 'polytechnic', 'madrasa', 'errors'],
+    props: ['teacher', 'user', 'createForm', 'postForm', 'trades', 'banks', 'selected_bank', 'selected_trade', 'madrasa', 'errors', 'designation'],
     data(){
         return {
             form: useForm({
-                name: this.student.name,
-                dob: this.student.dob,
-                mobile: this.student.mobile,
-                mobile_1: this.student.mobile_1,
-                nid: this.student.nid,
+                name: this.teacher.name,
+                dob: this.teacher.dob,
+                mobile: this.teacher.mobile,
+                nid: this.teacher.nid,
                 email: this.user.email,
-                father_name: this.student.father_name,
-                mother_name: this.student.mother_name,
-                guardian_mobile: this.student.guardian_mobile,
-                present_address: this.student.present_address,
-                permanent_address: this.student.permanent_address,
+                father_name: this.teacher.father_name,
+                mother_name: this.teacher.mother_name,
+                present_address: this.teacher.present_address,
+                permanent_address: this.teacher.permanent_address,
                 password: null,
-                trade: this.student.trade,
-                madrasa_trade_id: this.student.madrasa_trade_id,
-                polytechnic_trade_id: this.student.polytechnic_trade_id,
-                class_roll: this.student.class_roll,
-                madrasha_id: this.student.madrasha_id,
-                ssc_roll: this.student.ssc_roll,
-                ssc_registration: this.student.ssc_registration,
-                ssc_session: this.student.ssc_session,
-                polytechnic: this.student.polytechnic,
-                polytechnic_registration: this.student.polytechnic_registration,
-                polytechnic_roll: this.student.polytechnic_roll,
-                polytechnic_session: this.student.polytechnic_session,
-                semester: this.student.semester,
-                bank_account: this.student.bank_account,
-                bank_branch: this.student.bank_branch,
-                bank_name: this.selected_bank,
-                photo: this.student.photo,
-                id_card: this.student.id_card,
-                current_session: this.selected_session,
+                trade_id: this.teacher.trade_id,
+                madrashas_id: this.teacher.madrashas_id,
+                bank_account: this.teacher.bank_account,
+                bank_branch: this.teacher.bank_branch,
+                bank_name: this.teacher.bank_name,
+                photo: this.teacher.photo,
+                designation: this.teacher.designation,
+                joining_date: this.teacher.joining_date,
                 _method: this.createForm ? 'POST' : 'PUT'
             }),
-            photoPreview: this.student.photo,
-            idCardPreview: this.student.id_card,
+            photoPreview: this.teacher.photo,
         }
     },
     methods: {
@@ -350,44 +238,16 @@ export default {
             reader.readAsDataURL(this.$refs.photo.files[0]);
             this.$emit('input', this.$refs.photo.files[0])
         },
-        updateIDCardPreview() {
-            const reader = new FileReader();
-
-            reader.onload = (e) => {
-                this.idCardPreview = e.target.result;
-            };
-            reader.readAsDataURL(this.$refs.id_card.files[0]);
-            this.$emit('input', this.$refs.photo.files[0])
-        },
         submitForm(){
             this.postForm(this.form)
         }
     },
     mounted() {
-        if (this.student.photo){
-            this.photoPreview = "/"+this.student.photo
-        }
-        if (this.student.id_card){
-            this.idCardPreview = "/"+this.student.photo
+        if (this.teacher.photo){
+            this.photoPreview = "/"+this.teacher.photo
         }
     },
     computed: {
-        currentSession(){
-            if (this.form.polytechnic_session){
-                this.form.current_session = this.form.polytechnic_session;
-            }else{
-                this.form.current_session = this.form.ssc_session;
-            }
-            return this.form.current_session;
-        },
-        currentTrade(){
-            if (this.form.polytechnic_trade_id){
-                this.form.trade = this.form.polytechnic_trade_id;
-            }else{
-                this.form.trade = this.form.madrasa_trade_id;
-            }
-            return this.form.trade;
-        }
     }
 }
 </script>

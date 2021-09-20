@@ -1,28 +1,24 @@
 <template>
     <Head>
-        <title>Your page title</title>
+        <title>Edit teacher information | Four Year Diploma</title>
         <meta name="description" content="Your page description">
     </Head>
     <Authenticated>
         <template #header>
-            <page-header>Edit Student {{student.name}}</page-header>
+            <page-header>Edit Teacher {{teacher.name}}</page-header>
         </template>
         <div class="container-fluid">
             <Form :errors="errors"
-                  :polytechnic="polytechnic"
                   :madrasa="madrasa"
                   :user="user"
                   :banks="banks"
                   :selected_bank="selected_bank"
-                  :student="student"
+                  :teacher="teacher"
                   :createForm="false"
                   :postForm="submitForm"
                   :selected_trade="selected_trade"
-                  :selected_session="selected_session"
-                  :trade_polytechnic="trade_polytechnic"
-                  :trade_madrasa="trade_madrasa"
-                  :academic_session="academic_session">
-
+                  :designation="designation"
+                  :trades="trades">
             </Form>
         </div>
     </Authenticated>
@@ -35,11 +31,11 @@ import Back from "@/Shared/Back";
 import PageHeader from "@/Shared/PageHeader";
 export default {
     name: "Edit",
-    props: ['student', 'selected_trade', 'selected_session', 'academic_session', 'trade_madrasa', 'trade_polytechnic', 'banks', 'selected_bank', 'user', 'polytechnic', 'madrasa', 'errors'],
+    props: ['teacher', 'selected_trade', 'trades', 'banks', 'selected_bank', 'user', 'madrasa', 'errors', 'designation'],
     components: {PageHeader, Back, Form, Authenticated},
     methods: {
         submitForm(formData){
-            formData.post(route('student.update',this.student.id))
+            formData.post(route('teacher.update',this.teacher.id))
         }
     }
 }
