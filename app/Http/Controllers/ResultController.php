@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AcademicSession;
+use App\Models\Result;
+use App\Models\Student;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ResultController extends Controller
 {
@@ -11,9 +15,26 @@ class ResultController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $result = Student::query()
+            ->with('results.details', 'polytechnic')
+            ->when($request->academic_session, function ($q, $v) {
+                $q->where('polytechnic_session', $v);
+            })
+            ->get();
+        $sessions = AcademicSession::query()
+        ->get();
+        return Inertia::render('Result/Index', [
+            'data' => $result,
+            'can' => [
+                'create' => auth()->user()->can('create_result'),
+                'update' => auth()->user()->can('update_result'),
+                'delete' => auth()->user()->can('delete_result'),
+                'view' => auth()->user()->can('view_result'),
+            ],
+            'sessions' => $sessions
+        ]);
     }
 
     /**

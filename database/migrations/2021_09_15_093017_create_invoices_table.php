@@ -17,8 +17,14 @@ class CreateInvoicesTable extends Migration
             $table->id();
             $table->bigInteger('student_id');
             $table->string('student_name');
-            $table->float('amount');
+            $table->double('amount');
+            $table->string('invoice_month');
+            $table->tinyInteger('semester');
             $table->date('invoice_date');
+            $table->string('bank_name');
+            $table->string('bank_branch');
+            $table->string('bank_account');
+            $table->unsignedInteger('created_by');
             $table->softDeletes();
             $table->timestamps();
         });

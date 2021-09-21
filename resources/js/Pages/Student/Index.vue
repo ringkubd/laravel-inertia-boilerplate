@@ -1,4 +1,10 @@
 <template>
+    <Head>
+        <title>Student Management</title>
+        <meta property="og:title" content="Student Management" />
+        <meta property="og:description" content="IsDB-BISEW Four Year Diploma Student Management." />
+        <meta property="og:image" content="https://www.isdb-bisew.org/img/isdb-bisew.png" />
+    </Head>
     <Authenticated>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Student Management</h2>

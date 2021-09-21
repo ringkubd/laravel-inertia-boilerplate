@@ -16,10 +16,9 @@ class CreateResultDetailsTable extends Migration
         Schema::create('result_details', function (Blueprint $table) {
             $table->id();
             $table->bigInteger("result_id");
-            $table->foreign("result_id")->references("id")->on("results");
             $table->string("subject");
             $table->double("mark")->default(0);
-            $table->float("gpa");
+            $table->float("grade");
             $table->softDeletes();
             $table->timestamps();
         });

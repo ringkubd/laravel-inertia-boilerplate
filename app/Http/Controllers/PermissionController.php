@@ -20,9 +20,10 @@ class PermissionController extends Controller
         $this->authorize('view_permission');
 
         $permission = Permission::query()
-        ->when($request->search, function ($q, $value) use ($request){
-            $q->where('name', 'like', "%".$value . "%");
-        })->paginate();
+            ->when($request->search, function ($q, $value) use ($request){
+                $q->where('name', 'like', "%".$value . "%");
+            })->paginate();
+        $this->createAutoPermissions($this->module());
         return Inertia::render('Permission/Index', [
             'permissions' => $permission,
             'can' => [
@@ -155,5 +156,30 @@ class PermissionController extends Controller
 
         }
         return $routeName;
+    }
+
+    protected function createAutoPermissions(Array $modules){
+        $permissions = Permission::whereIn('module', $modules)->get()->groupBy('module')->keys()->toArray();
+        $exclude = config('custom.excluded_from_create_permission');
+        $newModule = array_diff($modules, $exclude, $permissions);
+        $defaultPermissions = config('custom.default_permissions');
+        $newPermissions = [];
+        $i = 0;
+        foreach ($newModule as $module) {
+            if (count($defaultPermissions) > 0) {
+                $newP = array_map(function ($v) use($module, $i){
+                    return [
+                        'name' => $v.'_'.$module,
+                        'guard_name' => 'web',
+                        'module' => $module,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+                }, $defaultPermissions);
+                $permissions = Permission::insert($newP);
+            }
+            $i++;
+        }
+        return $permissions;
     }
 }

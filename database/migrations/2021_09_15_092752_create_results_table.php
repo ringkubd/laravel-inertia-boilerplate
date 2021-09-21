@@ -16,10 +16,9 @@ class CreateResultsTable extends Migration
         Schema::create('results', function (Blueprint $table) {
             $table->id();
             $table->bigInteger("student_id");
-            $table->foreign("student_id")->references('id')->on('students');
             $table->integer("semester");
-            $table->float("gpa")->nullable();
-            $table->enum('status', ['Passed', 'Failed'])->default("Pass");
+            $table->float("gpa")->default(0)->nullable();
+            $table->enum('status', ['Passed', 'Failed', 'Dropout'])->default("Passed");
             $table->integer("failed_in_subject")->default(0)->nullable();
             $table->softDeletes();
             $table->timestamps();

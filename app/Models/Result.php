@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Result extends Model
 {
     use HasFactory;
+
+    protected $guarded = ['id'];
+
+    public function details(){
+        return $this->hasOne(ResultDetails::class);
+    }
 }

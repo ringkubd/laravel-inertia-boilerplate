@@ -78,6 +78,9 @@ Route::resource('document', \App\Http\Controllers\DocumentEditorController::clas
 
 // Trade
 Route::resource('academic_session', \App\Http\Controllers\AcademicSessionController::class);
+
+// Trade
+Route::resource('result', \App\Http\Controllers\ResultController::class);
 // Test
 
 Route::get('conv', function(){

@@ -27,4 +27,8 @@ class Student extends Model
     public function studentConfiguration(){
         return $this->hasOne(StudentConfiguration::class, 'users_id', 'users_id');
     }
+
+    public function results(){
+        return $this->hasMany(Result::class, 'student_id', 'id');
+    }
 }

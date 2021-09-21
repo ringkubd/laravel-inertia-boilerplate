@@ -1,4 +1,7 @@
 <template>
+    <Head>
+        <title>Permission's Management</title>
+    </Head>
     <BreezeAuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">

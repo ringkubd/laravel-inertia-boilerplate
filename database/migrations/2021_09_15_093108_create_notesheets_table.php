@@ -15,6 +15,10 @@ class CreateNotesheetsTable extends Migration
     {
         Schema::create('notesheets', function (Blueprint $table) {
             $table->id();
+            $table->integer('page_no');
+            $table->integer('serial_no');
+            $table->text('note_text');
+            $table->unsignedBigInteger('user_id');
             $table->softDeletes();
             $table->timestamps();
         });
