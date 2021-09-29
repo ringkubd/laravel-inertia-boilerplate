@@ -255,7 +255,7 @@
                                                     duration-150
                                                 "
                                             >
-                                                Accessibilities
+                                                Accessibility
 
                                                 <svg
                                                     class="ml-2 -mr-0.5 h-4 w-4"
@@ -339,6 +339,12 @@
                                                 :active="route().current('polytechnic.*')"
                                             >
                                                 Polytechnic
+                                            </breeze-dropdown-link>
+                                            <breeze-dropdown-link
+                                                :href="route('result.index')"
+                                                :active="route().current('result.*')"
+                                            >
+                                                Results
                                             </breeze-dropdown-link>
                                         </template>
                                     </breeze-dropdown>

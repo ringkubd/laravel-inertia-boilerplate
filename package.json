@@ -43,7 +43,9 @@
     "postcss-import": "^14.0.2",
     "pusher-js": "^7.0.3",
     "roboto-fontface": "*",
-    "update": "^0.4.2"
+    "update": "^0.7.4",
+    "vue-picture-swipe": "^2.1.0",
+    "vue3-select2-component": "^0.1.7"
   },
   "devDependencies": {
     "@ckeditor/ckeditor5-alignment": "^29.2.0",

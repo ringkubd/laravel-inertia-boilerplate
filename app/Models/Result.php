@@ -14,4 +14,8 @@ class Result extends Model
     public function details(){
         return $this->hasOne(ResultDetails::class);
     }
+
+    public function attachments(){
+        return $this->hasMany(ResultDocument::class);
+    }
 }

@@ -6,6 +6,8 @@ use App\Models\AcademicSession;
 use App\Models\Result;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 class ResultController extends Controller
@@ -18,13 +20,20 @@ class ResultController extends Controller
     public function index(Request $request)
     {
         $result = Student::query()
-            ->with('results.details', 'polytechnic')
+            ->with('results.details', 'results.attachments', 'polytechnic')
             ->when($request->academic_session, function ($q, $v) {
                 $q->where('polytechnic_session', $v);
             })
-            ->get();
+            ->when($request->search, function ($q, $v) {
+                $q->where('polytechnic_session', 'like', "%$v%")
+                    ->orWhere('name', 'like', "%$v%")
+                    ->orWhere('name', 'like', "%$v%");
+            })
+            ->paginate(10);
+
         $sessions = AcademicSession::query()
-        ->get();
+            ->get();
+
         return Inertia::render('Result/Index', [
             'data' => $result,
             'can' => [
@@ -55,7 +64,47 @@ class ResultController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $messages = [
+            'semester.unique' => 'Given Semester Result Already Exists.',
+        ];
+        $semester = $request->semester;
+        $student_id = $request->student_id;
+        $validate = Validator::make($request->all(), [
+            'semester' => [
+                'required',
+                Rule::unique('results')->where(function ($query) use($semester,$student_id) {
+                    return $query->where('student_id', $student_id)
+                        ->where('semester', $semester);
+                }),
+                'max:8',
+                'min:1',
+            ],
+            'student_id' => ['required'],
+            'status' => ['required'],
+            'failed_in_subject' => 'required',
+            'supporting_document' => 'required'
+        ],
+            $messages
+        );
+        if ($validate->fails()) {
+            return redirect()->back()->withErrors($validate->errors());
+        }
+        $fileName = [];
+        $result = Result::create($request->all());
+        if ($request->hasFile('supporting_document')) {
+            $documents = $request->file('supporting_document');
+            foreach ($documents as $doc){
+                $file = now().'.'.$doc->getClientOriginalExtension();
+                $doc->move(public_path("result_document"), $file);
+                $fileName[] = [
+                    'attachment' => "result_document/{$file}",
+                    'result_id' => $result->id
+                ];
+            }
+        }
+        $result->attachments()->insert($fileName);
+        return redirect()->back()->withSuccess("Result Successfully Added.");
+
     }
 
     /**
@@ -98,9 +147,10 @@ class ResultController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Result $result)
     {
-        //
+        $result->delete();
+        return redirect()->back()->withSuccess("Successfully deleted.");
     }
 
     /**
@@ -108,5 +158,20 @@ class ResultController extends Controller
      */
     public function individualResult(){
 
+    }
+
+    /**
+     * Student List
+     */
+
+    public function studentList(Request $request){
+        return Student::query()
+            ->when($request->name, function ($q, $v) {
+                $q->where('name', 'like', "%$v%");
+            })
+            ->select('name as label', 'id as value')
+            ->whereNotNull('polytechnic')
+            ->limit(10)
+            ->get();
     }
 }

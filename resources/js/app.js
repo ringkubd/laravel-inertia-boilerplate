@@ -5,6 +5,8 @@ import { createApp, h } from "vue";
 import { createInertiaApp } from "@inertiajs/inertia-vue3";
 import { InertiaProgress } from "@inertiajs/progress";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import Select2 from 'vue3-select2-component';
+import VuePictureSwipe from 'vue-picture-swipe';
 
 const el = document.getElementById("app");
 
@@ -22,6 +24,8 @@ createInertiaApp({
             })
             .use(plugin)
             .component("font-awesome-icon", FontAwesomeIcon)
+            .component("Select2", Select2)
+            .component('vue-picture-swipe', VuePictureSwipe)
             .mount(el);
     },
 });
