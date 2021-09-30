@@ -82,6 +82,8 @@ Route::resource('academic_session', \App\Http\Controllers\AcademicSessionControl
 // Trade
 Route::resource('result', \App\Http\Controllers\ResultController::class);
 Route::get('student_list', [\App\Http\Controllers\ResultController::class, "studentList"])->name('student_list');
+
+Route::resource('fee', \App\Http\Controllers\FeeController::class);
 // Test
 
 Route::get('conv', function(){
