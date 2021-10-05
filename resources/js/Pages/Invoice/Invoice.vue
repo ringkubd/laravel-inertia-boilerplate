@@ -1,0 +1,117 @@
+<template>
+    <Head>
+        <title>Invoice</title>
+    </Head>
+    <Authenticated>
+        <template #header>
+            <page-header>Generate New Invoice</page-header>
+        </template>
+        <div class="container-fluid">
+            <div class="card mt-5 min-vh-100">
+                <div class="card-header" @click="print">
+                    <CardHeader :can="can" :search-method="search"></CardHeader>
+                </div>
+                <div class="card-body" id="printme">
+                    <table class="table table-secondary table-bordered text-center">
+                        <thead>
+                        <tr style="border-left: solid white 2px; border-right: solid white 2px; border-top: solid white 2px;">
+                            <th :colspan="6+ (feeTypes != null ? feeTypes.length : 0)" rowspan="4">
+                                Invoice
+                                <br>
+                                <div class="text-left">
+                                    Invoice: 1234
+                                    <br>
+                                    Date: 2020-12-12
+                                </div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <thead>
+                        <tr>
+                            <th rowspan="2">Sl.#</th>
+                            <th rowspan="2">Name</th>
+                            <th rowspan="2">Trade</th>
+                            <th rowspan="2">IBBL Branch</th>
+                            <th rowspan="2">IBBL Account</th>
+                            <th :colspan="feeTypes != null ? feeTypes.length : 0">Tuition Fees</th>
+                            <th rowspan="2">Amount</th>
+                        </tr>
+                        <tr>
+                            <th v-for="feeType in feeTypes">
+                                {{feeType}}
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="(invoice, index) in data">
+                            <td>{{ index + 1 }}</td>
+                            <td>{{ invoice.student_name }}</td>
+                            <td>{{invoice.student.polytechnic_trade_id}}</td>
+                            <td>{{ invoice.bank_branch }}</td>
+                            <td>{{ invoice.bank_account }}</td>
+                            <td v-for="fee in invoice.details">{{ fee.amount }}</td>
+                            <td>{{invoice.amount}}</td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td :colspan="5+ (feeTypes != null ? feeTypes.length : 0)" style="text-align: right">Total</td>
+                            <td>{{totalInvoiceAmount()}}</td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div class="card-footer">
+
+                </div>
+            </div>
+        </div>
+    </Authenticated>
+</template>
+
+<script>
+import Authenticated from "@/Layouts/Authenticated";
+import CardHeader from "@/Shared/CardHeader";
+export default {
+    name: "Invoice",
+    props: ['can', 'errors', 'data', 'feeTypes'],
+    components: {CardHeader, Authenticated},
+    methods: {
+        search(params){
+
+        },
+        totalInvoiceAmount(){
+            let total = 0;
+            const self = this
+            this.data.map(function (invoice){
+                total += invoice.amount
+            })
+            return total;
+        },
+        print: function() {
+
+            const printOptions = {
+                name: '_blank',
+                specs: [
+                    'fullscreen=yes',
+                    'titlebar=yes',
+                    'scrollbars=yes'
+                ],
+                styles: [
+                    '/css/app.css',
+                    '/css/custom_print.css',
+                ]
+            }
+
+            this.$htmlToPaper('printme', printOptions, () => {
+                console.log('Printing finished');
+                // whatever
+            });
+        }
+    }
+}
+</script>
+
+<style scoped>
+
+</style>

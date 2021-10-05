@@ -6,7 +6,6 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
-        "anwar/laravel-office": "dev-diploma",
         "beyondcode/laravel-websockets": "^1.12",
         "ckfinder/ckfinder-laravel-package": "^3.5",
         "fideloper/proxy": "^4.4",
@@ -69,11 +68,5 @@
         "sort-packages": true
     },
     "minimum-stability": "dev",
-    "prefer-stable": true,
-    "repositories": {
-        "local": {
-            "type": "path",
-            "url": "./packages/LaravelOffice/"
-        }
-    }
+    "prefer-stable": true
 }

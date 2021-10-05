@@ -198,8 +198,6 @@ import JetButton from "@/Shared/Button";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faPen, faTrash, faInfo } from "@fortawesome/free-solid-svg-icons";
 library.add(faPen, faTrash, faInfo);
-
-
 function GET() {
     var data = [];
     for(let x = 0; x < arguments.length; ++x){

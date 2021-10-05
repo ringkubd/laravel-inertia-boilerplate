@@ -18,7 +18,10 @@
         <div class="flex-col">
             <slot name="second"></slot>
         </div>
-        <div class="flex col-start-4 justify-end">
+        <div class="flex-col">
+            <slot name="third"></slot>
+        </div>
+        <div class="flex col-start-4 justify-end" v-if="searchMethod">
             <label for="search">Search</label>
             <input
                 type="text"

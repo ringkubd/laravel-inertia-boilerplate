@@ -9,7 +9,7 @@
             </page-header>
         </template>
         <div class="container-fluid">
-            <div class="card card-default">
+            <div class="card mt-5 min-vh-100">
                 <div class="card-header">
                     <CardHeader :can="can" :create="route('polytechnic.create')" :search-method="search"></CardHeader>
                 </div>
@@ -47,8 +47,10 @@
 import AppLayout from "@/Layouts/Authenticated";
 import CardHeader from "@/Shared/CardHeader";
 import Actions from "@/Shared/Actions";
+import PageHeader from "@/Shared/PageHeader";
 export default {
     components: {
+        PageHeader,
         Actions,
         CardHeader,
         AppLayout

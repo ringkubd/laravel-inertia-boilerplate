@@ -83,7 +83,11 @@ Route::resource('academic_session', \App\Http\Controllers\AcademicSessionControl
 Route::resource('result', \App\Http\Controllers\ResultController::class);
 Route::get('student_list', [\App\Http\Controllers\ResultController::class, "studentList"])->name('student_list');
 
+// Fee Management
 Route::resource('fee', \App\Http\Controllers\FeeController::class);
+
+// Invoice Management
+Route::resource('invoice', \App\Http\Controllers\InvoiceController::class);
 // Test
 
 Route::get('conv', function(){

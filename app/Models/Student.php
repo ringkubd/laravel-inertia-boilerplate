@@ -31,4 +31,8 @@ class Student extends Model
     public function results(){
         return $this->hasMany(Result::class, 'student_id', 'id');
     }
+
+    public function fees(){
+        return $this->hasMany(Fee::class, 'session','polytechnic_session');
+    }
 }
