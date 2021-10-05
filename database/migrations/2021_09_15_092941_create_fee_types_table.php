@@ -21,19 +21,20 @@ class CreateFeeTypesTable extends Migration
             $table->softDeletes();
             $table->timestamps();
         });
-        DB::table('users')->insert(
-            [
-                'name' => 'Semester Fee',
-                'is_madrasa' => false,
-            ],
-            [
-                'name' => 'Exam Fee',
-                'is_madrasa' => false,
-            ],
-            [
-                'name' => 'MMA',
-                'is_madrasa' => false,
-            ],
+        DB::table('users')->insert([
+                [
+                    'name' => 'Semester Fee',
+                    'is_madrasa' => false,
+                ],
+                [
+                    'name' => 'Exam Fee',
+                    'is_madrasa' => false,
+                ],
+                [
+                    'name' => 'MMA',
+                    'is_madrasa' => false,
+                ]
+            ]
         );
     }
 
