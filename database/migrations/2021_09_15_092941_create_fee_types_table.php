@@ -21,7 +21,7 @@ class CreateFeeTypesTable extends Migration
             $table->softDeletes();
             $table->timestamps();
         });
-        DB::table('users')->insert([
+        DB::table('fee_types')->insert([
                 [
                     'name' => 'Semester Fee',
                     'is_madrasa' => false,
