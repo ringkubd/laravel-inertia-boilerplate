@@ -452,6 +452,12 @@
                                             >
                                                 Fee's
                                             </breeze-dropdown-link>
+                                            <breeze-dropdown-link
+                                                :href="route('invoice.index')"
+                                                :active="route().current('invoice.*')"
+                                            >
+                                                Invoice's
+                                            </breeze-dropdown-link>
                                         </template>
                                     </breeze-dropdown>
                                 </div>
