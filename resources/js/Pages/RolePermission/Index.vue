@@ -1,10 +1,13 @@
 <template>
+    <Head>
+        <title>Role's Permission Management</title>
+    </Head>
 <Authenticated>
     <template #header>
-        <h2>Role's Permission Management</h2>
+        <PageHeader>Role's Permission Management</PageHeader>
     </template>
     <div class="container-fluid">
-        <div class="card flex h-screen justify-center mt-5">
+        <div class="card flex min-h-screen mt-5">
             <div class="card-header row flex">
                 <div class="col-6 items-center">
                    <back :back-url="route('roles.index')"></back>
@@ -29,9 +32,10 @@
 import Authenticated from "@/Layouts/Authenticated";
 import PermissionTable from "@/Pages/RolePermission/PermissionTable";
 import Back from "@/Shared/Back";
+import PageHeader from "@/Shared/PageHeader";
 export default {
 name: "Index",
-    components: {Back, Authenticated, PermissionTable},
+    components: {PageHeader, Back, Authenticated, PermissionTable},
     props: ['roles', 'errors', 'user', 'permissions'],
     data() {
         return {

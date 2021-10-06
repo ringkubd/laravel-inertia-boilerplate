@@ -99,7 +99,7 @@ export default {
                 ],
                 styles: [
                     '/css/app.css',
-                    '/css/custom_print.css',
+                    '/css/custom_print2.css',
                 ]
             }
 

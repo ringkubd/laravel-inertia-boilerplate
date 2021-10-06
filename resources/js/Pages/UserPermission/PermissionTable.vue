@@ -1,5 +1,5 @@
 <template>
-    <table class="table table-bordered">
+    <table class="table table-secondary table-striped text-center">
         <tbody>
         <tr v-for="(permission, module) in permissions">
             <th>{{capitalizeFirstLetter(module)}}</th>
@@ -28,7 +28,7 @@ export default {
         },
         splitConcat(string){
             const str = string.split("_");
-            return str.join(" ")
+            return str[0]
         },
         selectPermission(permissionId){
             this.checkedPermission(permissionId)
