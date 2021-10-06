@@ -159,6 +159,7 @@ class InvoiceController extends Controller
             ->with('details')
             ->with('student')
             ->get();
+        $basicInfo = $invoice->first();
         $feeTypes = $invoice->whereNotNull('details')->first()->details->pluck('fee_type');
         return Inertia::render('Invoice/Invoice', [
             'can' => [
@@ -168,7 +169,8 @@ class InvoiceController extends Controller
                 'view' => auth()->user()->can('view_invoice'),
             ],
             'data' => $invoice,
-            'feeTypes' => $feeTypes
+            'feeTypes' => $feeTypes,
+            'basicInfo' => $basicInfo
         ]);
     }
 

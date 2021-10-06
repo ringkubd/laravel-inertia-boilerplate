@@ -8,8 +8,15 @@
         </template>
         <div class="container-fluid">
             <div class="card mt-5 min-vh-100">
-                <div class="card-header" @click="print">
-                    <CardHeader :can="can" :search-method="search"></CardHeader>
+                <div class="card-header">
+                    <CardHeader :can="can" :search-method="search">
+                        <template #first>
+                            <Back :back-url="route('invoice.index')"></Back>
+                        </template>
+                        <template #second>
+                            <Button class="btn btn-success" @click="print">Print</Button>
+                        </template>
+                    </CardHeader>
                 </div>
                 <div class="card-body" id="printme">
                     <table class="table table-secondary table-bordered text-center">
@@ -19,9 +26,9 @@
                                 Invoice
                                 <br>
                                 <div class="text-left">
-                                    Invoice: 1234
+                                    Invoice: <span class="font-normal ml-5">{{ basicInfo.invoice_id }}</span>
                                     <br>
-                                    Date: 2020-12-12
+                                    Date: <span class="font-normal ml-5">{{ basicInfo.invoice_date }}</span>
                                 </div>
                             </th>
                         </tr>
@@ -72,10 +79,12 @@
 <script>
 import Authenticated from "@/Layouts/Authenticated";
 import CardHeader from "@/Shared/CardHeader";
+import Back from "@/Shared/Back";
+import Button from "@/Shared/Button";
 export default {
     name: "Invoice",
-    props: ['can', 'errors', 'data', 'feeTypes'],
-    components: {CardHeader, Authenticated},
+    props: ['can', 'errors', 'data', 'feeTypes', 'basicInfo'],
+    components: {Button, Back, CardHeader, Authenticated},
     methods: {
         search(params){
 
@@ -98,8 +107,8 @@ export default {
                     'scrollbars=yes'
                 ],
                 styles: [
+                    '/css/custom_print.css',
                     '/css/app.css',
-                    '/css/custom_print2.css',
                 ]
             }
 

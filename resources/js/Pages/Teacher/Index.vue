@@ -4,7 +4,7 @@
     </Head>
     <Authenticated>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Teacher's Management</h2>
+            <PageHeader>Teacher's Management</PageHeader>
         </template>
         <div class="container-fluid">
             <div class="card mt-5 min-vh-100">
@@ -16,7 +16,7 @@
                     <table class="table table-striped table-secondary text-center">
                         <thead>
                         <tr>
-                            <th>Sl#</th>
+                            <th>Sl.#</th>
                             <th>Photo</th>
                             <th>Name</th>
                             <th>Email</th>
@@ -81,9 +81,10 @@ import Authenticated from "@/Layouts/Authenticated";
 import CardHeader from "@/Shared/CardHeader";
 import Actions from "@/Shared/Actions";
 import Paginator from "@/Components/Paginator";
+import PageHeader from "@/Shared/PageHeader";
 export default {
     name: "Index",
-    components: {Paginator, Actions, CardHeader, Authenticated},
+    components: {PageHeader, Paginator, Actions, CardHeader, Authenticated},
     props: ['can', 'teachers'],
     data(){
         return {

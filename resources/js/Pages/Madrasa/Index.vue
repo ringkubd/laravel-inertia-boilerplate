@@ -4,44 +4,47 @@
     </Head>
     <app-layout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Madrasa Information</h2>
+            <PageHeader>Madrasa Information</PageHeader>
         </template>
         <div class="container-fluid">
             <div class="card mt-5 min-vh-100">
                 <div class="card-header">
                     <CardHeader :can="can" :create="route('madrasa.create')" :search-method="search"></CardHeader>
                 </div>
-                <table class="table table-secondary table-striped text-center">
-                    <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>District</th>
-                        <th>Address</th>
-                        <th>Telephone</th>
-                        <th>Mobile</th>
-                        <th>Email</th>
-                        <th>Fax</th>
-                        <th>Principal</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr v-for="madrasa in data" :key="madrasa.id">
-                        <td>{{madrasa.name}}</td>
-                        <td>{{madrasa.district}}</td>
-                        <td>{{madrasa.address}}</td>
-                        <td>{{madrasa.telephone}}</td>
-                        <td>{{madrasa.mobile}}</td>
-                        <td>{{madrasa.email}}</td>
-                        <td>{{madrasa.fax}}</td>
-                        <td></td>
-                        <td>
-                            <Actions :can="can" :delete-url="route('madrasa.destroy', madrasa.id)" :edit-url="route('madrasa.edit', madrasa.id)"></Actions>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-
+                <div class="card-body">
+                    <table class="table table-secondary table-striped text-center">
+                        <thead>
+                        <tr>
+                            <th>SL.#</th>
+                            <th>Name</th>
+                            <th>District</th>
+                            <th>Address</th>
+                            <th>Telephone</th>
+                            <th>Mobile</th>
+                            <th>Email</th>
+                            <th>Fax</th>
+                            <th>Principal</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="(madrasa, index) in data" :key="madrasa.id">
+                            <td>{{index + 1}}</td>
+                            <td>{{madrasa.name}}</td>
+                            <td>{{madrasa.district}}</td>
+                            <td>{{madrasa.address}}</td>
+                            <td>{{madrasa.telephone}}</td>
+                            <td>{{madrasa.mobile}}</td>
+                            <td>{{madrasa.email}}</td>
+                            <td>{{madrasa.fax}}</td>
+                            <td></td>
+                            <td>
+                                <Actions :can="can" :delete-url="route('madrasa.destroy', madrasa.id)" :edit-url="route('madrasa.edit', madrasa.id)"></Actions>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </app-layout>
@@ -51,8 +54,10 @@
 import AppLayout from "@/Layouts/Authenticated";
 import CardHeader from "@/Shared/CardHeader";
 import Actions from "@/Shared/Actions";
+import PageHeader from "@/Shared/PageHeader";
 export default {
     components: {
+        PageHeader,
         Actions,
         CardHeader,
         AppLayout

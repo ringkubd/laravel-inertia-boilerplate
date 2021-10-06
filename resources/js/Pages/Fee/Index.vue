@@ -11,33 +11,34 @@
                 <div class="card-header">
                     <CardHeader :can="can" :create="route('fee.create')" :search-method="search"></CardHeader>
                 </div>
-                <table class="table table-secondary table-striped text-center">
-                    <thead>
-                    <tr>
-                        <th>SL#</th>
-                        <th>Session</th>
-                        <th>Trade</th>
-                        <th>Semester</th>
-                        <th>Type</th>
-                        <th>Amount</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr v-for="(fee, index) in data.data" :key="fee.id">
-                        <th>{{index + 1}}</th>
-                        <td>{{fee.session}}</td>
-                        <td>{{fee.trade}}</td>
-                        <td>{{fee.semester}}</td>
-                        <td>{{fee.fee_type}}</td>
-                        <td>{{fee.amount}}</td>
-                        <td>
-                            <Actions :can="can" :delete-url="route('fee.destroy', fee.id)" :edit-url="route('fee.edit', fee.id)"></Actions>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-
+                <div class="card-body">
+                    <table class="table table-secondary table-striped text-center">
+                        <thead>
+                        <tr>
+                            <th>SL#</th>
+                            <th>Session</th>
+                            <th>Trade</th>
+                            <th>Semester</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="(fee, index) in data.data" :key="fee.id">
+                            <th>{{index + 1}}</th>
+                            <td>{{fee.session}}</td>
+                            <td>{{fee.trade}}</td>
+                            <td>{{fee.semester}}</td>
+                            <td>{{fee.fee_type}}</td>
+                            <td>{{fee.amount}}</td>
+                            <td>
+                                <Actions :can="can" :delete-url="route('fee.destroy', fee.id)" :edit-url="route('fee.edit', fee.id)"></Actions>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </app-layout>

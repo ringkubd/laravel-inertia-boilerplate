@@ -7,7 +7,7 @@
             <page-header>Academic Session</page-header>
         </template>
         <div class="container-fluid">
-            <div class="card card-default">
+            <div class="card mt-5 min-vh-100">
                 <div class="card-header">
                     <CardHeader :can="can" :create="false" :search-method="search">
                         <template #first>
@@ -43,29 +43,29 @@
                         </Modal>
                     </transition>
                 </div>
-            </div>
-            <div class="card-body">
-                <table class="table table-striped table-secondary text-center">
-                    <thead>
-                    <tr>
-                        <th scope="col">Sl#</th>
-                        <th scope="col">SESSION</th>
-                        <th scope="col">ACTIONS</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr v-for="(session, index) in data.data">
-                        <td>{{ index + 1 }}</td>
-                        <td>{{ session.session }}</td>
-                        <td>
-                            <Actions :can="can" :delete-url="route('academic_session.destroy', session.id)" :editUrl="route('academic_session.edit', session.id)"/>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="card-footer">
-                <Paginator :paginator="data"/>
+                <div class="card-body">
+                    <table class="table table-striped table-secondary text-center">
+                        <thead>
+                        <tr>
+                            <th scope="col">Sl#</th>
+                            <th scope="col">SESSION</th>
+                            <th scope="col">ACTIONS</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="(session, index) in data.data">
+                            <td>{{ index + 1 }}</td>
+                            <td>{{ session.session }}</td>
+                            <td>
+                                <Actions :can="can" :delete-url="route('academic_session.destroy', session.id)" :editUrl="route('academic_session.edit', session.id)"/>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    <Paginator :paginator="data"/>
+                </div>
             </div>
         </div>
     </app-layout>

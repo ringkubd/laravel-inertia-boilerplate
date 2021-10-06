@@ -1,7 +1,10 @@
 <template>
+    <Head>
+        <title>Private Conversation</title>
+    </Head>
     <breeze-authenticated-layout>
         <template #header>
-            <h2>Conversation</h2>
+            <PageHeader>Conversation</PageHeader>
         </template>
         <template v-slot:default="slotProps">
         <div class="flex h-screen antialiased text-gray-800">
@@ -377,10 +380,12 @@
 
 <script>
 import BreezeAuthenticatedLayout from "@/Layouts/Authenticated";
+import PageHeader from "@/Shared/PageHeader";
 export default {
     name: "chat",
     props: ['online', 'offline', 'user'],
     components: {
+        PageHeader,
         BreezeAuthenticatedLayout
     },
     data() {},

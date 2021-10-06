@@ -3,186 +3,191 @@
         <title>Result Management System</title>
     </Head>
     <Authenticated>
-        <div class="card">
-            <div class="card-header">
-                <CardHeader :create="false" :search-method="search">
-                    <template #first>
-                        <div class="form-group row">
-                            <label for="session" class="col-3">Session</label>
-                            <div class="col-8">
-                                <select name="session" id="session" class="form-control" v-model="filters.academic_session" @change.prevent="filteredSessions">
-                                    <option v-for="session in sessions" :value="session.session">{{session.session}}</option>
-                                </select>
+        <template #header>
+            <PageHeader>Result's Management</PageHeader>
+        </template>
+        <div class="container-fluid">
+            <div class="card mt-5 min-vh-100">
+                <div class="card-header">
+                    <CardHeader :create="false" :search-method="search">
+                        <template #first>
+                            <div class="form-group row">
+                                <label for="session" class="col-3">Session</label>
+                                <div class="col-8">
+                                    <select name="session" id="session" class="form-control" v-model="filters.academic_session" @change.prevent="filteredSessions">
+                                        <option v-for="session in sessions" :value="session.session">{{session.session}}</option>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                    </template>
-                </CardHeader>
-            </div>
-            <div class="card-body">
-                <div class="my-4">
-                    <form action="" class="form-inline bg-gray-400 bg-blend-color-dodge" @submit.prevent="submitForm">
-                        <div class="row pl-2 py-4">
-                            <div class="col form-group">
-                                <label for="student">Student</label>
-                                <Multiselect v-model="newResult.student_id"
-                                             :filterResults="true"
-                                             :minChars="1"
-                                             :delay="0"
-                                             :searchable="true"
-                                             mode="single"
-                                             limit="50"
-                                             :options="async function(query) {
+                        </template>
+                    </CardHeader>
+                </div>
+                <div class="card-body">
+                    <div class="my-4">
+                        <form action="" class="form-inline bg-gray-400 bg-blend-color-dodge" @submit.prevent="submitForm">
+                            <div class="row pl-2 py-4">
+                                <div class="col form-group">
+                                    <label for="student">Student</label>
+                                    <Multiselect v-model="newResult.student_id"
+                                                 :filterResults="true"
+                                                 :minChars="1"
+                                                 :delay="0"
+                                                 :searchable="true"
+                                                 mode="single"
+                                                 limit="50"
+                                                 :options="async function(query) {
                                                 return await selectChnageEvent(query)
                                               }"
-                                             id="category">
-                                </Multiselect>
-                                <InputError :message="errors.student_id"/>
+                                                 id="category">
+                                    </Multiselect>
+                                    <InputError :message="errors.student_id"/>
+                                </div>
+                                <div class="col form-group">
+                                    <label for="semester">Semester</label>
+                                    <select id="semester" v-model="newResult.semester" class="form-control">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                    </select>
+                                    <InputError :message="errors.semester"/>
+                                </div>
+                                <div class="col form-group">
+                                    <label for="gpa">GPA</label>
+                                    <input type="number" step="0.01" v-model="newResult.gpa" id="gpa" class="form-control">
+                                    <InputError :message="errors.gpa"/>
+                                </div>
+                                <div class="col">
+                                    <label for="status">Status</label>
+                                    <select id="status" class="form-control" v-model="newResult.status">
+                                        <option value="Passed">Passed</option>
+                                        <option value="Failed">Failed</option>
+                                        <option value="Dropout">Dropout</option>
+                                    </select>
+                                    <InputError :message="errors.status"/>
+                                </div>
+                                <div class="col">
+                                    <label for="failed_in_subject">Failed in Subject</label>
+                                    <input type="number" step="0.1" v-model="newResult.failed_in_subject" id="failed_in_subject" class="form-control">
+                                    <InputError :message="errors.failed_in_subject"/>
+                                </div>
+                                <div class="col">
+                                    <label for="supporting_document">Supporting Document</label>
+                                    <input type="file" id="supporting_document" ref="supporting_document" accept="image/*" class="form-control" @input="newResult.supporting_document = $event.target.files" multiple="true">
+                                    <InputError :message="errors.supporting_document"/>
+                                </div>
+                                <div class="col mt-4">
+                                    <input type="submit" class="btn btn-success" value="Add">
+                                </div>
                             </div>
-                            <div class="col form-group">
-                                <label for="semester">Semester</label>
-                                <select id="semester" v-model="newResult.semester" class="form-control">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                </select>
-                                <InputError :message="errors.semester"/>
-                            </div>
-                            <div class="col form-group">
-                                <label for="gpa">GPA</label>
-                                <input type="number" step="0.01" v-model="newResult.gpa" id="gpa" class="form-control">
-                                <InputError :message="errors.gpa"/>
-                            </div>
-                            <div class="col">
-                                <label for="status">Status</label>
-                                <select id="status" class="form-control" v-model="newResult.status">
-                                    <option value="Passed">Passed</option>
-                                    <option value="Failed">Failed</option>
-                                    <option value="Dropout">Dropout</option>
-                                </select>
-                                <InputError :message="errors.status"/>
-                            </div>
-                            <div class="col">
-                                <label for="failed_in_subject">Failed in Subject</label>
-                                <input type="number" step="0.1" v-model="newResult.failed_in_subject" id="failed_in_subject" class="form-control">
-                                <InputError :message="errors.failed_in_subject"/>
-                            </div>
-                            <div class="col">
-                                <label for="supporting_document">Supporting Document</label>
-                                <input type="file" id="supporting_document" ref="supporting_document" accept="image/*" class="form-control" @input="newResult.supporting_document = $event.target.files" multiple="true">
-                                <InputError :message="errors.supporting_document"/>
-                            </div>
-                            <div class="col mt-4">
-                                <input type="submit" class="btn btn-success" value="Add">
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <table class="table table-secondary text-center">
-                    <thead>
-                    <tr class="text-center">
-                        <th rowspan="2" style="vertical-align : middle;text-align:center;">SL#</th>
-                        <th rowspan="2" style="vertical-align : middle;text-align:center;">Name</th>
-                        <th rowspan="2" style="vertical-align : middle;text-align:center;">Institute</th>
-                        <th rowspan="2" style="vertical-align : middle;text-align:center;">Dept.</th>
-                        <th rowspan="2" style="vertical-align : middle;text-align:center;">Session</th>
-                        <th colspan="6" style="vertical-align : middle;text-align:center;">Details Result</th>
-                    </tr>
-                    <tr>
-                        <th style="vertical-align : middle;text-align:center;">Semester</th>
-                        <th style="vertical-align : middle;text-align:center;">GPA</th>
-                        <th style="vertical-align : middle;text-align:center;">Status</th>
-                        <th style="vertical-align : middle;text-align:center;">Failed(if any)</th>
-                        <th style="vertical-align : middle;text-align:center;">Attachments</th>
-                        <th style="vertical-align : middle;text-align:center;">Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr v-for="(result, index) in data.data" :key="index">
-                        <td>
-                            {{index + 1}}
-                        </td>
-                        <td>
-                            {{ result.name }}
-                        </td>
-                        <td>
-                            {{ result.polytechnic.name }}
-                        </td>
-                        <td>
-                            {{ result.polytechnic_trade_id }}
-                        </td>
-                        <td>
-                            {{ result.polytechnic_session }}
-                        </td>
-                        <td>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-item" v-for="semester in result.results">
-                                    {{ semester.semester }}
-                                </li>
-                            </ul>
-                        </td>
-                        <td>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-item" v-for="gpa in result.results">
-                                    {{ gpa.gpa }}
-                                </li>
-                            </ul>
-                        </td>
-                        <td>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-item" v-for="status in result.results">
-                                    {{ status.status }}
-                                </li>
-                            </ul>
-                        </td>
-                        <td>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-item" v-for="failed_in_subject in result.results">
-                                    {{ failed_in_subject.failed_in_subject }}
-                                </li>
-                            </ul>
-                        </td>
-                        <td>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-item" v-for="attachments in result.results">
-                                    <vue-picture-swipe :items="imageItems(attachments.attachments)">
+                        </form>
+                    </div>
+                    <table class="table table-secondary text-center">
+                        <thead>
+                        <tr class="text-center">
+                            <th rowspan="2" style="vertical-align : middle;text-align:center;">SL#</th>
+                            <th rowspan="2" style="vertical-align : middle;text-align:center;">Name</th>
+                            <th rowspan="2" style="vertical-align : middle;text-align:center;">Institute</th>
+                            <th rowspan="2" style="vertical-align : middle;text-align:center;">Dept.</th>
+                            <th rowspan="2" style="vertical-align : middle;text-align:center;">Session</th>
+                            <th colspan="6" style="vertical-align : middle;text-align:center;">Details Result</th>
+                        </tr>
+                        <tr>
+                            <th style="vertical-align : middle;text-align:center;">Semester</th>
+                            <th style="vertical-align : middle;text-align:center;">GPA</th>
+                            <th style="vertical-align : middle;text-align:center;">Status</th>
+                            <th style="vertical-align : middle;text-align:center;">Failed(if any)</th>
+                            <th style="vertical-align : middle;text-align:center;">Attachments</th>
+                            <th style="vertical-align : middle;text-align:center;">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="(result, index) in data.data" :key="index">
+                            <td>
+                                {{index + 1}}
+                            </td>
+                            <td>
+                                {{ result.name }}
+                            </td>
+                            <td>
+                                {{ result.polytechnic.name }}
+                            </td>
+                            <td>
+                                {{ result.polytechnic_trade_id }}
+                            </td>
+                            <td>
+                                {{ result.polytechnic_session }}
+                            </td>
+                            <td>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-item" v-for="semester in result.results">
+                                        {{ semester.semester }}
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-item" v-for="gpa in result.results">
+                                        {{ gpa.gpa }}
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-item" v-for="status in result.results">
+                                        {{ status.status }}
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-item" v-for="failed_in_subject in result.results">
+                                        {{ failed_in_subject.failed_in_subject }}
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-item" v-for="attachments in result.results">
+                                        <vue-picture-swipe :items="imageItems(attachments.attachments)">
 
-                                    </vue-picture-swipe>
-                                </li>
-                            </ul>
-                        </td>
-                        <td>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-item" v-for="failed_in_subject in result.results">
-                                    <inertia-link
-                                        method="DELETE"
-                                        as="button"
-                                        type="button"
-                                        :href="route('result.destroy', failed_in_subject.id)"
-                                        v-if="can.delete"
-                                    >
-                                        <!--                                        <jet-button type="submit" class="btn-sm btn-danger px-0 py-0">-->
-                                        <font-awesome-icon
-                                            icon="trash"
-                                            size="xs"
-                                            rotation="rotate"
-                                            class="text-danger"
-                                        ></font-awesome-icon>
-                                        <!--                                        </jet-button>-->
-                                    </inertia-link>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="card-footer">
-                <Paginator :paginator="data"></Paginator>
+                                        </vue-picture-swipe>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-item" v-for="failed_in_subject in result.results">
+                                        <inertia-link
+                                            method="DELETE"
+                                            as="button"
+                                            type="button"
+                                            :href="route('result.destroy', failed_in_subject.id)"
+                                            v-if="can.delete"
+                                        >
+                                            <!--                                        <jet-button type="submit" class="btn-sm btn-danger px-0 py-0">-->
+                                            <font-awesome-icon
+                                                icon="trash"
+                                                size="xs"
+                                                rotation="rotate"
+                                                class="text-danger"
+                                            ></font-awesome-icon>
+                                            <!--                                        </jet-button>-->
+                                        </inertia-link>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    <Paginator :paginator="data"></Paginator>
+                </div>
             </div>
         </div>
     </Authenticated>
