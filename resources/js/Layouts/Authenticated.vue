@@ -466,7 +466,7 @@
 
                         <div class="hidden sm:flex sm:items-center sm:ml-6">
                             <div align="left" width="10" class="border-1 border-green-400 border-solid rounded">
-                                <span class="inline-flex border-1px rounded-md"> {{onlineFriends.length}} </span>
+                                <span class="inline-flex border-1px rounded-md"> {{ this.$store.state.onlineFriends.length }} </span>
                             </div>
                             <!-- Settings Dropdown -->
                             <div class="ml-3 relative">
@@ -712,7 +712,6 @@ export default {
             if(this.onlineFriends.indexOf(user) < 0 && app.user.id != user.id){
                 this.onlineFriends.push(user)
             }
-            //console.log(this.onlineFriends)
         },
         removeOfflineFriend(offlineUser){
             this.onlineFriends = this.onlineFriends.filter(user => {
@@ -737,8 +736,11 @@ export default {
     created() {
         let app = this;
         app.channel
-            .subscribed(user => {
-                //console.log(users)
+            .here(users => {
+                let withoutMyself = users.filter(user => {
+                    return app.$page.props.user.id !== user.id
+                })
+                this.$store.dispatch('onlineFriendsAsync', withoutMyself)
             })
             .joining(user => {
                 axios.put(route('online', user.id))
@@ -750,12 +752,15 @@ export default {
                 const user = this.convertProxyObjectToPojo(e.user)
                 app.addOnlineFriend(user);
                 app.removeOnlineFriend(user);
-                console.log(user)
+                if (user.id != this.$page.props.user.id){
+                    this.$store.dispatch('addOnlineFriends', user)
+                }
             })
             .listen('OfflineEvent', e => {
                 const user = this.convertProxyObjectToPojo(e.user)
                 app.removeOfflineFriend(user);
                 app.addOfflineFriend(user)
+                this.$store.dispatch('removeOfflineFriend', user)
             });
         window.setInterval(function () {
             app.refreshClient();
@@ -777,6 +782,7 @@ export default {
         this.offlineFriends = app.offline.filter(user => {
             return user.id != app.user.id;
         })
+        console.log(this.$store.state)
     },
     beforeDestroy () {
         window.Echo.leave("user_online_status");

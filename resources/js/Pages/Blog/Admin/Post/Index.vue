@@ -109,6 +109,9 @@ export default {
         modifiedFromNow(dateTime){
            return moment(dateTime, 'YYYY-MM-DDTh:mm:ss').fromNow()
         }
+    },
+    mounted() {
+        console.log(this.$store.state)
     }
 }
 </script>
