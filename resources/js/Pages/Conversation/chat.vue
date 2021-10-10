@@ -4,7 +4,14 @@
     </Head>
     <breeze-authenticated-layout>
         <template #header>
-            <PageHeader>Conversation</PageHeader>
+            <div class="row">
+                <div class="col-6">
+                    <PageHeader>Conversation</PageHeader>
+                </div>
+                <div class="col-6">
+                    <PageHeader>{{secondPerson}}</PageHeader>
+                </div>
+            </div>
         </template>
         <template v-slot:default="slotProps">
             <div class="flex h-screen antialiased text-gray-800">
@@ -110,12 +117,12 @@
                             <div class="flex flex-col h-full overflow-x-auto mb-4">
                                 <div class="flex flex-col h-full">
                                     <div class="grid grid-cols-12 gap-y-2" v-for="message in $store.state.messages">
-                                        <div class="col-start-1 col-end-8 p-3 rounded-lg"  v-if="message.sender.id !== $page.props.user.id">
+                                        <div class="col-start-1 col-end-8 p-3 rounded-lg"  v-if="message.sender === $page.props.user.id">
                                             <div class="flex flex-row items-center">
                                                 <div
                                                     class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0"
                                                 >
-                                                    {{message.sender.name}}
+                                                    {{$page.props.user.name}}
                                                 </div>
                                                 <div
                                                     class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl"
@@ -124,12 +131,12 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-start-6 col-end-13 p-3 rounded-lg" v-if="message.sender.id === $page.props.user.id">
+                                        <div class="col-start-6 col-end-13 p-3 rounded-lg" v-else>
                                             <div class="flex items-center justify-start flex-row-reverse">
                                                 <div
                                                     class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0"
                                                 >
-                                                    {{message.sender.name}}
+                                                    {{secondPerson}}
                                                 </div>
                                                 <div
                                                     class="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl"
@@ -171,6 +178,7 @@
                                             class="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10"
                                             v-model="sendForm.body"
                                         />
+                                        <input-error :message="errors.body"></input-error>
                                         <button
                                             class="absolute flex items-center justify-center h-full w-12 right-0 top-0 text-gray-400 hover:text-gray-600"
                                         >
@@ -197,6 +205,7 @@
                                         type="submit"
                                         @click="sendMessage"
                                         @onsubmit="sendMessage"
+                                        @click.enter.exact="sendMessage"
                                     >
                                         <span>Send</span>
                                         <span class="ml-2">
@@ -229,10 +238,12 @@
 <script>
 import BreezeAuthenticatedLayout from "@/Layouts/Authenticated";
 import PageHeader from "@/Shared/PageHeader";
+import InputError from "@/Components/InputError";
 export default {
     name: "chat",
-    props: ['online', 'offline', 'user'],
+    props: ['online', 'offline', 'user', 'errors'],
     components: {
+        InputError,
         PageHeader,
         BreezeAuthenticatedLayout
     },
@@ -244,7 +255,8 @@ export default {
                 conversation_id : "",
                 sender: this.user.id,
                 body: ""
-            }
+            },
+            secondPerson: localStorage.getItem('second_person')
         }
     },
     mounted(){
@@ -284,6 +296,11 @@ export default {
             this.$store.dispatch('setActiveChatTarget', user)
             axios.get(route('get_active_conversation', user))
                 .then(response => {
+                    let second = response.data.conversation_users.filter((user) => {
+                        return user.id !== this.$page.props.user.id
+                    })
+                    localStorage.setItem('second_person', second[0].name)
+                    this.secondPerson = second[0].name
                     this.$store.dispatch('messagesInit', response.data.messages)
                     this.$store.dispatch('setActiveConversation', response.data.id)
                     localStorage.setItem('active_conversation', response.data.id)
@@ -306,17 +323,17 @@ export default {
         },
         receiveMessage(){
             let init = this.channel
-            init.listen('MessageEvent', (e) => {
-                this.$store.dispatch('sendMessage', e)
-            })
+            // init.listen('MessageEvent', (e) => {
+            //     console.log(e)
+            //     // this.$store.dispatch('sendMessage', e)
+            // })
         }
 
     },
     created() {
         let app = this.channel
-        app.listen('MessageEvent')
         app.listen('MessageEvent', (e) => {
-            this.$store.dispatch('sendMessage', e)
+            this.$store.dispatch('sendMessage', e.message)
         })
     },
     computed: {
@@ -326,6 +343,11 @@ export default {
         channel () {
             return window.Echo.private(`messages.${localStorage.getItem('active_conversation')}`);
         },
+        secondPerson(){
+            this.secondPerson = localStorage.getItem('second_person')
+            console.log(this.secondPerson)
+            return this.secondPerson;
+        }
 
     }
 

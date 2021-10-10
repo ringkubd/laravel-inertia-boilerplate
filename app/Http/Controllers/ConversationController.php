@@ -48,9 +48,8 @@ class ConversationController extends Controller
         $conversation = Conversation::find($request->conversation_id);
         $messages = new Message($request->only('sender', 'body'));
         $abc = $conversation->messages()->save($messages);
+        //$sender = User::find($abc->sender);
         broadcast(new MessageEvent($conversation, $messages));
-        $sender = User::find($abc->sender);
-        $abc->sender = $sender;
         return response()->json($abc);
     }
 
