@@ -15,4 +15,8 @@ class Message extends Model
         return $this->belongsTo(Conversation::class);
     }
 
+    public function sender(){
+        return $this->hasOne(User::class, 'id', 'sender');
+    }
+
 }

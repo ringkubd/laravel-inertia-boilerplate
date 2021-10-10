@@ -110,6 +110,7 @@ Route::put('offline/{user}', UserOfflineController::class)->name('offline');
 // conversation
 
 Route::resource('conversation', ConversationController::class);
+Route::get('get_active_conversation/{target}', [ConversationController::class, 'get_active_conversation'])->name('get_active_conversation');
 
 
 // Blog

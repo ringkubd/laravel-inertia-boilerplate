@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\MessageEvent;
+use App\Models\Conversation;
+use App\Models\Message;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -35,7 +40,18 @@ class ConversationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'conversation_id' => 'required',
+            'sender' => 'required',
+            'body' => 'required',
+        ]);
+        $conversation = Conversation::find($request->conversation_id);
+        $messages = new Message($request->only('sender', 'body'));
+        $abc = $conversation->messages()->save($messages);
+        broadcast(new MessageEvent($conversation, $messages));
+        $sender = User::find($abc->sender);
+        $abc->sender = $sender;
+        return response()->json($abc);
     }
 
     /**
@@ -81,5 +97,14 @@ class ConversationController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * @param $targetUser
+     * @return JsonResponse
+     */
+    public function get_active_conversation($targetUser): JsonResponse
+    {
+        return response()->json(conversation($targetUser));
     }
 }

@@ -762,9 +762,6 @@ export default {
                 app.addOfflineFriend(user)
                 this.$store.dispatch('removeOfflineFriend', user)
             });
-        window.setInterval(function () {
-            app.refreshClient();
-        }, 60000);
     },
     computed:{
         channel () {
@@ -782,7 +779,6 @@ export default {
         this.offlineFriends = app.offline.filter(user => {
             return user.id != app.user.id;
         })
-        console.log(this.$store.state)
     },
     beforeDestroy () {
         window.Echo.leave("user_online_status");
