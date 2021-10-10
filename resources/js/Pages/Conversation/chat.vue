@@ -62,7 +62,7 @@
                             </div>
                             <div class="flex flex-col space-y-1 mt-4 -mx-2 h-48 overflow-y-auto" v-if="slotProps.onlineFriends.length > 0">
                                 <button
-                                    :class="off.id === $store.state.activeChatTarget ? activeUserClass : inActiveClass"   v-for="onl in online"
+                                    :class="onl.id === $store.state.activeChatTarget ? activeUserClass : inActiveClass"   v-for="onl in online"
                                     @click="activeUserMessage(onl.id)"
                                 >
                                     <div
@@ -87,7 +87,7 @@
                             </div>
                             <div class="flex flex-col space-y-1 mt-4 -mx-2" v-if="slotProps.offlineFriends.length > 0">
                                 <button
-                                    v-for="off in offline" :class="off.id === $store.state.activeChatTarget ? activeUserClass : inActiveClass"
+                                    :class="off.id === $store.state.activeChatTarget ? activeUserClass : inActiveClass"  v-for="off in $page.props.offline"
                                     @click="activeUserMessage(off.id)"
                                 >
                                     <div

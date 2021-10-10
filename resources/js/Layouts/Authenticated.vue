@@ -752,6 +752,8 @@ export default {
                 const user = this.convertProxyObjectToPojo(e.user)
                 app.addOnlineFriend(user);
                 app.removeOnlineFriend(user);
+                console.log(user, 123)
+                console.log(this.$page.props, 123)
                 if (user.id != this.$page.props.user.id){
                     this.$store.dispatch('addOnlineFriends', user)
                 }
@@ -760,6 +762,8 @@ export default {
                 const user = this.convertProxyObjectToPojo(e.user)
                 app.removeOfflineFriend(user);
                 app.addOfflineFriend(user)
+                console.log(user, 321)
+                console.log(this.offline, 321)
                 this.$store.dispatch('removeOfflineFriend', user)
             });
     },
