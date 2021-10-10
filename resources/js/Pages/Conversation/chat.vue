@@ -148,9 +148,13 @@
                                     </div>
                                 </div>
                             </div>
+                            <span v-show="typing" class="help-block" style="font-style: italic;">
+                                    @{{ typingUser }} is typing... {{typingText}} .....
+                                </span>
                             <div
                                 class="flex flex-row items-center h-16 rounded-xl bg-white w-full px-4"
                             >
+
                                 <div>
                                     <button
                                         class="flex items-center justify-center text-gray-400 hover:text-gray-600"
@@ -177,6 +181,7 @@
                                             type="text"
                                             class="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10"
                                             v-model="sendForm.body"
+                                            @keydown="isTyping"
                                         />
                                         <input-error :message="errors.body"></input-error>
                                         <button
@@ -254,7 +259,10 @@ export default {
                 sender: this.user.id,
                 body: ""
             },
-            secondPerson: localStorage.getItem('second_person')
+            secondPerson: localStorage.getItem('second_person'),
+            typing: false,
+            typingUser: "",
+            typingText: ""
         }
     },
     mounted(){
@@ -303,6 +311,10 @@ export default {
                     this.$store.dispatch('setActiveConversation', response.data.id)
                     localStorage.setItem('active_conversation', response.data.id)
                     this.sendForm.conversation_id = response.data.id
+
+                    let app = this.channel
+                    app.leave
+                    app.channel
                 })
                 .catch(error => {
                     console.log(error)
@@ -325,13 +337,36 @@ export default {
             //     console.log(e)
             //     // this.$store.dispatch('sendMessage', e)
             // })
+        },
+        isTyping(){
+            let channel = this.channel;
+            let _this = this;
+            setTimeout(function(){
+                channel.whisper('typing', {
+                    user: _this.user.name,
+                    typing: true,
+                    typingText: _this.sendForm.body
+                })
+            }, 300)
         }
+
 
     },
     created() {
-        let app = this.channel
+        let app = this.channel;
+        let _this = this;
         app.listen('MessageEvent', (e) => {
             this.$store.dispatch('sendMessage', e.message)
+        })
+        .listenForWhisper('typing', (e) => {
+            this.typingUser = e.user;
+            this.typing = e.typing;
+            this.typingText = e.typingText;
+
+            // remove is typing indicator after 0.9s
+            setTimeout(function() {
+                _this.typing = false
+            }, 6000);
         })
     },
     computed: {
@@ -343,10 +378,8 @@ export default {
         },
         secondPerson(){
             this.secondPerson = localStorage.getItem('second_person')
-            console.log(this.secondPerson)
             return this.secondPerson;
         }
-
     }
 
 }
