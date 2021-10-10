@@ -204,8 +204,6 @@
                                         class="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0"
                                         type="submit"
                                         @click="sendMessage"
-                                        @onsubmit="sendMessage"
-                                        @click.enter.exact="sendMessage"
                                     >
                                         <span>Send</span>
                                         <span class="ml-2">
