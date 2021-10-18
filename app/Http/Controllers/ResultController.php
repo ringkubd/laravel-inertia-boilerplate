@@ -20,6 +20,7 @@ class ResultController extends Controller
     public function index(Request $request)
     {
         $result = Student::query()
+            ->polytechnic()
             ->with('results.details', 'results.attachments', 'polytechnic')
             ->when($request->academic_session, function ($q, $v) {
                 $q->where('polytechnic_session', $v);
@@ -30,7 +31,6 @@ class ResultController extends Controller
                     ->orWhere('name', 'like', "%$v%");
             })
             ->paginate(10);
-
         $sessions = AcademicSession::query()
             ->get();
 

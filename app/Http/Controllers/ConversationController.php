@@ -61,7 +61,10 @@ class ConversationController extends Controller
      */
     public function show($id)
     {
-        //
+        $conversation = \conversation($id);
+        return Inertia::render('Conversation/chat', [
+            'conversation' => $conversation
+        ]);
     }
 
     /**

@@ -1,6 +1,6 @@
 <template>
-    <div class="pt-0 grid md:grid-cols-4">
-        <div class="flex-col" v-if="create">
+    <div class="pt-0 grid md:grid-cols-4 flex">
+        <div class="flex-1" v-if="create">
             <inertia-link type="button" as="button" :href="create" v-if="can.create && create"
                 ><jet-button type="button">
                     <font-awesome-icon
@@ -12,16 +12,16 @@
                 </jet-button>
             </inertia-link>
         </div>
-        <div class="flex-col">
+        <div class="flex-1">
             <slot name="first"></slot>
         </div>
-        <div class="flex-col">
+        <div class="flex-1">
             <slot name="second"></slot>
         </div>
-        <div class="flex-col">
+        <div class="flex-1">
             <slot name="third"></slot>
         </div>
-        <div class="flex col-start-4 justify-end" v-if="searchMethod">
+        <div class="flex-1 col-start-5 justify-end" v-if="searchMethod">
             <label for="search">Search</label>
             <input
                 type="text"

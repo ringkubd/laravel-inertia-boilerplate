@@ -10,7 +10,23 @@ class Student extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeMadrasa($query){
+        return $query->whereNull('polytechnic')->where('madrasa_completed', 0)->where('status', 1);
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopePolytechnic($query){
+        return $query->whereNotNull('polytechnic')->where('madrasa_completed', 1)->where('status', 1);
+    }
 
     public function users(){
         return $this->belongsTo(User::class);
@@ -34,5 +50,9 @@ class Student extends Model
 
     public function fees(){
         return $this->hasMany(Fee::class, 'session','polytechnic_session');
+    }
+
+    public function classroom(){
+        return $this->belongsToMany(ClassRoom::class,'class_room_students');
     }
 }

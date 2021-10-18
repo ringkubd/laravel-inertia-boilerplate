@@ -9,7 +9,9 @@
                     <PageHeader>Conversation</PageHeader>
                 </div>
                 <div class="col-6">
-                    <PageHeader>{{secondPerson}}</PageHeader>
+                    <PageHeader>
+                        {{secondPerson}}
+                    </PageHeader>
                 </div>
             </div>
         </template>
@@ -141,7 +143,12 @@
                                                 <div
                                                     class="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl"
                                                 >
-                                                    <div>{{message.body}}</div>
+                                                    <div v-contextmenu:contextmenu>{{message.body}}</div>
+                                                    <v-contextmenu ref="contextmenu">
+                                                        <v-contextmenu-item>Menu Item 1</v-contextmenu-item>
+                                                        <v-contextmenu-item>Menu Item 2</v-contextmenu-item>
+                                                        <v-contextmenu-item>Menu Item 3</v-contextmenu-item>
+                                                    </v-contextmenu>
                                                 </div>
                                             </div>
                                         </div>
@@ -182,6 +189,7 @@
                                             class="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10"
                                             v-model="sendForm.body"
                                             @keydown="isTyping"
+                                            id="sendMessage"
                                         />
                                         <input-error :message="errors.body"></input-error>
                                         <button
@@ -242,13 +250,20 @@
 import BreezeAuthenticatedLayout from "@/Layouts/Authenticated";
 import PageHeader from "@/Shared/PageHeader";
 import InputError from "@/Components/InputError";
+import "v-contextmenu/dist/themes/default.css";
+import { directive, Contextmenu, ContextmenuItem  } from "v-contextmenu"
 export default {
     name: "chat",
-    props: ['online', 'offline', 'user', 'errors'],
+    props: ['online', 'offline', 'user', 'errors', 'conversation'],
+    directives: {
+        contextmenu: directive,
+    },
     components: {
         InputError,
         PageHeader,
-        BreezeAuthenticatedLayout
+        BreezeAuthenticatedLayout,
+        [Contextmenu.name]: Contextmenu,
+        [ContextmenuItem.name]: ContextmenuItem,
     },
     data() {
         return {
@@ -262,10 +277,17 @@ export default {
             secondPerson: localStorage.getItem('second_person'),
             typing: false,
             typingUser: "",
-            typingText: ""
+            typingText: "",
+            otherTyping: false,
+            otherTypingUser: "",
+            otherTypingText: ""
         }
     },
     mounted(){
+        if(window.location.pathname === "/conversation"){
+            let firstUser = this.online.length > 0 ? this.online[0].id : this.offline[0].id;
+            this.$inertia.replace(route('conversation.show', firstUser))
+        }
         if (this.$store.state.activeChatTarget === null){
             let activeUserFromLocal = localStorage.getItem('activeChatTarget')
             if (activeUserFromLocal === undefined || activeUserFromLocal === null){
@@ -284,6 +306,12 @@ export default {
         }else{
             this.activeUserMessage(this.$store.state.activeChatTarget)
         }
+        let __this = this;
+        document.querySelector('#sendMessage').addEventListener('keypress', function(e){
+            if(e.key === 'Enter'){
+                __this.sendMessage()
+            }
+        });
     },
     methods: {
         firstLetter(str){
@@ -298,6 +326,9 @@ export default {
             const online = this.online;
         },
         activeUserMessage(user){
+            window.Echo.leave('messages.'+this.conversation.id)
+            this.$inertia.replace(route('conversation.show', user))
+
             localStorage.setItem('activeChatTarget', user)
             this.$store.dispatch('setActiveChatTarget', user)
             axios.get(route('get_active_conversation', user))
@@ -310,11 +341,7 @@ export default {
                     this.$store.dispatch('messagesInit', response.data.messages)
                     this.$store.dispatch('setActiveConversation', response.data.id)
                     localStorage.setItem('active_conversation', response.data.id)
-                    this.sendForm.conversation_id = response.data.id
-
-                    let app = this.channel
-                    app.leave
-                    app.channel
+                    this.sendForm.conversation_id = response.data.id;
                 })
                 .catch(error => {
                     console.log(error)
@@ -328,15 +355,8 @@ export default {
                     this.sendForm.body = ""
                 })
         },
-        channel() {
-            return window.Echo.private("messages."+this.sendForm.conversation_id);
-        },
         receiveMessage(){
-            let init = this.channel
-            // init.listen('MessageEvent', (e) => {
-            //     console.log(e)
-            //     // this.$store.dispatch('sendMessage', e)
-            // })
+
         },
         isTyping(){
             let channel = this.channel;
@@ -345,36 +365,54 @@ export default {
                 channel.whisper('typing', {
                     user: _this.user.name,
                     typing: true,
-                    typingText: _this.sendForm.body
+                    typingText: _this.sendForm.body,
+                    conversation_id: _this.conversation.id
                 })
             }, 300)
         }
-
-
     },
     created() {
         let app = this.channel;
         let _this = this;
-        app.listen('MessageEvent', (e) => {
-            this.$store.dispatch('sendMessage', e.message)
-        })
-        .listenForWhisper('typing', (e) => {
-            this.typingUser = e.user;
-            this.typing = e.typing;
-            this.typingText = e.typingText;
+        app
+            .listen('MessageEvent', (e) => {
+                if (this.conversation.id === e.conversation_id){
+                    this.$store.dispatch('sendMessage', e.message)
+                }
+            })
+            .listenForWhisper('typing', (e) => {
+                if (e.conversation_id == _this.conversation.id){
+                    this.typingUser = e.user;
+                    this.typing = e.typing;
+                    this.typingText = e.typingText;
 
-            // remove is typing indicator after 0.9s
-            setTimeout(function() {
-                _this.typing = false
-            }, 6000);
-        })
+                    setTimeout(function() {
+                        _this.typing = false
+                    }, 6000);
+                }else{
+                    this.otherTypingUser = e.user;
+                    this.otherTyping = e.typing;
+                    this.otherTypingText = e.typingText;
+
+                    setTimeout(function() {
+                        _this.otherTyping = false
+                    }, 6000);
+                    console.log(e)
+                }
+            })
     },
     computed: {
         conversionId(){
             return this.sendForm.conversation_id
         },
         channel () {
-            return window.Echo.private(`messages.${localStorage.getItem('active_conversation')}`);
+            if(this.conversation !== undefined){
+                return window.Echo.private(`messages.${this.conversation.id}`);
+            }
+            if(window.location.pathname === "/conversation"){
+                let firstUser = this.online.length > 0 ? this.online[0].id : this.offline[0].id;
+                this.$inertia.replace(route('conversation.show', firstUser))
+            }
         },
         secondPerson(){
             this.secondPerson = localStorage.getItem('second_person')

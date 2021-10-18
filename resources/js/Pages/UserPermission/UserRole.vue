@@ -4,7 +4,7 @@
             <h2>User Role Management</h2>
         </template>
         <div class="container-fluid">
-            <div class="card w-100 bg-secondary" style="--bs-bg-opacity:.2">
+            <div class="card  mt-5 min-vh-100 bg-secondary" style="--bs-bg-opacity:.2">
                 <div class="card-header">
                     <back :backUrl="route('users.index')"></back>
                 </div>

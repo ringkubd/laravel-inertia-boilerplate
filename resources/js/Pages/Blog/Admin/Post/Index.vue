@@ -1,11 +1,11 @@
 <template>
     <Authenticated>
         <template #header>
-            <h2>Post Management</h2>
+            <PageHeader>Post Management</PageHeader>
         </template>
         <template #default>
             <div class="container-fluid">
-                <div class="card">
+                <div class="card mt-5 min-vh-100">
                     <div class="card-header">
                         <CardHeader :can="can" :create="route('post.create')" :index="route('post.index')" :search-method="search"></CardHeader>
                     </div>
@@ -77,10 +77,11 @@ import CardHeader from "@/Shared/CardHeader";
 import Actions from "@/Shared/Actions";
 import Paginator from "@/Components/Paginator";
 import moment from "moment";
+import PageHeader from "@/Shared/PageHeader";
 export default {
     name: "Index",
     props: ['user', 'posts', 'can'],
-    components: {Paginator, Actions, CardHeader, Authenticated},
+    components: {PageHeader, Paginator, Actions, CardHeader, Authenticated},
     data(){
         return {
 

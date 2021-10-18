@@ -21,7 +21,8 @@ createInertiaApp({
         })
         .mixin({
             methods: {
-                route
+                route,
+                GET
             },
         })
         .use(plugin)

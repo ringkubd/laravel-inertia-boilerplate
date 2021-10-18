@@ -166,7 +166,7 @@
                                             method="DELETE"
                                             as="button"
                                             type="button"
-                                            :href="route('result.destroy', failed_in_subject.id)"
+                                            :href="route('polytechnic.result.destroy', failed_in_subject.id)"
                                             v-if="can.delete"
                                         >
                                             <!--                                        <jet-button type="submit" class="btn-sm btn-danger px-0 py-0">-->
@@ -247,10 +247,10 @@ export default {
     },
     methods: {
         filteredSessions(){
-            this.$inertia.replace(route('result.index', this.filters))
+            this.$inertia.replace(route('polytechnic.result.index', this.filters))
         },
         search(params){
-            this.$inertia.replace(route('result.index', {'search': params}))
+            this.$inertia.replace(route('polytechnic.result.index', {'search': params}))
         },
         addResult(){
 
@@ -266,15 +266,15 @@ export default {
             return data;
         },
         submitForm(){
-            this.$inertia.post(route('result.store'), this.newResult)
+            this.$inertia.post(route('polytechnic.result.store'), this.newResult)
         },
         imageItems(images){
             let items = []
             if (images !== null && images.length > 0){
                 images.forEach(function (value, index){
                     var item = {
-                        src: value.attachment,
-                        thumbnail: value.attachment,
+                        src: '/'+value.attachment,
+                        thumbnail: '/'+value.attachment,
                         w: 1200,
                         h: 900,
                         title: 'Will be used for caption'

@@ -1,11 +1,11 @@
 <template>
     <authenticated>
         <template #header>
-            <h2>Add a Category</h2>
+            <PageHeader>Add a Category</PageHeader>
         </template>
         <template #default>
             <div class="container-fluid">
-                <div class="card">
+                <div class="card mt-5 min-vh-100">
                     <div class="card-header">
                         <back :back-url="route('category.index')"></back>
                     </div>
@@ -22,10 +22,11 @@
 import Authenticated from "@/Layouts/Authenticated";
 import Back from "@/Shared/Back";
 import Form from "./Form"
+import PageHeader from "@/Shared/PageHeader";
 export default {
     name: "Edit",
     props: ['user', 'errors', 'category', 'parent'],
-    components: {Back, Authenticated, Form},
+    components: {PageHeader, Back, Authenticated, Form},
     methods: {
         updateForm(formData){
             this.$inertia.post(route('category.store'), formData)

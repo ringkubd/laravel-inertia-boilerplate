@@ -17,7 +17,6 @@ class AcademicSessionController extends Controller
     public function index(Request $request)
     {
         $data = AcademicSession::query()
-            ->select('id', 'session')
             ->when($request->search, function ($q, $v) {
                 $q->where('session', 'like', "%$v%");
             })
@@ -52,10 +51,13 @@ class AcademicSessionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'academic_session' => ['required', new AcademicSessionValidation, 'unique:academic_sessions,session']
+            'academic_session' => ['required', new AcademicSessionValidation, 'unique:academic_sessions,session'],
+            'start_date' => ['required']
         ]);
         $data = AcademicSession::create([
             'session' => $request->input('academic_session'),
+            'start_date' => $request->input('start_date'),
+            'end_date' => $request->input('end_date'),
         ]);
         return redirect()->route('academic_session.index');
     }

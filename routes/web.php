@@ -61,6 +61,15 @@ Route::get('user_permission_json/{user}', [\App\Http\Controllers\UserPermissionC
 // Students Management
 Route::resource('student', \App\Http\Controllers\StudentsManagementController::class);
 
+Route::prefix('madrasa')->group(function (){
+    Route::resource('student', \App\Http\Controllers\Madrasa\StudentsController::class, ['as' => 'madrasa']);
+});
+Route::prefix('polytechnic')->group(function (){
+    Route::resource('student', \App\Http\Controllers\Ploytechnic\StudentsController::class, ['as' => 'polytechnic']);
+    Route::resource('result', \App\Http\Controllers\ResultController::class, ['as' => 'polytechnic']);
+});
+
+
 // Madrasa Management
 Route::resource('madrasa', \App\Http\Controllers\MadrasaController::class);
 
@@ -80,7 +89,6 @@ Route::resource('document', \App\Http\Controllers\DocumentEditorController::clas
 Route::resource('academic_session', \App\Http\Controllers\AcademicSessionController::class);
 
 // Trade
-Route::resource('result', \App\Http\Controllers\ResultController::class);
 Route::get('student_list', [\App\Http\Controllers\ResultController::class, "studentList"])->name('student_list');
 
 // Fee Management
@@ -139,6 +147,10 @@ Route::any('/ckfinder/examples/{example?}', 'CKSource\CKFinderBridge\Controller\
 Route::get('openssl', [\App\Http\Controllers\OpensslManagementController::class, 'generate']);
 Route::get('openssl/encrypt', [\App\Http\Controllers\OpensslManagementController::class, 'publicEncrypt']);
 Route::get('openssl/decrypt', [\App\Http\Controllers\OpensslManagementController::class, 'privateDecrypt']);
+
+
+// Inbox
+Route::get('inbox', [\App\Http\Controllers\InboxController::class, 'inbox'])->name('inbox');
 
 // page
 Route::get('{slug}', [\App\Http\Controllers\Blog\PageController::class, 'show']);

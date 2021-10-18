@@ -1,7 +1,7 @@
 <template>
     <authenticated>
         <template #header>
-            <h2>Add a Page</h2>
+            <page-header>Add a Page</page-header>
         </template>
         <template #default>
             <div class="container-fluid">
@@ -22,10 +22,11 @@
 import Authenticated from "@/Layouts/Authenticated";
 import Back from "@/Shared/Back";
 import Form from "./Form"
+import PageHeader from "@/Shared/PageHeader";
 export default {
     name: "Edit",
     props: ['user', 'errors', 'post', 'categories', 'tags'],
-    components: {Back, Authenticated, Form},
+    components: {PageHeader, Back, Authenticated, Form},
     methods: {
         updateForm(formData){
             this.$inertia.put(route('page.update', this.post.id), formData)

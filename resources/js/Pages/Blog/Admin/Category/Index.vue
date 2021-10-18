@@ -1,11 +1,11 @@
 <template>
     <Authenticated>
         <template #header>
-            <h2>Category Management</h2>
+            <PageHeader>Category Management</PageHeader>
         </template>
         <template #default>
             <div class="container-fluid">
-                <div class="card">
+                <div class="card mt-5 min-vh-100">
                     <div class="card-header">
                         <CardHeader  :can="can" :create="route('category.create')" :index="route('category.index')" :search-method="search"></CardHeader>
                     </div>
@@ -56,11 +56,12 @@ import Authenticated from "@/Layouts/Authenticated";
 import Actions from "@/Shared/Actions";
 import Paginator from "@/Components/Paginator";
 import CardHeader from "@/Shared/CardHeader";
+import PageHeader from "@/Shared/PageHeader";
 
 export default {
     name: "Index",
     props: ['categories', 'can'],
-    components: {CardHeader, Paginator, Actions, Authenticated},
+    components: {PageHeader, CardHeader, Paginator, Actions, Authenticated},
     data(){
         return {
 

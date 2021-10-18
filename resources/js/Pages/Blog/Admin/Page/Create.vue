@@ -1,11 +1,11 @@
 <template>
     <authenticated>
         <template #header>
-            <h2>Add a Page</h2>
+            <PageHeader>Add a Page</PageHeader>
         </template>
         <template #default>
             <div class="container-fluid">
-                <div class="card">
+                <div class="card mt-5 min-vh-100">
                     <div class="card-header">
                         <back :back-url="route('page.index')"></back>
                     </div>
@@ -22,10 +22,11 @@
 import Authenticated from "@/Layouts/Authenticated";
 import Back from "@/Shared/Back";
 import Form from "./Form"
+import PageHeader from "@/Shared/PageHeader";
 export default {
     name: "Create",
     props: ['user', 'errors', 'post', 'categories', 'tags'],
-    components: {Back, Authenticated, Form},
+    components: {PageHeader, Back, Authenticated, Form},
     methods: {
         storeForm(formData){
             this.$inertia.post(route('page.store'), formData)

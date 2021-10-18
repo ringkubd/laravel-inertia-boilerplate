@@ -2,7 +2,7 @@
     <Head title="Dashboard"></Head>
     <div>
         <div class="min-h-screen bg-gray-100">
-            <nav class="bg-white border-b border-gray-100">
+            <nav class="bg-green-50 border-b border-gray-100">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
@@ -53,6 +53,10 @@
                                                     bg-white
                                                     hover:text-gray-700
                                                     focus:outline-none
+                                                    focus:ring-2
+                                                    focus:ring-offset-2
+                                                    focus:ring-offset-gray-100
+                                                    focus:ring-indigo-500
                                                     transition
                                                     ease-in-out
                                                     duration-150
@@ -125,6 +129,10 @@
                                                     bg-white
                                                     hover:text-gray-700
                                                     focus:outline-none
+                                                    focus:ring-2
+                                                    focus:ring-offset-2
+                                                    focus:ring-offset-gray-100
+                                                    focus:ring-indigo-500
                                                     transition
                                                     ease-in-out
                                                     duration-150
@@ -191,6 +199,10 @@
                                                     bg-white
                                                     hover:text-gray-700
                                                     focus:outline-none
+                                                    focus:ring-2
+                                                    focus:ring-offset-2
+                                                    focus:ring-offset-gray-100
+                                                    focus:ring-indigo-500
                                                     transition
                                                     ease-in-out
                                                     duration-150
@@ -227,6 +239,12 @@
                                             >
                                                 Teacher
                                             </breeze-dropdown-link>
+                                            <breeze-dropdown-link
+                                                :href="route('madrasa.student.index')"
+                                                :active="route().current('madrasa.student.*')"
+                                            >
+                                                Student's
+                                            </breeze-dropdown-link>
                                         </template>
                                     </breeze-dropdown>
                                 </div>
@@ -250,6 +268,10 @@
                                                     bg-white
                                                     hover:text-gray-700
                                                     focus:outline-none
+                                                    focus:ring-2
+                                                    focus:ring-offset-2
+                                                    focus:ring-offset-gray-100
+                                                    focus:ring-indigo-500
                                                     transition
                                                     ease-in-out
                                                     duration-150
@@ -310,6 +332,10 @@
                                                     bg-white
                                                     hover:text-gray-700
                                                     focus:outline-none
+                                                    focus:ring-2
+                                                    focus:ring-offset-2
+                                                    focus:ring-offset-gray-100
+                                                    focus:ring-indigo-500
                                                     transition
                                                     ease-in-out
                                                     duration-150
@@ -341,10 +367,16 @@
                                                 Polytechnic
                                             </breeze-dropdown-link>
                                             <breeze-dropdown-link
-                                                :href="route('result.index')"
-                                                :active="route().current('result.*')"
+                                                :href="route('polytechnic.result.index')"
+                                                :active="route().current('polytechnic.result.*')"
                                             >
                                                 Results
+                                            </breeze-dropdown-link>
+                                            <breeze-dropdown-link
+                                                :href="route('polytechnic.student.index')"
+                                                :active="route().current('polytechnic.madrasa.student.*')"
+                                            >
+                                                Student's
                                             </breeze-dropdown-link>
                                         </template>
                                     </breeze-dropdown>
@@ -369,6 +401,10 @@
                                                     bg-white
                                                     hover:text-gray-700
                                                     focus:outline-none
+                                                    focus:ring-2
+                                                    focus:ring-offset-2
+                                                    focus:ring-offset-gray-100
+                                                    focus:ring-indigo-500
                                                     transition
                                                     ease-in-out
                                                     duration-150
@@ -422,6 +458,10 @@
                                                     bg-white
                                                     hover:text-gray-700
                                                     focus:outline-none
+                                                    focus:ring-2
+                                                    focus:ring-offset-2
+                                                    focus:ring-offset-gray-100
+                                                    focus:ring-indigo-500
                                                     transition
                                                     ease-in-out
                                                     duration-150
@@ -489,6 +529,10 @@
                                                     bg-white
                                                     hover:text-gray-700
                                                     focus:outline-none
+                                                    focus:ring-2
+                                                    focus:ring-offset-2
+                                                    focus:ring-offset-gray-100
+                                                    focus:ring-indigo-500
                                                     transition
                                                     ease-in-out
                                                     duration-150
