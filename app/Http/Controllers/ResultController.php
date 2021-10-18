@@ -61,6 +61,11 @@ class ResultController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
+     *
+     * Unique validation backup- Rule::unique('results')->where(function ($query) use($semester,$student_id) {
+    return $query->where('student_id', $student_id)
+    ->where('semester', $semester);
+    }),
      */
     public function store(Request $request)
     {
@@ -72,10 +77,6 @@ class ResultController extends Controller
         $validate = Validator::make($request->all(), [
             'semester' => [
                 'required',
-                Rule::unique('results')->where(function ($query) use($semester,$student_id) {
-                    return $query->where('student_id', $student_id)
-                        ->where('semester', $semester);
-                }),
                 'max:8',
                 'min:1',
             ],

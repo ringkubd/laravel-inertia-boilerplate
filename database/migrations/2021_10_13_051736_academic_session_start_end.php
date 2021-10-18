@@ -14,8 +14,8 @@ class AcademicSessionStartEnd extends Migration
     public function up()
     {
         Schema::table('academic_sessions', function (Blueprint $table) {
-            $table->date('start_date')->default('CURRENT_TIMESTAMP')->after('session');
-            $table->date('end_date')->after('start_date')->nullable();
+            $table->date('start_date');
+            $table->date('end_date')->nullable();
         });
     }
 

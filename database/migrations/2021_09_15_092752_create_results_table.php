@@ -18,7 +18,7 @@ class CreateResultsTable extends Migration
             $table->bigInteger("student_id");
             $table->integer("semester");
             $table->float("gpa")->default(0)->nullable();
-            $table->enum('status', ['Passed', 'Failed', 'Dropout'])->default("Passed");
+            $table->enum('status', ['Passed', 'Referred', 'Dropout'])->default("Passed");
             $table->integer("failed_in_subject")->default(0)->nullable();
             $table->softDeletes();
             $table->timestamps();

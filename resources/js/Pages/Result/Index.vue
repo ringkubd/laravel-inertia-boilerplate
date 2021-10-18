@@ -65,7 +65,7 @@
                                     <label for="status">Status</label>
                                     <select id="status" class="form-control" v-model="newResult.status">
                                         <option value="Passed">Passed</option>
-                                        <option value="Failed">Failed</option>
+                                        <option value="Referred">Referred</option>
                                         <option value="Dropout">Dropout</option>
                                     </select>
                                     <InputError :message="errors.status"/>
