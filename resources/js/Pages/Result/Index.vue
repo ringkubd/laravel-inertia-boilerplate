@@ -22,7 +22,7 @@
                         </template>
                     </CardHeader>
                 </div>
-                <div class="card-body">
+                <div class="card-body overflow-x-auto w-full">
                     <div class="my-4">
                         <form action="" class="form-inline bg-gray-400 bg-blend-color-dodge" @submit.prevent="submitForm">
                             <div class="row pl-2 py-4">
@@ -36,8 +36,8 @@
                                                  mode="single"
                                                  limit="50"
                                                  :options="async function(query) {
-                                                return await selectChnageEvent(query)
-                                              }"
+                                                    return await selectChangeEvent(query)
+                                                }"
                                                  id="category">
                                     </Multiselect>
                                     <InputError :message="errors.student_id"/>
@@ -240,13 +240,9 @@ export default {
         }
     },
     mounted() {
-        axios.get(route('student_list'))
-            .then(response => {
-                this.options = response.data
-            })
     },
     methods: {
-        filteredSessions(){
+        async filteredSessions(){
             this.$inertia.replace(route('polytechnic.result.index', this.filters))
         },
         search(params){
@@ -255,11 +251,14 @@ export default {
         addResult(){
 
         },
-        async selectChnageEvent(query){
-            let where = ''
-
+        async selectChangeEvent(query){
+            let where = {}
+            let session = GET('academic_session')
             if (query) {
                 where = {'name': query}
+            }
+            if(session.length > 0){
+                where['academic_session'] = session[0]
             }
             const response = await fetch(route('student_list', where))
             const data = await response.json();
@@ -295,7 +294,7 @@ export default {
 }
 .gallery-thumbnail img {
     object-fit: contain !important;
-    max-width: 2.5rem!important;
+    max-width: 1rem!important;
     margin: 0!important;
     margin-bottom: 0!important;
     margin-top: 0!important;

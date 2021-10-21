@@ -114,7 +114,6 @@ export default {
 
             this.$htmlToPaper('printme', printOptions, () => {
                 console.log('Printing finished');
-                // whatever
             });
         }
     }

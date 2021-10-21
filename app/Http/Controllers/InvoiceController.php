@@ -182,7 +182,24 @@ class InvoiceController extends Controller
      */
     public function edit($invoice_id)
     {
-        //
+        $invoice = Invoice::query()
+            ->where('invoice_id', $invoice_id)
+            ->with('details')
+            ->with('student')
+            ->get();
+        $basicInfo = $invoice->first();
+        $feeTypes = $invoice->whereNotNull('details')->first()->details->pluck('fee_type');
+        return Inertia::render('Invoice/Edit', [
+            'can' => [
+                'create' => auth()->user()->can('create_invoice'),
+                'update' => auth()->user()->can('update_invoice'),
+                'delete' => auth()->user()->can('delete_invoice'),
+                'view' => auth()->user()->can('view_invoice'),
+            ],
+            'data' => $invoice,
+            'feeTypes' => $feeTypes,
+            'basicInfo' => $basicInfo
+        ]);
     }
 
     /**
@@ -192,9 +209,15 @@ class InvoiceController extends Controller
      * @param  $invoice_id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$invoice_id)
+    public function update(Request $request,$invoiceDetails_id)
     {
-        //
+        $invoiceDetails = InvoiceDetail::find($invoiceDetails_id);
+        $invoice = Invoice::find($invoiceDetails->invoice_id);
+        $currentTotalAmount = ($invoice->amount - $invoiceDetails->amount) + $request->amount;
+
+        $invoiceDetails->update($request->only('amount'));
+        $invoice->update(['amount' => $currentTotalAmount]);
+        return redirect()->route('invoice.edit', $invoice->invoice_id)->withSuccess("Invoice Successfully Updated.");
     }
 
     /**
@@ -205,6 +228,8 @@ class InvoiceController extends Controller
      */
     public function destroy($invoice_id)
     {
-        //
+        $invoice = Invoice::find($invoice_id);
+        $invoice->delete();
+        return redirect()->route('invoice.index')->withSuccess("Invoice Deleted.");
     }
 }

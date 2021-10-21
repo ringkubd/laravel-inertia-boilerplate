@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AcademicSession;
+use App\Models\ClassRoom;
 use App\Models\Result;
 use App\Models\Student;
 use Illuminate\Http\Request;
@@ -62,21 +63,21 @@ class ResultController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      *
-     * Unique validation backup- Rule::unique('results')->where(function ($query) use($semester,$student_id) {
-    return $query->where('student_id', $student_id)
-    ->where('semester', $semester);
-    }),
      */
     public function store(Request $request)
     {
         $messages = [
-            'semester.unique' => 'Given Semester Result Already Exists.',
+            'semester.unique' => 'Given Semester Result Already Exists and Passed.',
         ];
         $semester = $request->semester;
         $student_id = $request->student_id;
         $validate = Validator::make($request->all(), [
             'semester' => [
-                'required',
+                'required', Rule::unique('results')->using(function ($query) use($student_id) {
+                    return $query->where('student_id', $student_id)
+                        ->whereNull('deleted_at')
+                        ->where('status', '!=',"Referred");
+                }),
                 'max:8',
                 'min:1',
             ],
@@ -90,6 +91,16 @@ class ResultController extends Controller
         if ($validate->fails()) {
             return redirect()->back()->withErrors($validate->errors());
         }
+        $existingResult =  Result::where('student_id', $request->student_id)
+            ->where('semester', $request->semester)
+            ->where('status', '=', 'Referred')->count();
+
+        if ($request->status !== "Dropout" && $request->semester != 8 && $existingResult == 0) {
+            $classRoom = ClassRoom::where('class_name_number', $request->semester + 1)->first();
+            $student = Student::find($student_id);
+            $student->classroom()->sync($classRoom->id);
+        }
+
         $fileName = [];
         $result = Result::create($request->all());
         if ($request->hasFile('supporting_document')) {
@@ -169,6 +180,9 @@ class ResultController extends Controller
         return Student::query()
             ->when($request->name, function ($q, $v) {
                 $q->where('name', 'like', "%$v%");
+            })
+            ->when($request->academic_session, function ($q, $v) {
+                $q->where('polytechnic_session', 'like', "%$v%");
             })
             ->select('name as label', 'id as value')
             ->whereNotNull('polytechnic')
