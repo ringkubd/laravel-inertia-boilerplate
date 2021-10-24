@@ -245,6 +245,12 @@
                                             >
                                                 Student's
                                             </breeze-dropdown-link>
+                                            <breeze-dropdown-link
+                                                :href="route('madrasa.result.index')"
+                                                :active="route().current('madrasa.result.*')"
+                                            >
+                                                Result's
+                                            </breeze-dropdown-link>
                                         </template>
                                     </breeze-dropdown>
                                 </div>

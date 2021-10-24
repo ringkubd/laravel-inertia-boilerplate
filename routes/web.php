@@ -61,9 +61,6 @@ Route::get('user_permission_json/{user}', [\App\Http\Controllers\UserPermissionC
 // Students Management
 Route::resource('student', \App\Http\Controllers\StudentsManagementController::class);
 
-Route::prefix('madrasa')->group(function (){
-    Route::resource('student', \App\Http\Controllers\Madrasa\StudentsController::class, ['as' => 'madrasa']);
-});
 Route::prefix('polytechnic')->group(function (){
     Route::resource('student', \App\Http\Controllers\Ploytechnic\StudentsController::class, ['as' => 'polytechnic']);
     Route::resource('result', \App\Http\Controllers\ResultController::class, ['as' => 'polytechnic']);
@@ -71,7 +68,13 @@ Route::prefix('polytechnic')->group(function (){
 
 
 // Madrasa Management
+Route::prefix('madrasa')->group(function (){
+    Route::resource('student', \App\Http\Controllers\Madrasa\StudentsController::class, ['as' => 'madrasa']);
+    Route::resource('result', \App\Http\Controllers\MadrasahResultController::class, ['as' => 'madrasa']);
+    Route::get('student_list', [\App\Http\Controllers\MadrasahResultController::class, "studentList"])->name('madrasa.student_list');
+});
 Route::resource('madrasa', \App\Http\Controllers\MadrasaController::class);
+
 
 // Polytechnic
 Route::resource('polytechnic', \App\Http\Controllers\PolytechnicController::class);
@@ -79,7 +82,7 @@ Route::resource('polytechnic', \App\Http\Controllers\PolytechnicController::clas
 // Trade
 Route::resource('trade', \App\Http\Controllers\TradeController::class);
 
-// Trade
+// Teacher
 Route::resource('teacher', \App\Http\Controllers\TeacherController::class);
 
 // Trade
@@ -88,7 +91,7 @@ Route::resource('document', \App\Http\Controllers\DocumentEditorController::clas
 // Trade
 Route::resource('academic_session', \App\Http\Controllers\AcademicSessionController::class);
 
-// Trade
+// Student List form Polytechnic Result
 Route::get('student_list', [\App\Http\Controllers\ResultController::class, "studentList"])->name('student_list');
 
 // Fee Management
@@ -96,6 +99,7 @@ Route::resource('fee', \App\Http\Controllers\FeeController::class);
 
 // Invoice Management
 Route::resource('invoice', \App\Http\Controllers\InvoiceController::class);
+
 // Test
 
 Route::get('conv', function(){
