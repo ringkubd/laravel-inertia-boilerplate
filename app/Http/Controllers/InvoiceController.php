@@ -228,7 +228,9 @@ class InvoiceController extends Controller
      */
     public function destroy($invoice_id)
     {
-        $invoice = Invoice::find($invoice_id);
+        $invoice = Invoice::where('invoice_id',$invoice_id)->first();
+        $invoice_details = InvoiceDetail::where('invoice_id', $invoice->id)->get();
+        $invoice_details->delete();
         $invoice->delete();
         return redirect()->route('invoice.index')->withSuccess("Invoice Deleted.");
     }
