@@ -16,6 +16,7 @@ class AcademicSessionController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('view_academic_session');
         $data = AcademicSession::query()
             ->when($request->search, function ($q, $v) {
                 $q->where('session', 'like', "%$v%");
@@ -50,6 +51,7 @@ class AcademicSessionController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create_academic_session');
         $request->validate([
             'academic_session' => ['required', new AcademicSessionValidation, 'unique:academic_sessions,session'],
             'start_date' => ['required']
@@ -70,7 +72,7 @@ class AcademicSessionController extends Controller
      */
     public function show($id)
     {
-        //
+        $this->authorize('update_academic_session');
     }
 
     /**
@@ -81,7 +83,7 @@ class AcademicSessionController extends Controller
      */
     public function edit($id)
     {
-        //
+        $this->authorize('update_academic_session');
     }
 
     /**
@@ -93,7 +95,7 @@ class AcademicSessionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->authorize('delete_academic_session');
     }
 
     /**
@@ -104,6 +106,7 @@ class AcademicSessionController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('delete_academic_session');
         $academic_session = AcademicSession::find($id)->delete();
         return redirect()->route('academic_session.index');
     }

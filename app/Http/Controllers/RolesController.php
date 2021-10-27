@@ -16,7 +16,7 @@ class RolesController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('view_role');
+        $this->authorize('view_roles');
         $roles = Role::query()
         ->when($request->search, function ($q, $value) use ($request){
             $q->where('name', 'like', "%".$value . "%");
@@ -40,7 +40,7 @@ class RolesController extends Controller
      */
     public function create()
     {
-        $this->authorize('create_role');
+        $this->authorize('create_roles');
         $role = new Role();
         return Inertia::render('Roles/Create',[
             'role' => $role,
@@ -56,7 +56,7 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorize('store_role');
+        $this->authorize('store_roles');
         $request->validate([
             'name' => 'required',
             'guard_name' => 'required'
@@ -74,7 +74,7 @@ class RolesController extends Controller
      */
     public function show($id)
     {
-        $this->authorize('view_role');
+        $this->authorize('view_roles');
     }
 
     /**
@@ -86,7 +86,7 @@ class RolesController extends Controller
      */
     public function edit($id)
     {
-        $this->authorize('update_role');
+        $this->authorize('update_roles');
         $role = Role::find($id);
         return Inertia::render('Roles/Edit', [
             'role' => $role
@@ -103,7 +103,7 @@ class RolesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->authorize('update_role');
+        $this->authorize('update_roles');
         $request->validate([
             'name' => 'required',
             'guard_name' => 'required',
@@ -121,7 +121,7 @@ class RolesController extends Controller
      */
     public function destroy($id)
     {
-        $this->authorize('delete_role');
+        $this->authorize('delete_roles');
         $role = Role::find($id)->delete();
         return redirect()->route('roles.index')->withFlash('success', "Role successfully removed");
     }

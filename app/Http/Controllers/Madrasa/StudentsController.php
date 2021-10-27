@@ -26,6 +26,7 @@ class StudentsController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('view_madrasa_student');
         $students = Student::query()
             ->with('users')
             ->with('classroom')
@@ -84,7 +85,7 @@ class StudentsController extends Controller
      */
     public function create()
     {
-        $this->authorize('create_student');
+        $this->authorize('create_madrasa_student');
 
         $student = new Student();
         $academic_session = AcademicSession::all();
@@ -131,6 +132,7 @@ class StudentsController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create_madrasa_student');
         $request->validate([
             'name' => 'required',
             'mobile' => 'required',
@@ -198,6 +200,7 @@ class StudentsController extends Controller
      */
     public function edit($id)
     {
+        $this->authorize('update_madrasa_student');
         $student = Student::with('classroom')->findOrFail($id);
         if (!$student) {
             return back();
@@ -246,6 +249,7 @@ class StudentsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->authorize('update_madrasa_student');
         $request->validate([
             'name' => 'required',
             'mobile' => 'required',
@@ -323,6 +327,7 @@ class StudentsController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('delete_madrasa_student');
         $student= Student::findOrFail($id);
         $student->delete();
         return redirect()->route('madrasa.student.index')->withMessage('Student Deleted.');

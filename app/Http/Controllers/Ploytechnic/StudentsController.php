@@ -25,6 +25,7 @@ class StudentsController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('view_polytechnic_student');
         $students = Student::query()
             ->with('users')
             ->with('classroom')
@@ -83,7 +84,7 @@ class StudentsController extends Controller
      */
     public function create()
     {
-        $this->authorize('create_student');
+        $this->authorize('create_polytechnic_student');
 
         $students = Student::query()
             ->where('status', true)
@@ -129,6 +130,7 @@ class StudentsController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create_polytechnic_student');
         $request->validate([
             'student_id' => 'required',
             'polytechnic_trade_id' => 'required',
@@ -157,7 +159,7 @@ class StudentsController extends Controller
      */
     public function show($id)
     {
-
+        $this->authorize('view_polytechnic_student');
     }
 
     /**
@@ -168,6 +170,7 @@ class StudentsController extends Controller
      */
     public function edit($id)
     {
+        $this->authorize('update_polytechnic_student');
         $student = Student::with('classroom')->findOrFail($id);
         if (!$student) {
             return back();
@@ -210,6 +213,7 @@ class StudentsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->authorize('update_polytechnic_student');
         $request->validate([
             'student_id' => 'required',
             'polytechnic_trade_id' => 'required',
@@ -238,6 +242,6 @@ class StudentsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->authorize('delete_polytechnic_student');
     }
 }

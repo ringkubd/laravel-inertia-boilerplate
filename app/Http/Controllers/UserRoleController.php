@@ -14,6 +14,7 @@ class UserRoleController extends Controller
      * @param Request $request
      */
     public function __invoke(Request $request){
+        $this->authorize('update_user_role');
         $request->validate([
             'user' => 'required|int',
             'roles' => 'required|array'
@@ -28,6 +29,7 @@ class UserRoleController extends Controller
      */
 
     public function index(){
+        $this->authorize('view_user_role');
         $users = User::select('name as text', 'id')->get();
         $roles = Role::select('name as text', 'id')->get();
         return Inertia::render('UserPermission/UserRole', [

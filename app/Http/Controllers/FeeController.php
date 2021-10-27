@@ -19,6 +19,7 @@ class FeeController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('view_fee');
         $fees =  Fee::query()
             ->when($request->search, function($q, $v){
                 $q->where('session', 'like', "%$v%")
@@ -44,6 +45,7 @@ class FeeController extends Controller
      */
     public function create()
     {
+        $this->authorize('create_fee');
         return Inertia::render('Fee/Create',[
             'sessions' => AcademicSession::all(),
             'trades' => Trade::where('is_madrasa', 0)->get(),
@@ -66,6 +68,7 @@ class FeeController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create_fee');
         $request->validate([
             'academic_session' => ['required'],
             'trade' => ['required', Rule::unique('fees')->where(function ($query) use($request) {
@@ -110,6 +113,7 @@ class FeeController extends Controller
      */
     public function edit(Fee $fee)
     {
+        $this->authorize('update_fee');
         return Inertia::render('Fee/Edit',[
             'sessions' => AcademicSession::all(),
             'trades' => Trade::where('is_madrasa', 0)->get(),
@@ -133,6 +137,7 @@ class FeeController extends Controller
      */
     public function update(Request $request, Fee $fee)
     {
+        $this->authorize('update_fee');
         $request->validate([
             'academic_session' => ['required'],
             'trade' => ['required', Rule::unique('fees')->where(function ($query) use($request, $fee) {
@@ -167,6 +172,7 @@ class FeeController extends Controller
      */
     public function destroy(Fee $fee)
     {
+        $this->authorize('delete_fee');
         $fee->delete();
         return redirect()->route('fee.index')->withSuccess("Fee Deleted successfully.");
     }

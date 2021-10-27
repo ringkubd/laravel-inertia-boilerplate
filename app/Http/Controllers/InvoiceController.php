@@ -22,6 +22,7 @@ class InvoiceController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('view_invoice');
         $invoices = Invoice::query()
             ->select('invoice_id', 'invoice_month', 'invoice_date', DB::raw( 'sum(amount) as total_amount'))
             ->when($request->search, function ($q, $v){
@@ -53,6 +54,7 @@ class InvoiceController extends Controller
      */
     public function create(Request $request)
     {
+        $this->authorize('create_invoice');
         $sessions = AcademicSession::all();
         $students = Student::query()
             ->with(['fees' => function($q) use ($request){
@@ -90,6 +92,7 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create_invoice');
         $request->validate([
             'academic_session' => 'required',
             'semester' => 'required',
@@ -154,6 +157,7 @@ class InvoiceController extends Controller
      */
     public function show($invoice_id)
     {
+        $this->authorize('view_invoice');
         $invoice = Invoice::query()
             ->where('invoice_id', $invoice_id)
             ->with('details')
@@ -182,6 +186,7 @@ class InvoiceController extends Controller
      */
     public function edit($invoice_id)
     {
+        $this->authorize('update_invoice');
         $invoice = Invoice::query()
             ->where('invoice_id', $invoice_id)
             ->with('details')
@@ -211,6 +216,7 @@ class InvoiceController extends Controller
      */
     public function update(Request $request,$invoiceDetails_id)
     {
+        $this->authorize('update_invoice');
         $invoiceDetails = InvoiceDetail::find($invoiceDetails_id);
         $invoice = Invoice::find($invoiceDetails->invoice_id);
         $currentTotalAmount = ($invoice->amount - $invoiceDetails->amount) + $request->amount;
@@ -228,6 +234,7 @@ class InvoiceController extends Controller
      */
     public function destroy($invoice_id)
     {
+        $this->authorize('delete_invoice');
         $invoice = Invoice::where('invoice_id',$invoice_id)->first();
         $invoice_details = InvoiceDetail::where('invoice_id', $invoice->id);
         $invoice_details->delete();

@@ -145,19 +145,32 @@ class PermissionController extends Controller
         return redirect()->route('permission.index')->withFlash('success', "Permission successfully removed");
     }
 
+    /**
+     * @return array
+     */
     protected function module(){
         $routes = Route::getRoutes();
         $routeName = [];
+        $numberOfDevide = [];
         foreach ($routes as $route){
             $module =  explode('.',$route->getName());
+            $numberOfDevide[$route->getName()] = count($module);
             if (count($module) > 1 && !in_array($module[0], $routeName)) {
-                $routeName [] = $module[0];
+                if (count($module) == 2) {
+                    $routeName [] = $module[0];
+                }else{
+                    $routeName [] = $module[0].'_'.$module[1];
+                }
             }
 
         }
         return $routeName;
     }
 
+    /**
+     * @param array $modules
+     * @return mixed
+     */
     protected function createAutoPermissions(Array $modules){
         $permissions = Permission::whereIn('module', $modules)->get()->groupBy('module')->keys()->toArray();
         $exclude = config('custom.excluded_from_create_permission');

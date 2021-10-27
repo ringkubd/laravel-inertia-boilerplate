@@ -39,6 +39,21 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user()
             ],
             'user' => $request->user(),
+            'menu_permission' => [
+                'user_management' => $request->user()?->hasRole('Super Admin') ?? false,
+                'blog_management' => $request->user()?->hasRole('Super Admin') ?? false,
+                'madrasah' => $request->user()?->hasPermissionTo('view_madrasa') || $request->user()?->hasRole('Super Admin'),
+                'teacher' => $request->user()?->hasPermissionTo('view_teacher') || $request->user()?->hasRole('Super Admin'),
+                'madrasah_student' => $request->user()?->hasPermissionTo('view_madrasa_student') || $request->user()?->hasRole('Super Admin'),
+                'madrasah_result' => $request->user()?->hasPermissionTo('view_madrasa_result') || $request->user()?->hasRole('Super Admin'),
+                'polytechnic' => $request->user()?->hasPermissionTo('view_polytechnic') || $request->user()?->hasRole('Super Admin'),
+                'polytechnic_student' => $request->user()?->hasPermissionTo('view_polytechnic_student') || $request->user()?->hasRole('Super Admin'),
+                'polytechnic_result' => $request->user()?->hasPermissionTo('view_polytechnic_result') || $request->user()?->hasRole('Super Admin'),
+                'trade' => $request->user()?->hasPermissionTo('view_trade') || $request->user()?->hasRole('Super Admin'),
+                'academic_session' => $request->user()?->hasPermissionTo('view_academic_session') || $request->user()?->hasRole('Super Admin'),
+                'invoice' => $request->user()?->hasPermissionTo('view_invoice') || $request->user()?->hasRole('Super Admin'),
+                'fee' => $request->user()?->hasPermissionTo('view_fee') || $request->user()?->hasRole('Super Admin'),
+            ],
             'flash' => [
                 'message' => fn () => $request->session()->get('message'),
                 'error' => fn () => $request->session()->get('error'),

@@ -17,6 +17,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('view_users');
         return Inertia::render('Users/Index', [
             'users' => User::when($request->search, function ($q, $v){
                 $q->where('name', 'like', "%{$v}%");
@@ -33,6 +34,7 @@ class UserController extends Controller
      */
     public function create()
     {
+        $this->authorize('create_users');
         $roles = Role::all();
         return Inertia::render('Users/Create', [
             'user' => new User(),
@@ -48,6 +50,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create_users');
         $request->validate([
             'name' => 'required',
             'email' => 'required|email',
@@ -72,7 +75,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $this->authorize('view_users');
     }
 
     /**
@@ -83,6 +86,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+        $this->authorize('update_users');
         return Inertia::render('Users/Edit', [
             'user' => User::with(['roles' => function($q){
                 $q->select('name', 'id');
@@ -99,6 +103,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->authorize('update_users');
         $request->validate([
             'name' => 'required',
             'email' => 'required|email',
@@ -122,6 +127,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('delete_users');
         User::find($id)->destroy();
         return redirect()->route('users.index')->withFlash("success", "User successfully deleted.");
     }

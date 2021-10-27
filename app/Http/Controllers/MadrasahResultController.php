@@ -18,6 +18,7 @@ class MadrasahResultController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('view_madrasa_result');
         $result = MadrasahResult::when($request->academic_session, function ($q, $v) {
             $q->whereHas('student', function ($q) use($v) {
                 $q->madrasa()->whereHas('madrashaSession', function ($q) use($v) {
@@ -43,6 +44,7 @@ class MadrasahResultController extends Controller
      */
     public function create()
     {
+        $this->authorize('create_madrasa_result');
         $students = Student::query()->madrasa()->whereHas('madrashaSession', function($q){
             $q->whereNull('end_date');
         })->get();
@@ -67,6 +69,7 @@ class MadrasahResultController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create_madrasa_result');
         $request->validate([
             'student_id' => ['required','unique:madrasah_results,student_id'],
             'nine_gpa' => 'required_without:ten_gpa',
@@ -91,7 +94,7 @@ class MadrasahResultController extends Controller
      */
     public function show($id)
     {
-        //
+        $this->authorize('view_madrasa_result');
     }
 
     /**
@@ -102,6 +105,7 @@ class MadrasahResultController extends Controller
      */
     public function edit($id)
     {
+        $this->authorize('update_madrasa_result');
         return Inertia::render('Madrasa/Result/Edit', [
             'result' => MadrasahResult::find($id),
             'can' => [
@@ -122,6 +126,7 @@ class MadrasahResultController extends Controller
      */
     public function update(Request $request, MadrasahResult $result)
     {
+        $this->authorize('update_madrasa_result');
         $request->validate([
             'nine_gpa' => 'required_without:ten_gpa',
             'ten_gpa' => 'required_without:nine_gpa',
@@ -146,6 +151,7 @@ class MadrasahResultController extends Controller
      */
     public function destroy(MadrasahResult $result)
     {
+        $this->authorize('delete_madrasa_result');
         $result->delete();
         return redirect()->route('madrasa.result.index')->withSuccess("Result deleted.");
     }

@@ -49,6 +49,7 @@ class TeacherController extends Controller
      */
     public function create()
     {
+        $this->authorize('create_teacher');
         return Inertia::render("Teacher/Create", [
             'can' => [
                 'create' => auth()->user()->can('create_teacher'),
@@ -75,6 +76,7 @@ class TeacherController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create_teacher');
         $request->validate([
             'name' => 'required',
             'mobile' => 'required',
@@ -139,6 +141,7 @@ class TeacherController extends Controller
      */
     public function edit(Teacher $teacher)
     {
+        $this->authorize('update_teacher');
         return Inertia::render("Teacher/Edit", [
             'can' => [
                 'create' => auth()->user()->can('create_teacher'),
@@ -166,6 +169,7 @@ class TeacherController extends Controller
      */
     public function update(Request $request, Teacher $teacher)
     {
+        $this->authorize('update_teacher');
         $request->validate([
             'name' => 'required',
             'mobile' => 'required',
@@ -226,6 +230,7 @@ class TeacherController extends Controller
      */
     public function destroy(Teacher $teacher)
     {
+        $this->authorize('delete_teacher');
         $teacher->delete();
         return redirect()->route('teacher.index');
     }

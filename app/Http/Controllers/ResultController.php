@@ -20,6 +20,7 @@ class ResultController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('view_polytechnic_result');
         $result = Student::query()
             ->polytechnic()
             ->with('results.details', 'results.attachments', 'polytechnic')
@@ -54,7 +55,7 @@ class ResultController extends Controller
      */
     public function create()
     {
-        //
+        $this->authorize('create_polytechnic_result');
     }
 
     /**
@@ -66,6 +67,7 @@ class ResultController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create_polytechnic_result');
         $messages = [
             'semester.unique' => 'Given Semester Result Already Exists and Passed.',
         ];
@@ -127,7 +129,7 @@ class ResultController extends Controller
      */
     public function show($id)
     {
-        //
+        $this->authorize('view_polytechnic_result');
     }
 
     /**
@@ -161,6 +163,7 @@ class ResultController extends Controller
      */
     public function destroy(Result $result)
     {
+        $this->authorize('delete_polytechnic_result');
         $result->delete();
         return redirect()->back()->withSuccess("Successfully deleted.");
     }

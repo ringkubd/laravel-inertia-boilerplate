@@ -16,6 +16,7 @@ class MadrasaController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('view_madrasa');
         $data = Madrasha::when($request->search, function ($q, $v) {
             $q->where('name', 'like',"%".$v."%");
         })->get();
@@ -37,6 +38,7 @@ class MadrasaController extends Controller
      */
     public function create()
     {
+        $this->authorize('create_madrasa');
         $data = new Madrasha();
         return Inertia::render('Madrasa/Create', [
             'data' => $data,
@@ -57,6 +59,7 @@ class MadrasaController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create_madrasa');
         $validate = $request->validate([
             'name' => 'required|max:250',
             'address' => 'required|max:250',
@@ -76,7 +79,7 @@ class MadrasaController extends Controller
      */
     public function show($id)
     {
-        //
+        $this->authorize('view_madrasa');
     }
 
     /**
@@ -87,6 +90,7 @@ class MadrasaController extends Controller
      */
     public function edit($id)
     {
+        $this->authorize('update_madrasa');
         $data = Madrasha::find($id);
         return Inertia::render('Madrasa/Edit', [
             'data' => $data,
@@ -108,6 +112,7 @@ class MadrasaController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->authorize('update_madrasa');
         $validate = $request->validate([
             'name' => 'required|max:250',
             'address' => 'required|max:250',
@@ -127,6 +132,7 @@ class MadrasaController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('delete_madrasa');
         Madrasha::find($id)->delete();
         return Redirect::route('madrasa.index');
     }

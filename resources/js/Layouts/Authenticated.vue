@@ -33,7 +33,7 @@
                                     Dashboard
                                 </breeze-nav-link>
 
-                                <div class="hidden sm:flex sm:items-center sm:ml-6">
+                                <div class="hidden sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.user_management">
                                     <breeze-dropdown align="right" width="48">
                                         <template #trigger>
                                         <span class="inline-flex items-center rounded-md">
@@ -109,7 +109,7 @@
                                     </breeze-dropdown>
                                 </div>
 
-                                <div class="hidden sm:flex sm:items-center sm:ml-6">
+                                <div class="hidden sm:flex sm:items-center sm:ml-6"  v-if="$page.props.menu_permission.blog_management">
                                     <breeze-dropdown align="right" width="48">
                                         <template #trigger>
                                         <span class="inline-flex items-center rounded-md">
@@ -179,7 +179,7 @@
                                     </breeze-dropdown>
                                 </div>
 
-                                <div class="hidden sm:flex sm:items-center sm:ml-6">
+                                <div class="hidden sm:flex sm:items-center sm:ml-6"  v-if="$page.props.menu_permission.madrasah || $page.props.menu_permission.teacher || $page.props.menu_permission.madrasah_student || $page.props.menu_permission.madrasah_result">
                                     <breeze-dropdown align="right" width="48">
                                         <template #trigger>
                                         <span class="inline-flex items-center rounded-md">
@@ -230,31 +230,35 @@
                                             <breeze-dropdown-link
                                                 :href="route('madrasa.index')"
                                                 :active="route().current('madrasa.*')"
+                                                v-if="$page.props.menu_permission.madrasah"
                                             >
                                                 Madrasa
                                             </breeze-dropdown-link>
                                             <breeze-dropdown-link
                                                 :href="route('teacher.index')"
                                                 :active="route().current('teacher.*')"
+                                                v-if="$page.props.menu_permission.teacher"
                                             >
                                                 Teacher
                                             </breeze-dropdown-link>
                                             <breeze-dropdown-link
                                                 :href="route('madrasa.student.index')"
                                                 :active="route().current('madrasa.student.*')"
+                                                v-if="$page.props.menu_permission.madrasah_student"
                                             >
                                                 Student's
                                             </breeze-dropdown-link>
                                             <breeze-dropdown-link
                                                 :href="route('madrasa.result.index')"
                                                 :active="route().current('madrasa.result.*')"
+                                                v-if="$page.props.menu_permission.madrasah_result"
                                             >
                                                 Result's
                                             </breeze-dropdown-link>
                                         </template>
                                     </breeze-dropdown>
                                 </div>
-                                <div class="hidden sm:flex sm:items-center sm:ml-6">
+                                <div class="hidden sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.academic_session || $page.props.menu_permission.trade">
                                     <breeze-dropdown align="right" width="48">
                                         <template #trigger>
                                         <span class="inline-flex items-center rounded-md">
@@ -305,12 +309,14 @@
                                             <breeze-dropdown-link
                                                 :href="route('academic_session.index')"
                                                 :active="route().current('academic_session.*')"
+                                                v-if="$page.props.menu_permission.academic_session"
                                             >
                                                 Sessions
                                             </breeze-dropdown-link>
                                             <breeze-dropdown-link
                                                 :href="route('trade.index')"
                                                 :active="route().current('trade.*')"
+                                                v-if="$page.props.menu_permission.trade"
                                             >
                                                 Trade
                                             </breeze-dropdown-link>
@@ -318,7 +324,7 @@
                                     </breeze-dropdown>
                                 </div>
 
-                                <div class="hidden sm:flex sm:items-center sm:ml-6">
+                                <div class="hidden sm:flex sm:items-center sm:ml-6"  v-if="$page.props.menu_permission.polytechnic || $page.props.menu_permission.polytechnic_student || $page.props.menu_permission.polytechnic_result">
                                     <breeze-dropdown align="right" width="48">
                                         <template #trigger>
                                         <span class="inline-flex items-center rounded-md">
@@ -369,82 +375,28 @@
                                             <breeze-dropdown-link
                                                 :href="route('polytechnic.index')"
                                                 :active="route().current('polytechnic.*')"
+                                                v-if="$page.props.menu_permission.polytechnic"
                                             >
                                                 Polytechnic
                                             </breeze-dropdown-link>
                                             <breeze-dropdown-link
                                                 :href="route('polytechnic.result.index')"
                                                 :active="route().current('polytechnic.result.*')"
+                                                v-if="$page.props.menu_permission.polytechnic_result"
                                             >
                                                 Results
                                             </breeze-dropdown-link>
                                             <breeze-dropdown-link
                                                 :href="route('polytechnic.student.index')"
                                                 :active="route().current('polytechnic.madrasa.student.*')"
+                                                v-if="$page.props.menu_permission.polytechnic_student"
                                             >
                                                 Student's
                                             </breeze-dropdown-link>
                                         </template>
                                     </breeze-dropdown>
                                 </div>
-                                <div class="hidden sm:flex sm:items-center sm:ml-6">
-                                    <breeze-dropdown align="right" width="48">
-                                        <template #trigger>
-                                        <span class="inline-flex items-center rounded-md">
-                                            <button
-                                                type="button"
-                                                class="
-                                                    inline-flex
-                                                    items-center
-                                                    px-3
-                                                    py-2
-                                                    border border-transparent
-                                                    text-sm
-                                                    leading-4
-                                                    font-medium
-                                                    rounded-md
-                                                    text-gray-500
-                                                    bg-white
-                                                    hover:text-gray-700
-                                                    focus:outline-none
-                                                    focus:ring-2
-                                                    focus:ring-offset-2
-                                                    focus:ring-offset-gray-100
-                                                    focus:ring-indigo-500
-                                                    transition
-                                                    ease-in-out
-                                                    duration-150
-                                                "
-                                            >
-                                                Student
-
-                                                <svg
-                                                    class="ml-2 -mr-0.5 h-4 w-4"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 20 20"
-                                                    fill="currentColor"
-                                                >
-                                                    <path
-                                                        fill-rule="evenodd"
-                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                        clip-rule="evenodd"
-                                                    />
-                                                </svg>
-                                            </button>
-                                        </span>
-                                        </template>
-
-                                        <template #content>
-                                            <breeze-dropdown-link
-                                                :href="route('student.index')"
-                                                :active="route().current('student.*')"
-                                            >
-                                                Student
-                                            </breeze-dropdown-link>
-                                        </template>
-                                    </breeze-dropdown>
-                                </div>
-                                <div class="hidden sm:flex sm:items-center sm:ml-6">
+                                <div class="hidden sm:flex sm:items-center sm:ml-6"  v-if="$page.props.menu_permission.invoice || $page.props.menu_permission.fee">
                                     <breeze-dropdown align="right" width="48">
                                         <template #trigger>
                                         <span class="inline-flex items-center rounded-md">
@@ -495,12 +447,14 @@
                                             <breeze-dropdown-link
                                                 :href="route('fee.index')"
                                                 :active="route().current('fee.*')"
+                                                v-if="$page.props.menu_permission.fee"
                                             >
                                                 Fee's
                                             </breeze-dropdown-link>
                                             <breeze-dropdown-link
                                                 :href="route('invoice.index')"
                                                 :active="route().current('invoice.*')"
+                                                v-if="$page.props.menu_permission.invoice"
                                             >
                                                 Invoice's
                                             </breeze-dropdown-link>
@@ -739,7 +693,7 @@ import BreezeNavLink from "@/Components/NavLink";
 import BreezeResponsiveNavLink from "@/Components/ResponsiveNavLink";
 
 export default {
-    props: ['user', 'auth', 'online', 'offline'],
+    props: ['user', 'auth', 'online', 'offline', 'menu_permission'],
     components: {
         BreezeApplicationLogo,
         BreezeDropdown,

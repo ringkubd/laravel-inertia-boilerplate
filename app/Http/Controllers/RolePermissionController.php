@@ -10,6 +10,9 @@ use Spatie\Permission\Models\Role;
 
 class RolePermissionController extends Controller
 {
+    public function __constructor(){
+        $this->middleware(['role:super admin']);
+    }
     /**
      * @param Request $request
      * @param $role
@@ -26,7 +29,7 @@ class RolePermissionController extends Controller
             ->select('permissions.*',DB::raw('substring_index(name, "_", -1) as permission_group'))
             ->orderBy('name')
             ->get()
-            ->groupBy('permission_group');
+            ->groupBy('module');
         return Inertia::render('RolePermission/Index', [
             'roles' => $roles,
             'permissions' => $permissions

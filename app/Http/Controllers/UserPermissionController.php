@@ -10,13 +10,16 @@ use Spatie\Permission\Models\Permission;
 
 class UserPermissionController extends Controller
 {
+    public function __constructor(){
+        $this->middleware(['role:super admin']);
+    }
     public function index($user = ""){
         if ($user != "") {
             $users = User::where('id', $user)->get();
         }else{
             $users = User::all();
         }
-        $permissions = Permission::select('permissions.*',DB::raw('substring_index(name, "_", -1) as permission_group'))->get()->groupBy('permission_group');
+        $permissions = Permission::select('permissions.*',DB::raw('substring_index(name, "_", -1) as permission_group'))->get()->groupBy('module');
         return Inertia::render('UserPermission/Index', [
             'users' => $users,
             'permissions' => $permissions

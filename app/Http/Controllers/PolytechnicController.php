@@ -17,6 +17,7 @@ class PolytechnicController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('view_polytechnic');
         $data = Polytechnic::when($request->search, function ($q, $v) {
             $q->where('name', 'like',"%".$v."%");
         })->get();
@@ -38,6 +39,7 @@ class PolytechnicController extends Controller
      */
     public function create()
     {
+        $this->authorize('create_polytechnic');
         $data = new Polytechnic();
         return Inertia::render('Polytechnic/Create', [
             'data' => $data,
@@ -58,6 +60,7 @@ class PolytechnicController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create_polytechnic');
         $validate = $request->validate([
             'name' => 'required|max:250',
             'address' => 'required|max:250',
@@ -76,7 +79,7 @@ class PolytechnicController extends Controller
      */
     public function show($id)
     {
-        //
+        $this->authorize('view_polytechnic');
     }
 
     /**
@@ -87,6 +90,7 @@ class PolytechnicController extends Controller
      */
     public function edit($id)
     {
+        $this->authorize('update_polytechnic');
         $data = Polytechnic::find($id);
         return Inertia::render('Polytechnic/Edit', [
             'data' => $data,
@@ -108,6 +112,7 @@ class PolytechnicController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->authorize('update_polytechnic');
         $validate = $request->validate([
             'name' => 'required|max:250',
             'address' => 'required|max:250',
@@ -126,6 +131,7 @@ class PolytechnicController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('delete_polytechnic');
         Polytechnic::find($id)->delete();
         return Redirect::route('polytechnic.index');
     }
