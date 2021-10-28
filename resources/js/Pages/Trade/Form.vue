@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-md-12 form-group">
                     <fieldset class="fieldset-border">
-                        <legend class="fieldset-border">Status <span class="text-danger">*</span></legend>
+                        <legend class="fieldset-border">Institute <span class="text-danger">*</span></legend>
                         <div class="form-check">
                             <input type="radio" name="is_madrasa" id="is_madrasa" class="form-check-input" v-model="formData.is_madrasa" value="1">
                             <label class="form-check-label" for="is_madrasa">Madrasa</label>

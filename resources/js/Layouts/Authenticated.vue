@@ -598,6 +598,436 @@
                         >
                             Dashboard
                         </breeze-responsive-nav-link>
+
+                        <div class="sm:flex sm:items-center sm:ml-6 sm:border-0" v-if="$page.props.menu_permission.user_management">
+                            <breeze-dropdown align="right" width="48">
+                                <template #trigger>
+                                        <span class="inline-flex items-center rounded-sm">
+                                            <button
+                                                type="button"
+                                                class="
+                                                    inline-flex
+                                                    items-center
+                                                    px-3
+                                                    py-2
+                                                    border border-transparent
+                                                    text-sm
+                                                    leading-4
+                                                    font-medium
+                                                    rounded-sm
+                                                    text-gray-500
+                                                    bg-white
+                                                    hover:text-gray-700
+                                                    focus:outline-none
+                                                    focus:ring-2
+                                                    focus:ring-offset-2
+                                                    focus:ring-offset-gray-100
+                                                    focus:ring-indigo-500
+                                                    transition
+                                                    ease-in-out
+                                                    duration-150
+                                                "
+                                            >
+                                                User's Management
+
+                                                <svg
+                                                    class="ml-2 -mr-0.5 h-4 w-4"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 20 20"
+                                                    fill="currentColor"
+                                                >
+                                                    <path
+                                                        fill-rule="evenodd"
+                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                        clip-rule="evenodd"
+                                                    />
+                                                </svg>
+                                            </button>
+                                        </span>
+                                </template>
+
+                                <template #content>
+                                    <breeze-dropdown-link
+                                        :href="route('users.index')"
+                                        :active="route().current('users.*')"
+                                    >
+                                        User
+                                    </breeze-dropdown-link>
+                                    <breeze-dropdown-link
+                                        :href="route('user_role.index')"
+                                        :active="route().current('user_role.*')"
+                                    >
+                                        User's Role
+                                    </breeze-dropdown-link>
+                                    <breeze-dropdown-link
+                                        :href="route('roles.index')"
+                                        :active="route().current('roles.*')"
+                                    >
+                                        Role
+                                    </breeze-dropdown-link>
+                                    <breeze-dropdown-link
+                                        :href="route('permission.index')"
+                                        :active="route().current('permission.*')"
+                                    >
+                                        Permission
+                                    </breeze-dropdown-link>
+                                </template>
+                            </breeze-dropdown>
+                        </div>
+
+                        <div class="sm:flex sm:items-center sm:ml-6 sm:border-0"  v-if="$page.props.menu_permission.blog_management">
+                            <breeze-dropdown align="right" width="48">
+                                <template #trigger>
+                                        <span class="inline-flex items-center rounded-md">
+                                            <button
+                                                type="button"
+                                                class="
+                                                    inline-flex
+                                                    items-center
+                                                    px-3
+                                                    py-2
+                                                    border border-transparent
+                                                    text-sm
+                                                    leading-4
+                                                    font-medium
+                                                    rounded-md
+                                                    text-gray-500
+                                                    bg-white
+                                                    hover:text-gray-700
+                                                    focus:outline-none
+                                                    focus:ring-2
+                                                    focus:ring-offset-2
+                                                    focus:ring-offset-gray-100
+                                                    focus:ring-indigo-500
+                                                    transition
+                                                    ease-in-out
+                                                    duration-150
+                                                "
+                                            >
+                                                Blog
+
+                                                <svg
+                                                    class="ml-2 -mr-0.5 h-4 w-4"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 20 20"
+                                                    fill="currentColor"
+                                                >
+                                                    <path
+                                                        fill-rule="evenodd"
+                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                        clip-rule="evenodd"
+                                                    />
+                                                </svg>
+                                            </button>
+                                        </span>
+                                </template>
+
+                                <template #content>
+                                    <breeze-dropdown-link
+                                        :href="route('post.index')"
+                                        :active="route().current('post.*')"
+                                    >
+                                        Post
+                                    </breeze-dropdown-link>
+                                    <breeze-dropdown-link
+                                        :href="route('page.index')"
+                                        :active="route().current('page.*')"
+                                    >
+                                        Pages
+                                    </breeze-dropdown-link>
+                                    <breeze-dropdown-link
+                                        :href="route('category.index')"
+                                        :active="route().current('category.*')"
+                                    >
+                                        Category
+                                    </breeze-dropdown-link>
+                                </template>
+                            </breeze-dropdown>
+                        </div>
+
+                        <div class="sm:flex sm:items-center sm:ml-6 sm:border-0"  v-if="$page.props.menu_permission.madrasah || $page.props.menu_permission.teacher || $page.props.menu_permission.madrasah_student || $page.props.menu_permission.madrasah_result">
+                            <breeze-dropdown align="right" width="48">
+                                <template #trigger>
+                                        <span class="inline-flex items-center rounded-md">
+                                            <button
+                                                type="button"
+                                                class="
+                                                    inline-flex
+                                                    items-center
+                                                    px-3
+                                                    py-2
+                                                    border border-transparent
+                                                    text-sm
+                                                    leading-4
+                                                    font-medium
+                                                    rounded-md
+                                                    text-gray-500
+                                                    bg-white
+                                                    hover:text-gray-700
+                                                    focus:outline-none
+                                                    focus:ring-2
+                                                    focus:ring-offset-2
+                                                    focus:ring-offset-gray-100
+                                                    focus:ring-indigo-500
+                                                    transition
+                                                    ease-in-out
+                                                    duration-150
+                                                "
+                                            >
+                                                Madrasa
+
+                                                <svg
+                                                    class="ml-2 -mr-0.5 h-4 w-4"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 20 20"
+                                                    fill="currentColor"
+                                                >
+                                                    <path
+                                                        fill-rule="evenodd"
+                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                        clip-rule="evenodd"
+                                                    />
+                                                </svg>
+                                            </button>
+                                        </span>
+                                </template>
+
+                                <template #content>
+                                    <breeze-dropdown-link
+                                        :href="route('madrasa.index')"
+                                        :active="route().current('madrasa.*')"
+                                        v-if="$page.props.menu_permission.madrasah"
+                                    >
+                                        Madrasa
+                                    </breeze-dropdown-link>
+                                    <breeze-dropdown-link
+                                        :href="route('teacher.index')"
+                                        :active="route().current('teacher.*')"
+                                        v-if="$page.props.menu_permission.teacher"
+                                    >
+                                        Teacher
+                                    </breeze-dropdown-link>
+                                    <breeze-dropdown-link
+                                        :href="route('madrasa.student.index')"
+                                        :active="route().current('madrasa.student.*')"
+                                        v-if="$page.props.menu_permission.madrasah_student"
+                                    >
+                                        Student's
+                                    </breeze-dropdown-link>
+                                    <breeze-dropdown-link
+                                        :href="route('madrasa.result.index')"
+                                        :active="route().current('madrasa.result.*')"
+                                        v-if="$page.props.menu_permission.madrasah_result"
+                                    >
+                                        Result's
+                                    </breeze-dropdown-link>
+                                </template>
+                            </breeze-dropdown>
+                        </div>
+                        <div class="sm:flex sm:items-center sm:ml-6 sm:border-0" v-if="$page.props.menu_permission.academic_session || $page.props.menu_permission.trade">
+                            <breeze-dropdown align="right" width="48">
+                                <template #trigger>
+                                        <span class="inline-flex items-center rounded-md">
+                                            <button
+                                                type="button"
+                                                class="
+                                                    inline-flex
+                                                    items-center
+                                                    px-3
+                                                    py-2
+                                                    border border-transparent
+                                                    text-sm
+                                                    leading-4
+                                                    font-medium
+                                                    rounded-md
+                                                    text-gray-500
+                                                    bg-white
+                                                    hover:text-gray-700
+                                                    focus:outline-none
+                                                    focus:ring-2
+                                                    focus:ring-offset-2
+                                                    focus:ring-offset-gray-100
+                                                    focus:ring-indigo-500
+                                                    transition
+                                                    ease-in-out
+                                                    duration-150
+                                                "
+                                            >
+                                                Accessibility
+
+                                                <svg
+                                                    class="ml-2 -mr-0.5 h-4 w-4"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 20 20"
+                                                    fill="currentColor"
+                                                >
+                                                    <path
+                                                        fill-rule="evenodd"
+                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                        clip-rule="evenodd"
+                                                    />
+                                                </svg>
+                                            </button>
+                                        </span>
+                                </template>
+
+                                <template #content>
+                                    <breeze-dropdown-link
+                                        :href="route('academic_session.index')"
+                                        :active="route().current('academic_session.*')"
+                                        v-if="$page.props.menu_permission.academic_session"
+                                    >
+                                        Sessions
+                                    </breeze-dropdown-link>
+                                    <breeze-dropdown-link
+                                        :href="route('trade.index')"
+                                        :active="route().current('trade.*')"
+                                        v-if="$page.props.menu_permission.trade"
+                                    >
+                                        Trade
+                                    </breeze-dropdown-link>
+                                </template>
+                            </breeze-dropdown>
+                        </div>
+
+                        <div class="sm:flex sm:items-center sm:ml-6 sm:border-0"  v-if="$page.props.menu_permission.polytechnic || $page.props.menu_permission.polytechnic_student || $page.props.menu_permission.polytechnic_result">
+                            <breeze-dropdown align="right" width="48">
+                                <template #trigger>
+                                        <span class="inline-flex items-center rounded-md">
+                                            <button
+                                                type="button"
+                                                class="
+                                                    inline-flex
+                                                    items-center
+                                                    px-3
+                                                    py-2
+                                                    border border-transparent
+                                                    text-sm
+                                                    leading-4
+                                                    font-medium
+                                                    rounded-md
+                                                    text-gray-500
+                                                    bg-white
+                                                    hover:text-gray-700
+                                                    focus:outline-none
+                                                    focus:ring-2
+                                                    focus:ring-offset-2
+                                                    focus:ring-offset-gray-100
+                                                    focus:ring-indigo-500
+                                                    transition
+                                                    ease-in-out
+                                                    duration-150
+                                                "
+                                            >
+                                                Polytechnic
+
+                                                <svg
+                                                    class="ml-2 -mr-0.5 h-4 w-4"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 20 20"
+                                                    fill="currentColor"
+                                                >
+                                                    <path
+                                                        fill-rule="evenodd"
+                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                        clip-rule="evenodd"
+                                                    />
+                                                </svg>
+                                            </button>
+                                        </span>
+                                </template>
+
+                                <template #content>
+                                    <breeze-dropdown-link
+                                        :href="route('polytechnic.index')"
+                                        :active="route().current('polytechnic.*')"
+                                        v-if="$page.props.menu_permission.polytechnic"
+                                    >
+                                        Polytechnic
+                                    </breeze-dropdown-link>
+                                    <breeze-dropdown-link
+                                        :href="route('polytechnic.result.index')"
+                                        :active="route().current('polytechnic.result.*')"
+                                        v-if="$page.props.menu_permission.polytechnic_result"
+                                    >
+                                        Results
+                                    </breeze-dropdown-link>
+                                    <breeze-dropdown-link
+                                        :href="route('polytechnic.student.index')"
+                                        :active="route().current('polytechnic.madrasa.student.*')"
+                                        v-if="$page.props.menu_permission.polytechnic_student"
+                                    >
+                                        Student's
+                                    </breeze-dropdown-link>
+                                </template>
+                            </breeze-dropdown>
+                        </div>
+                        <div class="sm:flex sm:items-center sm:ml-6 sm:border-0"  v-if="$page.props.menu_permission.invoice || $page.props.menu_permission.fee">
+                            <breeze-dropdown align="right" width="48">
+                                <template #trigger>
+                                        <span class="inline-flex items-center rounded-md">
+                                            <button
+                                                type="button"
+                                                class="
+                                                    inline-flex
+                                                    items-center
+                                                    px-3
+                                                    py-2
+                                                    border border-transparent
+                                                    text-sm
+                                                    leading-4
+                                                    font-medium
+                                                    rounded-md
+                                                    text-gray-500
+                                                    bg-white
+                                                    hover:text-gray-700
+                                                    focus:outline-none
+                                                    focus:ring-2
+                                                    focus:ring-offset-2
+                                                    focus:ring-offset-gray-100
+                                                    focus:ring-indigo-500
+                                                    transition
+                                                    ease-in-out
+                                                    duration-150
+                                                "
+                                            >
+                                                Bill
+
+                                                <svg
+                                                    class="ml-2 -mr-0.5 h-4 w-4"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 20 20"
+                                                    fill="currentColor"
+                                                >
+                                                    <path
+                                                        fill-rule="evenodd"
+                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                        clip-rule="evenodd"
+                                                    />
+                                                </svg>
+                                            </button>
+                                        </span>
+                                </template>
+
+                                <template #content>
+                                    <breeze-dropdown-link
+                                        :href="route('fee.index')"
+                                        :active="route().current('fee.*')"
+                                        v-if="$page.props.menu_permission.fee"
+                                    >
+                                        Fee's
+                                    </breeze-dropdown-link>
+                                    <breeze-dropdown-link
+                                        :href="route('invoice.index')"
+                                        :active="route().current('invoice.*')"
+                                        v-if="$page.props.menu_permission.invoice"
+                                    >
+                                        Invoice's
+                                    </breeze-dropdown-link>
+                                </template>
+                            </breeze-dropdown>
+                        </div>
+
                     </div>
 
                     <!-- Responsive Settings Options -->
