@@ -243,5 +243,7 @@ class StudentsController extends Controller
     public function destroy($id)
     {
         $this->authorize('delete_polytechnic_student');
+        $student = Student::find($id)->delete();
+        return redirect()->route('polytechnic.student.index')->withMessage('Student Deleted.');
     }
 }
