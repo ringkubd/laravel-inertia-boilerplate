@@ -114,13 +114,13 @@
                                 {{ result.name }}
                             </td>
                             <td>
-                                {{ result.polytechnic.name }}
+                                {{ result?.polytechnic?.name }}
                             </td>
                             <td>
-                                {{ result.polytechnic_trade_id }}
+                                {{ result?.polytechnic_trade_id }}
                             </td>
                             <td>
-                                {{ result.polytechnic_session }}
+                                {{ result?.polytechnic_session }}
                             </td>
                             <td>
                                 <ul class="list-group list-group-flush">
