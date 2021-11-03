@@ -221,6 +221,11 @@
 import {useForm} from '@inertiajs/inertia-vue3'
 import InputError from "@/Components/InputError";
 import Back from "@/Shared/Back";
+
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+}
+
 export default {
     name: "Form",
     components: {
@@ -301,7 +306,7 @@ export default {
             return this.form.trade;
         },
         autoEmail(){
-            this.form.email = this.form.madrasha_id +"_"+ this.form.madrasa_trade_id +"_"+ this.form.ssc_registration + "@"+"diploma.isdb-bisew.org";
+            this.form.email = this.form.madrasha_id +"_"+ getRandomInt(999999)+ "@"+"diploma.isdb-bisew.org";
             return this.form.email;
         }
     }
