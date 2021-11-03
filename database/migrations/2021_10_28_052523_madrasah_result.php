@@ -15,9 +15,9 @@ class MadrasahResult extends Migration
     {
         Schema::table('madrasah_results', function (Blueprint $table) {
             $table->boolean('approved')->after('status')->default(0);
-            $table->unsignedBigInteger('added_by')->after('approved');
+            $table->unsignedBigInteger('added_by')->after('approved')->nullable();
             $table->foreign('added_by')->on('users')->references('id');
-            $table->unsignedBigInteger('approved_by')->after('added_by');
+            $table->unsignedBigInteger('approved_by')->after('added_by')->nullable();
             $table->foreign('approved_by')->on('users')->references('id');
         });
     }
