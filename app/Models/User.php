@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -23,6 +24,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'madrasha_id',
     ];
 
     /**
@@ -35,6 +37,13 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    protected static function booted()
+    {
+        static::addGlobalScope("relation", function (Builder $builder){
+            $builder->with('madrasah', 'student','teacher');
+        });
+    }
+
     /**
      * The attributes that should be cast to native types.
      *
@@ -44,9 +53,35 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+
     public function conversation(){
         return $this->belongsToMany(Conversation::class, 'conversation_user')->whereHas('conversationUsers', function ($q){
             $q->where('user_id', auth()->user()->id ?? null);
         })->with('conversationUsers')->with('messages');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function teacher(){
+        return $this->hasOne(Teacher::class, 'users_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function student(){
+        return $this->hasOne(Student::class, 'users_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+
+    public function madrasah(){
+        return $this->belongsTo(Madrasha::class, 'madrasha_id');
     }
 }

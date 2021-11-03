@@ -14,6 +14,7 @@
                         :isUpdate="false"
                         :user="user"
                         :errors="errors"
+                        :madrasah="madrasah"
                     ></formModule>
                 </div>
             </div>
@@ -26,7 +27,7 @@ import Back from "@/Shared/Back";
 import formModule from "./Form";
 export default {
     name: "Create",
-    props: ["user", "errors"],
+    props: ["user", "errors", 'madrasah'],
     components: {
         BreezeAuthenticatedLayout,
         Back,

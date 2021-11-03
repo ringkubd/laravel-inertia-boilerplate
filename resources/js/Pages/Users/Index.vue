@@ -11,6 +11,7 @@
                     <card-header
                         :create="route('users.create')"
                         :searchMethod="search"
+                        :can="can"
                     >
                         <template #second>
                             <inertia-link as="button" type="button" :href="route('user_role.index')">
@@ -60,6 +61,7 @@
                             </td>
                             <td class="flex justify-center">
                                 <Actions
+                                    :can="can"
                                     :editUrl="route('users.edit', user.id)"
                                     :deleteUrl="
                                             route('users.destroy', user.id)
@@ -101,7 +103,7 @@ library.add(faPen,faBars);
 
 export default {
     name: "index",
-    props: ["users"],
+    props: ["users", 'can'],
     data() {
         return {
         }

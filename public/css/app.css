@@ -44097,10 +44097,13 @@ textarea.form-control-lg {
   opacity: 0;
 }
 
-.table tr th {
-  vertical-align : middle;
-  text-align:center;
-}
+/*.table tr th {*/
+
+/*    vertical-align : middle;*/
+
+/*    text-align:center;*/
+
+/*}*/
 
 @media (min-width: 640px){
   .sm\:container{

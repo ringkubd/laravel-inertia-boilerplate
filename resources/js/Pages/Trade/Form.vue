@@ -4,7 +4,7 @@
             <div class="row g-3 align-items-center">
                 <div class="col-md-12 form-group">
                     <fieldset class="fieldset-border">
-                        <legend class="fieldset-border">Name <span class="text-danger">*</span></legend>
+                        <legend class="fieldset-border">Trade Name <span class="text-danger">*</span></legend>
                         <input type="text" id="name" required class="form-control" v-model="formData.name">
                     </fieldset>
                     <div v-if="errors.name" class="text-danger">

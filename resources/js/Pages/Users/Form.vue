@@ -58,6 +58,15 @@
                 </div>
             </div>
             <div class="col form-group">
+                <label for="madrasha_id">Madrasah</label>
+                <select name="madrasha_id" id="madrasha_id" class="form-control" v-model="formData.madrasha_id">
+                    <option v-for="mad in madrasah" :value="mad.id">{{ mad.name }}</option>
+                </select>
+                <div v-if="errors.madrasha_id" class="text-danger">
+                    {{ errors.madrasha_id }}
+                </div>
+            </div>
+            <div class="col form-group">
                 <label for="roles">Roles</label>
                 <Multiselect
                     v-model="formData.roles"
@@ -101,7 +110,7 @@
 import Multiselect from '@vueform/multiselect'
 export default {
     name: "form",
-    props: ["user", "isUpdate", "submitMethod", "errors"],
+    props: ["user", "isUpdate", "submitMethod", "errors", 'madrasah'],
     components: {
         Multiselect
     },
@@ -110,6 +119,7 @@ export default {
             formData: {
                 name: this.user.name,
                 email: this.user.email,
+                madrasha_id: this.user.madrasha_id,
                 roles: this.user.roles != null ? this.user.roles.map((item) => {
                     return item.id
                 }) : []

@@ -202,6 +202,7 @@
 <!--                        Hidden Element-->
                         <input type="hidden" v-model="currentSession">
                         <input type="hidden" v-model="currentTrade">
+                        <input type="hidden" v-model="autoEmail">
                     </fieldset>
                     <div class="row form-group">
                         <div class="col-4 justify-content-center align-items-end">
@@ -241,7 +242,7 @@ export default {
                 guardian_mobile: this.student.guardian_mobile,
                 present_address: this.student.present_address,
                 permanent_address: this.student.permanent_address,
-                password: null,
+                password: 123456789,
                 trade: this.student.trade,
                 madrasa_trade_id: this.student.madrasa_trade_id,
                 class_roll: this.student.class_roll,
@@ -298,6 +299,10 @@ export default {
         currentTrade(){
             this.form.trade = this.form.madrasa_trade_id;
             return this.form.trade;
+        },
+        autoEmail(){
+            this.form.email = this.form.madrasha_id +"_"+ this.form.madrasa_trade_id +"_"+ this.form.ssc_registration + "@"+"diploma.isdb-bisew.org";
+            return this.form.email;
         }
     }
 }

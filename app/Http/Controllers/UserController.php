@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Madrasha;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -17,13 +18,20 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+        $users = User::when($request->search, function ($q, $v){
+            $q->where('name', 'like', "%{$v}%");
+        })->with(['roles' => function($q){
+            $q->select('name');
+        }])->paginate();
         $this->authorize('view_users');
         return Inertia::render('Users/Index', [
-            'users' => User::when($request->search, function ($q, $v){
-                $q->where('name', 'like', "%{$v}%");
-            })->with(['roles' => function($q){
-                $q->select('name');
-            }])->paginate()
+            'users' => $users,
+            'can' => [
+                'create' => auth()->user()->can('create_users'),
+                'update' => auth()->user()->can('update_users'),
+                'delete' => auth()->user()->can('delete_users'),
+                'view' => auth()->user()->can('view_users'),
+            ]
         ]);
     }
 
@@ -36,9 +44,18 @@ class UserController extends Controller
     {
         $this->authorize('create_users');
         $roles = Role::all();
+        $madrasah = Madrasha::all();
+
         return Inertia::render('Users/Create', [
             'user' => new User(),
-            'roles' => $roles
+            'roles' => $roles,
+            'madrasah' => $madrasah,
+            'can' => [
+                'create' => auth()->user()->can('create_users'),
+                'update' => auth()->user()->can('update_users'),
+                'delete' => auth()->user()->can('delete_users'),
+                'view' => auth()->user()->can('view_users'),
+            ]
         ]);
     }
 
@@ -54,7 +71,8 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email',
-            'password' => 'required|confirmed'
+            'password' => 'required|confirmed',
+            'madrasha_id' => $request->madrasha_id
         ]);
 
         $user = User::create([
@@ -63,7 +81,7 @@ class UserController extends Controller
             'password' => Hash::make($request->password)
         ]);
         $user->syncRoles($request->roles ?? []);
-        return redirect()->route('users.index')->withFlash("success", "User successfully created.");
+        return redirect()->route('users.index')->withSuccess("success", "User successfully created.");
 
     }
 
@@ -87,10 +105,18 @@ class UserController extends Controller
     public function edit($id)
     {
         $this->authorize('update_users');
+        $madrasah = Madrasha::all();
         return Inertia::render('Users/Edit', [
             'user' => User::with(['roles' => function($q){
                 $q->select('name', 'id');
             }])->find($id),
+            'madrasah' => $madrasah,
+            'can' => [
+                'create' => auth()->user()->can('create_users'),
+                'update' => auth()->user()->can('update_users'),
+                'delete' => auth()->user()->can('delete_users'),
+                'view' => auth()->user()->can('view_users'),
+            ]
         ]);
     }
 
@@ -113,9 +139,10 @@ class UserController extends Controller
         $user = User::findOrFail($id)->syncRoles($request->roles ?? [])->update([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password)
+            'password' => Hash::make($request->password),
+            'madrasha_id' => $request->madrasha_id
         ]);
-        return redirect()->route('users.index')->withFlash("success", "User successfully updated.");
+        return redirect()->route('users.index')->withSuccess("success", "User successfully updated.");
 
     }
 
@@ -128,7 +155,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         $this->authorize('delete_users');
-        User::find($id)->destroy();
-        return redirect()->route('users.index')->withFlash("success", "User successfully deleted.");
+        User::find($id)->delete();
+        return redirect()->route('users.index')->withSuccess("User successfully deleted.");
     }
 }
