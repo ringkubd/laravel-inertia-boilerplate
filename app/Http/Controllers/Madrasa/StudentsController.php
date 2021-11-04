@@ -172,6 +172,7 @@ class StudentsController extends Controller
                 'password' => Hash::make($request->password)
             ]);
             $user = $user->id;
+            $user->assignRole('Student');
         }
         $data['users_id'] = $user;
         unset($data['email']);
