@@ -78,7 +78,8 @@ class UserController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password)
+            'password' => Hash::make($request->password),
+            'madrasha_id' => $request->madrasha_id
         ]);
         $user->syncRoles($request->roles ?? []);
         return redirect()->route('users.index')->withSuccess("success", "User successfully created.");
@@ -142,7 +143,7 @@ class UserController extends Controller
         if ($request->has('password') && $request->password != "") {
             $userArray['password'] = Hash::make($request->password);
         }
-        $user = User::findOrFail($id)->syncRoles($request->roles ?? [])->update();
+        $user = User::findOrFail($id)->syncRoles($request->roles ?? [])->update($userArray);
         return redirect()->route('users.index')->withSuccess("success", "User successfully updated.");
 
     }

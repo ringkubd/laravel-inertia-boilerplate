@@ -150,13 +150,13 @@ export default {
             }
             this.errors.email = false;
 
-            if (password.length === 0){
+            if (password.length === 0 && !this.isUpdate){
                 this.errors.password = "Password can't blank.";
                 return false;
             }
             this.errors.password = false;
 
-            if (confirmPassword.length === 0){
+            if (confirmPassword.length === 0 && !this.isUpdate){
                 this.errors.password_confirmation = "Confirm password can't blank.";
                 return false;
             }
