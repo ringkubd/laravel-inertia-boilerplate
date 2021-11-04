@@ -81,7 +81,9 @@ class MadrasahResultController extends Controller
             'ten_gpa.required_without' => 'The Dakhil CGPA is required when Nine GPA is not present...',
             'nine_gpa.required_without' => 'The Nine GPA is required...',
         ]);
-        $result = MadrasahResult::create($request->all());
+        $result_request = $request->all();
+        $result_request['added_by'] = auth()->user()->id;
+        $result = MadrasahResult::create($result_request);
         $result->student()->update(['madrasa_completed' => true]);
         return redirect()->route('madrasa.result.index')->withSuccess("Result updated.");
     }

@@ -133,15 +133,16 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email',
-            'password' => 'required|confirmed'
         ]);
-
-        $user = User::findOrFail($id)->syncRoles($request->roles ?? [])->update([
+        $userArray = [
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
             'madrasha_id' => $request->madrasha_id
-        ]);
+        ];
+        if ($request->has('password') && $request->password != "") {
+            $userArray['password'] = Hash::make($request->password);
+        }
+        $user = User::findOrFail($id)->syncRoles($request->roles ?? [])->update();
         return redirect()->route('users.index')->withSuccess("success", "User successfully updated.");
 
     }

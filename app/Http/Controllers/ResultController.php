@@ -104,7 +104,9 @@ class ResultController extends Controller
         }
 
         $fileName = [];
-        $result = Result::create($request->all());
+        $result_request = $request->all();
+        $result_request['added_by'] = auth()->user()->id;
+        $result = Result::create($result_request);
         if ($request->hasFile('supporting_document')) {
             $documents = $request->file('supporting_document');
             foreach ($documents as $doc){
