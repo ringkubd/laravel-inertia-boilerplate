@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -11,6 +12,16 @@ class Student extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = ['id'];
+
+    protected static function booted()
+    {
+        $user_madrasha = auth()->user()->madrasha_id;
+        static::addGlobalScope('relation', function (Builder $builder)use($user_madrasha){
+            if ($user_madrasha != null) {
+                $builder->where('madrasha_id', auth()->user()->madrasha_id);
+            }
+        });
+    }
 
     /**
      * @param $query
