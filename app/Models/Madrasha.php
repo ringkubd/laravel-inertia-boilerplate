@@ -15,7 +15,7 @@ class Madrasha extends Model
 
     protected static function booted()
     {
-        $user_madrasha = auth()->user()->madrasha_id;
+        $user_madrasha = auth()->user()?->madrasha_id;
         static::addGlobalScope('relation', function (Builder $builder)use($user_madrasha){
             if ($user_madrasha != null) {
                 $builder->where('id', auth()->user()->madrasha_id);
