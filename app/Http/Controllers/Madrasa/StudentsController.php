@@ -39,6 +39,8 @@ class StudentsController extends Controller
                     });
             })->when($request->current_session, function ($q, $v){
                 $q->where('current_session', 'like', "%$v%");
+            },function ($q){
+                $q->where('madrasa_completed', false);
             })
             ->when($request->trade, function ($q, $v){
                 $q->where('madrasa_trade_id', 'like', "%$v%");
@@ -50,14 +52,8 @@ class StudentsController extends Controller
             })
             ->with('madrasha')
             ->with('polytechnic')
-            ->whereNull('polytechnic')
-            ->where('madrasa_completed', false)
             ->where('status', true)
-            ->when($request->old_students, function ($q){
-                $q->where('madrasa_completed', true);
-            },function ($q){
-                $q->where('madrasa_completed', false);
-            })
+        
             ->paginate();
 
         $classes =  ClassRoom::where('is_madrasa', true)->get();
