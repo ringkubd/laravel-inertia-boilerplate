@@ -84,4 +84,8 @@ class User extends Authenticatable
     public function madrasah(){
         return $this->belongsTo(Madrasha::class, 'madrasha_id');
     }
+
+    public function activeSupport(){
+        return $this->hasOne(SupportConversation::class, 'creator')->where('status', 0);
+    }
 }

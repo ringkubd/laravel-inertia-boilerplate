@@ -39,8 +39,10 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user()
             ],
             'user' => $request->user(),
+            'active_support' => $request->user()?->activeSupport,
             'menu_permission' => [
                 'user_management' => $request->user()?->hasRole('Super Admin') ?? false,
+                'support' => $request->user()?->hasRole('Super Admin') || $request->user()?->hasRole('Admin') ?? false,
                 'blog_management' => $request->user()?->hasRole('Super Admin') ?? false,
                 'madrasah' => $request->user()?->hasPermissionTo('view_madrasa') || $request->user()?->hasRole('Super Admin'),
                 'teacher' => $request->user()?->hasPermissionTo('view_teacher') || $request->user()?->hasRole('Super Admin'),

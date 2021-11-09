@@ -1,6 +1,7 @@
 <template>
     <Head title="Dashboard"></Head>
     <div>
+        <chat  v-if="!$page.props.menu_permission.support"/>
         <div class="min-h-screen bg-gray-100">
             <nav class="bg-green-50 border-b border-gray-100">
                 <!-- Primary Navigation Menu -->
@@ -1121,10 +1122,12 @@ import BreezeDropdown from "@/Components/Dropdown";
 import BreezeDropdownLink from "@/Components/DropdownLink";
 import BreezeNavLink from "@/Components/NavLink";
 import BreezeResponsiveNavLink from "@/Components/ResponsiveNavLink";
+import Chat from "@/Pages/Support/chat";
 
 export default {
     props: ['user', 'auth', 'online', 'offline', 'menu_permission'],
     components: {
+        Chat,
         BreezeApplicationLogo,
         BreezeDropdown,
         BreezeDropdownLink,

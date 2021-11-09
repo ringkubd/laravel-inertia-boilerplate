@@ -65,6 +65,7 @@
     "lodash": "^4.17.19",
     "postcss": "^8.2.13",
     "postcss-import": "^14.0.1",
+    "resolve-url-loader": "^4.0.0",
     "sass": "~1.32.0",
     "sass-loader": "^10.0.0",
     "tailwindcss": "^2.2.9",

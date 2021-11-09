@@ -25,6 +25,10 @@ Broadcast::channel('messages.{conversation}', function($user, \App\Models\Conver
     return $conversation->conversationUsers()->where('user_id', $user->id)->get()->count() > 0;
 });
 
+Broadcast::channel('support.{conversation}', function($user, \App\Models\SupportConversation $conversation){
+    return $conversation->creator == $user->id || $user->hasRole('Super Admin') || $user->hasRole('Admin');
+});
+
 
 Broadcast::channel('post.{post}', function($user, \App\Models\Post $post){
     return (int)$user->id === (int)$post->author;
