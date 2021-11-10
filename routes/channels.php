@@ -30,6 +30,12 @@ Broadcast::channel('support.{conversation}', function($user, \App\Models\Support
 });
 
 
+Broadcast::channel('support', function($user){
+    return $user;
+});
+
+
+
 Broadcast::channel('post.{post}', function($user, \App\Models\Post $post){
     return (int)$user->id === (int)$post->author;
 });

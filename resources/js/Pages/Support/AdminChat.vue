@@ -70,7 +70,7 @@ export default {
             },
             message: '',
             messageData: [],
-            channel: ''
+            onlineUser: []
         }
     },
     mounted() {
@@ -83,8 +83,18 @@ export default {
     },
     created: function () {
         this.moment = moment;
-        this.channel = window.Echo.private(`support.`+this.activeConversation.id);
-        let app = this.channel
+        this.channel = window.Echo.private(`support.`+this.activeConversation?.id);
+        this.onlineChannel
+            .here(users => {
+                this.onlineUser = [...new Set([...this.onlineUser, ...users])]
+            })
+            .joining(user => {
+                let users = [user]
+                this.onlineUser = [...new Set([...this.onlineUser, ...users])]
+            })
+            .listen('SupportOnlineEvent',user => {
+            //console.log(user.user)
+        })
     },
     methods: {
         scrollToBottom(){
@@ -114,6 +124,9 @@ export default {
         },
         channel(){
             return this.channel = window.Echo.private(`support.`+this.activeConversation.id);
+        },
+        onlineChannel(){
+            return this.onlineChannel = window.Echo.join('support')
         }
     },
     updated(){

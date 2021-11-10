@@ -462,6 +462,14 @@
                                         </template>
                                     </breeze-dropdown>
                                 </div>
+                                <breeze-nav-link
+                                    :href="route('support.index')"
+                                    :active="route().current('support.index')"
+                                    class="rounded-md"
+                                    v-if="$page.props.menu_permission.support"
+                                >
+                                    Support
+                                </breeze-nav-link>
                             </div>
                         </div>
 

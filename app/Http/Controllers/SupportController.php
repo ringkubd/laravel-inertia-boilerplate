@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\SupportEvent;
+use App\Events\SupportOnlineEvent;
 use App\Http\Resources\SupportMessageResource;
 use App\Models\SupportConversation;
 use App\Models\User;
@@ -124,6 +125,7 @@ class SupportController extends Controller
                 'status' => 0
             ]);
         }
+        broadcast(new SupportOnlineEvent(auth()->user()));
         return response()->json($conversation);
     }
 }

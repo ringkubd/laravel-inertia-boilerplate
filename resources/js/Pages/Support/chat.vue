@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button class="btn btn-primary c-chat-widget-button" ref="button" @click.prevent="toggleModal()">C</button>
+        <button class="btn btn-primary c-chat-widget-button" ref="button" @click.prevent="toggleModal()">C <sup v-if="newMessage" class="text-center text-black">New</sup></button>
         <div id="chat" class="bg-gray-300">
             <div class="c-chat-widget" on ref="modal" :class="{show: modal.show}">
                 <div class="c-chat-widget-header">
@@ -38,40 +38,51 @@ export default {
                 show: false,
             },
             message: '',
-            messageData: [],
+            messageData: {},
             collapsed: false,
             channel: null,
             channelObj: Object,
-            conversationId : this.$page.props.active_support?.id
+            conversationId : this.$page.props.active_support?.id,
+            newMessage: false,
         }
     },
     created: function () {
         this.moment = moment;
-        this.initialize()
+        if (this.$page.props.active_support?.id !== undefined){
+            this.initialize()
+        }
+        this.onlineChannel.joining(user => {
+            console.log(user)
+        })
     },
     mounted() {
-        this.initChannel()
+        if (this.$page.props.active_support?.id !== undefined){
+            this.initChannel()
+        }
     },
     methods: {
         async initialize(){
-            await axios.get(route('get_support_active_conversation'))
+            return await axios.get(route('get_support_active_conversation'))
                 .then(res => {
                     let data = res.data
                     this.channel = "support."+data.id
                     this.conversationId = data.id
-                    this.messageData = data.message
+                    this.messageData = data.message === undefined ? [] : data.message
+                    return Promise.resolve(res)
                 })
         },
         initChannel(){
             this.channelObj = window.Echo.private("support."+this.conversationId)
                 .listen('SupportEvent', (e) => {
                     this.messageData.push(e.conversation)
+                    this.newMessage = true
                 })
         },
         sendMessage() {
             if(this.message.replace(/^\s+|\s+$/g, "") === ""){
                 return;
             }
+
             axios.post(route('support.store'), {
                 message: this.message,
                 conversation_id: this.conversationId
@@ -82,6 +93,10 @@ export default {
             this.message = "";
         },
         toggleModal() {
+            this.initialize().then(res => {
+                this.initChannel()
+            })
+
             this.modal.show = !this.modal.show;
             this.scrollToBottom()
         },
@@ -102,8 +117,10 @@ export default {
             console.log(e)
         }
     },
-    computed(){
-        console.log(this.channel)
+    computed:{
+        onlineChannel(){
+            return this.onlineChannel = window.Echo.join('support')
+        }
     }
 }
 </script>
