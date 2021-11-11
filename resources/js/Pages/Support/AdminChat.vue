@@ -46,8 +46,9 @@
                             </ul>
                         </div>
                         <div class="card-footer static bottom-0" style="width: 100%">
+                            <span v-if="typing"><b>{{typingUser.name}} <i>typing..</i>:</b> {{typingText}}</span>
                             <form action="" @submit.prevent="sendMessage">
-                                <input type="text" class="form-control h-20" v-model="message">
+                                <input type="text" class="form-control h-20" @keydown="isTyping" v-model="message">
                                 <input type="submit" class="btn btn-success" value="Send">
                             </form>
                         </div>
@@ -70,7 +71,10 @@ export default {
             },
             message: '',
             messageData: [],
-            onlineUser: []
+            onlineUser: [],
+            typing: false,
+            typingUser: "",
+            typingText: "",
         }
     },
     mounted() {
@@ -79,7 +83,17 @@ export default {
         let app = this.channel
         app.listen('SupportEvent', (e) => {
             this.messageData.push(e.conversation)
-        })
+            this.typing = false
+        }).listenForWhisper('typing', (e) => {
+            this.typingUser = e.typingUser;
+            this.typing = e.typing;
+            this.typingText = e.typingText;
+            let _this = this
+            // remove is typing indicator after 0.9s
+            setTimeout(function() {
+                _this.typing = false
+            }, 4500);
+        });
     },
     created: function () {
         this.moment = moment;
@@ -116,6 +130,16 @@ export default {
         },
         changeActiveChat(conversation){
             this.$inertia.replace(route('support.index')+`?conversation_id=${conversation.id}`)
+        },
+        isTyping(){
+            let _this = this
+            setTimeout(function() {
+                _this.channel.whisper('typing', {
+                    typingUser: _this.$page.props.user,
+                    typing: true,
+                    typingText: _this.message,
+                });
+            }, 300);
         }
     },
     computed: {

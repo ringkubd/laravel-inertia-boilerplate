@@ -41,7 +41,7 @@
                     </table>
                 </div>
                 <div class="card-footer">
-
+                    <Paginator :paginator="invoices" />
                 </div>
             </div>
         </div>
@@ -53,10 +53,11 @@ import Authenticated from "@/Layouts/Authenticated";
 import CardHeader from "@/Shared/CardHeader";
 import PageHeader from "@/Shared/PageHeader";
 import Actions from "@/Shared/Actions";
+import Paginator from "@/Components/Paginator";
 export default {
     name: "Index",
     props: ['can', 'invoices'],
-    components: {Actions, PageHeader, CardHeader, Authenticated},
+    components: {Paginator, Actions, PageHeader, CardHeader, Authenticated},
     data(){
 
     },

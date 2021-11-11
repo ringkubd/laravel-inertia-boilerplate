@@ -17,6 +17,7 @@
         "laravel/framework": "^8.40",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
+        "league/fractal": "^0.19.2",
         "maatwebsite/excel": "^3.1",
         "spatie/laravel-permission": "^4.2",
         "svnwa/inertiavuepaginator": "^1.0",

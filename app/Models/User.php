@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\RecordsActivity;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -88,4 +89,17 @@ class User extends Authenticatable
     public function activeSupport(){
         return $this->hasOne(SupportConversation::class, 'creator')->where('status', 0);
     }
+
+    /**
+     * Get the activity timeline for the user.
+     *
+     * @return mixed
+     */
+    public function activity()
+    {
+        return $this->hasMany(Activity::class)
+            ->with(['user', 'subject'])
+            ->latest();
+    }
+
 }

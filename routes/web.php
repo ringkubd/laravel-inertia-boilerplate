@@ -158,5 +158,8 @@ Route::get('openssl/decrypt', [\App\Http\Controllers\OpensslManagementController
 // Inbox
 Route::get('inbox', [\App\Http\Controllers\InboxController::class, 'inbox'])->name('inbox');
 
+// Activity Log
+Route::get('activity/{user?}', [\App\Http\Controllers\ActivityLogController::class, 'index'])->name('activity');
+
 // page
 Route::get('{slug}', [\App\Http\Controllers\Blog\PageController::class, 'show']);

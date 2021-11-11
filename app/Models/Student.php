@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
+use App\Models\Traits\RecordsActivity;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+
 class Student extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, RecordsActivity;
 
     protected $guarded = ['id'];
 
@@ -119,4 +121,5 @@ class Student extends Model
     public function polytechnicResult(){
         return $this->hasMany(Result::class);
     }
+
 }

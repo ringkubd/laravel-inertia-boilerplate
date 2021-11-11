@@ -17,8 +17,9 @@
                         </li>
                     </ul>
                     <div class="c-chat-widget-footer">
+                        <span v-if="typing"><b>{{typingUser.name}}: is typing ... </b>{{typingText}}</span>
                         <form action="" @submit.prevent="sendMessage">
-                            <input type="text" class="c-chat-widget-text form-controller" v-model="message">
+                            <input type="text" class="c-chat-widget-text form-controller" @keydown="isTyping" v-model="message">
                             <input type="submit" class="btn btn-success pull-right" value="Send">
                         </form>
                     </div>
@@ -44,6 +45,9 @@ export default {
             channelObj: Object,
             conversationId : this.$page.props.active_support?.id,
             newMessage: false,
+            typing: false,
+            typingUser: "",
+            typingText: "",
         }
     },
     created: function () {
@@ -72,11 +76,23 @@ export default {
                 })
         },
         initChannel(){
-            this.channelObj = window.Echo.private("support."+this.conversationId)
-                .listen('SupportEvent', (e) => {
+            let _this = this;
+            let channelObj = window.Echo.private("support."+this.conversationId);
+            channelObj.listen('SupportEvent', (e) => {
                     this.messageData.push(e.conversation)
                     this.newMessage = true
-                })
+                    this.typing = false
+                }).listenForWhisper('typing', (e) => {
+                    this.typingUser = e.typingUser;
+                    this.typing = e.typing;
+                    this.typingText = e.typingText;
+                    // remove is typing indicator after 0.9s
+                    _this.showModal()
+                    setTimeout(function() {
+                        _this.typing = false
+                    }, 6000);
+                });
+            this.channelObj = channelObj;
         },
         sendMessage() {
             if(this.message.replace(/^\s+|\s+$/g, "") === ""){
@@ -115,6 +131,16 @@ export default {
         rightClick(e){
             //e.preventDefault()
             console.log(e)
+        },
+        isTyping(){
+            let _this = this
+            setTimeout(function() {
+                _this.channelObj.whisper('typing', {
+                    typingUser: _this.$page.props.user,
+                    typing: true,
+                    typingText: _this.message,
+                });
+            }, 300);
         }
     },
     computed:{

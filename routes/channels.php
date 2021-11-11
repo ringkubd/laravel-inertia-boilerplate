@@ -39,3 +39,6 @@ Broadcast::channel('support', function($user){
 Broadcast::channel('post.{post}', function($user, \App\Models\Post $post){
     return (int)$user->id === (int)$post->author;
 });
+Broadcast::channel('activity.{id}', function ($user, $id) {
+    return true;
+});
