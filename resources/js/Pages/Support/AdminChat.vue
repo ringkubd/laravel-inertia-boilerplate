@@ -23,7 +23,7 @@
                         </div>
                         <div class="card-body overflow-scroll" ref="messageContainer" style="height: 58vh!important;">
                             <ul class="p-0.5">
-                                <li class="border-blue-100 border pl-1.5 mb-1.5 shadow cursor-pointer" v-for="(mes, index) in messageData" key="index">
+                                <li @focus="seenMessage" :messageId="mes.id" class="border-blue-100 border pl-1.5 mb-1.5 shadow cursor-pointer" v-for="(mes, index) in messageData" key="index">
                                     <div class="row">
                                         <div class="col-3" v-if="activeConversation.creator.id === mes.sender.id">
                                              <span class="font-bold border-b">
@@ -81,8 +81,11 @@ export default {
         this.scrollToBottom()
         this.messageData = this.activeConversation?.message
         let app = this.channel
+        let audio = new Audio('beep.mp3')
         app.listen('SupportEvent', (e) => {
             this.messageData.push(e.conversation)
+            audio.load()
+            audio.play()
             this.typing = false
         }).listenForWhisper('typing', (e) => {
             this.typingUser = e.typingUser;
@@ -140,6 +143,9 @@ export default {
                     typingText: _this.message,
                 });
             }, 300);
+        },
+        seenMessage(){
+            console.log(this)
         }
     },
     computed: {

@@ -8,7 +8,7 @@
                 </div>
                 <div class="c-chat-widget-container-main">
                     <ul ref="messageContainer" class="c-chat-widget-container">
-                        <li @contextmenu="rightClick" class="border-2 p-2" :class="$page.props.user.id === mess.sender.id ? 'text-left' : 'text-right'" v-for="(mess, index) in messageData" :key={index}>
+                        <li @focus="seenMessage" :messageId="mess.id" @contextmenu="rightClick" class="border-2 p-2" :class="$page.props.user.id === mess.sender.id ? 'text-left' : 'text-right'" v-for="(mess, index) in messageData" :key={index}>
                             <span class="text-green-900 inline-block border-b-2 border-blue-200">
                                 <b>{{mess.sender.name}}  <small style="font-size: 8px; font-style: italic;" class="text-blue-400 pull-right">{{moment(mess.created_at).fromNow() }}</small></b>
                             </span>
@@ -78,10 +78,13 @@ export default {
         initChannel(){
             let _this = this;
             let channelObj = window.Echo.private("support."+this.conversationId);
+            let audio = new Audio('beep.mp3')
             channelObj.listen('SupportEvent', (e) => {
                     this.messageData.push(e.conversation)
                     this.newMessage = true
                     this.typing = false
+                    audio.load()
+                    audio.play()
                 }).listenForWhisper('typing', (e) => {
                     this.typingUser = e.typingUser;
                     this.typing = e.typing;
@@ -141,6 +144,9 @@ export default {
                     typingText: _this.message,
                 });
             }, 300);
+        },
+        seenMessage(){
+            console.log(this)
         }
     },
     computed:{
