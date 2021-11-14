@@ -100,6 +100,9 @@ Route::resource('fee', \App\Http\Controllers\FeeController::class);
 // Invoice Management
 Route::resource('invoice', \App\Http\Controllers\InvoiceController::class);
 
+// Polytechnic Admission Management
+Route::resource('admission', \App\Http\Controllers\AdmissionController::class);
+
 // Test
 
 Route::get('conv', function(){

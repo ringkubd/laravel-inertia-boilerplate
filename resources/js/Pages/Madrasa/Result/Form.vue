@@ -38,6 +38,11 @@
                                     <input type="number" id="ten_gpa" step="0.01" max="5" min="1"  class="form-control" v-model="form.ten_gpa">
                                     <InputError :message="errors.ten_gpa"/>
                                 </div>
+                                <div class="col-md">
+                                    <label for="pass_year">Pass Year</label>
+                                    <input type="number" id="pass_year" step="1" min="2000"  class="form-control" v-model="form.pass_year">
+                                    <InputError :message="errors.pass_year"/>
+                                </div>
                                 <div class="col">
                                     <label for="status">Status</label>
                                     <select name="status" id="status" class="form-control" v-model="form.status">
@@ -80,6 +85,7 @@ export default {
                 student_id: this.dbValue.student_id,
                 nine_gpa: this.dbValue.nine_gpa,
                 ten_gpa: this.dbValue.ten_gpa,
+                pass_year: this.dbValue.pass_year,
                 status: this.dbValue.status,
             },
             createForm: this.createForm

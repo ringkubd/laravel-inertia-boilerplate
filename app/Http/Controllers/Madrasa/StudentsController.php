@@ -53,7 +53,7 @@ class StudentsController extends Controller
             ->with('madrasha')
             ->with('polytechnic')
             ->where('status', true)
-        
+
             ->paginate();
 
         $classes =  ClassRoom::where('is_madrasa', true)->get();
@@ -167,8 +167,8 @@ class StudentsController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password)
             ]);
-            $user = $user->id;
             $user->assignRole('Student');
+            $user = $user->id;
         }
         $data['users_id'] = $user;
         unset($data['email']);

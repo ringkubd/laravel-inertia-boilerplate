@@ -74,6 +74,7 @@ class MadrasahResultController extends Controller
             'student_id' => ['required','unique:madrasah_results,student_id'],
             'nine_gpa' => 'required_without:ten_gpa',
             'ten_gpa' => 'required_without:nine_gpa',
+            'pass_year' => 'required_wit:ten_gpa',
             'status' => 'required'
         ], [
             'student_id.required' => 'Please select a student. Student field is required.',
@@ -132,6 +133,7 @@ class MadrasahResultController extends Controller
         $request->validate([
             'nine_gpa' => 'required_without:ten_gpa',
             'ten_gpa' => 'required_without:nine_gpa',
+            'pass_year' => 'required_wit:ten_gpa',
             'status' => 'required'
         ], [
             'ten_gpa.required_without' => 'The Dakhil CGPA is required when Nine GPA is not present...',
