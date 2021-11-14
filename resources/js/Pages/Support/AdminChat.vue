@@ -16,7 +16,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-8" @drop="onImageDrop">
                     <div class="card" style="height: 75vh!important;">
                         <div class="card-header">
                             <h2>{{activeConversation?.creator?.name}}</h2>
@@ -32,6 +32,7 @@
                                             </span>
                                         </div>
                                         <div class="col-9 bg-blend-color bg-green-200">
+                                            <img v-if="String(mes.attachment_type).search('image') !== -1" :src="mes.attachment" class="img-thumbnail image w-1/2">
                                             {{mes.message}}
                                         </div>
 
@@ -110,8 +111,8 @@ export default {
                 this.onlineUser = [...new Set([...this.onlineUser, ...users])]
             })
             .listen('SupportOnlineEvent',user => {
-            //console.log(user.user)
-        })
+                //console.log(user.user)
+            })
     },
     methods: {
         scrollToBottom(){
@@ -146,6 +147,23 @@ export default {
         },
         seenMessage(){
             console.log(this)
+        },
+        onImageDrop(e){
+            e.preventDefault()
+            let files = [...e.dataTransfer.files]
+            if (files.length > 0) {
+                let attachment = [];
+                let formData = new FormData();
+                formData.append('attachment', files[0]);
+                formData.append('message', this.message)
+                formData.append('conversation_id', this.activeConversation.id)
+
+                axios.post(route('support.store'), formData).then(res => {
+                    this.messageData.push(res.data.conversation)
+                    this.scrollToBottom()
+                })
+                this.message = "";
+            }
         }
     },
     computed: {

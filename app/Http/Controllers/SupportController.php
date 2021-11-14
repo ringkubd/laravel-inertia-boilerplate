@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use function Sodium\randombytes_random16;
 
 class SupportController extends Controller
 {
@@ -54,11 +55,23 @@ class SupportController extends Controller
             'conversation_id' => 'required'
         ]);
         $support = SupportConversation::find($request->conversation_id);
-        $conversation = $support->message()->create([
+
+        $chat = [
             'sender' => auth()->user()->id,
             'support_conversation_id' => $support->id,
             'message' => $request->message
-        ]);
+        ];
+
+        if ($request->hasFile('attachment')) {
+            $attachment = $request->file('attachment');
+            $chat['attachment_type'] = $attachment->getClientMimeType();
+            $fileName = randombytes_random16().".".$attachment->getClientOriginalExtension();
+            $filePath = "conversation/".$fileName;
+            $chat['attachment'] = url($filePath);
+            $attachment->move(public_path("conversation/"), $fileName);
+        }
+
+        $conversation = $support->message()->create($chat);
         broadcast(new SupportEvent(new SupportMessageResource($conversation)));
         return response()->json([
             'successs' => true,

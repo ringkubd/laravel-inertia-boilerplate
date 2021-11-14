@@ -1,15 +1,17 @@
 <template>
     <div>
         <button class="btn btn-primary c-chat-widget-button" ref="button" @click.prevent="toggleModal()">C <sup v-if="newMessage" class="text-center text-black">New</sup></button>
-        <div id="chat" class="bg-gray-300">
-            <div class="c-chat-widget" on ref="modal" :class="{show: modal.show}">
-                <div class="c-chat-widget-header">
-                    Chat with Support
+        <div id="chat" class="bg-gray-300" @drop="onImageDrop">
+            <div class="c-chat-widget" on ref="modal" :class="{show: modal.show}" @drop="onImageDrop">
+                <div class="c-chat-widget-header row">
+                    <div class="col-11 text-left">Chat with Support</div>
+                    <div class="col-1 text-right text-red-500 block border-2 backdrop-blur-2xl bg-green-200 cursor-pointer" @click="hideModal">X</div>
                 </div>
-                <div class="c-chat-widget-container-main">
+                <div class="c-chat-widget-container-main" @drop="onImageDrop">>
                     <ul ref="messageContainer" class="c-chat-widget-container">
                         <li @focus="seenMessage" :messageId="mess.id" @contextmenu="rightClick" class="border-2 p-2" :class="$page.props.user.id === mess.sender.id ? 'text-left' : 'text-right'" v-for="(mess, index) in messageData" :key={index}>
                             <span class="text-green-900 inline-block border-b-2 border-blue-200">
+                                <img v-if="String(mess.attachment_type).search('image') !== -1" :src="mess.attachment" width="50%" class="img-thumbnail image">
                                 <b>{{mess.sender.name}}  <small style="font-size: 8px; font-style: italic;" class="text-blue-400 pull-right">{{moment(mess.created_at).fromNow() }}</small></b>
                             </span>
                             <br>
@@ -80,21 +82,21 @@ export default {
             let channelObj = window.Echo.private("support."+this.conversationId);
             let audio = new Audio('beep-2.mp3')
             channelObj.listen('SupportEvent', (e) => {
-                    this.messageData.push(e.conversation)
-                    this.newMessage = true
-                    this.typing = false
-                    audio.load()
-                    audio.play()
-                }).listenForWhisper('typing', (e) => {
-                    this.typingUser = e.typingUser;
-                    this.typing = e.typing;
-                    this.typingText = e.typingText;
-                    // remove is typing indicator after 0.9s
-                    _this.showModal()
-                    setTimeout(function() {
-                        _this.typing = false
-                    }, 6000);
-                });
+                this.messageData.push(e.conversation)
+                this.newMessage = true
+                this.typing = false
+                audio.load()
+                audio.play()
+            }).listenForWhisper('typing', (e) => {
+                this.typingUser = e.typingUser;
+                this.typing = e.typing;
+                this.typingText = e.typingText;
+                // remove is typing indicator after 0.9s
+                _this.showModal()
+                setTimeout(function() {
+                    _this.typing = false
+                }, 6000);
+            });
             this.channelObj = channelObj;
         },
         sendMessage() {
@@ -147,6 +149,24 @@ export default {
         },
         seenMessage(){
             console.log(this)
+        },
+        onImageDrop(e){
+            e.preventDefault()
+            let files = [...e.dataTransfer.files]
+            console.log(files)
+            if (files.length > 0) {
+                let attachment = [];
+                let formData = new FormData();
+                formData.append('attachment', files[0]);
+                formData.append('message', this.message)
+                formData.append('conversation_id', this.conversationId)
+
+                axios.post(route('support.store'), formData).then(res => {
+                    this.messageData.push(res.data.conversation)
+                    this.scrollToBottom()
+                })
+                this.message = "";
+            }
         }
     },
     computed:{
