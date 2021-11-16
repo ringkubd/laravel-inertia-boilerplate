@@ -149,13 +149,13 @@ class StudentsController extends Controller
         $student_id = random_int(0, 9);
         if ($request->hasFile('photo')) {
             $image = $request->file('photo');
-            $fileName = $request->madrashas_id.'_'.$request->class_roll.'_'.$request->trade.'_'.$student_id.'_'.rand(999);
+            $fileName = $request->madrashas_id.'_'.$request->class_roll.'_'.$request->trade.'_'.$student_id.'_'.rand(99,999);
             $path = $image->move(public_path('photos/students'), $fileName.'.'.$image->getClientOriginalExtension());
             $data['photo'] ='photos/students'.'/'.$fileName.'.'.$image->getClientOriginalExtension();
         }
         if ($request->hasFile('id_card')) {
             $image = $request->file('id_card');
-            $fileName = $request->madrashas_id.'_'.$request->class_roll.'_'.$request->trade.'_'.$student_id.'_idcard'.'_'.rand(999);
+            $fileName = $request->madrashas_id.'_'.$request->class_roll.'_'.$request->trade.'_'.$student_id.'_idcard'.'_'.rand(99,999);
             $path = $image->move(public_path('photos/students'), $fileName.'.'.$image->getClientOriginalExtension());
             $data['id_card'] ='photos/students'.'/'.$fileName.'.'.$image->getClientOriginalExtension();
         }
@@ -272,7 +272,7 @@ class StudentsController extends Controller
                 unlink(public_path($studentsInformation->photo));
             }
             $image = $request->file('photo');
-            $fileName = $request->madrashas_id.'_'.$request->class_roll.'_'.$request->trade.'_'.$student_id.'_'.rand(999);
+            $fileName = $request->madrashas_id.'_'.$request->class_roll.'_'.$request->trade.'_'.$student_id.'_'.rand(99,999);
             $path = $image->move(public_path('photos/students'), $fileName.'.'.$image->getClientOriginalExtension());
             unset($data['photo']);
             $data['photo'] ='photos/students'.'/'.$fileName.'.'.$image->getClientOriginalExtension();
@@ -282,7 +282,7 @@ class StudentsController extends Controller
                 unlink(public_path($studentsInformation->id_card));
             }
             $image = $request->file('id_card');
-            $fileName = $request->madrashas_id.'_'.$request->class_roll.'_'.$request->trade.'_'.$student_id.'_'.rand(999);
+            $fileName = $request->madrashas_id.'_'.$request->class_roll.'_'.$request->trade.'_'.$student_id.'_'.rand(99,999);
             $path = $image->move(public_path('photos/students/id_card'), $fileName.'.'.$image->getClientOriginalExtension());
             unset($data['photo']);
             $data['id_card'] ='photos/students/id_card/'.$fileName.'.'.$image->getClientOriginalExtension();
