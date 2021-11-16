@@ -37,6 +37,7 @@
                             <th>Name</th>
                             <th>Email</th>
                             <th>Roles</th>
+                            <th>Madrasah</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -58,6 +59,9 @@
                                 <ol class="list-group">
                                     <li class="list-inline-item" v-for="role in user.roles">{{role.name}}</li>
                                 </ol>
+                            </td>
+                            <td>
+                                {{ user?.madrasah?.name }}
                             </td>
                             <td class="flex justify-center">
                                 <Actions

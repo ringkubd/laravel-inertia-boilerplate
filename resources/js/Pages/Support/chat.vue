@@ -50,6 +50,7 @@ export default {
             typing: false,
             typingUser: "",
             typingText: "",
+            supportOnline: []
         }
     },
     created: function () {
@@ -58,7 +59,7 @@ export default {
             this.initialize()
         }
         this.onlineChannel.joining(user => {
-            console.log(user)
+            this.supportOnline.unshift(user)
         })
     },
     mounted() {
@@ -82,7 +83,7 @@ export default {
             let channelObj = window.Echo.private("support."+this.conversationId);
             let audio = new Audio('beep-2.mp3')
             channelObj.listen('SupportEvent', (e) => {
-                this.messageData.push(e.conversation)
+                this.messageData.unshift(e.conversation)
                 this.newMessage = true
                 this.typing = false
                 audio.load()

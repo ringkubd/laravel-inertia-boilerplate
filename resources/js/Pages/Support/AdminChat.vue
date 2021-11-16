@@ -128,7 +128,7 @@ export default {
         let app = this.channel
         let audio = new Audio('beep.mp3')
         app.listen('SupportEvent', (e) => {
-            this.messageData.push(e.conversation)
+            this.messageData.unshift(e.conversation)
             audio.load()
             audio.play()
             this.typing = false
@@ -151,7 +151,7 @@ export default {
                 this.onlineUser.unshift(user)
             })
             .listen('SupportOnlineEvent',user => {
-                console.log(user.user)
+                this.onlineUser.unshift(user.user)
             })
     },
     methods: {
