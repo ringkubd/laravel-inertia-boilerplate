@@ -3,25 +3,55 @@
         <button class="btn btn-primary c-chat-widget-button" ref="button" @click.prevent="toggleModal()">C <sup v-if="newMessage" class="text-center text-black">New</sup></button>
         <div id="chat" class="bg-gray-300" @drop="onImageDrop">
             <div class="c-chat-widget" on ref="modal" :class="{show: modal.show}" @drop="onImageDrop">
-                <div class="c-chat-widget-header row">
+                <div class="c-chat-widget-header row m-auto">
                     <div class="col-11 text-left">Chat with Support</div>
-                    <div class="col-1 text-right text-red-500 block border-2 backdrop-blur-2xl bg-green-200 cursor-pointer" @click="hideModal">X</div>
+                    <div class="col-1 text-right text-black-500 block border-2 backdrop-blur-2xl cursor-pointer" @click="hideModal">X</div>
                 </div>
-                <div class="c-chat-widget-container-main" @drop="onImageDrop">>
+                <div class="c-chat-widget-container-main" @drop="onImageDrop">
                     <ul ref="messageContainer" class="c-chat-widget-container">
                         <li @focus="seenMessage" :messageId="mess.id" @contextmenu="rightClick" class="border-2 p-2" :class="$page.props.user.id === mess.sender.id ? 'text-left' : 'text-right'" v-for="(mess, index) in messageData" :key={index}>
                             <span class="text-green-900 inline-block border-b-2 border-blue-200">
-                                <img v-if="String(mess.attachment_type).search('image') !== -1" :src="mess.attachment" width="50%" class="img-thumbnail image">
                                 <b>{{mess.sender.name}}  <small style="font-size: 8px; font-style: italic;" class="text-blue-400 pull-right">{{moment(mess.created_at).fromNow() }}</small></b>
                             </span>
                             <br>
                             {{ mess.message }}
+                            <img v-if="String(mess.attachment_type).search('image') !== -1" :src="mess.attachment" class="img-thumbnail image w-1/2 content-center">
+                            <a  v-else-if="mess.attachment_type !== null" :href="mess.attachment" target="_blank">
+                                <font-awesome-icon
+                                    icon="paperclip"
+                                    size="md"
+                                    rotation="rotate"
+                                    class="text-info"
+                                ></font-awesome-icon>
+                                Attachment
+                            </a>
                         </li>
                     </ul>
                     <div class="c-chat-widget-footer">
                         <span v-if="typing"><b>{{typingUser.name}}: is typing ... </b>{{typingText}}</span>
                         <form action="" @submit.prevent="sendMessage">
-                            <input type="text" class="c-chat-widget-text form-controller" @keydown="isTyping" v-model="message">
+                            <div class="form-group">
+                                <textarea class="c-chat-widget-text form-controller" @keydown="isTyping" v-model="message"> </textarea>
+                            </div>
+                            <div class="form-group mb-1">
+                                <div class="bg-white px-2">
+                                    <div class="max-w-md mx-auto rounded-lg overflow-hidden md:max-w-xl">
+                                        <div class="md:flex">
+                                            <div class="w-full">
+                                                <div class="relative border-dotted h-10 bg-gray-100 flex justify-center items-center">
+                                                    <div class="absolute">
+                                                        <div class="flex flex-col items-center">
+                                                            <i class="fa fa-folder-open fa-4x text-blue-700"></i>
+                                                            <span class="block text-gray-400 font-normal" v-html="fileName"></span>
+                                                        </div>
+                                                    </div>
+                                                    <input type="file" class="h-full w-full opacity-0" @change="onFileSelect" name="" ref="attachment">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <input type="submit" class="btn btn-success pull-right" value="Send">
                         </form>
                     </div>
@@ -33,6 +63,9 @@
 </template>
 <script>
 import moment from "moment";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faPen, faTrash, faCopy, faPaperclip } from "@fortawesome/free-solid-svg-icons";
+library.add(faPen, faTrash, faCopy, faPaperclip);
 export default {
     props: [],
     data() {
@@ -50,7 +83,9 @@ export default {
             typing: false,
             typingUser: "",
             typingText: "",
-            supportOnline: []
+            supportOnline: [],
+            previewAttachment: "",
+            fileName: "Attach you files here"
         }
     },
     created: function () {
@@ -83,7 +118,7 @@ export default {
             let channelObj = window.Echo.private("support."+this.conversationId);
             let audio = new Audio('beep-2.mp3')
             channelObj.listen('SupportEvent', (e) => {
-                this.messageData.unshift(e.conversation)
+                this.messageData.push(e.conversation)
                 this.newMessage = true
                 this.typing = false
                 audio.load()
@@ -92,7 +127,6 @@ export default {
                 this.typingUser = e.typingUser;
                 this.typing = e.typing;
                 this.typingText = e.typingText;
-                // remove is typing indicator after 0.9s
                 _this.showModal()
                 setTimeout(function() {
                     _this.typing = false
@@ -101,18 +135,24 @@ export default {
             this.channelObj = channelObj;
         },
         sendMessage() {
-            if(this.message.replace(/^\s+|\s+$/g, "") === ""){
+            let files = this.$refs.attachment.files
+            if(this.message.replace(/^\s+|\s+$/g, "") === "" && files.length === 0){
                 return;
             }
+            let formData = new FormData();
+            if (files.length > 0) {
+                formData.append('attachment', files[0]);
+            }
+            formData.append('message', this.message)
+            formData.append('conversation_id', this.conversationId)
 
-            axios.post(route('support.store'), {
-                message: this.message,
-                conversation_id: this.conversationId
-            }).then(res => {
+            axios.post(route('support.store'), formData).then(res => {
                 this.messageData.push(res.data.conversation)
                 this.scrollToBottom()
             })
             this.message = "";
+            this.fileName = "Attach you files here"
+            this.$refs.attachment.value = null
         },
         toggleModal() {
             this.initialize().then(res => {
@@ -154,7 +194,6 @@ export default {
         onImageDrop(e){
             e.preventDefault()
             let files = [...e.dataTransfer.files]
-            console.log(files)
             if (files.length > 0) {
                 let attachment = [];
                 let formData = new FormData();
@@ -168,6 +207,9 @@ export default {
                 })
                 this.message = "";
             }
+        },
+        onFileSelect(){
+            this.fileName = this.$refs.attachment?.files.length > 0 ? this.$refs.attachment.files[0].name : "Attach you files here"
         }
     },
     computed:{

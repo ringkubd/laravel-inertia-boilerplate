@@ -32,8 +32,17 @@
                                             </span>
                                         </div>
                                         <div class="col-9 bg-blend-color bg-green-200">
-                                            <img v-if="String(mes.attachment_type).search('image') !== -1" :src="mes.attachment" class="img-thumbnail image w-1/2">
                                             {{mes.message}}
+                                            <img v-if="String(mes.attachment_type).search('image') !== -1" :src="mes.attachment" class="img-thumbnail image w-1/2 content-center">
+                                            <a v-else-if="mes.attachment_type !== null" :href="mes.attachment" target="_blank">
+                                                <font-awesome-icon
+                                                    icon="paperclip"
+                                                    size="md"
+                                                    rotation="rotate"
+                                                    class="text-info"
+                                                ></font-awesome-icon>
+                                                Attachment
+                                            </a>
                                         </div>
 
                                         <div class="col-3" v-if="activeConversation.creator.id !== mes.sender.id">
@@ -49,7 +58,28 @@
                         <div class="card-footer static bottom-0" style="width: 100%">
                             <span v-if="typing"><b>{{typingUser.name}} <i>typing..</i>:</b> {{typingText}}</span>
                             <form action="" @submit.prevent="sendMessage">
-                                <input type="text" class="form-control h-20" @keydown="isTyping" v-model="message">
+                                <div class="form-group">
+                                    <textarea class="form-control h-20" @keydown="isTyping" v-model="message"> </textarea>
+                                </div>
+                                <div class="form-group mb-1">
+                                    <div class="bg-white">
+                                        <div class="max-w-md mx-auto rounded-lg overflow-hidden md:max-w-xl">
+                                            <div class="md:flex">
+                                                <div class="w-full">
+                                                    <div class="relative border-dotted h-10 bg-gray-100 flex justify-center items-center">
+                                                        <div class="absolute">
+                                                            <div class="flex flex-col items-center">
+                                                                <i class="fa fa-folder-open fa-4x text-blue-700"></i>
+                                                                <span class="block text-gray-400 font-normal" v-html="fileName"></span>
+                                                            </div>
+                                                        </div>
+                                                        <input type="file" class="h-full w-full opacity-0" @change="onFileSelect" name="" ref="attachment">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <input type="submit" class="btn btn-success" value="Send">
                             </form>
                         </div>
@@ -97,8 +127,8 @@ import moment from "moment";
 import CmpContextMenu from "@/Components/Context-menu"
 import NavLink from "@/Components/NavLink";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faPen, faTrash, faCopy } from "@fortawesome/free-solid-svg-icons";
-library.add(faPen, faTrash, faCopy);
+import { faPen, faTrash, faCopy, faPaperclip } from "@fortawesome/free-solid-svg-icons";
+library.add(faPen, faTrash, faCopy, faPaperclip);
 export default {
     props: ['support', 'activeConversation'],
     components: {
@@ -119,7 +149,8 @@ export default {
             typingText: "",
             showContextMenu: false,
             clickedMessageId: null,
-            deleteUrl: "#"
+            deleteUrl: "#",
+            fileName: "Attach you files here"
         }
     },
     mounted() {
@@ -128,7 +159,7 @@ export default {
         let app = this.channel
         let audio = new Audio('beep.mp3')
         app.listen('SupportEvent', (e) => {
-            this.messageData.unshift(e.conversation)
+            this.messageData.push(e.conversation)
             audio.load()
             audio.play()
             this.typing = false
@@ -148,10 +179,10 @@ export default {
         //this.channel = window.Echo.private(`support.`+this.activeConversation?.id);
         this.onlineChannel
             .joining(user => {
-                this.onlineUser.unshift(user)
+                this.onlineUser.push(user)
             })
             .listen('SupportOnlineEvent',user => {
-                this.onlineUser.unshift(user.user)
+                this.onlineUser.push(user.user)
             })
     },
     methods: {
@@ -160,17 +191,24 @@ export default {
             el.scrollTop = el.scrollHeight;
         },
         sendMessage() {
-            if(this.message.replace(/^\s+|\s+$/g, "") === ""){
+            let files = this.$refs.attachment.files
+            if(this.message.replace(/^\s+|\s+$/g, "") === "" && files.length === 0){
                 return;
             }
-            axios.post(route('support.store'), {
-                message: this.message,
-                conversation_id: this.activeConversation.id
-            }).then(res => {
+            let formData = new FormData();
+            if (files.length > 0) {
+                formData.append('attachment', files[0]);
+            }
+            formData.append('message', this.message)
+            formData.append('conversation_id', this.activeConversation.id)
+
+            axios.post(route('support.store'), formData).then(res => {
                 this.messageData.push(res.data.conversation)
                 this.scrollToBottom()
             })
             this.message = "";
+            this.fileName = "Attach you files here"
+            this.$refs.attachment.value = null
         },
         changeActiveChat(conversation, oldConversation){
             if(conversation.id !== oldConversation.id){
@@ -219,6 +257,9 @@ export default {
             if(this.clickedMessageId !== null){
 
             }
+        },
+        onFileSelect(){
+            this.fileName = this.$refs.attachment?.files.length > 0 ? this.$refs.attachment.files[0].name : "Attach you files here"
         }
     },
     computed: {
