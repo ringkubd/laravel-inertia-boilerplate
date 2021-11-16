@@ -128,6 +128,7 @@ Route::resource('conversation', ConversationController::class);
 Route::get('get_active_conversation/{target}', [ConversationController::class, 'get_active_conversation'])->name('get_active_conversation');
 Route::resource('support', \App\Http\Controllers\SupportController::class);
 Route::get('get_support_active_conversation', [\App\Http\Controllers\SupportController::class, 'get_active_conversation'])->name('get_support_active_conversation');
+Route::delete('delete_message/{message}', [\App\Http\Controllers\SupportController::class, 'deleteMessage'])->name('delete_message');
 
 
 // Blog

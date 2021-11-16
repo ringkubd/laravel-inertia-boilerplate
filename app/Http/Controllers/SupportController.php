@@ -6,6 +6,7 @@ use App\Events\SupportEvent;
 use App\Events\SupportOnlineEvent;
 use App\Http\Resources\SupportMessageResource;
 use App\Models\SupportConversation;
+use App\Models\SupportConversationMessage;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -140,5 +141,9 @@ class SupportController extends Controller
         }
         broadcast(new SupportOnlineEvent(auth()->user()));
         return response()->json($conversation);
+    }
+
+    public function deleteMessage(SupportConversationMessage $message){
+        return $message;
     }
 }
