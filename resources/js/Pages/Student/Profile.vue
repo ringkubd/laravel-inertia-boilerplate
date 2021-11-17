@@ -4,7 +4,7 @@
     </Head>
     <Authenticated>
         <div class="container-fluid mt-2 min-vh-100">
-            <img class="m-auto img-thumbnail mb-2 w-1/6" v-if="student.photo !== null" :src="'/'+student.photo" :alt="student.name">
+            <img class="m-auto img-thumbnail mb-2 w-1/12" v-if="student.photo !== null" :src="'/'+student.photo" :alt="student.name">
             <div class="row">
                 <div class="col-md-6">
                     <div class="card">
