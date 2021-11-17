@@ -189,7 +189,10 @@ class StudentsController extends Controller
      */
     public function show($id)
     {
-        //
+        $student = Student::with('madrasahResult', 'polytechnicResult', 'classroom', 'madrasha', 'polytechnic', 'users')->find($id);
+        return Inertia::render('Student/Profile', [
+            'student' => $student
+        ]);
     }
 
     /**

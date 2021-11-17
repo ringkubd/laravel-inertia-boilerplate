@@ -1,4 +1,8 @@
 <template>
+    <Head>
+        <title>Student Add Page | IsDB-BISEW</title>
+        <meta name="description" content="Your page description">
+    </Head>
     <authenticated>
         <template #header>
             <page-header>

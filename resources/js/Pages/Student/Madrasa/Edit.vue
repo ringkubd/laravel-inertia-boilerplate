@@ -1,6 +1,6 @@
 <template>
     <Head>
-        <title>Your page title</title>
+        <title>Student Edit Page | IsDB-BISEW</title>
         <meta name="description" content="Your page description">
     </Head>
     <Authenticated>

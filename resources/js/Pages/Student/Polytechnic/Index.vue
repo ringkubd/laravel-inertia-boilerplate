@@ -104,7 +104,7 @@
                                 {{ student.semester }}
                             </td>
                             <td>
-                                <Actions :can="can" :deleteUrl="route('polytechnic.student.destroy', student.id)" :editUrl="route('polytechnic.student.edit', student.id)" :isDetails="true" :detailUrl="route('polytechnic.student.show', student.id)"></Actions>
+                                <Actions :can="can" :deleteUrl="route('polytechnic.student.destroy', student.id)" :editUrl="route('polytechnic.student.edit', student.id)" :isDetails="true" :detailUrl="route('madrasa.student.show', student.id)"></Actions>
                             </td>
                         </tr>
                         </tbody>

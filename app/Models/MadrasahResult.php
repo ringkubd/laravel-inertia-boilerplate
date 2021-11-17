@@ -17,12 +17,20 @@ class MadrasahResult extends Model
     protected static function booted()
     {
         static::addGlobalScope('student', function (Builder $builder){
-           $builder->with('student');
+           $builder->with('student', 'addedBy', 'approvedBy');
         });
     }
 
     public function student(){
         return $this->belongsTo(Student::class);
+    }
+
+    public function addedBy(){
+        return $this->belongsTo(User::class, 'added_by');
+    }
+
+    public function approvedBy(){
+        return $this->belongsTo(User::class, 'approved_by');
     }
 
 }

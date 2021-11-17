@@ -85,7 +85,9 @@ class MadrasahResultController extends Controller
         $result_request = $request->all();
         $result_request['added_by'] = auth()->user()->id;
         $result = MadrasahResult::create($result_request);
-        $result->student()->update(['madrasa_completed' => true]);
+        if ($request->has('ten_gpa') && $request->ten_gpa != "" && $request->status == "pass") {
+            $result->student()->update(['madrasa_completed' => true]);
+        }
         return redirect()->route('madrasa.result.index')->withSuccess("Result updated.");
     }
 
