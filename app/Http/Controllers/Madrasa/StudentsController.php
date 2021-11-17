@@ -146,7 +146,7 @@ class StudentsController extends Controller
             'classroom' => 'required',
         ]);
         $data = $request->all();
-        $student_id = random_int(0, 9);
+        $student_id = random_int(99, 9999);
         if ($request->hasFile('photo')) {
             $image = $request->file('photo');
             $fileName = $request->madrashas_id.'_'.$request->class_roll.'_'.$request->trade.'_'.$student_id.'_'.rand(99,999);

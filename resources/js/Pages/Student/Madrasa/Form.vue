@@ -157,14 +157,14 @@
                             </div>
                             <div class="col-md">
                                 <label for="ssc_roll">SSC Roll</label>
-                                <input type="number" id="ssc_roll" v-model="form.ssc_roll" class="form-control">
+                                <input type="number"  autocomplete="off"  id="ssc_roll" v-model="form.ssc_roll" class="form-control">
                                 <div v-if="errors.ssc_roll" class="text-danger">
                                     {{ errors.ssc_roll }}
                                 </div>
                             </div>
                             <div class="col-md">
                                 <label for="ssc_registration">SSC Registration</label>
-                                <input type="number" id="ssc_registration" v-model="form.ssc_registration" class="form-control">
+                                <input type="number" autocomplete="off" id="ssc_registration" v-model="form.ssc_registration" class="form-control">
                                 <div v-if="errors.ssc_registration" class="text-danger">
                                     {{ errors.ssc_registration }}
                                 </div>
