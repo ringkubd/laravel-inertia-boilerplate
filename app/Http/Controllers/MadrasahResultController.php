@@ -25,7 +25,7 @@ class MadrasahResultController extends Controller
                     $q->where('session', $v);
                 });
             });
-        })->has('student')->get();
+        })->has('student')->paginate();
         return Inertia::render('Madrasa/Result/Index', [
             'results' => $result,
             'can' => [

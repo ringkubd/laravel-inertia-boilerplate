@@ -24,7 +24,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr v-for="(result, index) in results" :key="result.id">
+                        <tr v-for="(result, index) in results.data" :key="result.id">
                             <td>{{index + 1}}</td>
                             <td>{{result.student.name}}</td>
                             <td>{{result.nine_gpa}}</td>
@@ -37,6 +37,9 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="card-footer">
+                    <Paginator :paginator="results" />
+                </div>
             </div>
         </div>
     </app-layout>
@@ -47,8 +50,10 @@ import AppLayout from "@/Layouts/Authenticated";
 import CardHeader from "@/Shared/CardHeader";
 import Actions from "@/Shared/Actions";
 import PageHeader from "@/Shared/PageHeader";
+import Paginator from "@/Components/Paginator";
 export default {
     components: {
+        Paginator,
         PageHeader,
         Actions,
         CardHeader,
