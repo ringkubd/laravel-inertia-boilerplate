@@ -287,7 +287,7 @@ class StudentsController extends Controller
             $image = $request->file('id_card');
             $fileName = $request->madrashas_id.'_'.$request->class_roll.'_'.$request->trade.'_'.$student_id.'_'.rand(99,999);
             $path = $image->move(public_path('photos/students/id_card'), $fileName.'.'.$image->getClientOriginalExtension());
-            unset($data['photo']);
+            unset($data['id_card']);
             $data['id_card'] ='photos/students/id_card/'.$fileName.'.'.$image->getClientOriginalExtension();
         }
         $user = null;

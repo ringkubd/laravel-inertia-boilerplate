@@ -31,7 +31,7 @@
                                 </tr>
                                 <tr>
                                     <th>Email</th>
-                                    <td>{{ student.users.email }}</td>
+                                    <td>{{ student?.users?.email }}</td>
                                 </tr>
                                 <tr>
                                     <th>Mobile 1</th>

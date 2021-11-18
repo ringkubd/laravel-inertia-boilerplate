@@ -107,6 +107,31 @@
                         <input type="hidden" v-model="currentTrade">
                         <input type="hidden" v-model="currentClass">
                     </fieldset>
+
+                    <fieldset class="row form-group">
+                        <legend>Photo & ID</legend>
+                        <div class="col-md">
+                            <label for="photo">Photo</label>
+                            <input type="file" id="photo" class="form-control" ref="photo" @input="form.photo = $event.target.files[0]" @change="updatePhotoPreview">
+                            <div v-if="errors.photo" class="text-danger">
+                                {{ errors.photo }}
+                            </div>
+                            <div class="imagePreviewWrapper" v-if="photoPreview && photoPreview !== ''"
+                                 :style="{ 'background-image': `url(${photoPreview})` }"
+                            ></div>
+                        </div>
+                        <div class="col-md">
+                            <label for="id_card">ID Card</label>
+                            <input type="file" id="id_card" class="form-control" ref="id_card" @input="form.id_card = $event.target.files[0]" @change="updateIDCardPreview">
+                            <div v-if="errors.id_card" class="text-danger">
+                                {{ errors.id_card }}
+                            </div>
+                            <div class="imagePreviewWrapper" v-if="idCardPreview && idCardPreview !== ''"
+                                 :style="{ 'background-image': `url(${idCardPreview})` }"
+                            ></div>
+                        </div>
+                    </fieldset>
+
                     <div class="row form-group">
                         <div class="col-4 justify-content-center align-items-end">
                             <input type="submit" class="btn btn-success rounded" v-if="createForm" value="Create">
@@ -152,6 +177,8 @@ export default {
                 bank_name: this.selected_bank,
                 current_session: this.selected_session,
                 classroom: '',
+                photo: this.student.photo,
+                id_card: this.student.id_card,
                 _method: this.createForm ? 'POST' : 'PUT'
             }),
             photoPreview: this.student.photo,
@@ -159,12 +186,35 @@ export default {
         }
     },
     methods: {
+        updatePhotoPreview() {
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                this.photoPreview = e.target.result;
+            };
+            reader.readAsDataURL(this.$refs.photo.files[0]);
+            this.$emit('input', this.$refs.photo.files[0])
+        },
+        updateIDCardPreview() {
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                this.idCardPreview = e.target.result;
+            };
+            reader.readAsDataURL(this.$refs.id_card.files[0]);
+            this.$emit('input', this.$refs.photo.files[0])
+        },
         submitForm(){
             this.postForm(this.form)
         }
     },
     mounted() {
-        console.log(this.classes)
+        if (this.student.photo){
+            this.photoPreview = "/"+this.student.photo
+        }
+        if (this.student.id_card){
+            this.idCardPreview = "/"+this.student.id_card
+        }
     },
     computed: {
         currentSession(){

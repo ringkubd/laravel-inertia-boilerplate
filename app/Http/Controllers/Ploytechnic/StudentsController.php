@@ -146,6 +146,28 @@ class StudentsController extends Controller
         $user = null;
         $data['student_id'] = $request->student_id;
         $student = Student::findOrFail($request->student_id);
+
+        if ($request->hasFile('photo')) {
+            if ($student->photo != null && file_exists(public_path($student->photo))) {
+                unlink(public_path($student->photo));
+            }
+            $image = $request->file('photo');
+            $fileName = $request->madrashas_id.'_'.$request->class_roll.'_'.$request->trade.'_'.$student->student_id.'_'.rand(99,999);
+            $path = $image->move(public_path('photos/students'), $fileName.'.'.$image->getClientOriginalExtension());
+            unset($data['photo']);
+            $data['photo'] ='photos/students'.'/'.$fileName.'.'.$image->getClientOriginalExtension();
+        }
+        if ($request->hasFile('id_card')) {
+            if ($student->id_card != null && file_exists(public_path($student->id_card))) {
+                unlink(public_path($student->id_card));
+            }
+            $image = $request->file('id_card');
+            $fileName = $request->madrashas_id.'_'.$request->class_roll.'_'.$request->trade.'_'.$student->student_id.'_'.rand(99,999);
+            $path = $image->move(public_path('photos/students/id_card'), $fileName.'.'.$image->getClientOriginalExtension());
+            unset($data['id_card']);
+            $data['id_card'] ='photos/students/id_card/'.$fileName.'.'.$image->getClientOriginalExtension();
+        }
+
         $student->update($data);
         $student->classroom()->sync($request->classroom);
         return redirect()->route('polytechnic.student.index')->withMessage('Student addedd.');
@@ -229,6 +251,28 @@ class StudentsController extends Controller
         $user = null;
         $data['student_id'] = $request->student_id;
         $student = Student::findOrFail($request->student_id);
+
+        if ($request->hasFile('photo')) {
+            if ($student->photo != null && file_exists(public_path($student->photo))) {
+                unlink(public_path($student->photo));
+            }
+            $image = $request->file('photo');
+            $fileName = $request->madrashas_id.'_'.$request->class_roll.'_'.$request->trade.'_'.$student->student_id.'_'.rand(99,999);
+            $path = $image->move(public_path('photos/students'), $fileName.'.'.$image->getClientOriginalExtension());
+            unset($data['photo']);
+            $data['photo'] ='photos/students'.'/'.$fileName.'.'.$image->getClientOriginalExtension();
+        }
+        if ($request->hasFile('id_card')) {
+            if ($student->id_card != null && file_exists(public_path($student->id_card))) {
+                unlink(public_path($student->id_card));
+            }
+            $image = $request->file('id_card');
+            $fileName = $request->madrashas_id.'_'.$request->class_roll.'_'.$request->trade.'_'.$student->student_id.'_'.rand(99,999);
+            $path = $image->move(public_path('photos/students/id_card'), $fileName.'.'.$image->getClientOriginalExtension());
+            unset($data['id_card']);
+            $data['id_card'] ='photos/students/id_card/'.$fileName.'.'.$image->getClientOriginalExtension();
+        }
+
         $student->update($data);
         $student->classroom()->sync($request->classroom);
         return redirect()->route('polytechnic.student.index')->withMessage('Student Updated.');
