@@ -19,7 +19,6 @@
                                         :delay="0"
                                         :searchable="true"
                                         mode="single"
-                                        limit="50"
                                         :options="async function(query) {
                                                     return await selectChangeEvent(query)
                                                 }"
