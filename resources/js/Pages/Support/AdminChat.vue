@@ -1,4 +1,7 @@
 <template>
+    <Head>
+        <title>Support Management | IsDB-BISEW</title>
+    </Head>
     <Authenticated>
         <div class="container">
             <div class="row h-screen">
