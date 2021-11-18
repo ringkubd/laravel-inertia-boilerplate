@@ -10,7 +10,7 @@
                         <div class="card-body overflow-scroll" style="height: 58vh!important;">
                             <ul class="p-0.5">
                                 <li class="border-blue-100 border pl-1.5 mb-1.5 font-bold bg-blend-color bg-green-200 shadow cursor-pointer" v-for="(sup, index) in support" :conversation="sup" @click="changeActiveChat(sup, activeConversation)" key="index">
-                                    {{sup.creator.name}}
+                                    {{sup?.creator?.name}}
                                 </li>
                             </ul>
                         </div>
