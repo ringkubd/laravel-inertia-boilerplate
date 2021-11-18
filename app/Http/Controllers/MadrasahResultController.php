@@ -176,7 +176,6 @@ class MadrasahResultController extends Controller
             ->select('name as label', 'id as value')
             ->madrasa()
             ->doesntHave('madrasahResult')
-            ->limit(50)
             ->get();
     }
 }
