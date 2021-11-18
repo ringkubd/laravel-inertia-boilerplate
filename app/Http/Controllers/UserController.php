@@ -158,7 +158,7 @@ class UserController extends Controller
     {
         $this->authorize('delete_users');
         $user = User::find($id);
-        $user->support()->update(['status', 1]);
+        $user->support()->update(['status' => 1]);
         $user->delete();
         return redirect()->route('users.index')->withSuccess("User successfully deleted.");
     }
