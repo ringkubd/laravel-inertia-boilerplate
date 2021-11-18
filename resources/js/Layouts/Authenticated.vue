@@ -530,6 +530,7 @@
                                             :href="route('logout')"
                                             method="post"
                                             as="button"
+                                            @click="logout"
                                         >
                                             Log Out
                                         </breeze-dropdown-link>
@@ -1155,7 +1156,9 @@ export default {
         addOnlineFriend(user){
             let app = this.$page.props
             if(this.onlineFriends.indexOf(user) < 0 && app.user.id != user.id){
-                this.onlineFriends.push(user)
+                this.onlineFriends.pushIfNotExist(user, function (e) {
+                    return e.id === user.id
+                })
             }
         },
         removeOfflineFriend(offlineUser){
@@ -1166,7 +1169,9 @@ export default {
         addOfflineFriend(user){
             let app = this.$page.props
             if(this.offlineFriends.indexOf(user) < 0 && app.user.id != user.id){
-                this.offlineFriends.push(user)
+                this.offlineFriends.pushIfNotExist(user, function (e) {
+                    return e.id === user.id
+                })
             }
         },
         removeOnlineFriend(onlineUser){
@@ -1176,6 +1181,10 @@ export default {
         },
         convertProxyObjectToPojo(proxyObj) {
             return _.cloneDeep(proxyObj);
+        },
+        logout(){
+            console.log(this.user)
+            this.removeOnlineFriend(this.user)
         }
     },
     created() {
@@ -1214,6 +1223,9 @@ export default {
         },
         connection () {
             return window.Echo.connector.pusher.connection;
+        },
+        onlineFriends(){
+            return this.onlineFriends = [...new Set(this.onlineFriends)]
         }
     },
     mounted () {

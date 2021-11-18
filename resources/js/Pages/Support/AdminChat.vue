@@ -14,6 +14,9 @@
                             <ul class="p-0.5">
                                 <li class="border-blue-100 border pl-1.5 mb-1.5 font-bold bg-blend-color bg-green-200 shadow cursor-pointer" v-for="(sup, index) in support" :conversation="sup" @click="changeActiveChat(sup, activeConversation)" key="index">
                                     {{sup?.creator?.name}}
+                                    <span class="font-extralight text-green-800" v-if="isOnline(sup?.creator)">
+                                        online
+                                    </span>
                                 </li>
                             </ul>
                         </div>
@@ -146,14 +149,15 @@ export default {
             },
             message: '',
             messageData: [],
-            onlineUser: [],
+            onlineSupport: [],
             typing: false,
             typingUser: "",
             typingText: "",
             showContextMenu: false,
             clickedMessageId: null,
             deleteUrl: "#",
-            fileName: "Attach you files here"
+            fileName: "Attach you files here",
+            online: this.$store.state.onlineFriends
         }
     },
     mounted() {
@@ -182,10 +186,12 @@ export default {
         //this.channel = window.Echo.private(`support.`+this.activeConversation?.id);
         this.onlineChannel
             .joining(user => {
-                this.onlineUser.push(user)
+                this.onlineSupport.pushIfNotExist(user, function (e){
+                    return e.id === user.id
+                })
             })
             .listen('SupportOnlineEvent',user => {
-                this.onlineUser.push(user.user)
+                this.onlineSupport.push(user.user)
             })
     },
     methods: {
@@ -263,6 +269,15 @@ export default {
         },
         onFileSelect(){
             this.fileName = this.$refs.attachment?.files.length > 0 ? this.$refs.attachment.files[0].name : "Attach you files here"
+        },
+        isOnline(obj) {
+            let online = this.online
+            for (var i = 0; i < online.length; i++) {
+                if (online[i].id === obj.id) { // modify whatever property you need
+                    return true;
+                }
+            }
+            return false
         }
     },
     computed: {
@@ -277,7 +292,11 @@ export default {
         },
         deleteUrl(){
             return this.deleteUrl = route('delete_message', this.clickedMessageId)
-        }
+        },
+        online(){
+            return this.online = this.$store.state.onlineFriends
+        },
+
     },
     updated(){
         this.channel = window.Echo.private(`support.`+this.activeConversation.id);

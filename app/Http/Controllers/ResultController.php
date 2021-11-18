@@ -192,7 +192,6 @@ class ResultController extends Controller
             ->select('name as label', 'id as value')
             ->whereNotNull('polytechnic')
             ->polytechnic()
-            ->limit(10)
             ->get();
     }
 }

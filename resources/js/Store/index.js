@@ -11,7 +11,9 @@ export const store = createStore({
     plugins: [createLogger()],
     mutations: {
         onlineFriends(state, user){
-            this.state.onlineFriends.push(user)
+            this.state.onlineFriends.pushIfNotExist(user, function (e){
+                return e.id === user.id
+            })
         }
     },
     modules: {
@@ -22,7 +24,9 @@ export const store = createStore({
            this.state.onlineFriends = users
         },
         addOnlineFriends({ commit, state }, user){
-            state.onlineFriends.push(user)
+            state.onlineFriends.pushIfNotExist(user, function (e){
+                return e.id === user.id
+            })
         },
         removeOfflineFriend({ commit, state }, user){
             state.onlineFriends = state.onlineFriends.filter(online => {
