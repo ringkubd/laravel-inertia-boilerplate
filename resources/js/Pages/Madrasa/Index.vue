@@ -9,7 +9,9 @@
         <div class="container-fluid">
             <div class="card mt-5 min-vh-100">
                 <div class="card-header">
-                    <CardHeader :can="can" :create="route('madrasa.create')" :search-method="search"></CardHeader>
+                    <CardHeader :can="can" :create="route('madrasa.create')" :search-method="search">
+
+                    </CardHeader>
                 </div>
                 <div class="card-body">
                     <table class="table table-secondary table-striped text-center">

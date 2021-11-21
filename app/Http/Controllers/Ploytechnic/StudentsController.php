@@ -26,6 +26,8 @@ class StudentsController extends Controller
     public function index(Request $request)
     {
         $this->authorize('view_polytechnic_student');
+        $madrasah_id = $request->has('madrasah') && $request->get('madrasah') != "" ? currentMadrasah($request->madrasah): currentMadrasah();
+
         $students = Student::query()
             ->with('users')
             ->with('classroom')
@@ -57,11 +59,15 @@ class StudentsController extends Controller
             },function ($q){
                 $q->where('polytechnic_completed', false);
             })
+            ->when($madrasah_id, function ($q, $v){
+                $q->where('madrasha_id', $v);
+            })
             ->paginate();
 
         $classes = ClassRoom::where('is_madrasa', false)->get();
         $session = AcademicSession::all();
         $trade = Trade::where('is_madrasa', 0)->get();
+        $madrasah = Madrasha::all();
 
         return Inertia::render($this->root_component.'Index', [
             'students' => $students,
@@ -73,7 +79,9 @@ class StudentsController extends Controller
             ],
             'trades' => $trade,
             'academic_session' => $session,
-            'classes' => $classes
+            'classes' => $classes,
+            'madrasahs' => $madrasah,
+            'selected_madrasah' => $madrasah_id
         ]);
     }
 

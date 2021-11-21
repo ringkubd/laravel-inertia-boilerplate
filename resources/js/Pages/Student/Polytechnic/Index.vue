@@ -8,6 +8,15 @@
     <Authenticated>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Student Management</h2>
+            <div class="form-group row">
+                <label for="madrasah" class="col-sm-3 col-form-label">Madrasah</label>
+                <div class="col-sm-9">
+                    <select v-model="filterParam.madrasah" name="madrasah" id="madrasah" class="form-control" @change="filterData">
+                        <option value=""></option>
+                        <option v-for="madrasah in madrasahs" :value="madrasah.id">{{madrasah.name}}</option>
+                    </select>
+                </div>
+            </div>
         </template>
         <div class="container-fluid">
             <div class="card mt-5 min-vh-100">
@@ -124,13 +133,14 @@ import Paginator from "@/Components/Paginator";
 export default {
     name: "Index",
     components: {Paginator, Actions, CardHeader, Authenticated},
-    props: ['students', 'trades', 'academic_session', 'can', 'classes'],
+    props: ['students', 'trades', 'academic_session', 'can', 'classes', 'madrasahs', 'selected_madrasah'],
     data(){
         return {
             filterParam: {
                 trade: GET('trade')[0],
                 session: GET('current_session')[0],
-                classroom: GET('classroom')[0]
+                classroom: GET('classroom')[0],
+                madrasah: this.selected_madrasah
             }
         }
     },
@@ -139,7 +149,7 @@ export default {
             this.$inertia.replace(route('polytechnic.student.index', {'search': query}))
         },
         filterData(){
-            this.$inertia.replace(route('polytechnic.student.index', {'current_session': this.filterParam.session, 'trade': this.filterParam.trade, 'classroom': this.filterParam.classroom}))
+            this.$inertia.replace(route('polytechnic.student.index', { 'madrasah' : this.filterParam.madrasah, 'current_session': this.filterParam.session, 'trade': this.filterParam.trade, 'classroom': this.filterParam.classroom}))
         }
     },
     mounted() {
