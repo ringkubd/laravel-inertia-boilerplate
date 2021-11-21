@@ -243,7 +243,7 @@ export default {
             }
             this.channel =  window.Echo.private(`support.`+ conversation?.id);
             this.scrollToBottom()
-            this.$inertia.replace(route('support.index')+`?conversation_id=${conversation.id}`)
+            this.$inertia.visit(route('support.index')+`?conversation_id=${conversation.id}`)
         },
         isTyping(){
             let _this = this
