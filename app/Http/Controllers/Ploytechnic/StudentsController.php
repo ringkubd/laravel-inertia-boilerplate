@@ -26,7 +26,7 @@ class StudentsController extends Controller
     public function index(Request $request)
     {
         $this->authorize('view_polytechnic_student');
-        $madrasah_id = $request->has('madrasah') && $request->get('madrasah') != "" ? currentMadrasah($request->madrasah): currentMadrasah();
+        $madrasah_id = $request->has('madrasah') ? currentMadrasah($request->madrasah): currentMadrasah();
 
         $students = Student::query()
             ->with('users')

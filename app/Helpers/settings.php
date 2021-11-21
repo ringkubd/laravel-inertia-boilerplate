@@ -4,6 +4,9 @@ if (!function_exists('currentMadrasah')) {
         if ($madrasah != null) {
             session(['madrasah' => $madrasah]);
         }
+        if ($madrasah == "") {
+            session()->forget('madrasah');
+        }
         return session()->get('madrasah');
     }
 }
