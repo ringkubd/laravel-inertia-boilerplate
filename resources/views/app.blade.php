@@ -37,6 +37,7 @@
 </head>
 <body class="font-sans antialiased">
 @include('ckfinder::setup')
+<div id="confirm"></div>
 @inertia
 
 @env ('local')

@@ -9,6 +9,8 @@ import Select2 from 'vue3-select2-component';
 import VuePictureSwipe from 'vue-picture-swipe';
 import VueHtmlToPaper from './Plugins/Print/VueHtmlToPaper'
 import { store } from "@/Store";
+import VueConfirmPlugin from "v3confirm";
+
 
 const el = document.getElementById("app");
 
@@ -34,19 +36,24 @@ createInertiaApp({
         createApp({
             render: () => h(app, props),
         })
-        .mixin({
-            methods: {
-                route,
-                GET
-            },
-        })
-        .use(plugin)
-        .use(store)
-        .use(VueHtmlToPaper)
-        .component("font-awesome-icon", FontAwesomeIcon)
-        .component("Select2", Select2)
-        .component('vue-picture-swipe', VuePictureSwipe)
-        .mount(el);
+            .mixin({
+                methods: {
+                    route,
+                    GET
+                },
+            })
+            .use(plugin)
+            .use(store)
+            .use(VueHtmlToPaper)
+            .use(VueConfirmPlugin, {
+                root: '#confirm',
+                yesText: 'Yes',
+                noText: 'No',
+            })
+            .component("font-awesome-icon", FontAwesomeIcon)
+            .component("Select2", Select2)
+            .component('vue-picture-swipe', VuePictureSwipe)
+            .mount(el);
     },
 });
 

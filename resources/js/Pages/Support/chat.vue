@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button class="btn btn-primary c-chat-widget-button" ref="button" @click.prevent="toggleModal()">C <sup v-if="newMessage" class="text-center text-black">New</sup></button>
+        <button class="c-chat-widget-button" :class="newMessage ? 'animate-bounce bg-red-500' : 'bg-green-500'" ref="button" @click.prevent="toggleModal()">C <sup v-if="newMessage" class="text-center text-black">New</sup></button>
         <div id="chat" class="bg-gray-300" @drop="onImageDrop">
             <div class="c-chat-widget" on ref="modal" :class="{show: modal.show}" @drop="onImageDrop">
                 <div class="c-chat-widget-header row m-auto">
@@ -9,12 +9,13 @@
                 </div>
                 <div class="c-chat-widget-container-main" @drop="onImageDrop">
                     <ul ref="messageContainer" class="c-chat-widget-container">
-                        <li @focus="seenMessage" :messageId="mess.id" @contextmenu="rightClick" class="border-2 p-2" :class="$page.props.user.id === mess.sender.id ? 'text-left' : 'text-right'" v-for="(mess, index) in messageData" :key={index}>
+                        <li @focus="seenMessage" :messageId="mess.id" @contextmenu="rightClick" class="border-2 py-2 my-0.5 shadow-lg shadow-inner" :class="$page.props.user.id === mess.sender.id ? 'text-left' : 'text-right'" v-for="(mess, index) in messageData" :key={index}>
                             <span class="text-green-900 inline-block border-b-2 border-blue-200">
                                 <b>{{mess.sender.name}}  <small style="font-size: 8px; font-style: italic;" class="text-blue-400 pull-right">{{moment(mess.created_at).fromNow() }}</small></b>
                             </span>
                             <br>
-                            {{ mess.message }}
+                            <img v-if="mess.message === '@like@'" src="/like.png" class="image w-1/12 flex content-center">
+                            <span v-else>{{mess.message}}</span>
                             <img v-if="String(mess.attachment_type).search('image') !== -1" :src="mess.attachment" class="img-thumbnail image w-1/2 content-center">
                             <a  v-else-if="mess.attachment_type !== null" :href="mess.attachment" target="_blank">
                                 <font-awesome-icon
@@ -158,7 +159,7 @@ export default {
             this.initialize().then(res => {
                 this.initChannel()
             })
-
+            this.newMessage = false
             this.modal.show = !this.modal.show;
             this.scrollToBottom()
         },

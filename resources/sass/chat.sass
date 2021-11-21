@@ -1,4 +1,56 @@
-//Chat css
+@import "bulma/sass/utilities/_all.sass"
+@import "bulma/sass/components/modal.sass"
+
+ul, ol
+    padding: 0
+    li
+        padding: 0 1rem!important
+
+.modal
+    display: flex
+    &-content
+        align-content: center
+        width: max-content
+    &-card
+        &-head
+            text-align: center
+            display: flex
+            justify-content: center
+        &-foot
+            display: flex
+            justify-content: center
+.modal-card-foot
+    button
+        background-color: green
+        display: inline-block
+        font-weight: 400
+        line-height: 1.5
+        color: black
+        text-align: center
+        text-decoration: none
+        vertical-align: middle
+        cursor: pointer
+        -webkit-user-select: none
+        -moz-user-select: none
+        -ms-user-select: none
+        user-select: none
+        background-color: transparent
+        border: transparent
+        padding: 0.375rem 0.75rem
+        font-size: 1rem
+        border-radius: 0.25rem
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out
+
+        &:first-child
+            color: #fff
+            background-color: #198754
+            border-color: #198754
+        &:last-child
+            color: #fff
+            background-color: #be2626
+            border-color: #be2626
+
+
 .c-chat-widget-button
     border-radius: 999px
     bottom: 50px

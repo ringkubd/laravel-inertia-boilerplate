@@ -111,7 +111,9 @@ class SupportController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $support = SupportConversation::find($id);
+        $support->update(['status' => 1]);
+        return true;
     }
 
     /**
