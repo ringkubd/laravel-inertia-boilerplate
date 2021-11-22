@@ -256,7 +256,6 @@ class StudentsController extends Controller
             'classroom' => 'required',
         ]);
         $data = $request->all();
-        dd($data);
         $user = null;
         $data['student_id'] = $request->student_id;
         $student = Student::findOrFail($request->student_id);
