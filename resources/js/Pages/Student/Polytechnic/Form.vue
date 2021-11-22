@@ -90,7 +90,7 @@
                             </div>
                             <div class="col">
                                 <label for="account">Account</label>
-                                <input type="number" id="account" class="form-control" v-model="form.bank_account" placeholder="1234567890123">
+                                <input type="text" id="account" class="form-control" v-model="form.bank_account" placeholder="1234567890123">
                                 <div v-if="errors.bank_account" class="text-danger">
                                     {{ errors.bank_account }}
                                 </div>

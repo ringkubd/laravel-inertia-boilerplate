@@ -266,7 +266,7 @@ export default {
         submitForm(){
             this.$inertia.post(route('polytechnic.result.store'), this.newResult)
         },
-        imageItems(images){
+       imageItems(images){
             let items = []
             if (images !== null && images.length > 0){
                 images.forEach(function (value, index){

@@ -95,11 +95,12 @@ export default {
             this.initialize()
         }
         this.onlineChannel.joining(user => {
-            this.supportOnline.unshift(user)
+            this.supportOnline.push(user)
         })
     },
     mounted() {
         if (this.$page.props.active_support?.id !== undefined){
+            console.log(123456)
             this.initChannel()
         }
     },
@@ -119,6 +120,7 @@ export default {
             let channelObj = window.Echo.private("support."+this.conversationId);
             let audio = new Audio('beep-2.mp3')
             channelObj.listen('SupportEvent', (e) => {
+                console.log(e.conversation)
                 this.messageData.push(e.conversation)
                 this.newMessage = true
                 this.typing = false
@@ -157,7 +159,9 @@ export default {
         },
         toggleModal() {
             this.initialize().then(res => {
-                this.initChannel()
+                if (this.$page.props.active_support?.id === undefined){
+                    this.initChannel()
+                }
             })
             this.newMessage = false
             this.modal.show = !this.modal.show;

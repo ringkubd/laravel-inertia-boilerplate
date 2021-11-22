@@ -10,12 +10,12 @@
                         <div class="card-header">
                             <h4>Active Request List</h4>
                         </div>
-                        <div class="card-body overflow-scroll" style="height: 58vh!important;">
-                            <ul class="p-0.5">
-                                <li class="border-blue-100 border pl-1.5 mb-1.5 font-bold bg-blend-color bg-green-200 shadow cursor-pointer" v-for="(sup, index) in support" :conversation="sup" @click="changeActiveChat(sup, activeConversation)" key="index">
-                                    {{sup?.creator?.name}}
+                        <div class="card-body chat overflow-scroll" style="height: 58vh!important;">
+                            <ul class="p-0.5 chat">
+                                <li class="border-blue-100 border pl-1.5 mb-1.5 font-bold bg-blend-color hover:bg-green-200 shadow cursor-pointer" :refs="sup.id" :class="activeConversation?.creator?.id === sup?.creator?.id ? 'chat-active': ''" v-for="(sup, index) in support" :conversation="sup" @click="changeActiveChat(sup, activeConversation)" key="index">
+                                    {{sup?.creator?.name}} <span class="border-red-500 bg-green-200 animate-bounce border-2 rounded-full animate-spin w-10">{{supportIdList[sup.id]}}</span>
                                     <span class="font-extralight text-green-800" v-if="isOnline(sup?.creator)">
-                                        online
+                                       online
                                     </span>
                                 </li>
                             </ul>
@@ -40,7 +40,7 @@
                                         <div class="col-9 bg-blend-color py-1.5">
                                             <img v-if="mes.message === '@like@'" src="/like.png" class="image w-1/12 flex content-center">
                                             <span v-else>{{mes.message}}</span>
-                                            <img v-if="String(mes.attachment_type).search('image') !== -1" :src="mes.attachment" class="img-thumbnail image w-1/2 content-center">
+                                            <vue-picture-swipe v-if="String(mes.attachment_type).search('image') !== -1" :items="imageItems(mes.attachment)" />
                                             <a v-else-if="mes.attachment_type !== null" :href="mes.attachment" target="_blank">
                                                 <font-awesome-icon
                                                     icon="paperclip"
@@ -93,8 +93,22 @@
                                     </form>
                                 </div>
                                 <div class="col-2">
-                                    <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-black py-2 px-4 border border-blue-400 border-2 hover:border-transparent rounded" @click="doneConversation">Done</button>
-                                    <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-black py-2 px-4 border border-blue-400 border-2 hover:border-transparent rounded" @click="likeButton">Like</button>
+                                    <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-black py-2 px-4 border border-blue-400 border-2 hover:border-transparent rounded" @click="likeButton">
+                                        <font-awesome-icon
+                                            icon="thumbs-up"
+                                            size="lg"
+                                            rotation="rotate"
+                                            class="text-success"
+                                        ></font-awesome-icon>
+                                    </button>
+                                    <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-black py-2 px-4 border border-blue-400 border-2 hover:border-transparent rounded" @click="doneConversation">
+                                        <font-awesome-icon
+                                            icon="check"
+                                            size="lg"
+                                            rotation="rotate"
+                                            class="text-info"
+                                        ></font-awesome-icon>
+                                    </button>
                                 </div>
                             </div>
 
@@ -143,8 +157,8 @@ import moment from "moment";
 import CmpContextMenu from "@/Components/Context-menu"
 import NavLink from "@/Components/NavLink";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faPen, faTrash, faCopy, faPaperclip } from "@fortawesome/free-solid-svg-icons";
-library.add(faPen, faTrash, faCopy, faPaperclip);
+import { faPen, faTrash, faCopy, faPaperclip, faThumbsUp, faCheck } from "@fortawesome/free-solid-svg-icons";
+library.add(faPen, faTrash, faCopy, faPaperclip, faThumbsUp, faCheck);
 import { useConfirm } from 'v3confirm'
 
 export default {
@@ -170,7 +184,10 @@ export default {
             deleteUrl: "#",
             fileName: "Attach you files here",
             online: this.$store.state.onlineFriends,
-            confirm: Object
+            confirm: Object,
+            allUserConv: [],
+            supportIdList: [],
+            allTyping: []
         }
     },
     mounted() {
@@ -194,6 +211,19 @@ export default {
                 _this.typing = false
             }, 4500);
         });
+        for (let i = 0; i < this.support.length; i++){
+            let conversation = this.support[i]
+            this.supportIdList[conversation.id] = 0
+            window.Echo.private(`support.`+ conversation.id).listen('SupportEvent', (e) => {
+                this.allUserConv.push(e.conversation)
+            }).listenForWhisper('typing', (e) => {
+                this.allTyping.push(e.typingUser.id)
+                let _this = this
+                setTimeout(function() {
+                    _this.allTyping.splice(e.typingUser.id, 1)
+                }, 4500);
+            });
+        }
     },
     created: function () {
         this.moment = moment;
@@ -318,6 +348,38 @@ export default {
                 return mes.id === parseInt(_this.clickedMessageId)
             })
             console.log(message)
+        },
+        imageItems(images){
+            let items = []
+            var item = {
+                src: images,
+                thumbnail: images,
+                w: 1200,
+                h: 900,
+                title: 'Will be used for caption'
+            }
+            items.push(item)
+            return items;
+        },
+        allNewMessage(suppid){
+            let newMsg = this.allUserConv.filter((conv, index) => {
+                return suppid === conv.id
+            })
+            return newMsg.length
+        },
+        count_duplicate(a){
+            let counts = {}
+            for(let i =0; i < a.length; i++){
+                let index = a[i].support_conversation_id
+                if (counts[index] && index !== undefined){
+                    counts[index] += 1
+                } else if(index !== undefined) {
+                    counts[index] = 1
+                }
+            }
+            console.log(counts)
+
+           return counts
         }
     },
     computed: {
@@ -336,6 +398,12 @@ export default {
         online(){
             return this.online = this.$store.state.onlineFriends
         },
+        supportIdList(){
+            return this.count_duplicate(this.allUserConv)
+        },
+        allTyping(){
+            return this.allTyping;
+        }
 
     },
     updated(){
@@ -343,3 +411,28 @@ export default {
     }
 }
 </script>
+<style>
+.pswp__img--placeholder--blank{
+    display: none !important;
+}
+.gallery-thumbnail img {
+    object-fit: contain !important;
+    max-width: 15rem!important;
+    margin: 0!important;
+    margin-bottom: 0!important;
+    margin-top: 0!important;
+}
+.gallery-thumbnail{
+    display: flex!important;
+    margin: 0 0.2rem 0.09rem 0!important;
+}
+.pswp__bg {
+    background-color: #fff !important;
+}
+.Pswp_bg image-zoom-background {
+    background-color: #fff !important;
+}
+.my-gallery{
+    display: inline-flex!important;
+}
+</style>
