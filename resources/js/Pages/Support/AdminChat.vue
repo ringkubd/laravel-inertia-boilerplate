@@ -13,9 +13,20 @@
                         <div class="card-body chat overflow-scroll" style="height: 58vh!important;">
                             <ul class="p-0.5 chat">
                                 <li class="border-blue-100 border pl-1.5 mb-1.5 font-bold bg-blend-color hover:bg-green-200 shadow cursor-pointer" :refs="sup.id" :class="activeConversation?.creator?.id === sup?.creator?.id ? 'chat-active': ''" v-for="(sup, index) in support" :conversation="sup" @click="changeActiveChat(sup, activeConversation)" key="index">
-                                    {{sup?.creator?.name}} <span class="border-red-500 bg-green-200 animate-bounce border-2 rounded-full animate-spin w-10">{{supportIdList[sup.id]}}</span>
-                                    <span class="font-extralight text-green-800" v-if="isOnline(sup?.creator)">
-                                       online
+                                     <span class="font-extralight text-green-800" v-if="isOnline(sup?.creator)">
+                                        <font-awesome-icon
+                                            icon="dot-circle"
+                                            size="sm"
+                                            rotation="rotate"
+                                            class="text-green-600"
+                                        ></font-awesome-icon>
+                                    </span>
+                                    {{sup?.creator?.name}}
+                                    <sup class="animate-bounce rounded-full h-5 w-5 bg-green-200">
+                                        {{supportIdList[sup.id]}}
+                                    </sup>
+                                    <span class="rounded-full animate-pulse overflow-scroll w-5 font-thin font-extralight text-red-500" style="font-size: .5em" v-if="allTyping[sup?.creator.id]">
+                                        {{ truncte(allTyping[sup?.creator.id], 15) }}
                                     </span>
                                 </li>
                             </ul>
@@ -157,9 +168,10 @@ import moment from "moment";
 import CmpContextMenu from "@/Components/Context-menu"
 import NavLink from "@/Components/NavLink";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faPen, faTrash, faCopy, faPaperclip, faThumbsUp, faCheck } from "@fortawesome/free-solid-svg-icons";
-library.add(faPen, faTrash, faCopy, faPaperclip, faThumbsUp, faCheck);
+import { faPen, faTrash, faCopy, faPaperclip, faThumbsUp, faCheck, faDotCircle } from "@fortawesome/free-solid-svg-icons";
+library.add(faPen, faTrash, faCopy, faPaperclip, faThumbsUp, faCheck, faDotCircle);
 import { useConfirm } from 'v3confirm'
+import {truncate} from "@/Helpers/auth-header";
 
 export default {
     props: ['support', 'activeConversation'],
@@ -217,7 +229,7 @@ export default {
             window.Echo.private(`support.`+ conversation.id).listen('SupportEvent', (e) => {
                 this.allUserConv.push(e.conversation)
             }).listenForWhisper('typing', (e) => {
-                this.allTyping.push(e.typingUser.id)
+                this.allTyping[e.typingUser.id] = e.typingText
                 let _this = this
                 setTimeout(function() {
                     _this.allTyping.splice(e.typingUser.id, 1)
@@ -380,6 +392,9 @@ export default {
             console.log(counts)
 
            return counts
+        },
+        truncte(str, n){
+          return truncate(str, n);
         }
     },
     computed: {
