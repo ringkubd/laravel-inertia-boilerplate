@@ -13,7 +13,7 @@
                         <div class="card-body chat overflow-scroll" style="height: 58vh!important;">
                             <ul class="p-0.5 chat">
                                 <li class="border-blue-100 border pl-1.5 mb-1.5 font-bold bg-blend-color hover:bg-green-200 shadow cursor-pointer" :refs="sup.id" :class="activeConversation?.creator?.id === sup?.creator?.id ? 'chat-active': ''" v-for="(sup, index) in support" :conversation="sup" @click="changeActiveChat(sup, activeConversation)" key="index">
-                                     <span class="font-extralight text-green-800" v-if="isOnline(sup?.creator)">
+                                     <span class="font-extralight text-green-800" v-if="onlineUser[sup?.creator?.id]">
                                         <font-awesome-icon
                                             icon="dot-circle"
                                             size="sm"
@@ -199,10 +199,12 @@ export default {
             confirm: Object,
             allUserConv: [],
             supportIdList: [],
-            allTyping: []
+            allTyping: [],
+            onlineUser: []
         }
     },
     mounted() {
+        this.isOnline()
         this.confirm = useConfirm()
         this.scrollToBottom()
         this.messageData = this.activeConversation?.message
@@ -249,6 +251,7 @@ export default {
             .listen('SupportOnlineEvent',user => {
                 this.onlineSupport.push(user.user)
             })
+
     },
     methods: {
         scrollToBottom(){
@@ -286,6 +289,7 @@ export default {
             this.channel =  window.Echo.private(`support.`+ conversation?.id);
             this.scrollToBottom()
             this.$inertia.visit(route('support.index')+`?conversation_id=${conversation.id}`)
+            // this.onlineUser =  this.$store.state.onlineFriendsId
         },
         isTyping(){
             let _this = this
@@ -298,7 +302,6 @@ export default {
             }, 300);
         },
         seenMessage(){
-            console.log(this)
         },
         onImageDrop(e){
             e.preventDefault()
@@ -330,14 +333,30 @@ export default {
         onFileSelect(){
             this.fileName = this.$refs.attachment?.files.length > 0 ? this.$refs.attachment.files[0].name : "Attach you files here"
         },
-        isOnline(obj) {
-            let online = this.online
-            for (var i = 0; i < online.length; i++) {
-                if (online[i].id === obj.id) { // modify whatever property you need
-                    return true;
+        isOnline() {
+            window.PresenceUserOnline = window.Echo.join('user_online_status')
+            let _this = this
+            this.onlineUser =  this.$store.state.onlineFriendsId
+            PresenceUserOnline.here((members) => {
+                members.forEach((member) => {
+                    _this.onlineUser[member.id] = true
+                })
+                let withoutMyself = members.filter(user => {
+                    return _this.$page.props.user.id !== user.id
+                })
+                this.$store.dispatch('onlineFriendsAsync', withoutMyself)
+            })
+            PresenceUserOnline.leaving((member) => {
+                if (_this.onlineUser[member.id]){
+                    _this.onlineUser.slice(member.id, 1);
                 }
-            }
-            return false
+            })
+            PresenceUserOnline.joining((member) => {
+                if (_this.onlineUser[member.id] === undefined){
+                    _this.onlineUser[member.id] = true
+                }
+            })
+            return  _this.onlineUser
         },
         doneConversation(e){
             this.confirm.show('Are you sure?').then((ok) => {
@@ -346,8 +365,6 @@ export default {
                         .then(res => {
                             this.$inertia.visit(route('support.index'))
                         })
-                }else{
-                    alert('Users not deleted')
                 }
             })
         },
@@ -359,7 +376,6 @@ export default {
             let message = this.messageData.filter((mes, index) => {
                 return mes.id === parseInt(_this.clickedMessageId)
             })
-            console.log(message)
         },
         imageItems(images){
             let items = []
@@ -389,12 +405,10 @@ export default {
                     counts[index] = 1
                 }
             }
-            console.log(counts)
-
-           return counts
+            return counts
         },
         truncte(str, n){
-          return truncate(str, n);
+            return truncate(str, n);
         }
     },
     computed: {
@@ -418,6 +432,9 @@ export default {
         },
         allTyping(){
             return this.allTyping;
+        },
+        onlineUser(){
+            return this.onlineUser
         }
 
     },

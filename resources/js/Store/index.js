@@ -3,6 +3,7 @@ import { createStore, createLogger } from 'vuex';
 export const store = createStore({
     state: {
         onlineFriends: [],
+        onlineFriendsId: [],
         offlineFriends: [],
         messages: [],
         activeChatTarget: null,
@@ -14,6 +15,14 @@ export const store = createStore({
             this.state.onlineFriends.pushIfNotExist(user, function (e){
                 return e.id === user.id
             })
+        },
+        onlineFriendsId(state, user){
+            let users =  state.onlineFriends
+            let newUser = [];
+            for (let i=0; i < users.length; i++){
+                newUser[i.id] = true
+            }
+            this.state.onlineFriendsId = newUser
         }
     },
     modules: {
@@ -22,11 +31,21 @@ export const store = createStore({
     actions: {
         onlineFriendsAsync({ commit, state }, users){
            this.state.onlineFriends = users
+
+            let newUser = [];
+            for (let i=0; i < users.length; i++){
+                newUser[users[i].id] = true
+            }
+            state.onlineFriendsId = newUser
         },
         addOnlineFriends({ commit, state }, user){
             state.onlineFriends.pushIfNotExist(user, function (e){
                 return e.id === user.id
             })
+            state.onlineFriendsId.pushIfNotExist(user, function (e){
+                return e.id === user.id
+            })
+
         },
         removeOfflineFriend({ commit, state }, user){
             state.onlineFriends = state.onlineFriends.filter(online => {

@@ -1183,7 +1183,6 @@ export default {
             return _.cloneDeep(proxyObj);
         },
         logout(){
-            console.log(this.user)
             this.removeOnlineFriend(this.user)
         }
     },

@@ -328,8 +328,6 @@ ul li, ol li {
 }
 
 .chat-active {
-  border-color: #2ecc71 !important;
   border-style: groove !important;
-  border-radius: 2rem !important;
   border-width: 0.25rem !important;
 }
