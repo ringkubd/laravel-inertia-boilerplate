@@ -1160,11 +1160,13 @@ export default {
                     return e.id === user.id
                 })
             }
+            this.$store.dispatch('addOnlineFriends', user)
         },
         removeOfflineFriend(offlineUser){
             this.onlineFriends = this.onlineFriends.filter(user => {
                 return user.id != offlineUser.id;
             })
+            this.$store.dispatch('removeOfflineFriend', offlineUser)
         },
         addOfflineFriend(user){
             let app = this.$page.props

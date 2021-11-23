@@ -25,7 +25,7 @@
                                     <sup class="animate-bounce rounded-full h-5 w-5 bg-green-200">
                                         {{supportIdList[sup.id]}}
                                     </sup>
-                                    <span class="rounded-full animate-pulse overflow-scroll w-5 font-thin font-extralight text-red-500" style="font-size: .5em" v-if="allTyping[sup?.creator.id]">
+                                    <span class="rounded-full animate-pulse overflow-scroll w-5 font-thin font-extralight text-blue-700" style="font-size: .7em" v-if="allTyping[sup?.creator.id]">
                                         {{ truncte(allTyping[sup?.creator.id], 15) }}
                                     </span>
                                 </li>
@@ -349,11 +349,13 @@ export default {
             PresenceUserOnline.leaving((member) => {
                 if (_this.onlineUser[member.id]){
                     _this.onlineUser.slice(member.id, 1);
+                    this.$store.dispatch('removeOfflineFriend', member)
                 }
             })
             PresenceUserOnline.joining((member) => {
                 if (_this.onlineUser[member.id] === undefined){
                     _this.onlineUser[member.id] = true
+                    this.$store.dispatch('addOnlineFriends', member)
                 }
             })
             return  _this.onlineUser

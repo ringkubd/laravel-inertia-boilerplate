@@ -42,15 +42,19 @@ export const store = createStore({
             state.onlineFriends.pushIfNotExist(user, function (e){
                 return e.id === user.id
             })
-            state.onlineFriendsId.pushIfNotExist(user, function (e){
-                return e.id === user.id
-            })
+            if ( state.onlineFriendsId[user.id] === undefined){
+                state.onlineFriendsId[user.id] = true
+            }
+
 
         },
         removeOfflineFriend({ commit, state }, user){
             state.onlineFriends = state.onlineFriends.filter(online => {
                 return online.id != user.id;
             })
+            if ( state.onlineFriendsId[user.id] !== undefined){
+                state.onlineFriendsId.slice(user.id, 1)
+            }
         },
         messagesInit({ commit, state }, messages){
             this.state.messages = messages
