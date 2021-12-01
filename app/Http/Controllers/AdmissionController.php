@@ -59,7 +59,7 @@ class AdmissionController extends Controller
             ->whereHas('madrasahResult', function ($q) {
                 $q->where('status', 'Pass')
                     ->whereNotNull('ten_gpa')
-                    ->whereRaw("CONVERT(`pass_year`, YEAR) > YEAR(DATE_SUB(CURDATE(), INTERVAL 3 YEAR))");
+                    ->whereRaw("STR_TO_DATE(`pass_year`, '%Y') > YEAR(DATE_SUB(CURDATE(), INTERVAL 3 YEAR))");
             })->get();
 
         $trades = Trade::select('name as label', 'id as value')->where('is_madrasa', 0)->get();
@@ -157,7 +157,7 @@ class AdmissionController extends Controller
             ->whereHas('madrasahResult', function ($q) {
                 $q->where('status', 'Pass')
                     ->whereNotNull('ten_gpa')
-                    ->whereRaw("CONVERT(`pass_year`, YEAR) > YEAR(DATE_SUB(CURDATE(), INTERVAL 3 YEAR))");
+                    ->whereRaw("STR_TO_DATE(`pass_year`, '%Y') > YEAR(DATE_SUB(CURDATE(), INTERVAL 3 YEAR))");
             })
             ->select('name as label', 'id as value')
             ->get();
