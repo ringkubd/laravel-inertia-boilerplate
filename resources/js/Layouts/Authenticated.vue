@@ -3,17 +3,15 @@
     <div>
         <chat  v-if="!$page.props.menu_permission.support"/>
         <div class="min-h-screen bg-gray-100">
-            <nav class="bg-green-50 border-b border-gray-100">
+            <nav class="bg-gradient-to-l bg-gradient-to-r from-gray-300 to-blue-100 border-b shadow-lg border-gray-100 sticky top-0 z-50">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-10xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
                         <div class="flex">
                             <!-- Logo -->
-                            <div class="flex-shrink-0 flex items-center">
+                            <div class="flex flex-auto items-center">
                                 <inertia-link :href="route('dashboard')">
-                                    <breeze-application-logo
-                                        class="block h-9 w-auto"
-                                    />
+                                    <img src="/isdb-bisew.png" width="55" class="object-fill thumbnail" alt="">
                                 </inertia-link>
                             </div>
 

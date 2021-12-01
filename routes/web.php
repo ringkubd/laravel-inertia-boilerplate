@@ -102,6 +102,8 @@ Route::resource('invoice', \App\Http\Controllers\InvoiceController::class);
 
 // Polytechnic Admission Management
 Route::resource('admission', \App\Http\Controllers\AdmissionController::class);
+Route::get('admission_student_list', [\App\Http\Controllers\AdmissionController::class, 'studentList'])->name('admission_student_list');
+Route::get('admission_student_profile/{student}', [\App\Http\Controllers\AdmissionController::class, 'student'])->name('admission_student_profile');
 
 // Test
 

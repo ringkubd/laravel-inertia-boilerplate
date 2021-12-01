@@ -22,6 +22,7 @@ class Student extends Model
             if ($user_madrasha != null) {
                 $builder->where('madrasha_id', auth()->user()->madrasha_id);
             }
+            $builder->with('madrasha');
         });
     }
 

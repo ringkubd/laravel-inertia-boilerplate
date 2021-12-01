@@ -54,7 +54,7 @@ export default {
     },
     data() {
         return {
-            search_param: "",
+            search_param: GET('search')[0],
         };
     },
     methods: {
