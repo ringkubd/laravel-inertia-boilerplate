@@ -1,10 +1,9 @@
 <template>
     <div>
         <form action="" enctype="multipart/form-data" @submit.prevent="submitForm">
-            <fieldset class="form-group mx-2 px-3 group hover:shadow-inner shadow-2xl border-blue-400" v-if="createForm">
-                <legend>Student</legend>
+            <fieldset class="form-group mx-2 mb-6 px-3 group hover:shadow-inner shadow-2xl border-blue-400" v-if="createForm">
                 <div class="row">
-                    <label class="col-3" for="student">Select a Student</label>
+                    <label class="group-hover:animate-pulse group-hover:text-blue-500 group-hover:font-bold" for="student">Select a Student</label>
                     <Multiselect
                         :autofocus="true"
                         placeholder="Choose a student."
@@ -14,7 +13,6 @@
                         :resolveOnLoad="true"
                         :delay="0"
                         :searchable="true"
-                        limit="50"
                         class="ml-4"
                         @select="onSelectStudent"
                         v-model="formData.student_id"
@@ -27,9 +25,9 @@
                     </div>
                 </div>
             </fieldset>
-            <div class="flex justify-between flex-grow pb-4">
+            <div class="flex grid md:grid-cols-2 sm:grid-cols-1 overflow-auto md:justify-between sm:justify-center flex-grow pb-4">
                 <div class="flex-1 px-3 mx-2 shadow-lg items-center">
-                    <h2 class="hover:italic hover:text-green-900">Profile</h2>
+                    <h2 class="hover:text-green-900 shadow-lg border-b-2 border-gray-500">Profile</h2>
                     <table class="table table-auto table-hover transition ease-in duration-700" v-if="studentData">
                         <tbody>
                         <tr class="hover:shadow-2xl">
@@ -64,7 +62,7 @@
                         </tr>
                         </tbody>
                     </table>
-                    <h2 class="hover:italic hover:text-green-900">Result</h2>
+                    <h2 class="hover:text-green-900 shadow-lg border-b-2 border-gray-500">Result</h2>
                     <table class="table table-auto table-hover transition ease-in duration-700" v-if="studentData">
                         <thead>
                         <tr class="hover:shadow-2xl">
@@ -88,9 +86,9 @@
                     </table>
                 </div>
                 <div class="flex-1 px-3 mx-2 shadow-lg items-center">
-                    <h2 class="hover:italic hover:text-green-900">Application Information</h2>
+                    <h2 class="hover:text-green-900 shadow-lg border-b-2 border-gray-500">Application Information</h2>
                     <div class="form-group md:mb-3 group hover:shadow-inner shadow-2xl border-blue-400">
-                        <label for="polytechnic" class="group-hover:animate-pulse group-hover:text-blue-500 group-hover:font-bold">Polytechnic</label>
+                        <label for="polytechnic" class="group-hover:animate-pulse group-hover:text-blue-500 group-hover:font-bold">Polytechnic Choice</label>
                         <Multiselect
                             :autofocus="true"
                             placeholder="Choose Polytechnic."
@@ -147,7 +145,7 @@
                         />
                     </div>
                     <div class="form-group md:mb-3 group hover:shadow-inner shadow-2xl border-blue-400">
-                        <label class="group-hover:animate-pulse group-hover:text-blue-500 group-hover:font-bold">Tracking ID</label>
+                        <label class="group-hover:animate-pulse group-hover:text-blue-500 group-hover:font-bold">App. Tracking No.</label>
                         <input type="text" class="form-control" v-model="formData.tracking_id" name="tracking_id">
                     </div>
                     <div class="form-group md:mb-3 group hover:shadow-inner shadow-2xl border-blue-400">
@@ -158,7 +156,7 @@
                         <label class="group-hover:animate-pulse group-hover:text-blue-500 group-hover:font-bold">Payment Prove</label>
                         <input type="file" class="form-control" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/*" name="money_receipt">
                     </div>
-                    <div class="form-group md:mb-3 group hover:shadow-inner shadow-2xl border-blue-400">
+                    <div class="form-group my-6 md:mb-3 sm:mb-6 group hover:shadow-inner shadow-2xl border-blue-400">
                         <div class="flex justify-end align-items-end">
                             <input type="submit" class="btn btn-success rounded transition transform hover:-translate-y-1 motion-reduce:transition-none motion-reduce:transform-none" v-if="createForm" value="Apply">
                             <input type="submit" class="btn btn-warning rounded" v-else value="Update">
@@ -182,12 +180,16 @@ export default {
         Multiselect
     },
     mounted(){
-        console.log(this.trades)
+        const student_id = localStorage.getItem('admission_last_selected_student')
+        if (student_id){
+            this.onSelectStudent(student_id)
+        }
+
     },
     data() {
         return {
             formData: {
-                student_id: "",
+                student_id: localStorage.getItem('admission_last_selected_student'),
                 trades: [],
                 polytechnics: [],
                 academic_session: "",
@@ -214,6 +216,8 @@ export default {
 
         },
         async onSelectStudent(student_id){
+            console.log(student_id)
+            localStorage.setItem('admission_last_selected_student', student_id)
             const response = await fetch(route('admission_student_profile', student_id))
                 .then(res => res.json())
             this.studentData = response
@@ -237,17 +241,6 @@ export default {
 </script>
 <style src="@vueform/multiselect/themes/default.css"></style>
 <style>
-fieldset {
-    background-color: #eeeeee;
-    --bs-table-bg: #e2e3e5;
-    padding-bottom: 4rem;
-}
-
-legend {
-    background-color:  #ECFDDD;
-    color: black;
-    padding: 5px 10px;
-}
 .imagePreviewWrapper {
     width: 250px;
     height: 250px;

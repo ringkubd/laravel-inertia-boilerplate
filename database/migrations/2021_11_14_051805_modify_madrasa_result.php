@@ -14,7 +14,7 @@ class ModifyMadrasaResult extends Migration
     public function up()
     {
         Schema::table('madrasah_results', function (Blueprint $table) {
-            $table->string('pass_year')->nullable()->after('ten_gpa');
+            $table->year('pass_year')->nullable()->after('ten_gpa');
         });
     }
 

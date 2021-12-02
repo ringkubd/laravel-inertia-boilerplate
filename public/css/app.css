@@ -667,6 +667,9 @@ video {
 }.mx-0{
 	margin-left: 0px;
 	margin-right: 0px;
+}.mx-6{
+	margin-left: 1.5rem;
+	margin-right: 1.5rem;
 }.ml-3{
 	margin-left: 0.75rem;
 }.-ml-px{
@@ -731,6 +734,8 @@ video {
 	margin-right: 1rem;
 }.-mt-32{
 	margin-top: -8rem;
+}.mb-6{
+	margin-bottom: 1.5rem;
 }.block{
 	display: block;
 }.inline-block{
@@ -904,6 +909,8 @@ video {
 	grid-template-columns: repeat(1, minmax(0, 1fr));
 }.grid-cols-12{
 	grid-template-columns: repeat(12, minmax(0, 1fr));
+}.grid-cols-2{
+	grid-template-columns: repeat(2, minmax(0, 1fr));
 }.flex-row{
 	flex-direction: row;
 }.flex-row-reverse{
@@ -952,6 +959,8 @@ video {
 	align-self: flex-start;
 }.self-end{
 	align-self: flex-end;
+}.overflow-auto{
+	overflow: auto;
 }.overflow-hidden{
 	overflow: hidden;
 }.overflow-scroll{
@@ -1434,20 +1443,12 @@ video {
 	transition-property: all;
 	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 	transition-duration: 150ms;
-}.transition-transform{
-	transition-property: transform;
-	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-	transition-duration: 150ms;
 }.duration-150{
 	transition-duration: 150ms;
 }.duration-200{
 	transition-duration: 200ms;
 }.duration-75{
 	transition-duration: 75ms;
-}.duration-1000{
-	transition-duration: 1000ms;
-}.duration-500{
-	transition-duration: 500ms;
 }.duration-700{
 	transition-duration: 700ms;
 }.ease-in-out{
@@ -10996,10 +10997,14 @@ select {
 		margin-left: 2.5rem;
 	}.sm\:ml-6{
 		margin-left: 1.5rem;
+	}.sm\:mb-6{
+		margin-bottom: 1.5rem;
 	}.sm\:block{
 		display: block;
 	}.sm\:flex{
 		display: flex;
+	}.sm\:grid{
+		display: grid;
 	}.sm\:hidden{
 		display: none;
 	}.sm\:h-20{
@@ -11012,6 +11017,8 @@ select {
 		flex: 1 1 0%;
 	}.sm\:flex-none{
 		flex: none;
+	}.sm\:grid-cols-1{
+		grid-template-columns: repeat(1, minmax(0, 1fr));
 	}.sm\:flex-row{
 		flex-direction: row;
 	}.sm\:items-center{
@@ -11073,6 +11080,8 @@ select {
 		max-width: 36rem;
 	}.md\:flex-none{
 		flex: none;
+	}.md\:flex-1{
+		flex: 1 1 0%;
 	}.md\:grid-cols-2{
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}.md\:grid-cols-4{
@@ -11081,6 +11090,8 @@ select {
 		justify-content: flex-start;
 	}.md\:justify-end{
 		justify-content: flex-end;
+	}.md\:justify-between{
+		justify-content: space-between;
 	}.md\:border-t-0{
 		border-top-width: 0px;
 	}.md\:border-l{

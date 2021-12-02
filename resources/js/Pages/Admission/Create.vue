@@ -12,7 +12,7 @@
                    <Back :back-url="route('admission.index')"/>
                </div>
                <div class="card-body">
-                   <Form :can="can" :students="students" :errors="this.$page.props.errors" :create-form="true" :trades="trades" :sessions="sessions" :polytechnic="polytechnic" />
+                   <Form :can="can" :students="students" :errors="this.$page.props.errors" :create-form="true" :trades="trades" :sessions="sessions" :polytechnic="polytechnic" :submitForm="submitForm" />
                </div>
            </div>
         </div>
@@ -33,6 +33,11 @@ export default {
     },
     mounted(){
         console.log(this.trades)
+    },
+    methods:{
+        submitForm(formData){
+
+        }
     }
 }
 </script>

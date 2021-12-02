@@ -88,7 +88,7 @@ class AdmissionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
@@ -157,7 +157,7 @@ class AdmissionController extends Controller
             ->whereHas('madrasahResult', function ($q) {
                 $q->where('status', 'Pass')
                     ->whereNotNull('ten_gpa')
-                    ->whereRaw("STR_TO_DATE(`pass_year`, '%Y') > YEAR(DATE_SUB(CURDATE(), INTERVAL 3 YEAR))");
+                    ->whereRaw("pass_year > YEAR(DATE_SUB(CURDATE(), INTERVAL 3 YEAR))");
             })
             ->select('name as label', 'id as value')
             ->get();

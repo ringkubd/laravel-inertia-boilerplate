@@ -8,8 +8,8 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="card">
-                        <div class="card-header border-2 border-blue-400">
-                            <h2 class="text-center">Personal Information</h2>
+                        <div class="card-header">
+                            <h2 class="hover:text-green-900 shadow-lg border-b-2 border-gray-500">Personal Information</h2>
                         </div>
                         <div class="card-body">
                             <table class="table table-responsive">
@@ -26,8 +26,8 @@
                                     <th>Nid</th>
                                     <td>{{ student.nid }}</td>
                                 </tr>
-                                <tr class="border-2 border-blue-400">
-                                    <th class="text-center" colspan="2">Contact Information</th>
+                                <tr class="border-b-2 border-gray-400">
+                                    <th class="text-center font-extrabold text-black-400 hover:text-green-900 shadow-lg border-b-2 border-gray-500" colspan="2">Contact Information</th>
                                 </tr>
                                 <tr>
                                     <th>Email</th>
@@ -49,8 +49,8 @@
                                     <th>Permanent Address</th>
                                     <td>{{ student.permanent_address }}</td>
                                 </tr>
-                                <tr class="border-2 border-blue-400">
-                                    <th class="text-center" colspan="2">Guardian Information</th>
+                                <tr class="border-b-2 border-gray-400">
+                                    <th class="text-center font-extrabold text-black-400 hover:text-green-900 shadow-lg border-b-2 border-gray-500"  colspan="2">Guardian Information</th>
                                 </tr>
                                 <tr>
                                     <th>Father's Name</th>
@@ -74,8 +74,8 @@
                 </div>
                 <div class="col-md-6">
                     <div class="card">
-                        <div class="card-header border-2 border-blue-400">
-                            <h2 class="text-center">Academic Information (Dakhil)</h2>
+                        <div class="card-header">
+                            <h2 class="hover:text-green-900 shadow-lg border-b-2 border-gray-500">Academic Information (Dakhil)</h2>
                         </div>
                         <div class="card-body">
                             <table class="table table-responsive">
@@ -104,8 +104,8 @@
                                     <th>Dakhil Registration</th>
                                     <td>{{ student.ssc_registration }}</td>
                                 </tr>
-                                <tr class="border-2 border-blue-400">
-                                    <th class="text-center" colspan="2">Result</th>
+                                <tr class="border-b-2 border-gray-400">
+                                    <th class="text-center font-extrabold text-black-400 hover:text-green-900 shadow-lg border-b-2 border-gray-500" colspan="2">Result</th>
                                 </tr>
                                 <tr>
                                     <th>Nine CGPA</th>
@@ -134,16 +134,16 @@
                 </div>
                 <div class="col-md-12" v-if="student.madrasa_completed ===1 && student.polytechnic !== null">
                     <div class="card">
-                        <div class="card-header border-2 border-blue-400">
-                            <h2 class="text-center">Academic Information (Diploma)</h2>
+                        <div class="card-header text-center">
+                            <h2 class="hover:text-green-900 shadow-lg border-b-2 border-gray-500">Academic Information (Diploma)</h2>
                         </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-6">
                                     <table class="table table-responsive">
                                         <tbody>
-                                        <tr class="border-2 border-blue-400">
-                                            <th class="text-center" colspan="2">Academic Information</th>
+                                        <tr class="border-b-2 border-gray-400">
+                                            <th  class="text-center font-extrabold text-black-400 hover:text-green-900 shadow-lg border-b-2 border-gray-500" colspan="2">Academic Information</th>
                                         </tr>
                                         <tr>
                                             <th>Trade</th>
@@ -165,8 +165,8 @@
                                             <th>Roll</th>
                                             <td>{{ student.polytechnic_roll }}</td>
                                         </tr>
-                                        <tr class="border-2 border-blue-400">
-                                            <th class="text-center" colspan="2">Institute Information</th>
+                                        <tr class="border-b-2 border-gray-400">
+                                            <th  class="text-center font-extrabold text-black-400 hover:text-green-900 shadow-lg border-b-2 border-gray-500" colspan="2">Institute Information</th>
                                         </tr>
                                         <tr>
                                             <th>Name</th>
@@ -194,8 +194,8 @@
                                 <div class="col-6">
                                     <table class="table table-responsive">
                                         <thead>
-                                        <tr class="border-2 border-blue-400">
-                                            <th class="text-center" colspan="7">Results</th>
+                                        <tr class="border-b-2 border-gray-400">
+                                            <th class="text-center font-extrabold text-black-400 hover:text-green-900 shadow-lg border-b-2 border-gray-500" colspan="7">Results</th>
                                         </tr>
                                         <tr>
                                             <th>Semester</th>
