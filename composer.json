@@ -7,7 +7,7 @@
     "require": {
         "php": "^8.0",
         "beyondcode/laravel-websockets": "^1.12",
-        "ckfinder/ckfinder-laravel-package": "^3.5",
+        "ckfinder/ckfinder-laravel-package": "v3.5.2.1",
         "doctrine/dbal": "^3.1",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",

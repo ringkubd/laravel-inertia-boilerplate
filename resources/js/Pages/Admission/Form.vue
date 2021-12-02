@@ -149,11 +149,7 @@
                         <input type="text" class="form-control" v-model="formData.tracking_id" name="tracking_id">
                     </div>
                     <div class="form-group md:mb-3 group hover:shadow-inner shadow-2xl border-blue-400">
-                        <label class="group-hover:animate-pulse group-hover:text-blue-500 group-hover:font-bold">Admission Fee</label>
-                        <input type="number" class="form-control" v-model="formData.admission_fee" name="admission_fee">
-                    </div>
-                    <div class="form-group md:mb-3 group hover:shadow-inner shadow-2xl border-blue-400">
-                        <label class="group-hover:animate-pulse group-hover:text-blue-500 group-hover:font-bold">Payment Prove</label>
+                        <label class="group-hover:animate-pulse group-hover:text-blue-500 group-hover:font-bold">Supporting Document</label>
                         <input type="file" class="form-control" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/*" name="money_receipt">
                     </div>
                     <div class="form-group my-6 md:mb-3 sm:mb-6 group hover:shadow-inner shadow-2xl border-blue-400">
