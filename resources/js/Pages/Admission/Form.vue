@@ -3,7 +3,7 @@
         <form action="" enctype="multipart/form-data" @submit.prevent="submitForm">
             <fieldset class="form-group mx-2 mb-6 px-3 group hover:shadow-inner shadow-2xl border-blue-400" v-if="createForm">
                 <div class="row">
-                    <label class="group-hover:animate-pulse group-hover:text-blue-500 group-hover:font-bold" for="student">Select a Student</label>
+                    <label class="group-hover:animate-pulse group-hover:text-blue-500 group-hover:font-bold" for="student">Select a Student<sup class="text-red-600">*</sup></label>
                     <Multiselect
                         :autofocus="true"
                         placeholder="Choose a student."
@@ -20,7 +20,7 @@
                                                 return await fetchStudents(query)
                                               }"
                     />
-                    <div class="text-red-500" v-if="errors.student_id">
+                    <div class="text-red-500 animate-pulse" v-if="errors.student_id">
                         {{ errors.student_id }}
                     </div>
                 </div>
@@ -104,12 +104,12 @@
                             v-model="formData.polytechnics"
                             :options="polytechnic"
                         />
-                        <div class="text-red-500" v-if="errors.student_id">
+                        <div class="text-red-500 animate-ping" v-if="errors.student_id">
                             {{ errors.student_id }}
                         </div>
                     </div>
                     <div class="form-group md:mb-3 group hover:shadow-inner shadow-2xl border-blue-400">
-                        <label for="session" class="group-hover:animate-pulse group-hover:text-blue-500 group-hover:font-bold">Session</label>
+                        <label for="session" class="group-hover:animate-pulse group-hover:text-blue-500 group-hover:font-bold">Session<sup class="text-red-600">*</sup></label>
                         <Multiselect
                             :autofocus="true"
                             placeholder="Choose Session."
@@ -125,6 +125,9 @@
                             class="border border-transparent"
                             :options="sessions"
                         />
+                        <div class="text-red-500 animate-pulse" v-if="errors.academic_session">
+                            {{ errors.academic_session }}
+                        </div>
                     </div>
                     <div class="form-group md:mb-3 group hover:shadow-inner shadow-2xl border-blue-400">
                         <label class="group-hover:animate-pulse group-hover:text-blue-500 group-hover:font-bold">Trade Choice</label>
@@ -145,12 +148,15 @@
                         />
                     </div>
                     <div class="form-group md:mb-3 group hover:shadow-inner shadow-2xl border-blue-400">
-                        <label class="group-hover:animate-pulse group-hover:text-blue-500 group-hover:font-bold">App. Tracking No.</label>
-                        <input type="text" class="form-control" v-model="formData.tracking_id" name="tracking_id">
+                        <label class="group-hover:animate-pulse group-hover:text-blue-500 group-hover:font-bold">App. Tracking No.<sup class="text-red-600">*</sup></label>
+                        <input required type="text" class="form-control" v-model="formData.tracking_id" name="tracking_id">
+                        <div class="text-red-500 animate-ping" v-if="errors.tracking_id">
+                            {{errors.tracking_id}}
+                        </div>
                     </div>
                     <div class="form-group md:mb-3 group hover:shadow-inner shadow-2xl border-blue-400">
                         <label class="group-hover:animate-pulse group-hover:text-blue-500 group-hover:font-bold">Supporting Document</label>
-                        <input type="file" class="form-control" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/*" name="money_receipt">
+                        <input type="file"  ref="supporting_documents" @input="formData.supporting_documents = $event.target.files[0]" class="form-control" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/*" name="money_receipt">
                     </div>
                     <div class="form-group my-6 md:mb-3 sm:mb-6 group hover:shadow-inner shadow-2xl border-blue-400">
                         <div class="flex justify-end align-items-end">
@@ -168,9 +174,10 @@
 <script>
 import Authenticated from "@/Layouts/Authenticated";
 import Multiselect from '@vueform/multiselect'
+import {useForm} from "@inertiajs/inertia-vue3";
 export default {
     name: "Form",
-    props: ['can', 'students', 'createForm', 'errors', 'createForm', 'trades', 'sessions', 'polytechnic'],
+    props: ['can', 'students', 'createForm', 'errors', 'createForm', 'trades', 'sessions', 'polytechnic', 'submitForm'],
     components: {
         Authenticated,
         Multiselect
@@ -184,15 +191,14 @@ export default {
     },
     data() {
         return {
-            formData: {
+            formData: useForm({
                 student_id: localStorage.getItem('admission_last_selected_student'),
                 trades: [],
                 polytechnics: [],
                 academic_session: "",
                 tracking_id: "",
-                admission_fee: "",
-                money_receipt: ''
-            },
+                supporting_documents: ''
+            }),
             studentData: false
         }
     },
@@ -209,10 +215,9 @@ export default {
             return data;
         },
         submitForm(){
-
+            this.submitForm(this.formData)
         },
         async onSelectStudent(student_id){
-            console.log(student_id)
             localStorage.setItem('admission_last_selected_student', student_id)
             const response = await fetch(route('admission_student_profile', student_id))
                 .then(res => res.json())

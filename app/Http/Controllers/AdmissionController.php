@@ -88,7 +88,35 @@ class AdmissionController extends Controller
      */
     public function store(Request $request)
     {
-
+        $request->validate([
+            'student_id' => '',
+            'academic_session' => '',
+            'tracking_id' => '',
+        ], [
+            'student_id' => "Please choose a student."
+        ]);
+        $admission = Admission::create([
+            'student_id' => $request->student_id,
+            'academic_session' => $request->academic_session,
+            'tracking_id' => $request->tracking_id,
+            'created_by' => auth()->user()->name,
+        ]);
+        if ($request->trades) {
+            $admission->trade()->attach($request->trades);
+        }
+        if ($request->polytechnics) {
+            $admission->polytechnic()->attach($request->trades);
+        }
+        if ($request->hasFile('supporting_documents')) {
+            $supporting_document = $request->file('supporting_documents');
+            $directory = public_path('admission_attach/supporting_documents');
+            $file_name = $supporting_document->getClientOriginalName().'_'.rand(9999, 9999999999).'.'.$supporting_document->getClientOriginalExtension();
+            $supporting_document->move($directory, $file_name);
+            $admission->update([
+                'supporting_documents' => 'admission_attach/supporting_documents/'.$file_name
+            ]);
+        }
+        return \redirect()->route('admission.index')->withSuccess("Successfully added.");
     }
 
     /**

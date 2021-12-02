@@ -37,12 +37,8 @@
                                 <td>{{ admission?.tracking_id }}</td>
                             </tr>
                             <tr>
-                                <th>Admission Fee</th>
-                                <td>{{ admission?.admission_fee }}</td>
-                            </tr>
-                            <tr>
-                                <th>Money Receipt</th>
-                                <td>{{ admission?.money_receipt }}</td>
+                                <th>Supporting Documents</th>
+                                <td>{{ admission?.supporting_documents }}</td>
                             </tr>
                             <tr>
                                 <th>Polytechnic Choice</th>

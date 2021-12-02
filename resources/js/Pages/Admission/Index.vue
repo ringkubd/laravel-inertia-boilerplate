@@ -25,8 +25,7 @@
                                 <th>Madrasah</th>
                                 <th>Session</th>
                                 <th>Tracking ID</th>
-                                <th>Admission Fee</th>
-                                <th>Money Receipt</th>
+                                <th>Supp. Document</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -38,8 +37,7 @@
                                 <td>{{ admission?.student?.madrasha?.name }}</td>
                                 <td>{{ admission?.academic_session }}</td>
                                 <td>{{ admission?.tracking_id }}</td>
-                                <td>{{ admission?.admission_fee }}</td>
-                                <td>{{ admission?.money_receipt }}</td>
+                                <td>{{ admission?.supporting_documents }}</td>
                                 <td>{{ admission?.status }}</td>
                                 <td>
                                     <Actions

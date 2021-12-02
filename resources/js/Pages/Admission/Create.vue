@@ -36,7 +36,7 @@ export default {
     },
     methods:{
         submitForm(formData){
-
+            formData.post(route('admission.store'))
         }
     }
 }
