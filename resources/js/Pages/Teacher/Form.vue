@@ -14,25 +14,25 @@
                             <li class="alert-danger" v-for="error in form.errors">{{error}}</li>
                         </ul>
                     </div>
-                    <fieldset class="row form-group">
-                        <legend>Personal Information</legend>
+                    <fieldset class="row form-group mb-5 mx-2 pb-5 shadow-2xl">
+                        <legend class="hover:text-green-900 bg-gradient-to-l bg-gradient-to-r from-gray-300 to-blue-100 shadow-lg border-b-2 border-gray-500">Personal Information</legend>
                         <div class="col">
-                            <div class="row mb-2">
-                                <div class="col-md-4">
+                            <div class="flex sm:grid-cols-1 grid md:grid-cols-3 flex-grow mb-2">
+                                <div class="flex-1 group mr-2">
                                     <label for="name">Name</label>
                                     <input type="text" name="name" id="name" v-model="form.name" required class="form-control">
                                     <div v-if="errors.name" class="text-danger">
                                         {{ errors.name }}
                                     </div>
                                 </div>
-                                <div class="col-md">
+                                <div class="flex-1 mr-2">
                                     <label for="mobile">Mobile</label>
                                     <input type="tel" id="mobile" v-model="form.mobile" required class="form-control">
                                     <div v-if="errors.mobile" class="text-danger">
                                         {{ errors.mobile }}
                                     </div>
                                 </div>
-                                <div class="col-md">
+                                <div class="flex-1 mr-2">
                                     <label for="dob">DoB</label>
                                     <input type="date" id="dob" v-model="form.dob" required class="form-control">
                                     <div v-if="errors.dob" class="text-danger">
@@ -92,8 +92,8 @@
                         </div>
 
                     </fieldset>
-                    <fieldset class="row form-group">
-                        <legend>Job Information</legend>
+                    <fieldset class="row form-group mb-5 mx-2 pb-5 shadow-2xl">
+                        <legend class="hover:text-green-900 bg-gradient-to-l bg-gradient-to-r from-gray-300 to-blue-100 shadow-lg border-b-2 border-gray-500">Job Information</legend>
                         <div class="row">
                             <div class="col-md">
                                 <label for="trade_id">Trade</label>
@@ -133,8 +133,8 @@
 
                         </div>
                     </fieldset>
-                    <fieldset class="row form-group">
-                        <legend>Bank Information</legend>
+                    <fieldset class="row form-group mb-5 mx-2 pb-5 shadow-2xl">
+                        <legend class="hover:text-green-900 bg-gradient-to-l bg-gradient-to-r from-gray-300 to-blue-100 shadow-lg border-b-2 border-gray-500">Bank Information</legend>
                         <div class="row">
                             <div class="col">
                                 <label for="bank_name">Name</label>
@@ -159,8 +159,8 @@
                             </div>
                         </div>
                     </fieldset>
-                    <fieldset class="row form-group">
-                        <legend>Login Information</legend>
+                    <fieldset class="row form-group mb-5 mx-2 pb-5 shadow-2xl">
+                        <legend class="hover:text-green-900 bg-gradient-to-l bg-gradient-to-r from-gray-300 to-blue-100 shadow-lg border-b-2 border-gray-500">Login Information</legend>
                         <div class="row">
                             <div class="col">
                                 <label for="email">Email</label>
@@ -253,17 +253,6 @@ export default {
 </script>
 
 <style scoped>
-fieldset {
-    background-color: #eeeeee;
-    --bs-table-bg: #e2e3e5;
-    padding-bottom: 4rem;
-}
-
-legend {
-    background-color:  #ABA989;
-    color: white;
-    padding: 5px 10px;
-}
 .imagePreviewWrapper {
     width: 250px;
     height: 250px;
