@@ -39,6 +39,9 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="card-footer">
+                    <Paginator  :paginator="data"/>
+                </div>
             </div>
         </div>
     </app-layout>
@@ -48,8 +51,10 @@
 import AppLayout from "@/Layouts/Authenticated";
 import CardHeader from "@/Shared/CardHeader";
 import Actions from "@/Shared/Actions";
+import Paginator from "@/Components/Paginator";
 export default {
     components: {
+        Paginator,
         Actions,
         CardHeader,
         AppLayout
