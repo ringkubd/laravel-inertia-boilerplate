@@ -2,7 +2,8 @@
     <div class="pt-0 grid md:grid-cols-4 flex">
         <div class="flex-1" v-if="create">
             <inertia-link type="button" as="button" :href="create" v-if="can.create && create"
-                ><jet-button type="button">
+                >
+                <jet-button type="button" class="btn bg-gradient-to-r from-[#36AFAD] to-[#36C57F]">
                     <font-awesome-icon
                         icon="plus"
                         size="md"

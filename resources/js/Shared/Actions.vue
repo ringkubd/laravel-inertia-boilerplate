@@ -5,8 +5,9 @@
             type="button"
             :href="editUrl"
             v-if="can.update"
+            class="group"
         >
-            <jet-button type="submit">
+            <jet-button type="submit" class="bg-gradient-to-r from-[#36AFAD] to-[#36C57F] hover:shadow-lg group-hover:animate-pulse">
                 <font-awesome-icon
                     icon="pen"
                     size="md"
@@ -20,9 +21,10 @@
             type="button"
             :href="detailUrl"
             v-if="detailUrl"
+            class="group"
             target="_blank"
         >
-            <jet-button type="submit" class="btn-success">
+            <jet-button type="submit" class="bg-gradient-to-r from-[#198754] to-[#46C57F] hover:shadow-lg group-hover:animate-pulse">
                 <font-awesome-icon
                     icon="info"
                     size="md"
@@ -35,10 +37,11 @@
             method="DELETE"
             as="button"
             type="button"
+            class="group"
             :href="deleteUrl"
             v-if="can.delete"
         >
-            <jet-button type="submit" class="btn-danger">
+            <jet-button type="submit" class="bg-gradient-to-r from-red-700 to-[#46C57F] hover:shadow-lg group-hover:animate-pulse">
                 <font-awesome-icon
                     icon="trash"
                     size="md"

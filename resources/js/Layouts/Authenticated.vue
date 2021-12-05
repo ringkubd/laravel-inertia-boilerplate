@@ -3,7 +3,7 @@
     <div>
         <chat  v-if="!$page.props.menu_permission.support"/>
         <div class="min-h-screen bg-gray-100">
-            <nav class="bg-gradient-to-l bg-gradient-to-r from-gray-300 to-blue-100 border-b shadow-lg border-gray-100 sticky top-0 z-50">
+            <nav class="bg-gradient-to-r from-green-100 to-blue-100 shadow-lg text-black-700 border-b-4 opacity-100 border-gray-600 sticky top-0 z-50">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-10xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
@@ -463,7 +463,7 @@
                                 <breeze-nav-link
                                     :href="route('admission.index')"
                                     :active="route().current('admission.index')"
-                                    class="rounded-md"
+                                    class="rounded-md text-black-700"
                                     v-if="$page.props.menu_permission.admission"
                                 >
                                     Admission
@@ -471,7 +471,7 @@
                                 <breeze-nav-link
                                     :href="route('support.index')"
                                     :active="route().current('support.index')"
-                                    class="rounded-md"
+                                    class="rounded-md text-black-700"
                                     v-if="$page.props.menu_permission.support"
                                 >
                                     Support
@@ -1071,8 +1071,8 @@
             </nav>
 
             <!-- Page Heading -->
-            <header class="bg-white shadow" v-if="$slots.header">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <header class="container-fluid bg-white shadow-sm" v-if="$slots.header">
+                <div class="max-w-8xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
                     <div v-if="$page.props.flash.message" class="alert">
                         {{ $page.props.flash.message }}
                     </div>

@@ -56,18 +56,26 @@ class InvoiceController extends Controller
     {
         $this->authorize('create_invoice');
         $sessions = AcademicSession::all();
+
         $students = Student::query()
+            ->where('polytechnic_session', "$request->polytechnic_session")
             ->with(['fees' => function($q) use ($request){
                 $q->where('semester', $request->semester);
             }])
             ->whereHas('fees', function ($q) use ($request){
                 $q->where('semester', $request->semester);
             })
-            ->whereHas('results', function($q) use($request){
-                $q->where('status','!=','Dropout')
-                    ->where('semester', $request->semester);
+            ->when($request->semester != 1, function ($q) use($request){
+                $q->whereHas('results', function($q) use($request){
+                    $q->where('status','!=','Dropout')
+                        ->where('semester', $request->semester);
+                })->where('polytechnic_session', "$request->polytechnic_session");
+            },function ($q) use ($request){
+                $q->doesntHave('results')
+                    ->orWhereHas('results', function ($q) use($request) {
+                        $q->where('status','!=','Dropout')->where('semester', $request->semester);
+                    })->where('polytechnic_session', "$request->polytechnic_session");
             })
-            ->where('polytechnic_session', "$request->polytechnic_session")
             ->get();
         $feeTypes = $students->whereNotNull('fees')->max('fees');
         return Inertia::render('Invoice/Create', [
@@ -109,15 +117,30 @@ class InvoiceController extends Controller
         $students = Student::query()
             ->with(['fees' => function($q) use ($request, $billableFee){
                 $q->where('semester', $request->semester)
-                ->whereIn('fee_type', array_keys($billableFee));
+                    ->whereIn('fee_type', array_keys($billableFee));
             }])
             ->whereHas('fees', function ($q) use ($request){
                 $q->where('semester', $request->semester);
             })
-            ->whereHas('results', function($q) use($request){
-                $q->where('status','!=','Dropout')
-                    ->where('semester', $request->semester);
+            ->when($request->semester != 1, function ($q) use($request){
+                $q->whereHas('results', function($q) use($request){
+                    $q->where('status','!=','Dropout')
+                        ->where('semester', $request->semester);
+                })->where('polytechnic_session', "$request->academic_session");
+            },function ($q) use ($request){
+                $q->doesntHave('results')
+                    ->orWhereHas('results', function ($q) use($request) {
+                        $q->where('status','!=','Dropout')->where('semester', $request->semester);
+                    })->where('polytechnic_session', "$request->academic_session");
             })
+            ->whereDoesntHave('invoice', function ($q) use ($request, $billableFee) {
+                $q->where('invoice_month', $request->invoice_month)
+                ->where('semester', $request->semester)
+                ->whereHas('details', function ($q) use ($billableFee) {
+                    $q->whereIn('fee_type', array_keys($billableFee));
+                });
+            })
+            ->with('invoice')
             ->where('polytechnic_session', "$request->academic_session")
             ->get();
 

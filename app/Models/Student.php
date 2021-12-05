@@ -123,4 +123,11 @@ class Student extends Model
         return $this->hasMany(Result::class);
     }
 
+    /**
+     * Invoice Details
+     */
+    public function invoice(){
+        return $this->hasMany(Invoice::class, 'student_id', 'id');
+    }
+
 }
