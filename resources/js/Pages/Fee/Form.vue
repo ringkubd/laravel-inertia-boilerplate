@@ -21,6 +21,7 @@
                                 <div class="col">
                                     <label for="trade">Trade</label>
                                     <select name="trade" id="trade" class="form-control"  v-model="formData.trade">
+                                        <option value="all">All</option>
                                         <option v-for="(trade, index) in trades" :value="trade.name">{{trade.name}}</option>
                                     </select>
                                     <div v-if="errors.trade" class="text-danger">

@@ -69,28 +69,55 @@ class FeeController extends Controller
     public function store(Request $request)
     {
         $this->authorize('create_fee');
+        $trades = [];
+        $existingFees = [];
+        if ($request->trade == "all") {
+            $trades = Trade::select('name')->where('is_madrasa', 0)->get();
+
+            $existingFees = Fee::query()->where('session', $request->academic_session)
+                ->where('semester', $request->semester)
+                ->whereIn('trade', $trades->pluck('name')->toArray());
+            $existingFees = $existingFees->pluck('fee_type')->toArray();
+        }
+        $existingFees = implode(",",$existingFees);
+
         $request->validate([
             'academic_session' => ['required'],
-            'trade' => ['required', Rule::unique('fees')->where(function ($query) use($request) {
+            'trade' => ['required'],
+            'semester' => ['required'],
+            'fee_type' => ['required',Rule::unique('fees')->where(function ($query) use($request, $trades) {
                 return $query->where('session', $request->academic_session)
                     ->where('semester', $request->semester)
-                    ->where('trade', $request->trade)
-                    ->where('fee_type', $request->fee_type);
+                    ->when($request->trade != "all", function ($q) use($request){
+                        $q->where('trade', $request->trade);
+                    }, function ($q) use ($request, $trades){
+                        $q->whereIn('trade', $trades->pluck('name')->toArray());
+                    });
             })],
-            'semester' => ['required'],
-            'fee_type' => ['required'],
             'amount' => ['required'],
         ], [
-            'trade.unique' => "This semester {$request->fee_type} bill already submitted."
+            'fee_type.unique' => "This semester {$existingFees} for all trade or some trade bill already submitted."
         ]);
+        if (count($trades) > 0) {
+            foreach ($trades as $trade){
+                Fee::create([
+                    'session' => $request->academic_session,
+                    'trade' =>  $trade->name,
+                    'semester' =>  $request->semester,
+                    'fee_type' =>  $request->fee_type,
+                    'amount' =>  $request->amount,
+                ]);
+            }
+        }else{
+            Fee::create([
+                'session' => $request->academic_session,
+                'trade' =>  $request->trade,
+                'semester' =>  $request->semester,
+                'fee_type' =>  $request->fee_type,
+                'amount' =>  $request->amount,
+            ]);
+        }
 
-        Fee::create([
-            'session' => $request->academic_session,
-            'trade' =>  $request->trade,
-            'semester' =>  $request->semester,
-            'fee_type' =>  $request->fee_type,
-            'amount' =>  $request->amount,
-        ]);
         return redirect()->route('fee.index')->withSuccess("Fee added successfully.");
     }
 
