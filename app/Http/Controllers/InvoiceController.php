@@ -133,13 +133,13 @@ class InvoiceController extends Controller
                         $q->where('status','!=','Dropout')->where('semester', $request->semester);
                     })->where('polytechnic_session', "$request->academic_session");
             })
-            ->whereDoesntHave('invoice', function ($q) use ($request, $billableFee) {
-                $q->where('invoice_month', $request->invoice_month)
-                ->where('semester', $request->semester)
-                ->whereHas('details', function ($q) use ($billableFee) {
-                    $q->whereIn('fee_type', array_keys($billableFee));
-                });
-            })
+//            ->whereDoesntHave('invoice', function ($q) use ($request, $billableFee) {
+//                $q->where('invoice_month', $request->invoice_month)
+//                ->where('semester', $request->semester)
+//                ->whereHas('details', function ($q) use ($billableFee) {
+//                    $q->whereIn('fee_type', array_keys($billableFee));
+//                });
+//            })
             ->with('invoice')
             ->where('polytechnic_session', "$request->academic_session")
             ->get();
