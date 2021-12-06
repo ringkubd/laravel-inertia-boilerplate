@@ -198,13 +198,13 @@
                                             <th class="text-center font-extrabold text-black-400 hover:text-green-900 shadow-lg border-b-2 border-gray-500" colspan="7">Results</th>
                                         </tr>
                                         <tr>
-                                            <th>Semester</th>
+                                            <th>Sem.</th>
                                             <th>GPA</th>
                                             <th>Status</th>
-                                            <th>Failed in Sub.</th>
-                                            <th>Attachment</th>
+                                            <th>F. Sub.</th>
+                                            <th>Attach.</th>
                                             <th>Added By</th>
-                                            <th>Approved By</th>
+                                            <th>App. By</th>
                                         </tr>
                                         </thead>
                                         <tbody>

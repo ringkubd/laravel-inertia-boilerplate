@@ -7,7 +7,7 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Fee Information</h2>
         </template>
         <div class="container-fluid">
-            <div class="card mt-5 min-vh-100">
+            <div class="card mt-1 min-vh-100">
                 <div class="card-header">
                     <CardHeader :can="can" :create="route('fee.create')" :search-method="search"></CardHeader>
                 </div>

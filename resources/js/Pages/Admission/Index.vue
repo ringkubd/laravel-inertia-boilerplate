@@ -8,7 +8,7 @@
         </template>
         <template #default>
             <div class="container-fluid">
-                <div class="card flex min-h-screen justify-center mt-5">
+                <div class="card flex min-h-screen justify-center mt-1">
                     <div class="card-header">
                         <card-header
                             :create="route('admission.create')"

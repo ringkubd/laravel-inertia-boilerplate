@@ -6,7 +6,7 @@
         <div class="container">
             <div class="row h-screen">
                 <div class="col-md-4">
-                    <div class="card" style="height: 85vh!important;">
+                    <div class="card mt-1" style="height: 85vh!important;">
                         <div class="card-header">
                             <h4>Active Request List</h4>
                         </div>

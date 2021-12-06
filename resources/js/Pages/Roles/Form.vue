@@ -1,5 +1,5 @@
 <template>
-    <div class="flex h-screen justify-center mt-5">
+    <div class="flex h-screen justify-center mt-1">
         <form action="" method="" class="" @submit.prevent="submit">
             <div class="col form-group">
                 <label for="name">Name</label>

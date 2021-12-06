@@ -19,7 +19,7 @@
             </div>
         </template>
         <div class="container-fluid">
-            <div class="card mt-5 min-vh-100">
+            <div class="card mt-1 min-vh-100">
                 <div class="card-header">
                     <CardHeader :can="can" :create="route('madrasa.student.create')" :search-method="search">
                         <template #first>

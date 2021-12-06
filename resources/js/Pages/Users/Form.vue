@@ -1,11 +1,11 @@
 <template>
-    <div class="flex h-screen justify-center mt-5">
-        <form action="" method="" class="w-1/3" @submit.prevent="submit">
-            <div class="col form-group">
+    <div class="flex h-screen justify-center">
+        <form action="" method="" @submit.prevent="submit">
+            <div class="group shadow-lg p-3">
                 <label for="name">Name</label>
                 <input
                     type="text"
-                    class="form-control"
+                    class="form-control group-hover:border-2"
                     id="name"
                     v-model="formData.name"
                     ref="name"
@@ -15,7 +15,7 @@
                     {{ errors.name }}
                 </div>
             </div>
-            <div class="col form-group">
+            <div class="group shadow-lg p-3">
                 <label for="email">Email</label>
                 <input
                     type="email"
@@ -29,7 +29,7 @@
                     {{ errors.email }}
                 </div>
             </div>
-            <div class="col form-group">
+            <div class="group shadow-lg p-3">
                 <label for="password">Password</label>
                 <input
                     type="password"
@@ -43,7 +43,7 @@
                     {{ errors.password }}
                 </div>
             </div>
-            <div class="col form-group">
+            <div class="group shadow-lg p-3">
                 <label for="confirmPassword">Confirm Password</label>
                 <input
                     type="password"
@@ -57,7 +57,7 @@
                     {{ errors.password_confirmation }}
                 </div>
             </div>
-            <div class="col form-group">
+            <div class="group shadow-lg p-3">
                 <label for="madrasha_id">Madrasah</label>
                 <select name="madrasha_id" id="madrasha_id" class="form-control" v-model="formData.madrasha_id">
                     <option v-for="mad in madrasah" :value="mad.id">{{ mad.name }}</option>
@@ -66,7 +66,7 @@
                     {{ errors.madrasha_id }}
                 </div>
             </div>
-            <div class="col form-group">
+            <div class="group shadow-lg p-3">
                 <label for="roles">Roles</label>
                 <Multiselect
                     v-model="formData.roles"
@@ -89,7 +89,7 @@
                     {{ errors.roles }}
                 </div>
             </div>
-            <div class="col form-group flex justify-end mt-1">
+            <div class="group shadow-lg p-3 flex justify-end mt-1">
                 <input
                     v-if="isUpdate"
                     type="submit"

@@ -7,7 +7,7 @@
             <page-header>Admission Management</page-header>
         </template>
         <div class="container-fluid min-h-screen">
-           <div class="card">
+           <div class="card mt-1">
                <div class="card-header">
                    <Back :back-url="route('admission.index')"/>
                </div>

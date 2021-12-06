@@ -1,13 +1,14 @@
 <template>
     <div>
         <inertia-link class="no-underline" :href="backUrl">
-            <jet-button class="bg-gradient-to-r from-[#36AFAD] to-[#36C57F]">
+            <jet-button class="text-black animate-gradient-x bg-gradient-to-r from-[#36AFAD] via-red-100 to-[#36C57F]">
                 <font-awesome-icon
                     icon="backward"
                     size="md"
                     rotation="rotate"
+                    class="text-black"
                 ></font-awesome-icon>
-                Back
+                <span class="text-black"> Back</span>
             </jet-button>
         </inertia-link>
     </div>

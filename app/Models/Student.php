@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 
 
 class Student extends Model
 {
-    use HasFactory, SoftDeletes, RecordsActivity;
+    use HasFactory, SoftDeletes, RecordsActivity, Searchable;
 
     protected $guarded = ['id'];
 

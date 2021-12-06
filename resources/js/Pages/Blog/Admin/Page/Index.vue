@@ -5,7 +5,7 @@
         </template>
         <template #default>
             <div class="container-fluid">
-                <div class="card mt-5 min-vh-100">
+                <div class="card mt-1 min-vh-100">
                     <div class="card-header">
                         <CardHeader :can="can" :create="route('page.create')" :index="route('page.index')" :search-method="search"></CardHeader>
                     </div>

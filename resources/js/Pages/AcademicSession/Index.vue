@@ -7,11 +7,11 @@
             <page-header>Academic Session</page-header>
         </template>
         <div class="container-fluid">
-            <div class="card mt-5 min-vh-100">
+            <div class="card mt-1 min-vh-100">
                 <div class="card-header">
                     <CardHeader :can="can" :create="false" :search-method="search">
                         <template #first>
-                            <button id="show-modal" @click="showModal = true">
+                            <button id="show-modal" @click="showModal = true" class="btn animate-gradient-x bg-gradient-to-r from-[#36AFAD] via-yellow-200 to-[#36C57F]">
                                 <font-awesome-icon
                                     icon="plus"
                                     size="md"

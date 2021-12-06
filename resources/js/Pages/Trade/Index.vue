@@ -4,11 +4,11 @@
     </Head>
     <Authenticated>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Trade Management</h2>
+            <PageHeader>Trade Management</PageHeader>
         </template>
         <template #default>
             <div class="container-fluid">
-                <div class="card flex min-h-screen mt-5">
+                <div class="card flex min-h-screen mt-1">
                     <div class="card-header">
                         <CardHeader  :can="can" :create="route('trade.create')" :index="route('trade.index')" :search-method="search"></CardHeader>
                     </div>
@@ -51,11 +51,12 @@ import Authenticated from "@/Layouts/Authenticated";
 import Actions from "@/Shared/Actions";
 import Paginator from "@/Components/Paginator";
 import CardHeader from "@/Shared/CardHeader";
+import PageHeader from "@/Shared/PageHeader";
 
 export default {
     name: "Index",
     props: ['trades', 'can'],
-    components: {CardHeader, Paginator, Actions, Authenticated},
+    components: {PageHeader, CardHeader, Paginator, Actions, Authenticated},
     data(){
         return {
         }

@@ -3,7 +3,7 @@
         <title>Add Teacher|Four year diploma</title>
     </Head>
     <div class="w-7/10">
-        <div class="card">
+        <div class="card mt-1">
             <div class="card-header">
                 <back style="margin-top: 0!important" class="mt-0" :back-url="route('teacher.index')"></back>
             </div>

@@ -7,11 +7,11 @@
             <PageHeader>Result's Management</PageHeader>
         </template>
         <div class="container-fluid">
-            <div class="card mt-5 min-vh-100">
+            <div class="card mt-1 min-vh-100">
                 <div class="card-header">
                     <CardHeader :create="false" :search-method="search">
                         <template #first>
-                            <div class="form-group row">
+                            <div class="flex">
                                 <label for="session" class="col-3">Session</label>
                                 <div class="col-8">
                                     <select name="session" id="session" class="form-control" v-model="filters.academic_session" @change.prevent="filteredSessions">
@@ -24,7 +24,7 @@
                 </div>
                 <div class="card-body overflow-x-auto w-full">
                     <div class="my-4">
-                        <form action="" class="form-inline bg-gray-400 bg-blend-color-dodge" @submit.prevent="submitForm">
+                        <form action="" class="form-inline bg-gradient-to-tr from-green-500 via-green-200 to-green-400 bg-blend-color-dodge" @submit.prevent="submitForm">
                             <div class="row pl-2 py-4">
                                 <div class="col form-group">
                                     <label for="student">Student</label>

@@ -1,6 +1,6 @@
 <template>
     <div class="w-7/10">
-        <div class="card mt-5 min-vh-100">
+        <div class="card mt-1 min-vh-100">
             <div class="card-header">
                 <back style="margin-top: 0!important" class="mt-0" :back-url="route('madrasa.student.index')"></back>
             </div>

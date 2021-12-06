@@ -5,7 +5,7 @@
         </template>
         <template #default>
             <div class="container-fluid">
-                <div class="card flex h-screen justify-center mt-5">
+                <div class="card mt-1">
                     <div class="card-header">
                         <back :back-url="route('trade.index')"></back>
                     </div>

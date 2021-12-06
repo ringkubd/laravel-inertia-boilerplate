@@ -3,7 +3,7 @@
         <div class="flex-1" v-if="create">
             <inertia-link type="button" as="button" :href="create" v-if="can.create && create"
                 >
-                <jet-button type="button" class="btn bg-gradient-to-r from-[#36AFAD] to-[#36C57F]">
+                <jet-button type="button" class="btn animate-gradient-x bg-gradient-to-r from-[#36AFAD] via-yellow-200 to-[#36C57F]">
                     <font-awesome-icon
                         icon="plus"
                         size="md"

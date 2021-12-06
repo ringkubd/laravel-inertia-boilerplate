@@ -4,7 +4,7 @@
             <h2>Role Add</h2>
         </template>
         <div class="container-fluid">
-            <div class="card">
+            <div class="card mt-1">
                 <div class="card-header">
                     <Back :backUrl="route('roles.index')"></Back>
                 </div>

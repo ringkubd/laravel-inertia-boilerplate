@@ -6,7 +6,7 @@
             </page-header>
         </template>
         <div class="container-fluid">
-            <div class="row mt-5">
+            <div class="row mt-1">
                 <div class="col-md-3">
                     <div class="card" style="height: 80vh">
                         <div class="card-header">

@@ -1,5 +1,5 @@
 <template>
-    <div class="flex h-screen justify-center mt-5">
+    <div class="flex h-screen justify-center">
         <form class="w-3/4" @submit.prevent="submit">
             <div class="row g-3 align-items-center">
                 <div class="col-md-12 form-group">
@@ -29,9 +29,9 @@
                 </div>
             </div>
             <div class="row mt-4 g-3 align-items-center">
-                <div class="w-1/3">
-                    <input type="submit"  v-if="formType == 'store'" class="btn btn-primary pull-right">
-                    <input type="submit" v-if="formType == 'update'" value="Update" class="btn btn-info pull-right">
+                <div class="w-1/3 flex justify-content-end">
+                    <Button type="submit" v-if="formType == 'store'">Submit</Button>
+                    <Button type="submit" v-if="formType == 'update'">Update</Button>
                 </div>
             </div>
         </form>
@@ -40,10 +40,12 @@
 
 <script>
 import Multiselect from '@vueform/multiselect'
+import Button from "@/Components/Button";
 export default {
     name: "Form",
     props: ['trade', 'errors', 'form-type', 'submitForm'],
     components: {
+        Button,
         Multiselect
     },
     data () {

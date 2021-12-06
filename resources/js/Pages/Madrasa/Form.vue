@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="card">
+        <div class="card mt-1">
             <div class="row">
                 <div class="col-12">
                     <div class="card-header">
@@ -9,14 +9,14 @@
                     <div class="card-body form-inline">
                         <form action="" v-on:load="onloadForm()" @submit.prevent="postData">
                             <div class="row mb-4">
-                                <div class="col">
+                                <div class="col shadow-lg py-2">
                                     <label for="name">Name</label>
                                     <input name="name" type="text" class="form-control" id="name" tabindex="1" v-model="formData.name">
                                     <div v-if="errors.name" class="text-danger">
                                         {{ errors.name }}
                                     </div>
                                 </div>
-                                <div class="col">
+                                <div class="col shadow-lg py-2">
                                     <label for="email">Email</label>
                                     <input type="text" class="form-control" id="email" name="email" v-model="formData.email">
                                     <div v-if="errors.email" class="text-danger">
@@ -25,14 +25,14 @@
                                 </div>
                             </div>
                             <div class="row mb-4">
-                                <div class="col-md">
+                                <div class="col-md shadow-lg py-2">
                                     <label for="telephone">Telephone</label>
                                     <input type="tel" class="form-control" id="telephone" name="telephone" v-model="formData.telephone">
                                     <div v-if="errors.telephone" class="text-danger">
                                         {{ errors.telephone }}
                                     </div>
                                 </div>
-                                <div class="col">
+                                <div class="col shadow-lg py-2">
                                     <label for="mobile">Mobile</label>
                                     <input type="text" class="form-control" id="mobile" v-model="formData.mobile">
                                     <div v-if="errors.mobile" class="text-danger">
@@ -40,7 +40,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col">
+                                <div class="col shadow-lg py-2">
                                     <label for="fax">Fax</label>
                                     <input type="tel" class="form-control" id="fax" name="fax" v-model="formData.fax">
                                     <div v-if="errors.fax" class="text-danger">
@@ -49,7 +49,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group">
+                                <div class="form-group shadow-lg py-2">
                                     <label for="district">District</label>
                                     <select class="form-control" name="district" id="district" v-model="formData.district">
                                         <option value=""></option>
@@ -60,7 +60,7 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group">
+                                <div class="form-group shadow-lg py-2">
                                     <label for="address">Address</label>
                                     <textarea type="text" class="form-control" id="address" name="address" v-model="formData.address"></textarea>
                                     <div v-if="errors.address" class="text-danger">
@@ -68,7 +68,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group my-3 flex justify-end shadow-lg">
                                 <jet-button v-if="createForm" type="submit">Add</jet-button>
                                 <jet-button v-if="!createForm" type="submit">Update</jet-button>
                             </div>

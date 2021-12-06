@@ -5,7 +5,7 @@
         </template>
         <template #default>
             <div class="container-fluid">
-                <div class="card">
+                <div class="card mt-1">
                     <div class="card-header">
                         <back :back-url="route('page.index')"></back>
                     </div>

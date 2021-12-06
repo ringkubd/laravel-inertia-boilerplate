@@ -2,8 +2,9 @@
     <Head title="Dashboard"></Head>
     <div>
         <chat  v-if="!$page.props.menu_permission.support"/>
-        <div class="min-h-screen bg-gray-100">
-            <nav class="bg-gradient-to-r from-green-100 to-blue-100 shadow-lg text-black-700 border-b-4 opacity-100 border-gray-600 sticky top-0 z-50">
+        <div class="min-h-screen">
+            <!--     from-[#7AE5F5] via-[#97EBF4] to-[#C9F6FF]       -->
+            <nav class="bg-gradient-to-br from-green-500 via-yellow-50 to-green-500  animate-gradient-x shadow-lg text-black border-b-4 opacity-100 border-gray-600 sticky top-0 z-50">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-10xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
@@ -11,7 +12,7 @@
                             <!-- Logo -->
                             <div class="flex flex-auto items-center">
                                 <inertia-link :href="route('dashboard')">
-                                    <img src="/isdb-bisew.png" width="55" class="object-fill thumbnail" alt="">
+                                    <img src="/isdb-bisew.png" width="55" class="object-fill thumbnail animate-pulse" alt="">
                                 </inertia-link>
                             </div>
 
@@ -1071,27 +1072,29 @@
             </nav>
 
             <!-- Page Heading -->
-            <header class="container-fluid bg-white shadow-sm" v-if="$slots.header">
-                <div class="max-w-8xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
-                    <div v-if="$page.props.flash.message" class="alert">
-                        {{ $page.props.flash.message }}
+            <div class="relative group">
+                <div class="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-purple-600 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
+                <header class="relative rounded-lg leading-none container-fluid animate-gradient-x bg-gradient-to-tr from-[#36AFAD] via-yellow-100 to-[#36C57F]" v-if="$slots.header">
+                    <div class="max-w-8xl mx-auto py-2 px-4 sm:px-6 lg:px-8">
+                        <div v-if="$page.props.flash.message" class="alert">
+                            {{ $page.props.flash.message }}
+                        </div>
+                        <div
+                            v-if="$page.props.flash.error"
+                            class="alert alert-error"
+                        >
+                            {{ $page.props.flash.error }}
+                        </div>
+                        <div
+                            v-if="$page.props.flash.success"
+                            class="alert alert-success"
+                        >
+                            {{ $page.props.flash.success }}
+                        </div>
+                        <slot name="header" />
                     </div>
-                    <div
-                        v-if="$page.props.flash.error"
-                        class="alert alert-error"
-                    >
-                        {{ $page.props.flash.error }}
-                    </div>
-                    <div
-                        v-if="$page.props.flash.success"
-                        class="alert alert-success"
-                    >
-                        {{ $page.props.flash.success }}
-                    </div>
-                    <slot name="header" />
-                </div>
-            </header>
-
+                </header>
+            </div>
             <!-- Page Content -->
             <main>
                 <slot :onlineFriends="onlineFriends" :offlineFriends="offlineFriends" />

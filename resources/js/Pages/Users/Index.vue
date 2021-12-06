@@ -9,7 +9,7 @@
             </h2>
         </template>
         <div class="container-fluid">
-            <div class="card flex h-screen justify-center mt-5">
+            <div class="card flex h-screen justify-center mt-1">
                 <div class="card-header">
                     <card-header
                         :create="route('users.create')"
@@ -74,8 +74,8 @@
                                             route('users.destroy', user.id)
                                         "
                                 >
-                                    <inertia-link as="button" type="button" :href="route('users.direct_permission', user.id)">
-                                        <jet-button type="submit" class="btn-secondary">
+                                    <inertia-link as="button" class="group" type="button" :href="route('users.direct_permission', user.id)">
+                                        <jet-button type="submit" class="bg-gradient-to-r from-[#36AFAD] via-red-200 to-[#36C57F] animate-gradient-x hover:shadow-lg group-hover:animate-pulse">
                                             <font-awesome-icon
                                                 icon="bars"
                                                 size="md"

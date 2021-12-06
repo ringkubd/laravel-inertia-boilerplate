@@ -7,7 +7,7 @@
         <PageHeader>Role's Permission Management</PageHeader>
     </template>
     <div class="container-fluid">
-        <div class="card flex min-h-screen mt-5">
+        <div class="card flex min-h-screen mt-1">
             <div class="card-header row flex">
                 <div class="col-6 items-center">
                    <back :back-url="route('roles.index')"></back>
