@@ -33,7 +33,7 @@ class Student extends Model
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    protected function makeAllSearchableUsing($query): Builder
+    protected function makeAllSearchableUsing($query)
     {
         return $query->with('classroom');
     }

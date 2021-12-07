@@ -28,35 +28,35 @@ class StudentsController extends Controller
     {
         $this->authorize('view_madrasa_student');
         $madrasah_id = $request->has('madrasah') ? currentMadrasah($request->madrasah): currentMadrasah();
-        $students = Student::search($request->search)
+        $students = Student::query()
             ->with('users')
             ->with('classroom')
-//            ->when($request->search, function ($q, $v){
-//                $q
-//                    ->where('name', 'like', "%$v%")
-//                    ->orWhere('mobile', 'like', "%$v%")
-//                    ->orWhereHas('madrasha', function ($q) use($v){
-//                        $q->where('madrashas.name', 'like', "%$v%");
-//                    })
-//                    ->orWhereHas('classroom', function ($q) use($v){
-//                        $q->where('class_rooms.name', 'like', "%$v%");
-//                    });
-//            })->when($request->current_session, function ($q, $v){
-//                $q->where('current_session', 'like', "%$v%");
-//            },function ($q){
-//                $q->where('madrasa_completed', false);
-//            })
-//            ->when($request->trade, function ($q, $v){
-//                $q->where('madrasa_trade_id', 'like', "%$v%");
-//            })
-//            ->when($request->classroom, function ($q, $v){
-//                $q->whereHas('classroom', function ($q) use ($v){
-//                    $q->where('class_room_students.class_room_id',$v);
-//                });
-//            })
-//            ->when($madrasah_id, function ($q, $v){
-//                $q->where('madrasha_id', $v);
-//            })
+            ->when($request->search, function ($q, $v){
+                $q
+                    ->where('name', 'like', "%$v%")
+                    ->orWhere('mobile', 'like', "%$v%")
+                    ->orWhereHas('madrasha', function ($q) use($v){
+                        $q->where('madrashas.name', 'like', "%$v%");
+                    })
+                    ->orWhereHas('classroom', function ($q) use($v){
+                        $q->where('class_rooms.name', 'like', "%$v%");
+                    });
+            })->when($request->current_session, function ($q, $v){
+                $q->where('current_session', 'like', "%$v%");
+            },function ($q){
+                $q->where('madrasa_completed', false);
+            })
+            ->when($request->trade, function ($q, $v){
+                $q->where('madrasa_trade_id', 'like', "%$v%");
+            })
+            ->when($request->classroom, function ($q, $v){
+                $q->whereHas('classroom', function ($q) use ($v){
+                    $q->where('class_room_students.class_room_id',$v);
+                });
+            })
+            ->when($madrasah_id, function ($q, $v){
+                $q->where('madrasha_id', $v);
+            })
             ->with('madrasha')
             ->with('polytechnic')
             ->where('status', true)
