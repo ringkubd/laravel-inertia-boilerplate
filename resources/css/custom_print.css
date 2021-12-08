@@ -1,3 +1,13 @@
 .table > :not(caption) > * > *{
     padding: 0px!important;
+    border: 1px solid black;
+}
+tr td{
+    padding: 0!important;
+    margin: 0!important;
+    border: 1px solid black!important;
+}
+tr{
+    padding: 0!important;
+    margin: 0!important;
 }

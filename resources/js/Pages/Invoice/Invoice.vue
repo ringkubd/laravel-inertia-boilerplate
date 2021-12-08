@@ -21,7 +21,7 @@
                 <div class="card-body" id="printme">
                     <table class="table table-secondary table-bordered text-center">
                         <thead>
-                        <tr style="border-left: solid white 2px; border-right: solid white 2px; border-top: solid white 2px;">
+                        <tr>
                             <th :colspan="6+ (feeTypes != null ? feeTypes.length : 0)" rowspan="4">
                                 Invoice
                                 <br>
@@ -53,8 +53,8 @@
                         <tr v-for="(invoice, index) in data">
                             <td>{{ index + 1 }}</td>
                             <td>{{ invoice.student_name }}</td>
-                            <td>{{invoice.student.polytechnic_trade_id}}</td>
-                            <td>{{ invoice.bank_branch }}</td>
+                            <td>{{ getFirstWord(invoice.student.polytechnic_trade_id) }}</td>
+                            <td>{{ getFirstWord(invoice.bank_branch, ',') }}</td>
                             <td>{{ invoice.bank_account }}</td>
                             <td v-for="fee in invoice.details">{{ fee.amount }}</td>
                             <td>{{invoice.amount}}</td>
@@ -108,18 +108,20 @@ export default {
                 ],
                 styles: [
                     '/css/custom_print.css',
-                    '/css/app.css',
                 ]
             }
 
             this.$htmlToPaper('printme', printOptions, () => {
                 console.log('Printing finished');
             });
+        },
+        getFirstWord(str, delimter = " ") {
+            let spaceIndex = str.indexOf(delimter);
+            return spaceIndex === -1 ? str : str.substr(0, spaceIndex);
         }
     }
 }
 </script>
 
 <style scoped>
-
 </style>

@@ -60,24 +60,29 @@ class InvoiceController extends Controller
         $students = Student::query()
             ->where('polytechnic_session', "$request->polytechnic_session")
             ->with(['fees' => function($q) use ($request){
-                $q->where('semester', $request->semester);
+                $q->where('semester', $request->semester)
+                    ->where('session', "$request->polytechnic_session");
             }])
             ->whereHas('fees', function ($q) use ($request){
-                $q->where('semester', $request->semester);
+                $q->where('semester', $request->semester)
+                    ->where('session', "$request->polytechnic_session");
             })
-            ->when($request->semester != 1, function ($q) use($request){
-                $q->whereHas('results', function($q) use($request){
-                    $q->where('status','!=','Dropout')
-                        ->where('semester', $request->semester);
-                })->where('polytechnic_session', "$request->polytechnic_session");
-            },function ($q) use ($request){
-                $q->doesntHave('results')
-                    ->orWhereHas('results', function ($q) use($request) {
-                        $q->where('status','!=','Dropout')->where('semester', $request->semester);
+            ->when($request->semester, function ($q, $v) use($request){
+                if ($v != 1) {
+                    $q->whereHas('results', function($q) use($request){
+                        $q->where('status','!=','Dropout')
+                            ->where('semester', $request->semester);
                     })->where('polytechnic_session', "$request->polytechnic_session");
+                }else{
+                    $q->doesntHave('results')
+                        ->orWhereHas('results', function ($q) use($request) {
+                            $q->where('status','!=','Dropout')->where('semester', $request->semester);
+                        })->where('polytechnic_session', "$request->polytechnic_session");
+                }
+
             })
             ->get();
-        $feeTypes = $students->whereNotNull('fees')->max('fees');
+        $feeTypes = $students->whereNotNull('fees')->unique('fee_type')->max('fees');
         return Inertia::render('Invoice/Create', [
             'can' => [
                 'create' => auth()->user()->can('create_invoice'),
@@ -133,13 +138,13 @@ class InvoiceController extends Controller
                         $q->where('status','!=','Dropout')->where('semester', $request->semester);
                     })->where('polytechnic_session', "$request->academic_session");
             })
-//            ->whereDoesntHave('invoice', function ($q) use ($request, $billableFee) {
-//                $q->where('invoice_month', $request->invoice_month)
-//                ->where('semester', $request->semester)
-//                ->whereHas('details', function ($q) use ($billableFee) {
-//                    $q->whereIn('fee_type', array_keys($billableFee));
-//                });
-//            })
+            ->doesntHave('invoice', 'and',function ($q) use ($request, $billableFee) {
+                $q->where('invoice_month', $request->invoice_month)
+                ->where('semester', $request->semester)
+                ->whereHas('details', function ($q) use ($billableFee) {
+                    $q->whereIn('fee_type', array_keys($billableFee));
+                });
+            })
             ->with('invoice')
             ->where('polytechnic_session', "$request->academic_session")
             ->get();
@@ -150,7 +155,8 @@ class InvoiceController extends Controller
             foreach ($student->fees as $fee){
                 $invoiceDetails[] = new InvoiceDetail([
                     'fee_type' => $fee->fee_type,
-                    'amount' => $fee->amount
+                    'amount' => $fee->amount,
+                    'invoice' => $invoiceId
                 ]);
             }
 
@@ -258,8 +264,8 @@ class InvoiceController extends Controller
     public function destroy($invoice_id)
     {
         $this->authorize('delete_invoice');
-        $invoice = Invoice::where('invoice_id',$invoice_id)->first();
-        $invoice_details = InvoiceDetail::where('invoice_id', $invoice->id);
+        $invoice = Invoice::where('invoice_id',$invoice_id);
+        $invoice_details = InvoiceDetail::where('invoice', $invoice_id);
         $invoice_details->delete();
         $invoice->delete();
         return redirect()->route('invoice.index')->withSuccess("Invoice Deleted.");

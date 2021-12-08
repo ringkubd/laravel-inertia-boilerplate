@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Traits\RecordsActivity;
+use Awobaz\Compoships\Compoships;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,7 +13,7 @@ use Laravel\Scout\Searchable;
 
 class Student extends Model
 {
-    use HasFactory, SoftDeletes, RecordsActivity, Searchable;
+    use HasFactory, SoftDeletes, RecordsActivity, Searchable, Compoships;
 
     protected $guarded = ['id'];
 
@@ -99,7 +100,7 @@ class Student extends Model
      */
 
     public function fees(){
-        return $this->hasMany(Fee::class, 'session','polytechnic_session');
+        return $this->hasMany(Fee::class, ['session', 'trade'],['polytechnic_session', 'polytechnic_trade_id']);
     }
 
     /**

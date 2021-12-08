@@ -1,0 +1,25 @@
+@import "app.css";
+.table > :not(caption) > * > *{
+    padding: 0px!important;
+    border-width: thin;
+    border-style: solid;
+    border-color: gray;
+    font-size: x-small;
+}
+tr th{
+    vertical-align: middle;
+    border-width: thin!important;
+    border-style: solid!important;
+    border-color: gray!important;
+}
+tr td{
+    /*padding: 0!important;*/
+    text-align: left!important;
+    margin-left: 1em;
+}
+thead{
+    border: thin solid black!important;
+}
+.table > :not(:first-child) {
+    border-top: 1px solid currentColor;
+}
