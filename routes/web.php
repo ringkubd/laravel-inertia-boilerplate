@@ -72,6 +72,7 @@ Route::prefix('madrasa')->group(function (){
     Route::resource('student', \App\Http\Controllers\Madrasa\StudentsController::class, ['as' => 'madrasa']);
     Route::resource('result', \App\Http\Controllers\MadrasahResultController::class, ['as' => 'madrasa']);
     Route::get('student_list', [\App\Http\Controllers\MadrasahResultController::class, "studentList"])->name('madrasa.student_list');
+    Route::get('student_search', [\App\Http\Controllers\Madrasa\StudentsController::class, "search"])->name('madrasah.student.search');
 });
 Route::resource('madrasa', \App\Http\Controllers\MadrasaController::class);
 
@@ -85,8 +86,6 @@ Route::resource('trade', \App\Http\Controllers\TradeController::class);
 // Teacher
 Route::resource('teacher', \App\Http\Controllers\TeacherController::class);
 
-// Trade
-Route::resource('document', \App\Http\Controllers\DocumentEditorController::class);
 
 // Trade
 Route::resource('academic_session', \App\Http\Controllers\AcademicSessionController::class);
@@ -96,6 +95,7 @@ Route::get('student_list', [\App\Http\Controllers\ResultController::class, "stud
 
 // Fee Management
 Route::resource('fee', \App\Http\Controllers\FeeController::class);
+Route::get('search/fee', [\App\Http\Controllers\FeeController::class, 'search'])->name('fee.search');
 
 // Invoice Management
 Route::resource('invoice', \App\Http\Controllers\InvoiceController::class);
