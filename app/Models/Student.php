@@ -24,7 +24,7 @@ class Student extends Model
             if ($user_madrasha != null) {
                 $builder->where('madrasha_id', auth()->user()->madrasha_id);
             }
-            $builder->with('madrasha');
+            $builder->with('madrasha', 'polytechnic');
         });
     }
 
@@ -36,7 +36,14 @@ class Student extends Model
      */
     protected function makeAllSearchableUsing($query)
     {
-        return $query->with('classroom');
+        return $query->with('classroom')
+        ->with('polytechnic')
+        ->with('results')
+        ->with('madrashaSession')
+        ->with( 'polytechnicSession')
+        ->with( 'madrasahResult')
+        ->with( 'polytechnicResult')
+        ->with('madrasha');
     }
 
     /**
@@ -141,6 +148,20 @@ class Student extends Model
      */
     public function invoice(){
         return $this->hasMany(Invoice::class, 'student_id', 'id');
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+
+        // Customize the data array...
+
+        return $array;
     }
 
 }

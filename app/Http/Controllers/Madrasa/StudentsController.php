@@ -11,6 +11,7 @@ use App\Models\Polytechnic;
 use App\Models\Student;
 use App\Models\Trade;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
@@ -340,5 +341,24 @@ class StudentsController extends Controller
         $student= Student::findOrFail($id);
         $student->delete();
         return redirect()->route('madrasa.student.index')->withMessage('Student Deleted.');
+    }
+
+    /**
+     * Search Data
+     *
+     * @param Request $request
+     * @return Collection
+     */
+
+    public function search(Request $request){
+        $students =  Student::search($request->search);
+//            ->when($request->only_polytechnic, function ($students, $v) {
+//                $students->where('polytechnic', '!=', 'NULL');
+//            })
+//            ->when($request->only_madrasa, function ($students, $v) {
+//                $students->where('madrasha_id', '!=', 'NULL');
+//            });
+
+        return $students->get()->load('classroom', 'madrasha', 'polytechnic', 'results', 'madrashaSession', 'polytechnicSession', 'madrasahResult','polytechnicResult');
     }
 }
