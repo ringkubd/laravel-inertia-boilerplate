@@ -1,7 +1,7 @@
+/*@import "bootstrap";*/
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
-@import "bootstrap";
 .modal-mask {
     position: fixed;
     z-index: 9998;

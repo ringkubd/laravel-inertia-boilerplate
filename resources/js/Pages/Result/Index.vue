@@ -130,8 +130,8 @@
                             </td>
                             <td>
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-item" v-for="gpa in result.results">
-                                        {{ gpa.gpa }}
+                                    <li :class="gpa.gpa == null ? 'text-red-700 list-item' : 'list-item'" v-for="gpa in result.results">
+                                        {{ gpa.gpa == null ? 'N' : gpa.gpa  }}
                                     </li>
                                 </ul>
                             </td>
@@ -152,9 +152,8 @@
                             <td>
                                 <ul class="list-group list-group-flush">
                                     <li class="list-item" v-for="attachments in result.results">
-                                        <vue-picture-swipe :items="imageItems(attachments.attachments)">
-
-                                        </vue-picture-swipe>
+                                        <vue-picture-swipe v-if="attachments.attachments.length !== 0" :items="imageItems(attachments.attachments)" />
+                                        <p class="p-0 m-0 text-red-700" v-else>N</p>
                                     </li>
                                 </ul>
                             </td>
