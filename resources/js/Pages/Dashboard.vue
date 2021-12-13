@@ -1,6 +1,6 @@
 <template>
     <Head>
-        Dashboard IsDB-BISEW
+        <title>Dashboard IsDB-BISEW</title>
     </Head>
     <breeze-authenticated-layout>
         <template #header>
