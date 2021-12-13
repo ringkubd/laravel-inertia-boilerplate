@@ -24,8 +24,18 @@ class Student extends Model
             if ($user_madrasha != null) {
                 $builder->where('madrasha_id', auth()->user()->madrasha_id);
             }
-            $builder->with('madrasha', 'polytechnic');
+            $builder->with(['madrasha', 'polytechnicInfo']);
         });
+    }
+
+    /**
+     * Get the name of the index associated with the model.
+     *
+     * @return string
+     */
+    public function searchableAs()
+    {
+        return 'students_index';
     }
 
     /**
@@ -37,7 +47,7 @@ class Student extends Model
     protected function makeAllSearchableUsing($query)
     {
         return $query->with('classroom')
-        ->with('polytechnic')
+        ->with('polytechnicInfo')
         ->with('results')
         ->with('madrashaSession')
         ->with( 'polytechnicSession')
@@ -83,6 +93,14 @@ class Student extends Model
      */
 
     public function polytechnic(){
+        return $this->belongsTo(Polytechnic::class, 'polytechnic', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+
+    public function polytechnicInfo(){
         return $this->belongsTo(Polytechnic::class, 'polytechnic', 'id');
     }
 
@@ -158,8 +176,10 @@ class Student extends Model
     public function toSearchableArray()
     {
         $array = $this->toArray();
-
+//        $array = $this->transform($array);
         // Customize the data array...
+        $array['polytechnic_name'] = $this->polytechnicInfo?->name;
+        $array['madrasah_name'] = $this->madrasha?->name;
 
         return $array;
     }
