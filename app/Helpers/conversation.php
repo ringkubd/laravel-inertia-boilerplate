@@ -23,4 +23,12 @@ if (!function_exists('conversation')) {
         }
         return $conversations;
     }
+
+    function insertIntoMailBox(Array $data){
+        return \App\Models\MailBox::create($data);
+    }
+
+    function insertIntoMailBoxAttachment(\App\Models\MailBox $mailBox, Array $data){
+        return $mailBox->attachments()->saveMany($data);
+    }
 }

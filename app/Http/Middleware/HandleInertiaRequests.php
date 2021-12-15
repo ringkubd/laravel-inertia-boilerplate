@@ -56,6 +56,8 @@ class HandleInertiaRequests extends Middleware
                 'invoice' => $request->user()?->hasPermissionTo('view_invoice') || $request->user()?->hasRole('Super Admin'),
                 'fee' => $request->user()?->hasPermissionTo('view_fee') || $request->user()?->hasRole('Super Admin'),
                 'admission' => $request->user()?->hasPermissionTo('view_admission') || $request->user()?->hasRole('Super Admin'),
+                'mail_inbox' => $request->user()?->hasRole('student') || $request->user()?->hasRole('Super Admin'),
+                'super_admin' => $request->user()?->hasRole('Super Admin'),
             ],
             'flash' => [
                 'message' => fn () => $request->session()->get('message'),

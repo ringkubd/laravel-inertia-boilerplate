@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\App;
 use Laravel\Scout\Searchable;
 
 
@@ -25,6 +26,9 @@ class Student extends Model
                 $builder->where('madrasha_id', auth()->user()->madrasha_id);
             }
             $builder->with(['madrasha', 'polytechnicInfo']);
+            if (App::runningInConsole()) {
+                $builder->with('polytechnicInfo');
+            }
         });
     }
 
@@ -54,6 +58,22 @@ class Student extends Model
         ->with( 'madrasahResult')
         ->with( 'polytechnicResult')
         ->with('madrasha');
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+//        $array = $this->transform($array);
+        // Customize the data array...
+        $array['polytechnic_name'] = $this->polytechnicInfo?->name;
+        $array['madrasah_name'] = $this->madrasha?->name;
+
+        return $array;
     }
 
     /**
@@ -101,7 +121,7 @@ class Student extends Model
      */
 
     public function polytechnicInfo(){
-        return $this->belongsTo(Polytechnic::class, 'polytechnic', 'id');
+        return $this->belongsTo(Polytechnic::class);
     }
 
     /**
@@ -166,22 +186,6 @@ class Student extends Model
      */
     public function invoice(){
         return $this->hasMany(Invoice::class, 'student_id', 'id');
-    }
-
-    /**
-     * Get the indexable data array for the model.
-     *
-     * @return array
-     */
-    public function toSearchableArray()
-    {
-        $array = $this->toArray();
-//        $array = $this->transform($array);
-        // Customize the data array...
-        $array['polytechnic_name'] = $this->polytechnicInfo?->name;
-        $array['madrasah_name'] = $this->madrasha?->name;
-
-        return $array;
     }
 
 }

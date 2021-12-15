@@ -34,7 +34,12 @@ Broadcast::channel('support', function($user){
     return $user;
 });
 
-
+Broadcast::channel('mail_box', function ($user, \App\Models\MailBox $message){
+    return $user->email === $message->to;
+});
+Broadcast::channel('admin_mail', function ($user, \App\Models\MailBox $message){
+    return auth()->user()->hasRole('Super Admin') || $user->hasRole('Admin');
+});
 
 Broadcast::channel('post.{post}', function($user, \App\Models\Post $post){
     return (int)$user->id === (int)$post->author;

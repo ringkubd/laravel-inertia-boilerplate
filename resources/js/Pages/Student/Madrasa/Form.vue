@@ -85,7 +85,7 @@
                             </div>
                             <div class="row mb-2">
                                 <div class="col-md">
-                                    <label for="nid">NID</label>
+                                    <label for="nid">Birth Registration Number / NID</label>
                                     <input type="nid" id="nid" v-model="form.nid" class="form-control">
                                     <div v-if="errors.nid" class="text-danger">
                                         {{ errors.nid }}

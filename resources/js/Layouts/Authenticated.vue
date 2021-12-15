@@ -4,7 +4,7 @@
         <chat  v-if="!$page.props.menu_permission.support"/>
         <div class="min-h-screen bg-[#36AFAD]">
             <!--     from-[#7AE5F5] via-[#97EBF4] to-[#C9F6FF]       -->
-            <nav class="bg-gradient-to-br from-green-500 via-yellow-50 to-green-500  animate-gradient-x shadow-lg text-black border-b-4 opacity-100 border-gray-600 sticky top-0 z-50">
+            <nav class="bg-gradient-to-br from-green-700 via-yellow-50 to-green-700  animate-gradient-x shadow-lg text-black border-b-4 opacity-100 border-gray-600 sticky top-0 z-50">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-10xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">

@@ -26,7 +26,8 @@
         "meilisearch/meilisearch-php": "^0.20.0",
         "spatie/laravel-permission": "^4.2",
         "svnwa/inertiavuepaginator": "^1.0",
-        "tightenco/ziggy": "^1.0"
+        "tightenco/ziggy": "^1.0",
+        "webklex/laravel-imap": "^2.4"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",

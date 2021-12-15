@@ -33,9 +33,9 @@
                             <h2 v-if="empty_queryData" class="my-2">
                                 Your search - <b><i>{{ search_input }}</i></b> - did not match in our student list.
                             </h2>
-                            <div class="w-48 h-64 rounded-xl bg-gray-200 m-2 flex flex-col items-center md shadow-lg shadow-indigo-500/30" v-for="student in queryData.data">
+                            <div class="md:w-48 w-28 h-64 rounded-xl bg-gray-200 md:m-2 m-1 flex flex-col items-center md shadow-lg shadow-indigo-500/30" v-for="student in queryData.data">
                                 <a :href="route('madrasa.student.show', student.id)" target="_blank">
-                                    <img class="w-24 h-24 rounded-t-xl" :src="'/'+student.photo" alt="avatar" />
+                                    <img v-if="student.photo" class="w-24 h-24 rounded-t-xl" :src="'/'+student.photo" alt="avatar" />
                                 </a>
                                 <div class="text-center flex flex-col p-2">
                                     <span class="text-base font-bold">
@@ -84,8 +84,9 @@ export default {
             axios.get(route('madrasah.student.search', {'search': this.search_input, 'only_polytechnic': this.only_polytechnic, 'only_madrasa': this.only_madrasa }))
                 .then((res) => {
                     _this.queryData = res.data
+                    console.log(res.data)
                     _this.empty_queryData = false
-                    if (res.data.length <= 0){
+                    if (res.data.data.length <= 0){
                         _this.empty_queryData = true
                     }
                 })
