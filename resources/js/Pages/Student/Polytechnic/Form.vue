@@ -26,11 +26,11 @@
                         <div class="row">
                             <div class="col-md">
                                 <label for="institute">Polytechnic</label>
-                                <select required name="" id="institute" v-model="form.polytechnic" class="form-control">
+                                <select required name="" id="institute" v-model="form.polytechnic_id" class="form-control">
                                     <option v-for="poly in polytechnic" :value="poly.id">{{poly.name}}</option>
                                 </select>
-                                <div v-if="errors.polytechnic" class="text-danger">
-                                    {{ errors.polytechnic }}
+                                <div v-if="errors.polytechnic_id" class="text-danger">
+                                    {{ errors.polytechnic_id }}
                                 </div>
                             </div>
                             <div class="col-md">
@@ -167,7 +167,7 @@ export default {
                 student_id: this.student.id,
                 trade: this.student.trade,
                 polytechnic_trade_id: this.student.polytechnic_trade_id,
-                polytechnic: this.student.polytechnic,
+                polytechnic_id: this.student.polytechnic_id,
                 polytechnic_registration: this.student.polytechnic_registration,
                 polytechnic_roll: this.student.polytechnic_roll,
                 polytechnic_session: this.student.polytechnic_session,

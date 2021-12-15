@@ -51,7 +51,7 @@ class StudentsController extends Controller
             })
             ->with('madrasha')
             ->with('polytechnic')
-            ->whereNotNull('polytechnic')
+            ->whereNotNull('polytechnic_id')
             ->where('madrasa_completed', true)
             ->where('status', true)
             ->when($request->old_students, function ($q){
@@ -96,7 +96,7 @@ class StudentsController extends Controller
 
         $students = Student::query()
             ->where('status', true)
-            ->whereNull('polytechnic' )
+            ->whereNull('polytechnic_id' )
             ->where('madrasa_completed', true)->get();
         $student = new Student();
         $academic_session = AcademicSession::all();
@@ -143,7 +143,7 @@ class StudentsController extends Controller
             'student_id' => 'required',
             'polytechnic_trade_id' => 'required',
             'trade' => 'required',
-            'polytechnic' => 'required',
+            'polytechnic_id' => 'required',
             'polytechnic_roll' => 'required',
             'polytechnic_session' => 'required',
             'semester' => 'required',
@@ -217,7 +217,7 @@ class StudentsController extends Controller
 
         $students = Student::query()
             ->where('status', true)
-            ->whereNotNull('polytechnic')
+            ->whereNotNull('polytechnic_id')
             ->where('madrasa_completed', true)->get();
 
         return Inertia::render($this->root_component.'Edit', [
@@ -248,7 +248,7 @@ class StudentsController extends Controller
             'student_id' => 'required',
             'polytechnic_trade_id' => 'required',
             'trade' => 'required',
-            'polytechnic' => 'required',
+            'polytechnic_id' => 'required',
             'polytechnic_roll' => 'required',
             'polytechnic_session' => 'required',
             'semester' => 'required',

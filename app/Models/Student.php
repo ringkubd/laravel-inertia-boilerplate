@@ -26,9 +26,6 @@ class Student extends Model
                 $builder->where('madrasha_id', auth()->user()->madrasha_id);
             }
             $builder->with(['madrasha', 'polytechnicInfo']);
-            if (App::runningInConsole()) {
-                $builder->with('polytechnicInfo');
-            }
         });
     }
 
@@ -68,9 +65,7 @@ class Student extends Model
     public function toSearchableArray()
     {
         $array = $this->toArray();
-//        $array = $this->transform($array);
-        // Customize the data array...
-        $array['polytechnic_name'] = $this->polytechnicInfo?->name;
+        $array['polytechnic_name'] = $this->polytechnic?->name;
         $array['madrasah_name'] = $this->madrasha?->name;
 
         return $array;
@@ -89,7 +84,7 @@ class Student extends Model
      * @return mixed
      */
     public function scopePolytechnic($query){
-        return $query->with('polytechnicResult')->whereNotNull('polytechnic')->where('madrasa_completed', 1)->where('status', 1);
+        return $query->with('polytechnicResult')->whereNotNull('polytechnic_id')->where('madrasa_completed', 1)->where('status', 1);
     }
 
     /**
@@ -113,7 +108,7 @@ class Student extends Model
      */
 
     public function polytechnic(){
-        return $this->belongsTo(Polytechnic::class, 'polytechnic', 'id');
+        return $this->belongsTo(Polytechnic::class, 'polytechnic_id', 'id');
     }
 
     /**
@@ -121,7 +116,7 @@ class Student extends Model
      */
 
     public function polytechnicInfo(){
-        return $this->belongsTo(Polytechnic::class);
+        return $this->belongsTo(Polytechnic::class, 'polytechnic_id', 'id');
     }
 
     /**

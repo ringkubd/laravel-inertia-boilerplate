@@ -380,18 +380,18 @@
                                                 Polytechnic
                                             </breeze-dropdown-link>
                                             <breeze-dropdown-link
-                                                :href="route('polytechnic.result.index')"
-                                                :active="route().current('polytechnic.result.*')"
-                                                v-if="$page.props.menu_permission.polytechnic_result"
-                                            >
-                                                Results
-                                            </breeze-dropdown-link>
-                                            <breeze-dropdown-link
                                                 :href="route('polytechnic.student.index')"
                                                 :active="route().current('polytechnic.madrasa.student.*')"
                                                 v-if="$page.props.menu_permission.polytechnic_student"
                                             >
                                                 Student's
+                                            </breeze-dropdown-link>
+                                            <breeze-dropdown-link
+                                                :href="route('polytechnic.result.index')"
+                                                :active="route().current('polytechnic.result.*')"
+                                                v-if="$page.props.menu_permission.polytechnic_result"
+                                            >
+                                                Results
                                             </breeze-dropdown-link>
                                         </template>
                                     </breeze-dropdown>

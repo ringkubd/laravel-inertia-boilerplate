@@ -190,7 +190,6 @@ class ResultController extends Controller
                 $q->where('polytechnic_session', 'like', "%$v%");
             })
             ->select('name as label', 'id as value')
-            ->whereNotNull('polytechnic')
             ->polytechnic()
             ->get();
     }
