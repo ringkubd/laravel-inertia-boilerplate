@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Events\AdminMailEvent;
 use App\Events\MailReceivedEvent;
 use App\Models\MailBox;
 use App\Models\MailBoxAttachment;
@@ -79,7 +80,7 @@ class NewMailCommand extends ImapIdleCommand
             $mailBox->attachments()->saveMany($attachmentsArray);
         }
         broadcast(new MailReceivedEvent($mailBox));
-        broadcast(new AdminMail($mailBox));
+        broadcast(new AdminMailEvent($mailBox));
     }
 
 }

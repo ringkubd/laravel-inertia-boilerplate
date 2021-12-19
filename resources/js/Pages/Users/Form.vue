@@ -169,7 +169,7 @@ export default {
         },
         async fetchRoles(query){
             let where = ''
-
+            console.log(where)
             if (query) {
                 where = {'name': query}
             }

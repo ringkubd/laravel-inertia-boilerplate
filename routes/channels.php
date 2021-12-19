@@ -37,9 +37,9 @@ Broadcast::channel('support', function($user){
 Broadcast::channel('mail_box', function ($user, \App\Models\MailBox $message){
     return $user->email === $message->to;
 });
-Broadcast::channel('admin_mail', function ($user, \App\Models\MailBox $message){
-    return auth()->user()->hasRole('Super Admin') || $user->hasRole('Admin');
-});
+Broadcast::channel('admin_mail', function ($user){
+    return auth()->user()->hasRole('Super Admin') || auth()->user()->hasRole('Admin');
+}, ['middleware' => 'role:Super Admin']);
 
 Broadcast::channel('post.{post}', function($user, \App\Models\Post $post){
     return (int)$user->id === (int)$post->author;

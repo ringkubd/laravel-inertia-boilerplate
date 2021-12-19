@@ -58,6 +58,7 @@ class HandleInertiaRequests extends Middleware
                 'admission' => $request->user()?->hasPermissionTo('view_admission') || $request->user()?->hasRole('Super Admin'),
                 'mail_inbox' => $request->user()?->hasRole('student') || $request->user()?->hasRole('Super Admin'),
                 'super_admin' => $request->user()?->hasRole('Super Admin'),
+                'student' => $request->user()?->hasRole('Student'),
             ],
             'flash' => [
                 'message' => fn () => $request->session()->get('message'),

@@ -47,7 +47,7 @@ class UserRoleController extends Controller
         return User::query()
             ->when($request->name, function ($q, $v){
                 $q->where('name', 'like', "%{$v}%");
-            })->get()->toJson();
+            })->get();
     }
 
     /**
@@ -70,7 +70,7 @@ class UserRoleController extends Controller
         return Role::query()
             ->when($request->name, function ($q, $v){
                 $q->where('name', 'like', "%{$v}%");
-            })->paginate(50)->toJson();
+            })->paginate(50);
     }
 
     /**

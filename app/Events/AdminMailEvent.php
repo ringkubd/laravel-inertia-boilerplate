@@ -11,7 +11,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class AdminMailEvent
+class AdminMailEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -33,6 +33,6 @@ class AdminMailEvent
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('AdminMail');
+        return new PrivateChannel('admin_mail');
     }
 }

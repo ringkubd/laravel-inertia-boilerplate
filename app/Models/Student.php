@@ -76,7 +76,7 @@ class Student extends Model
      * @return mixed
      */
     public function scopeMadrasa($query){
-        return $query->with('madrasahResult')->whereNull('polytechnic')->where('madrasa_completed', 0)->where('status', 1);
+        return $query->with('madrasahResult')->whereNull('polytechnic_id')->where('madrasa_completed', 0)->where('status', 1);
     }
 
     /**

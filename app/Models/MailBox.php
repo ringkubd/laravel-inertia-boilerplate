@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use DOMDocument;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -19,9 +20,17 @@ class MailBox extends Model
             }
             $builder->with(['attachments']);
         });
+
     }
 
     protected $guarded = ['id'];
+
+
+
+    public function getHtmlBodyAttribute(){
+
+    }
+
 
     public function attachments(){
         return $this->hasMany(MailBoxAttachment::class, 'mail_box_id');
