@@ -62,7 +62,7 @@
                                                     duration-150
                                                 "
                                             >
-                                                User's Management
+                                                User's
 
                                                 <svg
                                                     class="ml-2 -mr-0.5 h-4 w-4"
@@ -476,6 +476,14 @@
                                     v-if="$page.props.menu_permission.support"
                                 >
                                     Support
+                                </breeze-nav-link>
+                                <breeze-nav-link
+                                    :href="route('mail.inbox')"
+                                    :active="route().current('mail.inbox')"
+                                    class="rounded-md text-black-700"
+                                    v-if="$page.props.menu_permission.student || $page.props.menu_permission.super_admin"
+                                >
+                                    Mail
                                 </breeze-nav-link>
                             </div>
                         </div>

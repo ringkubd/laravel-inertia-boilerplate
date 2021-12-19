@@ -38,6 +38,9 @@ class MailboxController extends Controller
      */
 
     public function details(MailBox $mailBox){
+        if (auth()->user()->hasRole('Student')) {
+            $mailBox->update(['seen_at'=> now()]);
+        }
         return Inertia::render('MailBox/Details', [
             'mail' => $mailBox
         ]);

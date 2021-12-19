@@ -26,12 +26,6 @@ class MailBox extends Model
     protected $guarded = ['id'];
 
 
-
-    public function getHtmlBodyAttribute(){
-
-    }
-
-
     public function attachments(){
         return $this->hasMany(MailBoxAttachment::class, 'mail_box_id');
     }
