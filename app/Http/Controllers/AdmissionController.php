@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\AdmissionResultUpdate;
 use App\Models\AcademicSession;
 use App\Models\Admission;
 use App\Models\Polytechnic;
@@ -10,7 +11,7 @@ use App\Models\Trade;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
-use function React\Promise\all;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AdmissionController extends Controller
 {
@@ -21,22 +22,18 @@ class AdmissionController extends Controller
      */
     public function index(Request $request)
     {
-        $admissions = Admission::query()
-            ->when($request->search, function($q, $v){
-                $q->whereHas('student', function ($q) use($v){
-                    $q->where('name', 'like', "%$v%")
-                        ->orWhereHas('madrasha', function ($q) use($v){
-                            $q->where('name', 'like', "%$v%");
-                        });
-                })
-                    ->orWhere('academic_session', 'like', "%$v%")
-                    ->orWhere('tracking_id', 'like', "%$v%");
-            })
-            ->with('student', 'trade', 'polytechnic')
-            ->paginate();
+        if ($request->has('search') && $request->search != "") {
+            $admissions = Admission::search($request->search)->paginate();
+        }else{
+            $admissions = Admission::query()->paginate();
+        }
+
+
+        $academicSession = AcademicSession::selectRaw('session as text')->get();
 
         return Inertia::render('Admission/Index', [
             'admissions' => $admissions,
+            'academicSession' => $academicSession,
             'can' => [
                 'create' => auth()->user()->can('create_admission'),
                 'update' => auth()->user()->can('update_admission'),
@@ -55,7 +52,7 @@ class AdmissionController extends Controller
     {
         $student = Student::query()
             ->where('madrasa_completed', 1)
-            ->whereNull('polytechnic')
+            ->whereNull('polytechnic_id')
             ->whereHas('madrasahResult', function ($q) {
                 $q->where('status', 'Pass')
                     ->whereNotNull('ten_gpa')
@@ -181,7 +178,7 @@ class AdmissionController extends Controller
                 $q->where('name', 'like', "%$v%");
             })
             ->where('madrasa_completed', 1)
-            ->whereNull('polytechnic')
+            ->whereNull('polytechnic_id')
             ->whereHas('madrasahResult', function ($q) {
                 $q->where('status', 'Pass')
                     ->whereNotNull('ten_gpa')
@@ -199,5 +196,14 @@ class AdmissionController extends Controller
 
     public function student($student){
         return Student::with('madrasahResult')->find($student);
+    }
+
+    /**
+     * Read CSV
+     */
+
+    public function updateAdmission(){
+        $extractCSV = Excel::import(new AdmissionResultUpdate(),public_path('addresses.csv'));
+        dd($extractCSV);
     }
 }

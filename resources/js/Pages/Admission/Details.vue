@@ -38,7 +38,9 @@
                             </tr>
                             <tr>
                                 <th>Supporting Documents</th>
-                                <td>{{ admission?.supporting_documents }}</td>
+                                <td>
+                                    <a target="_blank" :href="'/'+admission?.supporting_documents" >Attach</a>
+                                </td>
                             </tr>
                             <tr>
                                 <th>Polytechnic Choice</th>

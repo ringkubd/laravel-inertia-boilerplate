@@ -14,7 +14,14 @@
                             :create="route('admission.create')"
                             :searchMethod="search"
                             :can="can"
-                        ></card-header>
+                        >
+                            <template #first>
+                                <div class="flex">
+                                    <label class="w-25" for="session">Session</label>
+                                    <select2 class="w-75" id="session" name="session" :options="academicSession" v-model="academic_session" @select="filter" />
+                                </div>
+                            </template>
+                        </card-header>
                     </div>
                     <div class="card-body">
                         <table class="table table-secondary table-striped">
@@ -37,7 +44,7 @@
                                 <td>{{ admission?.student?.madrasha?.name }}</td>
                                 <td>{{ admission?.academic_session }}</td>
                                 <td>{{ admission?.tracking_id }}</td>
-                                <td>{{ admission?.supporting_documents }}</td>
+                                <td><a target="_blank" :href="'/'+admission?.supporting_documents" >Attach</a></td>
                                 <td>{{ admission?.status }}</td>
                                 <td>
                                     <Actions
@@ -67,13 +74,27 @@ import Paginator from "@/Components/Paginator";
 export default {
     name: "Index",
     components: {Paginator, Actions, CardHeader, PageHeader, Authenticated},
-    props: ['admissions', 'can'],
+    props: ['admissions', 'can', 'academicSession'],
     data(){
-
+        return {
+            academic_session: "",
+            academicSession: this.academicSession
+        }
     },
     methods: {
         search(param){
             this.$inertia.replace(route('admission.index', { search: param }))
+        },
+        filter(e){
+            console.log(e)
+            this.search(this.academic_session)
+        }
+    },
+    computed:{
+        academicSession(){
+            return this.academicSession.filter((session) => {
+                return session['id'] = session.text
+            })
         }
     }
 }

@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 
 class Admission extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Searchable;
 
     protected $guarded = ['id'];
 
@@ -19,6 +21,23 @@ class Admission extends Model
         static::updating(function($admission){
             $admission->updated_by = auth()->user()->id;
         });
+
+        static::addGlobalScope('relation', function (Builder $builder){
+            $builder->with(['student', 'trade', 'polytechnic'])->orderByRaw("SUBSTRING_INDEX(academic_session,',',1) desc");
+        });
+    }
+
+    /**
+     * Modify the query used to retrieve models when making all of the models searchable.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    protected function makeAllSearchableUsing($query)
+    {
+        return $query->with('student')
+            ->with('trade')
+            ->with('polytechnic');
     }
 
     public function student(){

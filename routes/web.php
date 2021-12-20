@@ -104,6 +104,7 @@ Route::resource('invoice', \App\Http\Controllers\InvoiceController::class);
 Route::resource('admission', \App\Http\Controllers\AdmissionController::class);
 Route::get('admission_student_list', [\App\Http\Controllers\AdmissionController::class, 'studentList'])->name('admission_student_list');
 Route::get('admission_student_profile/{student}', [\App\Http\Controllers\AdmissionController::class, 'student'])->name('admission_student_profile');
+Route::get('admission_update', [\App\Http\Controllers\AdmissionController::class, 'updateAdmission'])->name('updateAdmission');
 
 Route::get('bteb_result', [\App\Http\Controllers\BTEBResultController::class, 'result']);
 Route::get('mail_inbox', [\App\Http\Controllers\MailboxController::class, 'inbox'])->name('mail.inbox');

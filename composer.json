@@ -47,7 +47,8 @@
         },
         "files": [
             "app/Helpers/conversation.php",
-            "app/Helpers/settings.php"
+            "app/Helpers/settings.php",
+            "app/Helpers/common.php"
         ]
     },
     "autoload-dev": {
