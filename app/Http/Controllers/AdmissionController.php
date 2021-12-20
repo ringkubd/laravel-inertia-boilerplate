@@ -29,7 +29,6 @@ class AdmissionController extends Controller
             } catch (ApiException $exception){
                 abort(404);
             }
-
         }else{
             $admissions = Admission::query()->paginate();
         }
