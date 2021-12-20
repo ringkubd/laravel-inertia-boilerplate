@@ -46,7 +46,7 @@ class NewMailCommand extends ImapIdleCommand
     public function onNewMessage(Message $message){
 
         $attachments = $message->getAttachments();
-        $sender = $txtArray = explode('<',$message->sender);
+        $sender = explode('<',$message->sender);
         $mail = [
             'to' => $message->to,
             'sender' => rtrim($sender[0], ' '),
@@ -60,7 +60,7 @@ class NewMailCommand extends ImapIdleCommand
             'text_body' => $message->getTextBody(),
             'received_at' => $message->date
         ];
-        $mailBox = insertIntoMailBox($mail);
+        $mailBox = MailBox::create($mail);
 
         $attachmentsArray = [];
         foreach ($attachments as $attachment){
