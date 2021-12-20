@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AcademicSession;
 use App\Models\MadrasahResult;
-use App\Models\Result;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
+use MeiliSearch\Exceptions\ApiException;
 
 class MadrasahResultController extends Controller
 {
@@ -19,15 +20,23 @@ class MadrasahResultController extends Controller
     public function index(Request $request)
     {
         $this->authorize('view_madrasa_result');
-        $result = MadrasahResult::when($request->academic_session, function ($q, $v) {
-            $q->whereHas('student', function ($q) use($v) {
-                $q->madrasa()->whereHas('madrashaSession', function ($q) use($v) {
-                    $q->where('session', $v);
-                });
-            });
-        })->has('student')->paginate();
+        if ($request->has('search') && $request->search != "") {
+            try {
+                $result = MadrasahResult::search($request->search)->paginate();
+            } catch (ApiException $exception){
+                abort(404);
+            }
+        }else{
+            $result = MadrasahResult::query()->has('student')->paginate();
+        }
+
+
+        $academicSession = AcademicSession::selectRaw('session as text')->get();
+
+
         return Inertia::render('Madrasa/Result/Index', [
             'results' => $result,
+            'academicSession' => $academicSession,
             'can' => [
                 'create' => auth()->user()->can('create_madrasa_result'),
                 'update' => auth()->user()->can('update_madrasa_result'),

@@ -86,7 +86,6 @@ export default {
             this.$inertia.replace(route('admission.index', { search: param }))
         },
         filter(e){
-            console.log(e)
             this.search(this.academic_session)
         }
     },

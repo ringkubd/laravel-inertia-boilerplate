@@ -43,6 +43,9 @@
                                             {{student.name}}
                                         </a>
                                     </span>
+                                    <span class="text-base">
+                                        {{student?.classroom[0]?.name}}
+                                    </span>
                                     <span class="text-xs text-green-700 italic">{{student?.madrasha?.name}}</span>
                                     <span class="text-xs text-red-700 italic">{{student?.polytechnic_info?.name}}</span>
                                 </div>

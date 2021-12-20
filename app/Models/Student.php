@@ -25,7 +25,7 @@ class Student extends Model
             if ($user_madrasha != null) {
                 $builder->where('madrasha_id', auth()->user()->madrasha_id);
             }
-            $builder->with(['madrasha', 'polytechnicInfo']);
+            $builder->with(['madrasha', 'polytechnicInfo', 'classroom']);
         });
     }
 
@@ -148,7 +148,7 @@ class Student extends Model
      */
 
     public function classroom(){
-        return $this->belongsToMany(ClassRoom::class,'class_room_students');
+        return $this->belongsToMany(ClassRoom::class,'class_room_students')->orderByDesc('name');
     }
 
     /**
