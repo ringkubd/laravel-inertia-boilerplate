@@ -20,9 +20,11 @@ class MadrasahResultController extends Controller
     public function index(Request $request)
     {
         $this->authorize('view_madrasa_result');
-        if ($request->has('search') && $request->search != "") {
+        if (($request->has('search') && $request->search != "") || ($request->has('query') && $request->input('query') != "")) {
+            $search = $request->search ?? $request->input('query');
+
             try {
-                $result = MadrasahResult::search($request->search)->paginate();
+                $result = MadrasahResult::search($search)->paginate();
             } catch (ApiException $exception){
                 abort(404);
             }
