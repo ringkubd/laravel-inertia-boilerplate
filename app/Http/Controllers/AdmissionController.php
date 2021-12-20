@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Maatwebsite\Excel\Facades\Excel;
+use MeiliSearch\Exceptions\ApiException;
 
 class AdmissionController extends Controller
 {
@@ -23,7 +24,12 @@ class AdmissionController extends Controller
     public function index(Request $request)
     {
         if ($request->has('search') && $request->search != "") {
-            $admissions = Admission::search($request->search)->paginate();
+            try {
+                $admissions = Admission::search($request->search)->paginate();
+            } catch (ApiException $exception){
+                abort(404);
+            }
+
         }else{
             $admissions = Admission::query()->paginate();
         }
