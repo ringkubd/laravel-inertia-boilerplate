@@ -28,6 +28,16 @@ class Admission extends Model
     }
 
     /**
+     * Get the name of the index associated with the model.
+     *
+     * @return string
+     */
+    public function searchableAs()
+    {
+        return 'admission_search_index';
+    }
+
+    /**
      * Modify the query used to retrieve models when making all of the models searchable.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
