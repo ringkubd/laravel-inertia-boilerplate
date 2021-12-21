@@ -1,6 +1,7 @@
 <template>
     <div>
-        <nav class="bg-white shadow-lg">
+<!--        bg-gradient-to-r from-[#60BAAD] to-[#60BAAD] shadow-lg text-black border-b-4 opacity-100 border-gray-600 sticky top-0 z-50-->
+        <nav class="bg-gradient-to-r from-[#60BAAD] to-[#60BAAD] shadow-lg">
             <div class="max-w-6xl mx-auto px-4 sm:hidden md:flex ">
                 <div class="sm:hidden md:flex justify-between">
                     <div class="sm:hidden md:flex space-x-7">
@@ -89,7 +90,9 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="inline-block mb-1 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
                             </svg>
-                            <span class="tab tab-account block text-xs">Login</span>
+                            <span class="tab tab-account block text-xs">
+                                <InertiaLink :href="route('login')">Login</InertiaLink>
+                            </span>
                         </a>
                     </div>
                 </section>

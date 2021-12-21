@@ -27,4 +27,8 @@ class Madrasha extends Model
     public function students(){
         return $this->hasMany(Student::class);
     }
+
+    public function teacherAttendance(){
+        return $this->hasMany(TeacherAttendance::class);
+    }
 }

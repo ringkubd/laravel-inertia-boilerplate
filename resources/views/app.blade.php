@@ -22,6 +22,7 @@
     <!-- Scripts -->
     @routes
     <script>
+
         function GET() {
             var data = [];
             for(let x = 0; x < arguments.length; ++x){

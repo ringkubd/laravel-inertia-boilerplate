@@ -22,7 +22,7 @@
                         </template>
                     </CardHeader>
                 </div>
-                <div class="card-body overflow-x-auto w-full">
+                <div class="card-body overflow-x-auto w-full table-responsive">
                     <div class="my-4">
                         <form action="" class="form-inline bg-gradient-to-tr from-green-500 via-green-200 to-green-400 bg-blend-color-dodge" @submit.prevent="submitForm">
                             <div class="row pl-2 py-4">

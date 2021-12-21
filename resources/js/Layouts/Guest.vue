@@ -5,7 +5,7 @@
     <div class="min-h-screen min-w-screen bg-gray-100">
         <div>
             <header id="top" class="w-full flex flex-col fixed sm:relative bg-white pin-t pin-r pin-l">
-                <nav id="site-menu" class="flex flex-col sm:flex-row w-full justify-between items-center px-4 sm:px-6 py-1 bg-white shadow sm:shadow-none border-t-4 border-red-900">
+                <nav id="site-menu" class="flex flex-col sm:flex-row w-full justify-between items-center px-4 sm:px-6 py-1 bg-gradient-to-r from-[#60BAAD] to-[#60BAAD] shadow-lg mb-2 sm:shadow-none border-t-4 border-red-900">
                     <div class="w-full sm:w-auto self-start sm:self-center flex flex-row sm:flex-none flex-no-wrap justify-between items-center">
                         <inertia-link href="/">
                             <breeze-application-logo class="w-20 h-20 fill-current text-gray-500" />

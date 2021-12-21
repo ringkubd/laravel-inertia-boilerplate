@@ -107,6 +107,11 @@ Route::get('admission_student_list', [\App\Http\Controllers\AdmissionController:
 Route::get('admission_student_profile/{student}', [\App\Http\Controllers\AdmissionController::class, 'student'])->name('admission_student_profile');
 Route::get('admission_update', [\App\Http\Controllers\AdmissionController::class, 'updateAdmission'])->name('updateAdmission');
 
+// Teacher Attendance
+
+Route::resource('teacher_attendance', \App\Http\Controllers\TeacherAttendanceController::class);
+
+// Extra Feature
 Route::get('bteb_result', [\App\Http\Controllers\BTEBResultController::class, 'result']);
 Route::get('mail_inbox', [\App\Http\Controllers\MailboxController::class, 'inbox'])->name('mail.inbox');
 Route::get('mail_details/{mailBox}', [\App\Http\Controllers\MailboxController::class, 'details'])->name('mail.details');
