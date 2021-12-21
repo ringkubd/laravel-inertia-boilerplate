@@ -85,7 +85,7 @@
                             </div>
                         </form>
                     </div>
-                    <table class="table table-secondary text-center">
+                    <table class="table table-secondary">
                         <thead>
                         <tr class="text-center">
                             <th rowspan="2" style="vertical-align : middle;text-align:center;">SL#</th>

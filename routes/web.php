@@ -9,6 +9,7 @@ use App\Http\Controllers\UserRoleController;
 use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\View;
 use Inertia\Inertia;
 
 /*

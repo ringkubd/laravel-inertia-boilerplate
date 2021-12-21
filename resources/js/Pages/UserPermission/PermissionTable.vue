@@ -1,5 +1,5 @@
 <template>
-    <table class="table table-secondary table-striped text-center">
+    <table class="table table-secondary table-striped">
         <tbody>
         <tr v-for="(permission, module) in permissions">
             <th>{{capitalizeFirstLetter(module)}}</th>

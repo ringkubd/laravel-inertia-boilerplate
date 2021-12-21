@@ -73,14 +73,34 @@
 }
 
 .table-secondary{
-    background-image: linear-gradient(to bottom right,#36AFAD, #27a11142, #56d598);
-    background-size:200% 200%;
-    background-position: left center;
-    animation: gradient-x 15s ease infinite;
+    --bs-table-bg: current!important;
+    --bs-table-striped-bg:  current!important;;
+    --bs-table-striped-color: #000;
+    --bs-table-active-bg: #cbccce;
+    --bs-table-active-color: #000;
+    --bs-table-hover-bg: #d1d2d4;
+    --bs-table-hover-color: #000;
 }
 .table-striped{
-    background-image: linear-gradient(to bottom right,#36AFAD, #27a11142, #56d598);
-    background-size:200% 200%;
-    background-position: left center;
-    animation: gradient-x 15s ease infinite;
+    /*background-image: linear-gradient(to left,#ffffff, #56D38D)!important;*/
+    /*background-size:150% 200%!important;*/
+    /*background-position: left center!important;*/
+    /*animation: gradient-x 15s ease infinite!important;*/
 }
+table thead tr {
+    background-image: linear-gradient(to bottom right,#36AFAD, #27a11142, #56d598)!important;
+    background-size:200% 200%!important;
+    background-position: left center!important;
+    animation: gradient-x 15s ease infinite!important;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    place-content: center;
+}
+/*th{*/
+/*    text-align: center!important;*/
+/*    background-image: linear-gradient(to bottom right,rgb(54, 175, 173), rgba(103, 172, 133, 1.26), rgb(345, 210, 9))!important;*/
+/*    background-size:200% 200%!important;*/
+/*    background-position: left center!important;*/
+/*    animation: gradient-x 15s ease infinite!important;*/
+/*}*/

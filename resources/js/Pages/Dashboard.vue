@@ -12,7 +12,7 @@
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white shadow-sm sm:rounded-lg">
-                    <div class="p-6 bg-white border-b border-gray-200">
+                    <div class="p-6 bg-[#60baad] border-b border-gray-200">
                         <div class="flex mb-2">
                             <label for="only_madrasa" class="btn bg-cyan-500 shadow-lg shadow-cyan-500/50">
                                 <input type="checkbox" value="1" id="only_madrasa" v-model="only_madrasa" @change="search">
@@ -34,7 +34,7 @@
                                 Your search - <b><i>{{ search_input }}</i></b> - did not match in our student list.
                             </h2>
                             <div class="md:w-48 w-28 h-64 rounded-xl bg-gray-200 md:m-2 m-1 flex flex-col items-center md shadow-lg shadow-indigo-500/30" v-for="student in queryData.data">
-                                <a :href="route('madrasa.student.show', student.id)" target="_blank">
+                                <a :href="route('madrasa.student.show', student.id)" target="_blank" class="pt-2">
                                     <img v-if="student.photo" class="w-24 h-24 rounded-t-xl" :src="'/'+student.photo" alt="avatar" />
                                 </a>
                                 <div class="text-center flex flex-col p-2">

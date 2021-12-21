@@ -1351,9 +1351,9 @@ select {
   --tw-bg-opacity: 1;
   background-color: rgb(191 219 254 / var(--tw-bg-opacity));
 }
-.bg-\[\#36AFAD\] {
+.bg-\[\#60baad\] {
   --tw-bg-opacity: 1;
-  background-color: rgb(54 175 173 / var(--tw-bg-opacity));
+  background-color: rgb(96 186 173 / var(--tw-bg-opacity));
 }
 .bg-cyan-500 {
   --tw-bg-opacity: 1;
@@ -1422,9 +1422,9 @@ select {
   --tw-gradient-from: #7AE5F5;
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(122 229 245 / 0));
 }
-.from-green-700 {
-  --tw-gradient-from: #15803d;
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(21 128 61 / 0));
+.from-\[\#60BAAD\] {
+  --tw-gradient-from: #60BAAD;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(96 186 173 / 0));
 }
 .from-green-500 {
   --tw-gradient-from: #22c55e;
@@ -1475,8 +1475,11 @@ select {
 .to-\[\#C9F6FF\] {
   --tw-gradient-to: #C9F6FF;
 }
-.to-green-700 {
-  --tw-gradient-to: #15803d;
+.to-green-600 {
+  --tw-gradient-to: #16a34a;
+}
+.to-\[\#60BAAD\] {
+  --tw-gradient-to: #60BAAD;
 }
 .to-green-500 {
   --tw-gradient-to: #22c55e;
@@ -2064,19 +2067,38 @@ select {
             animation: gradient-x 15s ease infinite;
 }
 .table-secondary{
-    background-image: linear-gradient(to bottom right,#36AFAD, #27a11142, #56d598);
-    background-size:200% 200%;
-    background-position: left center;
-    -webkit-animation: gradient-x 15s ease infinite;
-            animation: gradient-x 15s ease infinite;
+    --bs-table-bg: current!important;
+    --bs-table-striped-bg:  current!important;;
+    --bs-table-striped-color: #000;
+    --bs-table-active-bg: #cbccce;
+    --bs-table-active-color: #000;
+    --bs-table-hover-bg: #d1d2d4;
+    --bs-table-hover-color: #000;
 }
 .table-striped{
-    background-image: linear-gradient(to bottom right,#36AFAD, #27a11142, #56d598);
-    background-size:200% 200%;
-    background-position: left center;
-    -webkit-animation: gradient-x 15s ease infinite;
-            animation: gradient-x 15s ease infinite;
+    /*background-image: linear-gradient(to left,#ffffff, #56D38D)!important;*/
+    /*background-size:150% 200%!important;*/
+    /*background-position: left center!important;*/
+    /*animation: gradient-x 15s ease infinite!important;*/
 }
+table thead tr {
+    background-image: linear-gradient(to bottom right,#36AFAD, #27a11142, #56d598)!important;
+    background-size:200% 200%!important;
+    background-position: left center!important;
+    -webkit-animation: gradient-x 15s ease infinite!important;
+            animation: gradient-x 15s ease infinite!important;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    place-content: center;
+}
+/*th{*/
+/*    text-align: center!important;*/
+/*    background-image: linear-gradient(to bottom right,rgb(54, 175, 173), rgba(103, 172, 133, 1.26), rgb(345, 210, 9))!important;*/
+/*    background-size:200% 200%!important;*/
+/*    background-position: left center!important;*/
+/*    animation: gradient-x 15s ease infinite!important;*/
+/*}*/
 .hover\:-translate-y-1:hover {
   --tw-translate-y: -0.25rem;
   transform: var(--tw-transform);

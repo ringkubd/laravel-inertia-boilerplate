@@ -12,7 +12,7 @@
                     <CardHeader :can="can" :create="route('fee.create')" :search-method="search"></CardHeader>
                 </div>
                 <div class="card-body">
-                    <table class="table table-secondary table-striped text-center">
+                    <table class="table table-secondary table-striped">
                         <thead>
                         <tr>
                             <th>SL#</th>

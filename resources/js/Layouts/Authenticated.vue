@@ -2,9 +2,10 @@
     <Head title="Dashboard"></Head>
     <div>
         <chat  v-if="!$page.props.menu_permission.support"/>
-        <div class="min-h-screen bg-[#36AFAD]">
-            <!--     from-[#7AE5F5] via-[#97EBF4] to-[#C9F6FF]       -->
-            <nav class="bg-gradient-to-br from-green-700 via-yellow-50 to-green-700  animate-gradient-x shadow-lg text-black border-b-4 opacity-100 border-gray-600 sticky top-0 z-50">
+<!--         bg-[#36AFAD]-->
+        <div class="min-h-screen">
+            <!--     from-[#7AE5F5] via-[#97EBF4] to-[#C9F6FF] to-green-600     via-yellow-50 animate-gradient-x -->
+            <nav class="bg-gradient-to-r from-[#60BAAD] to-[#60BAAD] shadow-lg text-black border-b-4 opacity-100 border-gray-600 sticky top-0 z-50">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-10xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
@@ -1080,7 +1081,7 @@
             </nav>
 
             <!-- Page Heading -->
-            <header class="container-fluid animate-gradient-x bg-gradient-to-r from-[#36AFAD] via-yellow-100 to-[#36C57F]" v-if="$slots.header">
+            <header class="container-fluid bg-gradient-to-r  via-yellow-100 to-[#36C57F]" v-if="$slots.header">
                 <div class="max-w-8xl mx-auto py-2 px-4 sm:px-6 lg:px-8">
                     <div v-if="$page.props.flash.message" class="alert">
                         {{ $page.props.flash.message }}

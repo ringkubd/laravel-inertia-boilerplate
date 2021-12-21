@@ -19,7 +19,7 @@
                     </CardHeader>
                 </div>
                 <div class="card-body" id="printme">
-                    <table class="table table-secondary table-bordered text-center">
+                    <table class="table table-secondary table-bordered">
                         <thead>
                         <tr>
                             <th :colspan="6+ (feeTypes != null ? feeTypes.length : 0)" rowspan="4">

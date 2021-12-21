@@ -54,7 +54,7 @@
                     </transition>
                 </div>
                 <div class="card-body">
-                    <table class="table table-striped table-secondary text-center">
+                    <table class="table table-striped table-secondary">
                         <thead>
                         <tr>
                             <th scope="col">Sl#</th>

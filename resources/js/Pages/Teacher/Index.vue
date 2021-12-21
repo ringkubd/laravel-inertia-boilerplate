@@ -13,7 +13,7 @@
                     </CardHeader>
                 </div>
                 <div class="card-body table-responsive">
-                    <table class="table table-striped table-secondary text-center">
+                    <table class="table table-striped table-secondary">
                         <thead>
                         <tr>
                             <th>Sl.#</th>

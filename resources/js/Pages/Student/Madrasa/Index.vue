@@ -58,7 +58,7 @@
                     </CardHeader>
                 </div>
                 <div class="card-body table-responsive">
-                    <table class="table table-striped table-secondary text-center">
+                    <table class="table table-striped table-secondary">
                         <thead>
                         <tr>
                             <th>Sl#</th>
@@ -81,7 +81,7 @@
                             <td>
                                 <img v-if="student.photo" :src="'/'+student.photo" width="50" :alt="student.name">
                             </td>
-                            <td>
+                            <td class="text-left">
                                 <InertiaLink :href="route('madrasa.student.show', student.id)">
                                     {{student.name}}
                                 </InertiaLink>
@@ -135,7 +135,7 @@ export default {
     data(){
         return {
             filterParam: {
-                trade: GET('trade')[0],
+                trade: GET('trade')[0]?.normalize(),
                 session: GET('current_session')[0],
                 classroom: GET('classroom')[0],
                 madrasah: this.selected_madrasah
@@ -154,7 +154,7 @@ export default {
         }
     },
     mounted() {
-        console.log(this.students)
+        // console.log(this.students)
     },
     computed:{
         trade(){
