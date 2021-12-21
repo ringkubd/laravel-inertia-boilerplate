@@ -66,10 +66,10 @@
 /*}*/
 
 .card{
-    background-image: linear-gradient(to bottom right,#36AFAD, #27a11142, #56d598);
+    background-image: linear-gradient(to bottom,#36AFAD, #27a11142);
     background-size:200% 200%;
     background-position: left center;
-    animation: gradient-x 15s ease infinite;
+    /*animation: gradient-x 15s ease infinite;*/
 }
 
 .table-secondary{

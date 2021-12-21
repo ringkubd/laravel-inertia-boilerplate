@@ -110,7 +110,9 @@
                                 {{index + 1}}
                             </td>
                             <td>
-                                {{ result.name }}
+                                <InertiaLink :href="route('madrasa.student.show', result.id)">
+                                    {{result.name}}
+                                </InertiaLink>
                             </td>
                             <td>
                                 {{ result?.polytechnic?.name }}

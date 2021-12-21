@@ -7,7 +7,7 @@
             v-if="can.update"
             class="group"
         >
-            <jet-button type="submit" class="animate-gradient-x bg-gradient-to-r text-black from-[#36AFAD] via-[#fde68a] to-[#36C57F] hover:shadow-lg group-hover:animate-pulse">
+            <jet-button type="submit" class="animate-gradient-x bg-gradient-to-r text-black from-[#36AFAD] via-[#fde68a] to-[#36AFAD] hover:shadow-lg group-hover:animate-pulse">
                 <font-awesome-icon
                     icon="pen"
                     size="md"
@@ -25,7 +25,7 @@
             class="group"
             target="_blank"
         >
-            <jet-button type="submit" class="animate-gradient-x bg-gradient-to-r from-[#198754] via-pink-300 to-[#46C57F] hover:shadow-lg group-hover:animate-pulse">
+            <jet-button type="submit" class="animate-gradient-x bg-gradient-to-r from-[#198754] via-blue-300 to-[#46C57F] hover:shadow-lg group-hover:animate-pulse">
                 <font-awesome-icon
                     icon="info"
                     size="md"

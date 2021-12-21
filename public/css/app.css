@@ -1442,6 +1442,14 @@ select {
   --tw-gradient-from: #d1d5db;
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(209 213 219 / 0));
 }
+.from-\[60baad\] {
+  --tw-gradient-from: 60baad;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(255 255 255 / 0));
+}
+.from-\[\#60baad\] {
+  --tw-gradient-from: #60baad;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(96 186 173 / 0));
+}
 .via-red-200 {
   --tw-gradient-stops: var(--tw-gradient-from), #fecaca, var(--tw-gradient-to, rgb(254 202 202 / 0));
 }
@@ -1469,6 +1477,9 @@ select {
 .via-green-200 {
   --tw-gradient-stops: var(--tw-gradient-from), #bbf7d0, var(--tw-gradient-to, rgb(187 247 208 / 0));
 }
+.via-blue-300 {
+  --tw-gradient-stops: var(--tw-gradient-from), #93c5fd, var(--tw-gradient-to, rgb(147 197 253 / 0));
+}
 .to-\[\#36C57F\] {
   --tw-gradient-to: #36C57F;
 }
@@ -1492,6 +1503,15 @@ select {
 }
 .to-blue-100 {
   --tw-gradient-to: #dbeafe;
+}
+.to-\[60baad\] {
+  --tw-gradient-to: 60baad;
+}
+.to-\[\#60baad\] {
+  --tw-gradient-to: #60baad;
+}
+.to-\[\#36AFAD\] {
+  --tw-gradient-to: #36AFAD;
 }
 .bg-size-200 {
   background-size: 200% 200%;
@@ -2060,11 +2080,10 @@ select {
 /*    text-align:center;*/
 /*}*/
 .card{
-    background-image: linear-gradient(to bottom right,#36AFAD, #27a11142, #56d598);
+    background-image: linear-gradient(to bottom,#36AFAD, #27a11142);
     background-size:200% 200%;
     background-position: left center;
-    -webkit-animation: gradient-x 15s ease infinite;
-            animation: gradient-x 15s ease infinite;
+    /*animation: gradient-x 15s ease infinite;*/
 }
 .table-secondary{
     --bs-table-bg: current!important;

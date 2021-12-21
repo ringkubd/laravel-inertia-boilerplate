@@ -5,6 +5,7 @@
     <Authenticated>
         <div class="container-fluid mt-2 min-vh-100">
             <img class="m-auto img-thumbnail mb-2 w-1/12" v-if="student.photo !== null" :src="'/'+student.photo" :alt="student.name">
+            <Back :back-url="$page.props.urlPrev" />
             <div class="row">
                 <div class="col-md-6">
                     <div class="card">
@@ -234,10 +235,11 @@
 
 <script>
 import Authenticated from "@/Layouts/Authenticated";
+import Back from "@/Shared/Back";
 export default {
     name: "Profile",
     props: ['student'],
-    components: {Authenticated},
+    components: {Back, Authenticated},
     mounted(){
         console.log(this.student)
     }

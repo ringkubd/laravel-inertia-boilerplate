@@ -1106,7 +1106,7 @@
                 <slot :onlineFriends="onlineFriends" :offlineFriends="offlineFriends" />
             </main>
         </div>
-        <footer class="bg-gradient-to-br from-green-500 via-yellow-50 to-green-500  animate-gradient-x shadow-lg text-black border-b-4 opacity-100 border-gray-600">
+        <footer class="bg-gradient-to-br from-[#60baad] to-[#60baad]  animate-gradient-x shadow-lg text-black border-b-4 opacity-100 border-gray-600">
             <div class="container max-w-6xl mx-auto flex items-center px-2 py-8">
 
                 <div class="w-full mx-auto flex flex-wrap items-center">
