@@ -12,10 +12,10 @@ class TeacherAttendance extends Model
     protected $guarded = ['id'];
 
     public function madrasah(){
-        return $this->hasOne(Madrasha::class);
+        return $this->belongsTo(Madrasha::class, 'madrasha_id', 'id');
     }
 
     public function creator(){
-        return $this->hasOne(User::class, 'creator_id');
+        return $this->hasOne(User::class, 'id','creator_id');
     }
 }

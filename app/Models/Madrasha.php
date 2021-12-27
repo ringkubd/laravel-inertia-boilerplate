@@ -29,6 +29,6 @@ class Madrasha extends Model
     }
 
     public function teacherAttendance(){
-        return $this->hasMany(TeacherAttendance::class);
+        return $this->hasMany(TeacherAttendance::class, 'madrasha_id', 'id');
     }
 }

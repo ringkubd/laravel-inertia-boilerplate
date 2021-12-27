@@ -1,0 +1,49 @@
+@import "bootstrap";
+tbody, td, th, thead {
+    border-color: gray;
+    border-style: solid;
+    border-width: 0.001in 0.001in 0 0.001in!important;
+}
+tbody{
+    border-color: gray;
+    border-style: solid;
+    border-width: 0.001in!important;
+}
+table,tfoot{
+    border-width: 0!important;
+    border-color: initial;
+}
+.content-header{
+    min-height: 10% !important;
+}
+
+.content-body{
+    min-height: 65% !important;
+}
+.content-footer{
+    min-height: 10% !important;
+}
+hr{
+    border: 1px solid gray!important;
+}
+
+.header-table{
+    border: 0!important;
+    margin-bottom: 5px;
+}
+.header-table tbody,.header-table tbody tr, .header-table thead, .header-table tbody tr td,  .header-table tbody tr th{
+    margin: 0!important;
+    padding: 0!important;
+    border: 0!important;
+}
+.header-table tbody tr td,  .header-table tbody tr th{
+    line-height: 1.3em;
+}
+.isdb-header{
+    line-height: 1.3em;
+    padding-bottom: 10px;
+}
+.comments{
+    height: 100px;
+    width: 100%;
+}

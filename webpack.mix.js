@@ -19,6 +19,8 @@ mix.js("resources/js/app.js", "public/js")
         require("autoprefixer"),
     ])
     .sass('resources/sass/chat.sass', 'public/css')
+    .css('resources/css/custom_print.css', 'public/css')
+    .css('resources/css/attendance_print.css', 'public/css')
     .webpackConfig(require("./webpack.config"));
 
 if (mix.inProduction()) {

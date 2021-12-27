@@ -28,9 +28,10 @@ Array.prototype.pushIfNotExist = function(element, comparer) {
     }
 };
 
+const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Madrash & Four Year Diploma Program by IsDB-BISEW';
 
 createInertiaApp({
-    title: title => `${title} - Four Year Diploma Project Management`,
+    title: (title) => `${title} - ${appName}`,
     resolve: (name) => require(`./Pages/${name}`),
     setup({ el, app, props, plugin }) {
         createApp({

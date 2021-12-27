@@ -59,6 +59,7 @@ class HandleInertiaRequests extends Middleware
                 'mail_inbox' => $request->user()?->hasRole('student') || $request->user()?->hasRole('Super Admin'),
                 'super_admin' => $request->user()?->hasRole('Super Admin'),
                 'student' => $request->user()?->hasRole('Student'),
+                'teacher_attendance' => !$request->user()?->hasRole('Student'),
             ],
             'flash' => [
                 'message' => fn () => $request->session()->get('message'),

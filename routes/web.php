@@ -111,6 +111,8 @@ Route::get('admission_update', [\App\Http\Controllers\AdmissionController::class
 
 Route::resource('teacher_attendance', \App\Http\Controllers\TeacherAttendanceController::class);
 
+Route::get('attendance_verify/{uid}/teacher', [\App\Http\Controllers\TeacherAttendanceController::class, 'verify'])->name('teacher_attendance.verify');
+
 // Extra Feature
 Route::get('bteb_result', [\App\Http\Controllers\BTEBResultController::class, 'result']);
 Route::get('mail_inbox', [\App\Http\Controllers\MailboxController::class, 'inbox'])->name('mail.inbox');

@@ -2,7 +2,7 @@
     <Head title="Dashboard"></Head>
     <div>
         <chat  v-if="!$page.props.menu_permission.support"/>
-<!--         bg-[#36AFAD]-->
+        <!--         bg-[#36AFAD]-->
         <div class="min-h-screen">
             <!--     from-[#7AE5F5] via-[#97EBF4] to-[#C9F6FF] to-green-600     via-yellow-50 animate-gradient-x -->
             <nav class="bg-gradient-to-r from-[#60BAAD] to-[#60BAAD] shadow-lg text-black border-b-4 opacity-100 border-gray-600 sticky top-0 z-50">
@@ -29,7 +29,7 @@
                                 <breeze-nav-link
                                     :href="route('dashboard')"
                                     :active="route().current('dashboard')"
-                                    class="rounded-md"
+                                    class="rounded-md py-1"
                                 >
                                     Dashboard
                                 </breeze-nav-link>
@@ -43,15 +43,14 @@
                                                 class="
                                                     inline-flex
                                                     items-center
-                                                    px-3
+                                                    px-1
                                                     py-2
-                                                    border border-transparent
                                                     text-sm
                                                     leading-4
                                                     font-medium
                                                     rounded-md
-                                                    text-gray-500
-                                                    bg-white
+                                                    text-gray-900
+                                                    bg-transparent
                                                     hover:text-gray-700
                                                     focus:outline-none
                                                     focus:ring-2
@@ -117,17 +116,16 @@
                                             <button
                                                 type="button"
                                                 class="
-                                                    inline-flex
+                                                     inline-flex
                                                     items-center
-                                                    px-3
+                                                    px-1
                                                     py-2
-                                                    border border-transparent
                                                     text-sm
                                                     leading-4
                                                     font-medium
                                                     rounded-md
-                                                    text-gray-500
-                                                    bg-white
+                                                    text-gray-900
+                                                    bg-transparent
                                                     hover:text-gray-700
                                                     focus:outline-none
                                                     focus:ring-2
@@ -189,15 +187,14 @@
                                                 class="
                                                     inline-flex
                                                     items-center
-                                                    px-3
+                                                    px-1
                                                     py-2
-                                                    border border-transparent
                                                     text-sm
                                                     leading-4
                                                     font-medium
                                                     rounded-md
-                                                    text-gray-500
-                                                    bg-white
+                                                    text-gray-900
+                                                    bg-transparent
                                                     hover:text-gray-700
                                                     focus:outline-none
                                                     focus:ring-2
@@ -256,6 +253,13 @@
                                             >
                                                 Result's
                                             </breeze-dropdown-link>
+                                            <breeze-dropdown-link
+                                                :href="route('teacher_attendance.index')"
+                                                :active="route().current('madrasa.teacher_attendance.*')"
+                                                v-if="$page.props.menu_permission.teacher_attendance"
+                                            >
+                                                Staff Attendance
+                                            </breeze-dropdown-link>
                                         </template>
                                     </breeze-dropdown>
                                 </div>
@@ -269,15 +273,14 @@
                                                 class="
                                                     inline-flex
                                                     items-center
-                                                    px-3
+                                                    px-1
                                                     py-2
-                                                    border border-transparent
                                                     text-sm
                                                     leading-4
                                                     font-medium
                                                     rounded-md
-                                                    text-gray-500
-                                                    bg-white
+                                                    text-gray-900
+                                                    bg-transparent
                                                     hover:text-gray-700
                                                     focus:outline-none
                                                     focus:ring-2
@@ -341,15 +344,14 @@
                                                 class="
                                                     inline-flex
                                                     items-center
-                                                    px-3
+                                                    px-1
                                                     py-2
-                                                    border border-transparent
                                                     text-sm
                                                     leading-4
                                                     font-medium
                                                     rounded-md
-                                                    text-gray-500
-                                                    bg-white
+                                                    text-gray-900
+                                                    bg-transparent
                                                     hover:text-gray-700
                                                     focus:outline-none
                                                     focus:ring-2
@@ -406,15 +408,14 @@
                                                 class="
                                                     inline-flex
                                                     items-center
-                                                    px-3
+                                                    px-1
                                                     py-2
-                                                    border border-transparent
                                                     text-sm
                                                     leading-4
                                                     font-medium
                                                     rounded-md
-                                                    text-gray-500
-                                                    bg-white
+                                                    text-gray-900
+                                                    bg-transparent
                                                     hover:text-gray-700
                                                     focus:outline-none
                                                     focus:ring-2
@@ -462,31 +463,35 @@
                                         </template>
                                     </breeze-dropdown>
                                 </div>
-
-                                <breeze-nav-link
-                                    :href="route('admission.index')"
-                                    :active="route().current('admission.index')"
-                                    class="rounded-md text-black-700"
-                                    v-if="$page.props.menu_permission.admission"
-                                >
-                                    Admission
-                                </breeze-nav-link>
-                                <breeze-nav-link
-                                    :href="route('support.index')"
-                                    :active="route().current('support.index')"
-                                    class="rounded-md text-black-700"
-                                    v-if="$page.props.menu_permission.support"
-                                >
-                                    Support
-                                </breeze-nav-link>
-                                <breeze-nav-link
-                                    :href="route('mail.inbox')"
-                                    :active="route().current('mail.inbox')"
-                                    class="rounded-md text-black-700"
-                                    v-if="$page.props.menu_permission.student || $page.props.menu_permission.super_admin"
-                                >
-                                    Mail
-                                </breeze-nav-link>
+                                <div class="hidden sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.admission">
+                                    <breeze-nav-link
+                                        :href="route('admission.index')"
+                                        :active="route().current('admission.index')"
+                                        class="rounded-md text-black-700"
+                                    >
+                                        Admission
+                                    </breeze-nav-link>
+                                </div>
+                                <div class="hidden sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.support">
+                                    <breeze-nav-link
+                                        :href="route('support.index')"
+                                        :active="route().current('support.index')"
+                                        class="rounded-md text-black-700"
+                                        v-if="$page.props.menu_permission.support"
+                                    >
+                                        Support
+                                    </breeze-nav-link>
+                                </div>
+                                <div class="hidden sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.super_admin">
+                                    <breeze-nav-link
+                                        :href="route('mail.inbox')"
+                                        :active="route().current('mail.inbox')"
+                                        class="rounded-md text-black-700"
+                                        v-if="$page.props.menu_permission.student || $page.props.menu_permission.super_admin"
+                                    >
+                                        Mail
+                                    </breeze-nav-link>
+                                </div>
                             </div>
                         </div>
 
@@ -504,7 +509,7 @@
                                                 class="
                                                     inline-flex
                                                     items-center
-                                                    px-3
+                                                    px-1
                                                     py-2
                                                     border border-transparent
                                                     text-sm
