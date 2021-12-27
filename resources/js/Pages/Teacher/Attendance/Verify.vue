@@ -28,7 +28,7 @@
                             </tbody>
                         </table>
                         <div v-else>
-                            <h2 class="text-center text-red-600">Invalid attendance sheet. This QRCode not generated from this system.</h2>
+                            <h2 class="text-center text-red-600">Invalid attendance sheet or QRCode not generated from this system.</h2>
                         </div>
                     </div>
                     <div class="card-footer">
