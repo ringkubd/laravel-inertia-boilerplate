@@ -13,7 +13,7 @@
                 <div class="card-header">
                     <CardHeader :can="can" :create="route('polytechnic.create')" :search-method="search"></CardHeader>
                 </div>
-                <div class="card-body">
+                <div class="card-body table-responsive">
                     <table class="table table-secondary table-striped">
                         <thead>
                         <tr>

@@ -16,14 +16,16 @@
                             :can="can"
                         >
                             <template #first>
-                                <div class="flex">
-                                    <label class="w-25" for="session">Session</label>
-                                    <select2 class="w-75" id="session" name="session" :options="academicSession" v-model="academic_session" @select="filter" />
+                                <div class="form-group row">
+                                    <label class="col-sm-3 form-label" for="session">Session</label>
+                                    <div class="col-sm-9">
+                                        <select2 class="w-full" id="session" name="session" :options="academicSession" v-model="academic_session" @select="filter" />
+                                    </div>
                                 </div>
                             </template>
                         </card-header>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body table-responsive">
                         <table class="table table-secondary table-striped">
                             <thead>
                             <tr>

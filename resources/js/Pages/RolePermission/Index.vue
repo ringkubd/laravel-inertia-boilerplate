@@ -19,7 +19,7 @@
                     </select>
                 </div>
             </div>
-            <div class="card-body">
+            <div class="card-body table-responsive">
                 <PermissionTable v-if="selectedRole != ''" :permissions="permissions" :selectedRole="selectedRole" :checkedPermission="updateRole" :preCheckedPermissions="preCheckedPermissions"></PermissionTable>
             </div>
             <div class="card-footer"></div>

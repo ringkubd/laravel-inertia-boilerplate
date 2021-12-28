@@ -18,7 +18,7 @@
                         </template>
                     </CardHeader>
                 </div>
-                <div class="card-body">
+                <div class="card-body table-responsive">
                     <table class="table table-secondary table-striped">
                         <thead>
                         <tr>

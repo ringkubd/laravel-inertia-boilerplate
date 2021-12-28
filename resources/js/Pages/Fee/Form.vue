@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="card mt-1">
+        <div class="card mt-1 min-h-screen">
             <div class="row">
                 <div class="col-12">
                     <div class="card-header">

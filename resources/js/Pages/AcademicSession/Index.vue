@@ -53,7 +53,7 @@
                         </Modal>
                     </transition>
                 </div>
-                <div class="card-body">
+                <div class="card-body table-responsive">
                     <table class="table table-striped table-secondary">
                         <thead>
                         <tr>

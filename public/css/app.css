@@ -598,9 +598,6 @@ select {
 .z-10 {
   z-index: 10;
 }
-.col-start-5 {
-  grid-column-start: 5;
-}
 .col-start-1 {
   grid-column-start: 1;
 }
@@ -841,16 +838,16 @@ select {
 .h-48 {
   height: 12rem;
 }
+.h-max {
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+}
 .h-60 {
   height: 15rem;
 }
 .h-auto {
   height: auto;
-}
-.h-max {
-  height: -webkit-max-content;
-  height: -moz-max-content;
-  height: max-content;
 }
 .min-h-screen {
   min-height: 100vh;
@@ -944,6 +941,9 @@ select {
 }
 .flex-auto {
   flex: 1 1 auto;
+}
+.flex-initial {
+  flex: 0 1 auto;
 }
 .flex-shrink-0 {
   flex-shrink: 0;
@@ -1871,10 +1871,6 @@ select {
   --tw-text-opacity: 1;
   color: rgb(34 197 94 / var(--tw-text-opacity));
 }
-.text-red-300 {
-  --tw-text-opacity: 1;
-  color: rgb(252 165 165 / var(--tw-text-opacity));
-}
 .underline {
   text-decoration: underline;
 }
@@ -2433,6 +2429,9 @@ table thead tr {
   .sm\:w-auto {
     width: auto;
   }
+  .sm\:w-1\/5 {
+    width: 20%;
+  }
   .sm\:max-w-md {
     max-width: 28rem;
   }
@@ -2536,6 +2535,27 @@ table thead tr {
   .md\:w-1\/3 {
     width: 33.333333%;
   }
+  .md\:w-1\/5 {
+    width: 20%;
+  }
+  .md\:w-1\/6 {
+    width: 16.666667%;
+  }
+  .md\:w-2\/6 {
+    width: 33.333333%;
+  }
+  .md\:w-2\/12 {
+    width: 16.666667%;
+  }
+  .md\:w-3\/12 {
+    width: 25%;
+  }
+  .md\:w-4\/12 {
+    width: 33.333333%;
+  }
+  .md\:w-1\/12 {
+    width: 8.333333%;
+  }
   .md\:max-w-xl {
     max-width: 36rem;
   }
@@ -2545,11 +2565,11 @@ table thead tr {
   .md\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  .md\:grid-cols-4 {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
   .md\:grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .md\:flex-row {
+    flex-direction: row;
   }
   .md\:justify-start {
     justify-content: flex-start;

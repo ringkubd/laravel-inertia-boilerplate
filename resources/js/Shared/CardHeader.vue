@@ -1,36 +1,37 @@
 <template>
-    <div class="pt-0 grid md:grid-cols-4 flex">
-        <div class="flex-1" v-if="create">
-            <inertia-link type="button" as="button" :href="create" v-if="can.create && create"
-                >
-                <jet-button type="button" class="btn animate-gradient-x bg-gradient-to-r from-[#36AFAD] via-yellow-200 to-[#36C57F]">
-                    <font-awesome-icon
-                        icon="plus"
-                        size="md"
-                        rotation="rotate"
-                    ></font-awesome-icon>
-                    Add New
-                </jet-button>
+    <div class="pt-0 flex flex-col md:flex-row">
+        <div class="w-full md:w-1/12 flex-initial" v-if="create">
+            <inertia-link type="button" as="button" class="btn animate-gradient-x bg-gradient-to-r from-[#36AFAD] via-yellow-200 to-[#36C57F]" :href="create" v-if="can.create && create">
+                <font-awesome-icon
+                    icon="plus"
+                    size="md"
+                    rotation="rotate"
+                ></font-awesome-icon>
+                Add
             </inertia-link>
         </div>
-        <div class="flex-1">
+        <div class="w-full md:w-3/12 flex-initial">
             <slot name="first"></slot>
         </div>
-        <div class="flex-1">
+        <div class="w-full md:w-3/12 flex-initial">
             <slot name="second"></slot>
         </div>
-        <div class="flex-1">
+        <div class="w-full md:w-3/12 flex-initial">
             <slot name="third"></slot>
         </div>
-        <div class="flex-1 col-start-5 justify-end" v-if="searchMethod">
-            <label for="search">Search</label>
-            <input
-                type="text"
-                id="search"
-                v-model="search_param"
-                @keyup="search"
-                class="ml-2 py-1 text-sm rounded border"
-            />
+        <div class="w-full md:w-3/12  flex-initial justify-content-end justify-end" v-if="searchMethod">
+            <div class="form-group row w-full">
+                <label for="search" class="col-sm-3 col-form-label">Search</label>
+                <div class="col-sm-9">
+                    <input
+                        type="text"
+                        id="search"
+                        v-model="search_param"
+                        @keyup="search"
+                        class="rounded border form-control"
+                    />
+                </div>
+            </div>
         </div>
     </div>
 </template>
