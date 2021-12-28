@@ -62,7 +62,7 @@
                         </tbody>
                         <tfoot>
                         <tr>
-                            <td :colspan="5+ (feeTypes != null ? feeTypes.length : 0)" style="text-align: right">Total</td>
+                            <td :colspan="5+ (feeTypes != null ? feeTypes.length : 0)" class="total" style="text-align: right">Total</td>
                             <td>{{totalInvoiceAmount()}}</td>
                         </tr>
                         </tfoot>

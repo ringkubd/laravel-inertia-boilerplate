@@ -18,31 +18,31 @@
                         </template>
                     </CardHeader>
                 </div>
-                <div class="card-body min-h-screen h-100" id="printme">
+                <div class="card-body h-max h-100" id="printme">
                     <div class="flex justify-content-center items-center text-center h-30 content-header">
                         <div>
                             <div class="isdb-header">
                                 <h2>IsDB-BISEW Madrasah Program</h2>
-                                <h4>Teaching Staff Attendance Sheet</h4>
+                                <h5>Vocational Teaching Staff's Attendance Sheet</h5>
                             </div>
 
                             <table class="table table-borderless header-table text-left" border="0">
                                 <tbody>
                                 <tr>
                                     <th>Name of Madrasah</th>
-                                    <td>: {{ madrasah?.name }}</td>
+                                    <td>{{ madrasah?.name }}, {{ madrasah?.district }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Name of Trades</th>
-                                    <td>: {{trades}}</td>
+                                    <th>Name of Trade(s)</th>
+                                    <td>{{trades}}</td>
                                 </tr>
                                 <tr>
                                     <th>Date</th>
-                                    <td>: {{ today }}</td>
+                                    <td>{{dayName}}, {{ today }}</td>
                                 </tr>
                                 <tr>
                                     <th>Printing Time</th>
-                                    <td>: {{ time }}</td>
+                                    <td>{{ time }}</td>
                                 </tr>
 
                                 </tbody>
@@ -85,6 +85,15 @@
                         </div>
                     </div>
                 </div>
+                <div class="card-body h-max h-100 flex">
+                    <div class="p-5 shadow-lg">
+                        <h4 class="underline text-red-600">Note <i class="text-normal">(For valid attendance)</i> :</h4>
+                        <ol class="list-disc list-group text-green-900">
+                            <li class="list-item">Printing time 9.00 am to 10.00 am</li>
+                            <li class="list-item">Send/Upload time 9.00 am to 10.30 am</li>
+                        </ol>
+                    </div>
+                </div>
             </div>
         </div>
     </Authenticated>
@@ -103,7 +112,8 @@ export default {
     data(){
         return {
             today: moment().format('Y-MM-DD'),
-            time: moment().format('hh-mm-ss a')
+            time: moment().format('hh-mm-ss a'),
+            dayName: moment().format('dddd')
         }
     },
     methods: {

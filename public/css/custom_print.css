@@ -134,4 +134,7 @@ thead{
 .table > :not(:first-child) {
     border-top: 1px solid currentColor;
 }
+.total{
+    text-align: right!important;
+}
 

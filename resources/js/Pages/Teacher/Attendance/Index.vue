@@ -38,7 +38,7 @@
                             <th class="text-left">{{ m.name }}</th>
                             <td>{{ today }}</td>
                             <td>
-                                <InertiaLink :href="route('teacher_attendance.create', { 'date': today, 'madrasah': m.id })" v-if="current_date == today || m?.teacher_attendance?.length > 0">
+                                <InertiaLink :href="route('teacher_attendance.create', { 'date': today, 'madrasah': m.id })" v-if="(current_date == today && validDownloadTime()) || (m?.teacher_attendance?.length > 0 && permission)">
                                     Download
                                 </InertiaLink>
                             </td>
@@ -64,9 +64,11 @@ import Back from "@/Shared/Back";
 import moment from "moment";
 import CardHeader from "@/Shared/CardHeader";
 import Label from "@/Components/Label";
+import { extendMoment } from 'moment-range';
+
 export default {
     name: "Index",
-    props: ['madrasah', 'attendanceToday', 'permission'],
+    props: ['madrasah', 'permission', 'download_valid_time', 'upload_valid_time'],
     components: {Label, CardHeader, Back, PageHeader, Authenticated},
     data() {
       return {
@@ -87,18 +89,23 @@ export default {
 
             return arrDays;
         },
-        todayAtendanceForMad(madId){
-            return this.attendanceToday.filter((attn) => {
-                return attn.madrasha_id === madId
-            })
-        },
         createdFromNow(timeString){
             if(timeString == undefined || timeString == "") return ""
             return moment(timeString).fromNow()
         },
         chanDate(){
             this.$inertia.replace(route('teacher_attendance.index', { date: this.today }))
+        },
+        validDownloadTime(){
+            const startTime = moment(this.download_valid_time.start, 'hh:mm')
+            const endTime = moment(this.download_valid_time.end, 'hh:mm')
+            const rangeObj = extendMoment(moment)
+            const range = rangeObj.range(startTime, endTime)
+            return range.contains(moment())
         }
+    },
+    mounted() {
+        this.validDownloadTime()
     }
 }
 </script>

@@ -847,6 +847,11 @@ select {
 .h-auto {
   height: auto;
 }
+.h-max {
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+}
 .min-h-screen {
   min-height: 100vh;
 }
@@ -1354,6 +1359,9 @@ select {
   --tw-bg-opacity: 1;
   background-color: rgb(191 219 254 / var(--tw-bg-opacity));
 }
+.bg-transparent {
+  background-color: transparent;
+}
 .bg-\[\#60baad\] {
   --tw-bg-opacity: 1;
   background-color: rgb(96 186 173 / var(--tw-bg-opacity));
@@ -1369,9 +1377,6 @@ select {
 .bg-gray-200 {
   --tw-bg-opacity: 1;
   background-color: rgb(229 231 235 / var(--tw-bg-opacity));
-}
-.bg-transparent {
-  background-color: transparent;
 }
 .bg-emerald-500 {
   --tw-bg-opacity: 1;
@@ -1865,6 +1870,10 @@ select {
 .text-green-500 {
   --tw-text-opacity: 1;
   color: rgb(34 197 94 / var(--tw-text-opacity));
+}
+.text-red-300 {
+  --tw-text-opacity: 1;
+  color: rgb(252 165 165 / var(--tw-text-opacity));
 }
 .underline {
   text-decoration: underline;

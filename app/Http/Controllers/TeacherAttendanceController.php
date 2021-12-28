@@ -27,18 +27,13 @@ class TeacherAttendanceController extends Controller
             $q->with('creator')->where('created_date', $date);
         }])->get();
 
-        $attendanceToday = TeacherAttendance::with('creator')
-            ->when($request->date, function ($q, $v){
-                $q->where('created_date', "$v");
-            })
-            ->whereRaw("created_date = CURDATE()")->get();
-
         $permissionOld = auth()->user()->hasRole('Super Admin') || auth()->user()->hasRole('Admin');
 
         return Inertia::render('Teacher/Attendance/Index', [
             'madrasah' => $madrasah,
-            'attendanceToday' => $attendanceToday,
-            'permission' => $permissionOld
+            'permission' => $permissionOld,
+            'download_valid_time' => config('setup.staff_attendance.download'),
+            'upload_valid_time' => config('setup.staff_attendance.upload')
         ]);
     }
 
@@ -53,11 +48,15 @@ class TeacherAttendanceController extends Controller
             'madrasah' => 'required',
             'date' => 'required'
         ]);
+        $now = Carbon::now();
+        $validTime = $now->between(\Carbon\Carbon::parse(config('setup.staff_attendance.download.start')), \Carbon\Carbon::parse(config('setup.staff_attendance.download.end')));
+
         $permissionOld = auth()->user()->hasRole('Super Admin') || auth()->user()->hasRole('Admin');
         if ($request->date != Carbon::today()->format('Y-m-d') && !$permissionOld) abort(401);
 
         $teacherAttendance = TeacherAttendance::where('created_date', $request->date)->where('madrasha_id', $request->madrasah)->first();
-        if (!$teacherAttendance && $request->date == now()->format('Y-m-d')) {
+
+        if (!$teacherAttendance && $request->date == now()->format('Y-m-d') && $validTime) {
             $uid = Uuid::uuid4();
             $verificationUrl = route('teacher_attendance.verify', $uid->toString());
             $qrCode = QrCode::format('png')->size(300)->generate($verificationUrl);
