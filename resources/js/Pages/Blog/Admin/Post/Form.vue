@@ -91,14 +91,14 @@
                         <div v-if="errors.thumbnail" class="text-danger">
                             {{ errors.thumbnail }}
                         </div>
-                        <img :src="formData.thumbnail" :alt="formData.title" max-width="10" max-height="10" v-if="formData.thumbnail != null" class="rounded img-thumbnail">
+                        <img :src="formData.thumbnail" :alt="formData.title" v-if="formData.thumbnail != null" class="rounded max-h-50">
                     </div>
                 </div>
             </div>
             <div class="row mt-md-5 mt-2">
-                <div class="col-md-4">
-                    <input type="submit" name="submit" value="Post"  v-if="formType == 'store'" class="btn col-12 btn-outline-primary">
-                    <input type="submit" name="submit" value="Update" v-if="formType == 'update'" class="btn  col-12 btn-outline-info">
+                <div class="flex items-end justify-center">
+                    <input type="submit" name="submit" value="Post"  v-if="formType == 'store'" class="btn btn-primary">
+                    <input type="submit" name="submit" value="Update" v-if="formType == 'update'" class="btn btn-info">
                 </div>
             </div>
         </form>

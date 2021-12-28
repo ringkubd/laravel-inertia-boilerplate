@@ -43,12 +43,12 @@
             :href="deleteUrl"
             v-if="can.delete"
         >
-            <jet-button type="submit" class="animate-gradient-x bg-gradient-to-r from-red-700 to-[#46C57F] hover:shadow-lg group-hover:animate-pulse">
+            <jet-button type="submit" class="animate-gradient-x bg-gradient-to-r from-red-200 to-[#46C57F] hover:shadow-lg group-hover:animate-pulse">
                 <font-awesome-icon
                     icon="trash"
                     size="md"
                     rotation="rotate"
-                    class="text-black"
+                    class="text-red-500"
                 ></font-awesome-icon>
             </jet-button>
         </inertia-link>

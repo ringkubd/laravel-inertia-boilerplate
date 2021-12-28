@@ -72,7 +72,6 @@ class UserController extends Controller
             'name' => 'required',
             'email' => 'required|email',
             'password' => 'required|confirmed',
-            'madrasha_id' => $request->madrasha_id
         ]);
 
         $user = User::create([

@@ -56,7 +56,7 @@
                             <td>{{ invoice.student.polytechnic_trade_id }}</td>
                             <td>{{ invoice.bank_branch }}</td>
                             <td>{{ invoice.bank_account }}</td>
-                            <td v-for="fee in invoice.details" :name="fee.fee_type" :invoiceDetalsId="fee.id" :contenteditable="contentEditable" @input="changeFees">{{ fee.amount }}</td>
+                            <td class="border-4 border-blue-400 animate-pulse" v-for="fee in invoice.details" :name="fee.fee_type" :invoiceDetalsId="fee.id" :contenteditable="contentEditable" @input="changeFees">{{ fee.amount }}</td>
                             <td>{{invoice.amount}}</td>
                         </tr>
                         </tbody>

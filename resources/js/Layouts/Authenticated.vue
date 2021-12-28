@@ -616,13 +616,10 @@
                 </div>
 
                 <!-- Responsive Navigation Menu -->
-                <div
-                    :class="{
+                <div :class="{
                         block: showingNavigationDropdown,
                         hidden: !showingNavigationDropdown,
-                    }"
-                    class="sm:hidden"
-                >
+                    }" class="sm:hidden">
                     <div class="pt-2 pb-3 space-y-1">
                         <breeze-responsive-nav-link
                             :href="route('dashboard')"
@@ -630,7 +627,8 @@
                         >
                             Dashboard
                         </breeze-responsive-nav-link>
-
+                    </div>
+                    <div class="space-y-1 pl-3">
                         <div class="sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.user_management">
                             <breeze-dropdown align="right" width="48">
                                 <template #trigger>
@@ -705,6 +703,8 @@
                                 </template>
                             </breeze-dropdown>
                         </div>
+                    </div>
+                    <div class="space-y-1 pl-3">
                         <div class="sm:flex sm:items-center sm:ml-6"  v-if="$page.props.menu_permission.blog_management">
                             <breeze-dropdown align="right" width="48">
                                 <template #trigger>
@@ -773,6 +773,8 @@
                                 </template>
                             </breeze-dropdown>
                         </div>
+                    </div>
+                    <div class="space-y-1 pl-3">
                         <div class="sm:flex sm:items-center sm:ml-6"  v-if="$page.props.menu_permission.madrasah || $page.props.menu_permission.teacher || $page.props.menu_permission.madrasah_student || $page.props.menu_permission.madrasah_result">
                             <breeze-dropdown align="right" width="48">
                                 <template #trigger>
@@ -858,6 +860,8 @@
                                 </template>
                             </breeze-dropdown>
                         </div>
+                    </div>
+                    <div class="space-y-1 pl-3">
                         <div class="sm:flex sm:items-center sm:ml-6"  v-if="$page.props.menu_permission.polytechnic || $page.props.menu_permission.polytechnic_student || $page.props.menu_permission.polytechnic_result">
                             <breeze-dropdown align="right" width="48">
                                 <template #trigger>
@@ -929,6 +933,8 @@
                                 </template>
                             </breeze-dropdown>
                         </div>
+                    </div>
+                    <div class="space-y-1 pl-3">
                         <div class="sm:flex sm:items-center sm:ml-6"  v-if="$page.props.menu_permission.invoice || $page.props.menu_permission.fee">
                             <breeze-dropdown align="right" width="48">
                                 <template #trigger>
@@ -993,6 +999,8 @@
                                 </template>
                             </breeze-dropdown>
                         </div>
+                    </div>
+                    <div class="space-y-1 pl-3">
                         <div class="sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.academic_session || $page.props.menu_permission.trade">
                             <breeze-dropdown align="right" width="48">
                                 <template #trigger>
@@ -1057,6 +1065,8 @@
                                 </template>
                             </breeze-dropdown>
                         </div>
+                    </div>
+                    <div class="space-y-1 pl-3">
                         <div class="sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.admission">
                             <breeze-nav-link
                                 :href="route('admission.index')"
@@ -1066,6 +1076,8 @@
                                 Admission
                             </breeze-nav-link>
                         </div>
+                    </div>
+                    <div class="space-y-1 pl-3">
                         <div class="sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.support">
                             <breeze-nav-link
                                 :href="route('support.index')"
@@ -1076,6 +1088,8 @@
                                 Support
                             </breeze-nav-link>
                         </div>
+                    </div>
+                    <div class="space-y-1 pl-3">
                         <div class="sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.super_admin">
                             <breeze-nav-link
                                 :href="route('mail.inbox')"
@@ -1086,8 +1100,8 @@
                                 Mail
                             </breeze-nav-link>
                         </div>
-
                     </div>
+
 
                     <!-- Responsive Settings Options -->
                     <div class="pt-4 pb-1 border-t border-gray-200">
