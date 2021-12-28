@@ -571,7 +571,7 @@
                                     justify-center
                                     p-2
                                     rounded-md
-                                    text-gray-400
+                                    text-gray-800
                                     hover:text-gray-500 hover:bg-gray-100
                                     focus:outline-none
                                     focus:bg-gray-100
@@ -631,7 +631,7 @@
                             Dashboard
                         </breeze-responsive-nav-link>
 
-                        <div class="sm:flex sm:items-center sm:ml-6 sm:border-0" v-if="$page.props.menu_permission.user_management">
+                        <div class="sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.user_management">
                             <breeze-dropdown align="right" width="48">
                                 <template #trigger>
                                         <span class="inline-flex items-center rounded-sm">
@@ -705,7 +705,7 @@
                                 </template>
                             </breeze-dropdown>
                         </div>
-                        <div class="sm:flex sm:items-center sm:ml-6 sm:border-0"  v-if="$page.props.menu_permission.blog_management">
+                        <div class="sm:flex sm:items-center sm:ml-6"  v-if="$page.props.menu_permission.blog_management">
                             <breeze-dropdown align="right" width="48">
                                 <template #trigger>
                                         <span class="inline-flex items-center rounded-md">
@@ -773,7 +773,7 @@
                                 </template>
                             </breeze-dropdown>
                         </div>
-                        <div class="sm:flex sm:items-center sm:ml-6 sm:border-0"  v-if="$page.props.menu_permission.madrasah || $page.props.menu_permission.teacher || $page.props.menu_permission.madrasah_student || $page.props.menu_permission.madrasah_result">
+                        <div class="sm:flex sm:items-center sm:ml-6"  v-if="$page.props.menu_permission.madrasah || $page.props.menu_permission.teacher || $page.props.menu_permission.madrasah_student || $page.props.menu_permission.madrasah_result">
                             <breeze-dropdown align="right" width="48">
                                 <template #trigger>
                                         <span class="inline-flex items-center rounded-md">
