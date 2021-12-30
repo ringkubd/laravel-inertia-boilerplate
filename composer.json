@@ -50,7 +50,8 @@
         "files": [
             "app/Helpers/conversation.php",
             "app/Helpers/settings.php",
-            "app/Helpers/common.php"
+            "app/Helpers/common.php",
+            "app/Helpers/pusher.php"
         ]
     },
     "autoload-dev": {

@@ -357,14 +357,14 @@ class StudentsController extends Controller
 
     public function search(Request $request){
         $students =  Student::search($request->search, function ($meilisearch, $query, $options) use($request){
-           if ($request->only_polytechnic) {
-               $options['filter'] = [['polytechnic_name!=null'], ['madrasa_completed=1']];;
-           }
-           if ($request->only_madrasa) {
-               $options['filter'] = [['madrasa_completed=0'], ['madrasah_name!=null']];
-           }
-            $options['attributesToHighlight'] = ['overview'];
-           return $meilisearch->search($query, $options);
+            if ($request->only_polytechnic) {
+                $options['filter'] = [['polytechnic_name!=null'], ['madrasa_completed=1']];;
+            }
+            if ($request->only_madrasa) {
+                $options['filter'] = [['madrasa_completed=0'], ['madrasah_name!=null']];
+            }
+            $options['attributesToHighlight'] = ["*"];
+            return $meilisearch->search($query, $options);
         })->paginate(100);
         return $students;
     }

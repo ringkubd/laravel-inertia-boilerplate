@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\SupportEvent;
 use App\Events\SupportOnlineEvent;
 use App\Http\Resources\SupportMessageResource;
+use App\Jobs\SupportNotificationJob;
 use App\Models\SupportConversation;
 use App\Models\SupportConversationMessage;
 use App\Models\User;
@@ -23,7 +24,6 @@ class SupportController extends Controller
     public function index(Request $request)
     {
         $support = SupportConversation::where('status', 0)->get();
-
         $activeConversation = SupportConversation::where('status', 0)->when($request->conversation_id, function ($q, $v) {
             $q->where('id', $v);
         })->first();
@@ -71,6 +71,20 @@ class SupportController extends Controller
             $chat['attachment'] = url($filePath);
             $attachment->move(public_path("conversation/"), $fileName);
         }
+
+        $user = User::query()
+            ->with('roles')
+            ->where('email', 'mahadi@isdb-bisew.org')->get();
+
+        $onlineUsers = onlineUsers() ? onlineUsers()->pluck('id')->toArray() : [];
+        $userArray = $user->pluck('id')->toArray();
+
+        if (auth()->user()->id !== $support->creator) {
+            $userArray[] = $support->creator;
+        }
+        $recipient = User::whereIn('id',array_diff($userArray, $onlineUsers))->get();
+
+        dispatch(new SupportNotificationJob($recipient));
 
         $conversation = $support->message()->create($chat);
         broadcast(new SupportEvent(new SupportMessageResource($conversation)));
