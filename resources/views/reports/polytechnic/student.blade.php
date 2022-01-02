@@ -19,8 +19,8 @@
                 <tr>
                     <td>{{ $loop->iteration  }}</td>
                     <td>{{ $student->name  }}</td>
-                    <td>{{ $student?->classroom[0]?->name }}</td>
-                    <td>{{ $student->diploma_session }}</td>
+                    <td>{{ $student?->classroom[0]?->class_name_number }}</td>
+                    <td>{{ $student->polytechnic_session }}</td>
                     <td>{{ $student->mobile  }}</td>
                     <td>{{ $student->polytechnic_trade_id  }}</td>
                     <td>{{ $student?->madrasha?->name }}</td>
