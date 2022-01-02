@@ -6,7 +6,7 @@
             <tr>
                 <th>SL#</th>
                 <th>Name</th>
-                <th>Class</th>
+                <th>Semester</th>
                 <th>Session</th>
                 <th>Mobile</th>
                 <th>Trade</th>
