@@ -12,8 +12,8 @@ use App\Models\Student;
 use App\Models\Trade;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
+use PDF;
 
 class StudentsController extends Controller
 {
@@ -27,6 +27,48 @@ class StudentsController extends Controller
     {
         $this->authorize('view_polytechnic_student');
         $madrasah_id = $request->has('madrasah') ? currentMadrasah($request->madrasah): currentMadrasah();
+
+        if ($request->pdf) {
+            $students = Student::query()
+                ->with('users')
+                ->with('classroom')
+                ->when($request->search, function ($q, $v){
+                    $q
+                        ->where('name', 'like', "%$v%")
+                        ->orWhere('mobile', 'like', "%$v%")
+                        ->orWhereHas('classroom', function ($q) use($v){
+                            $q->where('class_rooms.name', 'like', "%$v%");
+                        });
+                })->when($request->current_session, function ($q, $v){
+                    $q->where('current_session', 'like', "%$v%");
+                })
+                ->when($request->trade, function ($q, $v){
+                    $q->where('polytechnic_trade_id', 'like', "%$v%");
+                })
+                ->when($request->classroom, function ($q, $v){
+                    $q->whereHas('classroom', function ($q) use ($v){
+                        $q->where('class_room_students.class_room_id',$v);
+                    });
+                })
+                ->with('madrasha')
+                ->with('polytechnic')
+                ->whereNotNull('polytechnic_id')
+                ->where('madrasa_completed', true)
+                ->where('status', true)
+                ->when($request->old_students, function ($q){
+                    $q->where('polytechnic_completed', true);
+                },function ($q){
+                    $q->where('polytechnic_completed', false);
+                })
+                ->when($madrasah_id, function ($q, $v){
+                    $q->where('madrasha_id', $v);
+                })
+                ->get();
+            $pdf = PDF::loadView('reports.polytechnic.student', compact('students'));
+            $pdf->setPaper('A4', 'portrait');
+            $pdf->setOptions(['defaultFont' => 'sans-serif']);
+            return $pdf->stream();
+        }
 
         $students = Student::query()
             ->with('users')

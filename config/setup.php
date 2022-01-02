@@ -7,7 +7,7 @@ return [
     'staff_attendance' => [
         'download' => [
             'start' => "07:30",
-            'end' => "16:10"
+            'end' => "10:10"
         ],
         'upload' => [
             'start' => "8:00",

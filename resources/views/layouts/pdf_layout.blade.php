@@ -56,6 +56,8 @@
             margin: 10px auto;
         }
     </style>
+    @yield('style')
+
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
