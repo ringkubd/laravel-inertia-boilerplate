@@ -81,7 +81,13 @@ class InvoiceController extends Controller
                 }
 
             })
+            ->with(['invoiceDetails' => function($q) use ($request){
+                $q->whereHas('invoice', function ($q) use ($request){
+                    $q->where('semester', $request->semester);
+                });
+            }])
             ->get();
+
         $feeTypes = $students->whereNotNull('fees')->unique('fee_type')->max('fees');
         return Inertia::render('Invoice/Create', [
             'can' => [
@@ -152,12 +158,14 @@ class InvoiceController extends Controller
         $invoiceId = rand(1111,99999);
         foreach($students as $student){
             $invoiceDetails = [];
+            $feeType = [];
             foreach ($student->fees as $fee){
                 $invoiceDetails[] = new InvoiceDetail([
                     'fee_type' => $fee->fee_type,
                     'amount' => $fee->amount,
                     'invoice' => $invoiceId
                 ]);
+                $feeType[] = $fee->fee_type;
             }
 
             $invoice = Invoice::create([
@@ -171,6 +179,7 @@ class InvoiceController extends Controller
                 'bank_name' => $student->bank_name,
                 'bank_branch' => $student->bank_branch,
                 'bank_account' => $student->bank_account,
+                'fee_type' => json_encode($feeType),
                 'created_by' => auth()->user()->id
             ]);
             $details = $invoice->details()->saveMany($invoiceDetails);

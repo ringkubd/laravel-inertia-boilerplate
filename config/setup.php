@@ -6,11 +6,11 @@ return [
     ],
     'staff_attendance' => [
         'download' => [
-            'start' => "09:30",
-            'end' => "22:10"
+            'start' => "07:30",
+            'end' => "10:10"
         ],
         'upload' => [
-            'start' => "09:30",
+            'start' => "8:00",
             'end' => "10:30"
         ]
     ]

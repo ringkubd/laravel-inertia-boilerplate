@@ -14,4 +14,8 @@ class InvoiceDetail extends Model
 
     protected $guarded = ['id'];
 
+    public function invoice(){
+        return $this->belongsTo(Invoice::class);
+    }
+
 }

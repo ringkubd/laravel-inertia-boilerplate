@@ -182,4 +182,8 @@ class Student extends Model
         return $this->hasMany(Invoice::class, 'student_id', 'id');
     }
 
+    public function invoiceDetails(){
+        return $this->hasManyThrough(InvoiceDetail::class, Invoice::class);
+    }
+
 }
