@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
+use PDF;
 
 
 class StudentsController extends Controller
@@ -29,6 +30,42 @@ class StudentsController extends Controller
     {
         $this->authorize('view_madrasa_student');
         $madrasah_id = $request->has('madrasah') ? currentMadrasah($request->madrasah): currentMadrasah();
+
+        if ($request->pdf) {
+            if (($request->has('search') && $request->search != "") || ($request->has('query') && $request->input('query') != "")) {
+                $search = $request->search ?? $request->input('query');
+                $students = Student::search($search)->get();
+            }else{
+                $students = Student::query()
+                    ->with('users')
+                    ->with('classroom')
+                    ->with('madrasha')
+                    ->with('polytechnic')
+                    ->where('status', true)
+                    ->when($madrasah_id, function ($q, $v){
+                        $q->where('madrasha_id', $v);
+                    })
+                    ->when($request->current_session, function ($q, $v){
+                        $q->where('current_session', 'like', "%$v%");
+                    },function ($q){
+                        $q->where('madrasa_completed', false);
+                    })
+                    ->when($request->trade, function ($q, $v){
+                        $q->where('madrasa_trade_id', 'like', "%$v%");
+                    })
+                    ->when($request->classroom, function ($q, $v){
+                        $q->whereHas('classroom', function ($q) use ($v){
+                            $q->where('class_room_students.class_room_id',$v);
+                        });
+                    })
+                    ->get();
+            }
+            $pdf = PDF::loadView('reports.madrasah.student', compact('students'));
+            $pdf->setPaper('A4', 'portrait');
+            $pdf->setOptions(['defaultFont' => 'sans-serif']);
+            return $pdf->stream();
+        }
+
         if (($request->has('search') && $request->search != "") || ($request->has('query') && $request->input('query') != "")) {
             $search = $request->search ?? $request->input('query');
             $students = Student::search($search)->paginate();

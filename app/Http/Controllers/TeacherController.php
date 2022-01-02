@@ -8,6 +8,7 @@ use App\Models\Madrasha;
 use App\Models\Teacher;
 use App\Models\Trade;
 use App\Models\User;
+use PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -24,10 +25,28 @@ class TeacherController extends Controller
     public function index(Request $request)
     {
         $this->authorize('view_teacher');
+        if ($request->pdf) {
+            $teachers = Teacher::query()
+                ->when($request->search, function ($q, $v) {
+                    $q->where('name', 'like', "%$$v%")
+                        ->orWhere('designation', 'like', "%$v%")
+                        ->orWhereHas('madrasa', function ($q) use ($v){
+                            $q->where('name', 'like', "%$v%");
+                        });
+                })
+                ->with("user", 'trade', 'madrasa')->get();
+            $pdf = PDF::loadView('reports.teacher.teacher', compact('teachers'));
+            $pdf->setPaper('A4', 'portrait');
+            $pdf->setOptions(['defaultFont' => 'sans-serif']);
+            return $pdf->stream();
+        }
         $teachers = Teacher::query()
             ->when($request->search, function ($q, $v) {
                 $q->where('name', 'like', "%$$v%")
-                ->orWhere('designation', 'like', "%$v%");
+                    ->orWhere('designation', 'like', "%$v%")
+                    ->orWhereHas('madrasa', function ($q) use ($v){
+                        $q->where('name', 'like', "%$v%");
+                    });
             })
             ->with("user", 'trade', 'madrasa')
             ->paginate();
