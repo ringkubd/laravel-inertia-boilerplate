@@ -49,24 +49,24 @@
                             </table>
                         </div>
                     </div>
-                    <div class="table-responsive content-body">
+                    <div class="content-body">
                         <table class="table h-60">
                             <thead>
                             <tr class="text-center d-flex">
                                 <th class="col-1">Sl#</th>
-                                <th class="col-5">Name</th>
-                                <th class="col-5">Designation</th>
+                                <th class="col-4">Name</th>
+                                <th class="col-2">Designation</th>
                                 <th class="col-2">Time</th>
-                                <th class="col-4">Signature</th>
+                                <th class="col-3">Signature</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr class="d-flex" v-for="(t, index) in teacher">
                                 <td class="col-1">{{ index+1 }}</td>
-                                <td class="col-5">{{ t?.name }}</td>
-                                <td class="col-5">{{ t?.designation }}</td>
+                                <td class="col-4">{{ t?.name }}</td>
+                                <td class="col-2">{{ t?.designation }}</td>
                                 <td class="col-2"></td>
-                                <td class="col-4"></td>
+                                <td class="col-3"></td>
                             </tr>
                             </tbody>
                         </table>
