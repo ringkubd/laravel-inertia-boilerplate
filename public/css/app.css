@@ -613,11 +613,11 @@ select {
 .float-right {
   float: right;
 }
-.m-1 {
-  margin: 0.25rem;
-}
 .m-0 {
   margin: 0px;
+}
+.m-1 {
+  margin: 0.25rem;
 }
 .m-auto {
   margin: auto;
@@ -625,10 +625,6 @@ select {
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
-}
-.my-1 {
-  margin-top: 0.25rem;
-  margin-bottom: 0.25rem;
 }
 .my-2 {
   margin-top: 0.5rem;
@@ -703,9 +699,6 @@ select {
 .-mt-px {
   margin-top: -1px;
 }
-.mt-3 {
-  margin-top: 0.75rem;
-}
 .mb-4 {
   margin-bottom: 1rem;
 }
@@ -714,6 +707,9 @@ select {
 }
 .mt-6 {
   margin-top: 1.5rem;
+}
+.mt-3 {
+  margin-top: 0.75rem;
 }
 .-mr-2 {
   margin-right: -0.5rem;
@@ -918,14 +914,14 @@ select {
 .w-3\/4 {
   width: 75%;
 }
+.max-w-7xl {
+  max-width: 80rem;
+}
 .max-w-xl {
   max-width: 36rem;
 }
 .max-w-6xl {
   max-width: 72rem;
-}
-.max-w-7xl {
-  max-width: 80rem;
 }
 .max-w-sm {
   max-width: 24rem;
@@ -1533,6 +1529,9 @@ select {
   -o-object-fit: fill;
      object-fit: fill;
 }
+.p-0 {
+  padding: 0px;
+}
 .p-6 {
   padding: 1.5rem;
 }
@@ -1553,9 +1552,6 @@ select {
 }
 .p-0\.5 {
   padding: 0.125rem;
-}
-.p-0 {
-  padding: 0px;
 }
 .p-8 {
   padding: 2rem;

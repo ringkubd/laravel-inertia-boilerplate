@@ -91,7 +91,7 @@ class TeacherAttendanceController extends Controller
         }
 
 
-        $teacher = Teacher::with('madrasa', 'trade')->where('madrashas_id', $request->madrasah)->get();
+        $teacher = Teacher::with('madrasa', 'trade')->where('madrashas_id', $request->madrasah)->orderBy('designation')->get();
         $madrasah = Madrasha::where('id', $request->madrasah)->first();
 
         $trade = $teacher?->pluck('trade')?->unique('name')?->pluck('name')?->toArray() ?? [];

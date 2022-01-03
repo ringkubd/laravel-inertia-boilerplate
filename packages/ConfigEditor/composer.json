@@ -1,0 +1,29 @@
+{
+    "name": "anwar/config-editor",
+    "description": "Configuration file editor.",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Anwar\\ConfigEditor\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Anwar Jahid",
+            "email": "ajr.jahid@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "license": "MIT",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Anwar\\ConfigEditor\\ConfigEditorProvider"
+            ],
+            "aliases": {
+                "ConfigEditor" : "Anwar\\ConfigEditor\\Facade"
+            }
+        }
+    }
+}

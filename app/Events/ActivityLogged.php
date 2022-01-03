@@ -2,12 +2,8 @@
 
 namespace App\Events;
 
-use App\Http\Resources\ActivityResource;
-use App\Http\Transformers\ActivityTransformer;
 use App\Models\Activity;
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;

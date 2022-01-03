@@ -146,6 +146,13 @@ Route::get('get_support_active_conversation', [\App\Http\Controllers\SupportCont
 Route::delete('delete_message/{message}', [\App\Http\Controllers\SupportController::class, 'deleteMessage'])->name('delete_message');
 
 
+/**
+ * Setting Management
+ */
+
+Route::get('config', [\App\Http\Controllers\SettingsController::class, 'index']);
+
+
 // Blog
 Route::resource('post', \App\Http\Controllers\Blog\PostController::class);
 Route::resource('page', \App\Http\Controllers\Blog\PageController::class);

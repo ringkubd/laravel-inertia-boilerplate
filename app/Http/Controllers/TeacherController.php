@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use ConfigEditor;
 use App\Models\Bank;
 use App\Models\Designation;
 use App\Models\Madrasha;

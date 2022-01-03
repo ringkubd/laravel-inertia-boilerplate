@@ -55,6 +55,7 @@
                             <tr class="text-center d-flex">
                                 <th class="col-1">Sl#</th>
                                 <th class="col-5">Name</th>
+                                <th class="col-5">Designation</th>
                                 <th class="col-2">Time</th>
                                 <th class="col-4">Signature</th>
                             </tr>
@@ -63,6 +64,7 @@
                             <tr class="d-flex" v-for="(t, index) in teacher">
                                 <td class="col-1">{{ index+1 }}</td>
                                 <td class="col-5">{{ t?.name }}</td>
+                                <td class="col-5">{{ t?.designation }}</td>
                                 <td class="col-2"></td>
                                 <td class="col-4"></td>
                             </tr>
