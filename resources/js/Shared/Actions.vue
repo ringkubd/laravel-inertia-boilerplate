@@ -7,12 +7,12 @@
             v-if="can.update"
             class="group"
         >
-            <jet-button type="submit" class="animate-gradient-x bg-gradient-to-r text-black from-[#36AFAD] via-[#fde68a] to-[#36AFAD] hover:shadow-lg group-hover:animate-pulse">
+            <jet-button type="submit" class="hover:shadow-lg">
                 <font-awesome-icon
                     icon="pen"
                     size="md"
                     rotation="rotate"
-                    class="text-black"
+                    class="text-white"
                 ></font-awesome-icon>
             </jet-button>
         </inertia-link>
@@ -25,12 +25,12 @@
             class="group"
             target="_blank"
         >
-            <jet-button type="submit" class="animate-gradient-x bg-gradient-to-r from-[#198754] via-blue-300 to-[#46C57F] hover:shadow-lg group-hover:animate-pulse">
+            <jet-button type="submit" class="hover:shadow-lg bg-indigo-500">
                 <font-awesome-icon
                     icon="info"
                     size="md"
                     rotation="rotate"
-                    class="text-black"
+                    class="text-info"
                 ></font-awesome-icon>
             </jet-button>
         </inertia-link>
@@ -43,12 +43,12 @@
             :href="deleteUrl"
             v-if="can.delete"
         >
-            <jet-button type="submit" class="animate-gradient-x bg-gradient-to-r from-red-200 to-[#46C57F] hover:shadow-lg group-hover:animate-pulse">
+            <jet-button type="submit" class="bg-cyan-500 hover:shadow-lg">
                 <font-awesome-icon
                     icon="trash"
                     size="md"
                     rotation="rotate"
-                    class="text-red-500"
+                    class="text-red-600"
                 ></font-awesome-icon>
             </jet-button>
         </inertia-link>

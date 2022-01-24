@@ -12,7 +12,7 @@
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white shadow-sm sm:rounded-lg">
-                    <div class="p-6 bg-[#60baad] border-b border-gray-200">
+                    <div class="p-6 border-b border-gray-200">
                         <div class="flex mb-2">
                             <label for="only_madrasa" class="btn bg-cyan-500 shadow-lg shadow-cyan-500/50">
                                 <input type="checkbox" value="1" id="only_madrasa" v-model="only_madrasa" @change="search">

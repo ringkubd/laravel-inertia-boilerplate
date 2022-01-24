@@ -112,7 +112,7 @@
                                 {{student.polytechnic ? student.polytechnic.name : ""}}
                             </td>
                             <td>
-                                {{ student.semester }}
+                                {{ student.polytechnic_completed == 1 ? "Passed" : student.semester }}
                             </td>
                             <td>
                                 <Actions :can="can" :deleteUrl="route('polytechnic.student.destroy', student.id)" :editUrl="route('polytechnic.student.edit', student.id)" :isDetails="true" :detailUrl="route('madrasa.student.show', student.id)"></Actions>

@@ -9,7 +9,8 @@ use ConfigEditor;
 class SettingsController extends Controller
 {
     public function index(){
-        $configTable = ConfigEditor::getConfigFormAsTable('database');
+        $configTable = ConfigEditor::getConfigAsSingleArray('database');
+        dd($configTable);
         return Inertia::render('Settings/Index', [
             'configs' => $configTable
         ]);

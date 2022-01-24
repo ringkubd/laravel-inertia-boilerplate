@@ -25,6 +25,12 @@ class ConfigEditor extends Repository
         return $table;
     }
 
+    /**
+     * @param $config
+     * @param $parentKey
+     * @return $this
+     */
+
     private function generateTd($config, $parentKey=""){
         $tr = "";
         foreach ($config as $k => $v){
@@ -46,10 +52,21 @@ class ConfigEditor extends Repository
         return $this;
     }
 
-    public function getConfigAsSingleArray($fileName, $parentKey=""){
+    /**
+     * @param $fileName
+     * @param $parentKey
+     * @return void
+     */
+
+    public function getConfigAsSingleArray($fileName, Array $classes=[]){
         $configArray = config($fileName, []);
+        $array = $this->generateArray($configArray);
+        return $this->singleArray;
+    }
+
+    private function generateArray($config, $parentKey=""){
         $singleArray = [];
-        foreach ($configArray as $k => $v){
+        foreach ($config as $k => $v){
             if (is_array($v)) {
                 if ($parentKey != "") {
                     $k = $parentKey.'.'.$k;
@@ -58,12 +75,10 @@ class ConfigEditor extends Repository
                 continue;
             }else{
                 $abc = $parentKey != "" ? $parentKey.'.' : "";
-                $tr .= "<tr>";
-                $tr .= "<th>{$abc}{$k}</th>";
-                $tr .= "<td><input type='text' class='form-control' name='{$abc}{$k}' ref='input' value='{$v}' /> </td>";
-                $tr .= "<tr>";
+                $singleArray["{$abc}{$k}"] = $v;
             }
         }
-        $this->tr .= $tr;
+        $this->singleArray = array_merge($this->singleArray,$singleArray);
+        return $this;
     }
 }

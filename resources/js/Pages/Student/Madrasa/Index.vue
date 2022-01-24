@@ -72,6 +72,7 @@
                             <th>Father</th>
                             <th>Trade</th>
                             <th>Madrasa</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -109,6 +110,9 @@
                             </td>
                             <td>
                                 {{student.madrasha ? student.madrasha.name : ""}}
+                            </td>
+                            <td>
+                                {{ student.madrasa_completed == 1 ? "Complete" : "Continue" }}
                             </td>
                             <td>
                                 <Actions :can="can" :deleteUrl="route('madrasa.student.destroy', student.id)" :editUrl="route('madrasa.student.edit', student.id)" :isDetails="true" :detailUrl="route('madrasa.student.show', student.id)"></Actions>

@@ -102,6 +102,10 @@ class ResultController extends Controller
             $student = Student::find($student_id);
             $student->classroom()->sync($classRoom->id);
         }
+        if ($request->semester == 8 && $request->status == "Passed") {
+            $student = Student::find($student_id);
+            $student->update(['polytechnic_completed' => 1]);
+        }
 
         $fileName = [];
         $result_request = $request->all();

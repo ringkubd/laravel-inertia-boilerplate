@@ -9,7 +9,7 @@
         <div class="container-fluid">
             <div class="card mt-1 min-vh-100">
                 <div class="card-header">
-                    <CardHeader :can="can" :search-method="search">
+                    <CardHeader :can="can">
                         <template #first>
                             <div class="flex text-center">
                                 <Back :back-url="route('invoice.index')"></Back>
@@ -49,10 +49,11 @@
                     </CardHeader>
                 </div>
                 <div class="card-body table-responsive">
-                    <table class="table table-secondary table-bordered text-center">
+                    <table class="table table-secondary table-bordered">
                         <thead>
                         <tr>
                             <th rowspan="2">Sl.#</th>
+                            <th rowspan="2">Billable</th>
                             <th rowspan="2">Name</th>
                             <th rowspan="2">IBBL Branch</th>
                             <th rowspan="2">IBBL Account</th>
@@ -69,17 +70,22 @@
                         <tbody>
                         <tr v-for="(student, index) in students">
                             <td>{{ index + 1 }}</td>
+                            <td class="text-center">
+                                <input type="checkbox" v-model="selected_student[student.id]" class="rounded-full">
+                            </td>
                             <td>{{ student.name }}</td>
                             <td>{{ student.bank_branch }}</td>
-                            <td>{{ student.bank_account }}</td>
-                            <td v-for="fee in student.fees">{{ fee.amount }}</td>
-                            <td>{{ individualTotal(student.fees) }}</td>
+                            <td class="text-center">{{ student.bank_account }}</td>
+                            <td class="text-center" v-for="fee in student.fees">
+                                {{ isPaid(student.invoice_details, fee.fee_type).length === 0 ?  fee.amount : 0}}
+                            </td>
+                            <td class="text-center">{{ individualTotal(student.fees, student.invoice_details) }}</td>
                         </tr>
                         </tbody>
                         <tfoot>
                         <tr>
-                            <td :colspan="4+ (feeTypes != null ? feeTypes.length : 0)" style="text-align: right">Total</td>
-                            <td>{{ totalInvoiceAmount() }}</td>
+                            <td :colspan="5+ (feeTypes != null ? feeTypes.length : 0)" style="text-align: right">Total</td>
+                            <td class="text-center">{{ totalInvoiceAmount() }}</td>
                         </tr>
                         </tfoot>
                     </table>
@@ -122,16 +128,31 @@ export default {
             invoice_month: GET('invoice_month')[0],
             billableFee: {
 
+            },
+            selected_student: {
+
             }
         }
     },
     methods: {
-        individualTotal(fees){
+        isPaid(invoiceDetails, fee_type){
+            const _this = this
+            const details = invoiceDetails.filter((details) => {
+                return fee_type === details.fee_type && (fee_type !== "MMA" || _this.invoice_month === details.invoice_month)
+            })
+            return details
+        },
+        individualTotal(fees, invoice_details){
             let total = 0;
             const self = this
             fees.map(function (fee) {
-                if(self.billableFee[fee.fee_type]){
-                    total += fee.amount
+                let details = invoice_details.filter(d => {
+                    return fee.fee_type === d.fee_type && (fee.fee_type  !== "MMA" || self.invoice_month === d.invoice_month)
+                })
+                if (details.length === 0){
+                    if(self.billableFee[fee.fee_type]){
+                        total += fee.amount
+                    }
                 }
             })
             return total
@@ -141,10 +162,14 @@ export default {
             const self = this
             this.students.map(function (student){
                 student.fees.map(function (fee) {
-                    if(self.billableFee[fee.fee_type]){
-                        total += fee.amount
+                    let details = student.invoice_details.filter(d => {
+                        return fee.fee_type === d.fee_type && (fee.fee_type  !== "MMA" || self.invoice_month === d.invoice_month)
+                    })
+                    if (details.length === 0){
+                        if(self.billableFee[fee.fee_type]){
+                            total += fee.amount
+                        }
                     }
-
                 })
             })
             return total;
@@ -163,7 +188,8 @@ export default {
                 'academic_session' : this.academic_session,
                 'semester': this.semester,
                 'invoice_month': this.invoice_month,
-                'billableFee': JSON.stringify(this.billableFee)
+                'billableFee': JSON.stringify(this.billableFee),
+                'selected_students': JSON.stringify(this.selected_student)
             }))
         },
         changeYearMonth(date){
@@ -179,6 +205,12 @@ export default {
         if (this.feeTypes){
             this.feeTypes.map(function (fee) {
                 billableFee[fee.fee_type] = true
+            })
+        }
+        let selected_student = this.selected_student
+        if (this.students){
+            this.students.map((student) => {
+                selected_student[student.id] = true
             })
         }
 

@@ -28,6 +28,6 @@ class SupportNotificationMail extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->subject("New Message")->markdown('emails.support.notification');
+        return $this->subject("New Message in Madrasah Program Website")->markdown('emails.support.notification');
     }
 }

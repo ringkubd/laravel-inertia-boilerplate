@@ -1415,6 +1415,30 @@ select {
   --tw-bg-opacity: 1;
   background-color: rgb(34 197 94 / var(--tw-bg-opacity));
 }
+.bg-amber-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 243 199 / var(--tw-bg-opacity));
+}
+.bg-gray-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(75 85 99 / var(--tw-bg-opacity));
+}
+.bg-green-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(22 163 74 / var(--tw-bg-opacity));
+}
+.bg-\[\#002147\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 33 71 / var(--tw-bg-opacity));
+}
+.bg-amber-200 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(253 230 138 / var(--tw-bg-opacity));
+}
+.bg-amber-400 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(251 191 36 / var(--tw-bg-opacity));
+}
 .bg-gradient-to-r {
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
 }
@@ -1435,12 +1459,12 @@ select {
   --tw-gradient-from: #7AE5F5;
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(122 229 245 / 0));
 }
-.from-\[\#60BAAD\] {
-  --tw-gradient-from: #60BAAD;
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(96 186 173 / 0));
-}
 .from-\[\#60baad\] {
   --tw-gradient-from: #60baad;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(96 186 173 / 0));
+}
+.from-\[\#60BAAD\] {
+  --tw-gradient-from: #60BAAD;
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(96 186 173 / 0));
 }
 .from-\[\#198754\] {
@@ -1495,11 +1519,11 @@ select {
 .to-green-600 {
   --tw-gradient-to: #16a34a;
 }
-.to-\[\#60BAAD\] {
-  --tw-gradient-to: #60BAAD;
-}
 .to-\[\#60baad\] {
   --tw-gradient-to: #60baad;
+}
+.to-\[\#60BAAD\] {
+  --tw-gradient-to: #60BAAD;
 }
 .to-\[\#36AFAD\] {
   --tw-gradient-to: #36AFAD;
@@ -1876,6 +1900,14 @@ select {
   --tw-text-opacity: 1;
   color: rgb(34 197 94 / var(--tw-text-opacity));
 }
+.text-red-900 {
+  --tw-text-opacity: 1;
+  color: rgb(127 29 29 / var(--tw-text-opacity));
+}
+.text-red-300 {
+  --tw-text-opacity: 1;
+  color: rgb(252 165 165 / var(--tw-text-opacity));
+}
 .underline {
   text-decoration: underline;
 }
@@ -2080,7 +2112,7 @@ select {
 /*    text-align:center;*/
 /*}*/
 .card{
-    background-image: linear-gradient(to bottom,#36AFAD, #27a11142);
+    /*background-image: linear-gradient(to bottom,#36AFAD, #27a11142);*/
     background-size:200% 200%;
     background-position: left center;
     /*animation: gradient-x 15s ease infinite;*/
@@ -2101,7 +2133,7 @@ select {
     /*animation: gradient-x 15s ease infinite!important;*/
 }
 table thead tr {
-    background-image: linear-gradient(to bottom right,#36AFAD, #27a11142, #56d598)!important;
+    /*background-image: linear-gradient(to bottom right,#36AFAD, #27a11142, #56d598)!important;*/
     background-size:200% 200%!important;
     background-position: left center!important;
     -webkit-animation: gradient-x 15s ease infinite!important;
@@ -2168,6 +2200,10 @@ table thead tr {
 .hover\:bg-green-400:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(74 222 128 / var(--tw-bg-opacity));
+}
+.hover\:bg-gray-500:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(107 114 128 / var(--tw-bg-opacity));
 }
 .hover\:text-gray-500:hover {
   --tw-text-opacity: 1;
@@ -2269,6 +2305,10 @@ table thead tr {
   --tw-bg-opacity: 1;
   background-color: rgb(249 250 251 / var(--tw-bg-opacity));
 }
+.focus\:bg-gray-600:focus {
+  --tw-bg-opacity: 1;
+  background-color: rgb(75 85 99 / var(--tw-bg-opacity));
+}
 .focus\:text-gray-700:focus {
   --tw-text-opacity: 1;
   color: rgb(55 65 81 / var(--tw-text-opacity));
@@ -2339,6 +2379,10 @@ table thead tr {
 .active\:text-gray-500:active {
   --tw-text-opacity: 1;
   color: rgb(107 114 128 / var(--tw-text-opacity));
+}
+.active\:text-black:active {
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity));
 }
 .disabled\:opacity-25:disabled {
   opacity: 0.25;
@@ -2545,6 +2589,9 @@ table thead tr {
   }
   .md\:flex-none {
     flex: none;
+  }
+  .md\:flex-1 {
+    flex: 1 1 0%;
   }
   .md\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));

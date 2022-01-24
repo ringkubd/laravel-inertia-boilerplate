@@ -189,4 +189,11 @@ class MadrasahResultController extends Controller
             ->doesntHave('madrasahResult')
             ->get();
     }
+
+    /**
+     * Individual Student
+     */
+    public function student(Student $student){
+        return $student;
+    }
 }

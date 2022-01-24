@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use App\Models\InvoiceDetail;
+use Ramsey\Uuid\Rfc4122\UuidV4;
 use function Aws\map;
 
 class InvoiceController extends Controller
@@ -60,13 +61,10 @@ class InvoiceController extends Controller
         $students = Student::query()
             ->where('polytechnic_session', "$request->polytechnic_session")
             ->with(['fees' => function($q) use ($request){
-                $q->where('semester', $request->semester)
-                    ->where('session', "$request->polytechnic_session");
+                $q->where('fees.semester', $request->semester)
+                    ->selectRaw('fees.*')
+                    ->where('fees.session', "$request->polytechnic_session");
             }])
-            ->whereHas('fees', function ($q) use ($request){
-                $q->where('semester', $request->semester)
-                    ->where('session', "$request->polytechnic_session");
-            })
             ->when($request->semester, function ($q, $v) use($request){
                 if ($v != 1) {
                     $q->whereHas('results', function($q) use($request){
@@ -81,13 +79,12 @@ class InvoiceController extends Controller
                 }
 
             })
-            ->with(['invoiceDetails' => function($q) use ($request){
-                $q->whereHas('invoice', function ($q) use ($request){
-                    $q->where('semester', $request->semester);
-                });
+            ->with(['invoice' => function($q) use($request){
+                $q->where('session', $request->polytechnic_session)
+                    ->where('semester', $request->semester);
             }])
+            ->with('invoiceDetails')
             ->get();
-
         $feeTypes = $students->whereNotNull('fees')->unique('fee_type')->max('fees');
         return Inertia::render('Invoice/Create', [
             'can' => [
@@ -125,6 +122,15 @@ class InvoiceController extends Controller
             }
             return false;
         });
+
+        $selected_student = collect(json_decode($request->selected_students))->toArray();
+        $selected_student = array_filter($selected_student, function ($var){
+            if ($var) {
+                return $var;
+            }
+            return false;
+        });
+
         $students = Student::query()
             ->with(['fees' => function($q) use ($request, $billableFee){
                 $q->where('semester', $request->semester)
@@ -146,13 +152,14 @@ class InvoiceController extends Controller
             })
             ->doesntHave('invoice', 'and',function ($q) use ($request, $billableFee) {
                 $q->where('invoice_month', $request->invoice_month)
-                ->where('semester', $request->semester)
-                ->whereHas('details', function ($q) use ($billableFee) {
-                    $q->whereIn('fee_type', array_keys($billableFee));
-                });
+                    ->where('semester', $request->semester)
+                    ->whereHas('details', function ($q) use ($billableFee) {
+                        $q->whereIn('fee_type', array_keys($billableFee));
+                    });
             })
             ->with('invoice')
             ->where('polytechnic_session', "$request->academic_session")
+            ->whereIn('id', array_keys($selected_student))
             ->get();
 
         $invoiceId = rand(1111,99999);
@@ -163,13 +170,17 @@ class InvoiceController extends Controller
                 $invoiceDetails[] = new InvoiceDetail([
                     'fee_type' => $fee->fee_type,
                     'amount' => $fee->amount,
-                    'invoice' => $invoiceId
+                    'invoice' => $invoiceId,
+                    'student_id' => $student->id,
+                    'invoice_month' => $request->invoice_month,
                 ]);
                 $feeType[] = $fee->fee_type;
             }
 
             $invoice = Invoice::create([
                 'invoice_id' => $invoiceId,
+                'uid' => UuidV4::uuid4()->toString(),
+                'session' => $student->polytechnic_session,
                 'student_id' => $student->id,
                 'student_name' => $student->name,
                 'amount' => $student->fees->sum('amount'),

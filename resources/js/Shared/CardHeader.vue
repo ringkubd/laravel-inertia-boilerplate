@@ -1,7 +1,7 @@
 <template>
     <div class="pt-0 flex flex-col md:flex-row">
         <div class="w-full md:w-1/12 flex-initial" v-if="create">
-            <inertia-link type="button" as="button" class="btn animate-gradient-x bg-gradient-to-r from-[#36AFAD] via-yellow-200 to-[#36C57F]" :href="create" v-if="can.create && create">
+            <inertia-link type="button" as="button" class="btn bg-gradient-to-r from-[#36AFAD] to-[#36C57F]" :href="create" v-if="can.create && create">
                 <font-awesome-icon
                     icon="plus"
                     size="md"

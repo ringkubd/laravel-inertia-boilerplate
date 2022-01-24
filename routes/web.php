@@ -73,6 +73,7 @@ Route::prefix('madrasa')->group(function (){
     Route::resource('student', \App\Http\Controllers\Madrasa\StudentsController::class, ['as' => 'madrasa']);
     Route::resource('result', \App\Http\Controllers\MadrasahResultController::class, ['as' => 'madrasa']);
     Route::get('student_list', [\App\Http\Controllers\MadrasahResultController::class, "studentList"])->name('madrasa.student_list');
+    Route::get('indiv_student/{student}', [\App\Http\Controllers\MadrasahResultController::class, "student"])->name('madrasa.indiv_student');
     Route::get('student_search', [\App\Http\Controllers\Madrasa\StudentsController::class, "search"])->name('madrasah.student.search');
 });
 Route::resource('madrasa', \App\Http\Controllers\MadrasaController::class);

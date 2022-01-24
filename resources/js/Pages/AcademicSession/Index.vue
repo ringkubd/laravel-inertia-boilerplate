@@ -11,7 +11,7 @@
                 <div class="card-header">
                     <CardHeader :can="can" :create="false" :search-method="search">
                         <template #first>
-                            <button id="show-modal" @click="showModal = true" class="btn animate-gradient-x bg-gradient-to-r from-[#36AFAD] via-yellow-200 to-[#36C57F]">
+                            <button id="show-modal" @click="showModal = true" class="btn  bg-gradient-to-r from-[#36AFAD] to-[#36C57F]">
                                 <font-awesome-icon
                                     icon="plus"
                                     size="md"

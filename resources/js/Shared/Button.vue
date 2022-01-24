@@ -10,7 +10,7 @@
             border border-transparent
             rounded-md
             font-semibold
-            text-xs text-white
+            text-xs
             uppercase
             tracking-widest
             hover:bg-gray-700
@@ -19,6 +19,7 @@
             transition
             ease-in-out
             duration-150
+            text-white
         "
     >
         <slot></slot>

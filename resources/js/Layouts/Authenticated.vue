@@ -1,11 +1,11 @@
 <template>
     <Head title="Dashboard"></Head>
-    <div>
+    <div class="bg-indigo-100">
         <chat  v-if="!$page.props.menu_permission.support"/>
         <!--         bg-[#36AFAD]-->
         <div class="min-h-screen">
             <!--     from-[#7AE5F5] via-[#97EBF4] to-[#C9F6FF] to-green-600     via-yellow-50 animate-gradient-x -->
-            <nav class="bg-gradient-to-r from-[#60BAAD] to-[#60BAAD] shadow-lg text-black border-b-4 opacity-100 border-gray-600 sticky top-0 z-50">
+            <nav class="bg-[#002147] shadow-lg text-black border-b-4 opacity-100 border-gray-600 sticky top-0 z-50">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-10xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
@@ -29,7 +29,7 @@
                                 <breeze-nav-link
                                     :href="route('dashboard')"
                                     :active="route().current('dashboard')"
-                                    class="rounded-md py-1"
+                                    class="rounded-md py-1 text-white"
                                 >
                                     Dashboard
                                 </breeze-nav-link>
@@ -49,7 +49,7 @@
                                                     leading-4
                                                     font-medium
                                                     rounded-md
-                                                    text-gray-900
+                                                    text-white
                                                     bg-transparent
                                                     hover:text-gray-700
                                                     focus:outline-none
@@ -109,7 +109,7 @@
                                     </breeze-dropdown>
                                 </div>
 
-                                <div class="hidden sm:flex sm:items-center sm:ml-6"  v-if="$page.props.menu_permission.blog_management">
+                                <div class="hidden sm:flex sm:items-center sm:ml-6 text-white"  v-if="$page.props.menu_permission.blog_management">
                                     <breeze-dropdown align="right" width="48">
                                         <template #trigger>
                                         <span class="inline-flex items-center rounded-md">
@@ -124,7 +124,7 @@
                                                     leading-4
                                                     font-medium
                                                     rounded-md
-                                                    text-gray-900
+                                                    text-white
                                                     bg-transparent
                                                     hover:text-gray-700
                                                     focus:outline-none
@@ -193,7 +193,7 @@
                                                     leading-4
                                                     font-medium
                                                     rounded-md
-                                                    text-gray-900
+                                                    text-white
                                                     bg-transparent
                                                     hover:text-gray-700
                                                     focus:outline-none
@@ -279,7 +279,7 @@
                                                     leading-4
                                                     font-medium
                                                     rounded-md
-                                                    text-gray-900
+                                                    text-white
                                                     bg-transparent
                                                     hover:text-gray-700
                                                     focus:outline-none
@@ -350,7 +350,7 @@
                                                     leading-4
                                                     font-medium
                                                     rounded-md
-                                                    text-gray-900
+                                                    text-white
                                                     bg-transparent
                                                     hover:text-gray-700
                                                     focus:outline-none
@@ -414,7 +414,7 @@
                                                     leading-4
                                                     font-medium
                                                     rounded-md
-                                                    text-gray-900
+                                                    text-white
                                                     bg-transparent
                                                     hover:text-gray-700
                                                     focus:outline-none
@@ -467,7 +467,7 @@
                                     <breeze-nav-link
                                         :href="route('admission.index')"
                                         :active="route().current('admission.index')"
-                                        class="rounded-md text-black-700"
+                                        class="rounded-md text-white"
                                     >
                                         Admission
                                     </breeze-nav-link>
@@ -476,7 +476,7 @@
                                     <breeze-nav-link
                                         :href="route('support.index')"
                                         :active="route().current('support.index')"
-                                        class="rounded-md text-black-700"
+                                        class="rounded-md text-white"
                                         v-if="$page.props.menu_permission.support"
                                     >
                                         Support
@@ -486,7 +486,7 @@
                                     <breeze-nav-link
                                         :href="route('mail.inbox')"
                                         :active="route().current('mail.inbox')"
-                                        class="rounded-md text-black-700"
+                                        class="rounded-md text-white"
                                         v-if="$page.props.menu_permission.student || $page.props.menu_permission.super_admin"
                                     >
                                         Mail
@@ -497,7 +497,7 @@
 
                         <div class="hidden sm:flex sm:items-center sm:ml-6">
                             <div align="left" width="10" class="border-1 border-green-400 border-solid rounded">
-                                <span class="inline-flex border-1px rounded-md"> {{ this.$store.state.onlineFriends.length }} </span>
+                                <span class="inline-flex border-1px rounded-md text-white"> {{ this.$store.state.onlineFriends.length }} </span>
                             </div>
                             <!-- Settings Dropdown -->
                             <div class="ml-3 relative">
@@ -571,10 +571,10 @@
                                     justify-center
                                     p-2
                                     rounded-md
-                                    text-gray-800
-                                    hover:text-gray-500 hover:bg-gray-100
+                                    text-white
+                                    hover:text-gray-500 hover:bg-gray-500
                                     focus:outline-none
-                                    focus:bg-gray-100
+                                    focus:bg-gray-600
                                     focus:text-gray-500
                                     transition
                                     duration-150
@@ -644,7 +644,7 @@
                                                     leading-4
                                                     font-medium
                                                     rounded-md
-                                                    text-gray-900
+                                                    text-white
                                                     bg-transparent
                                                     hover:text-gray-700
                                                     focus:outline-none
@@ -720,7 +720,7 @@
                                                     leading-4
                                                     font-medium
                                                     rounded-md
-                                                    text-gray-900
+                                                    text-white
                                                     bg-transparent
                                                     hover:text-gray-700
                                                     focus:outline-none
@@ -790,7 +790,7 @@
                                                     leading-4
                                                     font-medium
                                                     rounded-md
-                                                    text-gray-900
+                                                    text-white
                                                     bg-transparent
                                                     hover:text-gray-700
                                                     focus:outline-none
@@ -877,7 +877,7 @@
                                                     leading-4
                                                     font-medium
                                                     rounded-md
-                                                    text-gray-900
+                                                    text-white
                                                     bg-transparent
                                                     hover:text-gray-700
                                                     focus:outline-none
@@ -950,7 +950,7 @@
                                                     leading-4
                                                     font-medium
                                                     rounded-md
-                                                    text-gray-900
+                                                    text-white
                                                     bg-transparent
                                                     hover:text-gray-700
                                                     focus:outline-none
@@ -1016,7 +1016,7 @@
                                                     leading-4
                                                     font-medium
                                                     rounded-md
-                                                    text-gray-900
+                                                    text-white
                                                     bg-transparent
                                                     hover:text-gray-700
                                                     focus:outline-none
@@ -1071,7 +1071,7 @@
                             <breeze-nav-link
                                 :href="route('admission.index')"
                                 :active="route().current('admission.index')"
-                                class="rounded-md text-black-700"
+                                class="rounded-md text-white"
                             >
                                 Admission
                             </breeze-nav-link>
@@ -1082,7 +1082,7 @@
                             <breeze-nav-link
                                 :href="route('support.index')"
                                 :active="route().current('support.index')"
-                                class="rounded-md text-black-700"
+                                class="rounded-md text-white"
                                 v-if="$page.props.menu_permission.support"
                             >
                                 Support
@@ -1094,7 +1094,7 @@
                             <breeze-nav-link
                                 :href="route('mail.inbox')"
                                 :active="route().current('mail.inbox')"
-                                class="rounded-md text-black-700"
+                                class="rounded-md text-white"
                                 v-if="$page.props.menu_permission.student || $page.props.menu_permission.super_admin"
                             >
                                 Mail
@@ -1106,10 +1106,10 @@
                     <!-- Responsive Settings Options -->
                     <div class="pt-4 pb-1 border-t border-gray-200">
                         <div class="px-4">
-                            <div class="font-medium text-base text-gray-800">
+                            <div class="font-medium text-base text-white">
                                 {{ $page.props.auth.user.name }}
                             </div>
-                            <div class="font-medium text-sm text-gray-500">
+                            <div class="font-medium text-sm text-white">
                                 {{ $page.props.auth.user.email }}
                             </div>
                         </div>
@@ -1119,6 +1119,7 @@
                                 :href="route('logout')"
                                 method="post"
                                 as="button"
+                                class="text-white"
                             >
                                 Log Out
                             </breeze-responsive-nav-link>
@@ -1153,7 +1154,7 @@
                 <slot :onlineFriends="onlineFriends" :offlineFriends="offlineFriends" />
             </main>
         </div>
-        <footer class="bg-gradient-to-br from-[#60baad] to-[#60baad]  animate-gradient-x shadow-lg text-black border-b-4 opacity-100 border-gray-600">
+        <footer class="animate-gradient-x shadow-lg text-black border-b-4 opacity-100 border-gray-600">
             <div class="container max-w-6xl mx-auto flex items-center px-2 py-8">
 
                 <div class="w-full mx-auto flex flex-wrap items-center">
@@ -1163,7 +1164,7 @@
                         </a>
                     </div>
                     <div class="flex w-full pt-2 content-center justify-between md:w-1/2 md:justify-end">
-                        <ul class="list-reset flex justify-center flex-1 md:flex-none items-center">
+                        <ul class="list-reset flex justify-center flex-col md:flex-1 md:flex-none items-center">
                             <li>
                                 <a class="inline-block py-2 px-3 no-underline" href="index.html">HOME</a>
                             </li>

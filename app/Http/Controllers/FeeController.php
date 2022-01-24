@@ -105,6 +105,9 @@ class FeeController extends Controller
                     'trade' =>  $trade->name,
                     'semester' =>  $request->semester,
                     'fee_type' =>  $request->fee_type,
+                    'institute' =>  $request->institute,
+                    'board' =>  $request->board,
+                    'student' =>  $request->student,
                     'amount' =>  $request->amount,
                 ]);
             }
@@ -114,6 +117,9 @@ class FeeController extends Controller
                 'trade' =>  $request->trade,
                 'semester' =>  $request->semester,
                 'fee_type' =>  $request->fee_type,
+                'institute' =>  $request->institute,
+                'board' =>  $request->board,
+                'student' =>  $request->student,
                 'amount' =>  $request->amount,
             ]);
         }
@@ -186,6 +192,9 @@ class FeeController extends Controller
             'trade' =>  $request->trade,
             'semester' =>  $request->semester,
             'fee_type' =>  $request->fee_type,
+            'institute' =>  $request->institute,
+            'board' =>  $request->board,
+            'student' =>  $request->student,
             'amount' =>  $request->amount,
         ]);
         return redirect()->route('fee.index')->withSuccess("Fee Updated successfully.");

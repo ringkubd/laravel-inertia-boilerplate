@@ -67,7 +67,7 @@
 /*}*/
 
 .card{
-    background-image: linear-gradient(to bottom,#36AFAD, #27a11142);
+    /*background-image: linear-gradient(to bottom,#36AFAD, #27a11142);*/
     background-size:200% 200%;
     background-position: left center;
     /*animation: gradient-x 15s ease infinite;*/
@@ -89,7 +89,7 @@
     /*animation: gradient-x 15s ease infinite!important;*/
 }
 table thead tr {
-    background-image: linear-gradient(to bottom right,#36AFAD, #27a11142, #56d598)!important;
+    /*background-image: linear-gradient(to bottom right,#36AFAD, #27a11142, #56d598)!important;*/
     background-size:200% 200%!important;
     background-position: left center!important;
     animation: gradient-x 15s ease infinite!important;

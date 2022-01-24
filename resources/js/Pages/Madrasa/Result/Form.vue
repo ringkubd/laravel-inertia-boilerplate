@@ -11,6 +11,7 @@
                             <div class="row mb-4">
                                 <div class="col" v-if="createForm">
                                     <label for="student_id">Student</label>
+                                    <span class="font-bold ml-2">{{ student_session }}</span>
                                     <Multiselect
                                         id="student_id"
                                         v-model="form.student_id"
@@ -19,6 +20,7 @@
                                         :delay="0"
                                         :searchable="true"
                                         mode="single"
+                                        @select="studentSession"
                                         :options="async function(query) {
                                                     return await selectChangeEvent(query)
                                                 }"
@@ -87,7 +89,8 @@ export default {
                 pass_year: this.dbValue.pass_year,
                 status: this.dbValue.status,
             },
-            createForm: this.createForm
+            createForm: this.createForm,
+            student_session: ""
         }
     },
     methods: {
@@ -109,16 +112,15 @@ export default {
             const response = await fetch(route('madrasa.student_list', where))
             const data = await response.json();
             return data;
+        },
+        async studentSession(e){
+            const studentInfo = await fetch(route('madrasa.indiv_student', this.form.student_id)).then(r => r.json())
+            this.student_session = studentInfo.ssc_session
         }
     },
-    mounted() {
-        console.log(this.errors)
-    },
-    updated() {
-    },
-    beforeMount() {
+   computed: {
 
-    }
+   }
 }
 </script>
 <style src="@vueform/multiselect/themes/default.css"></style>
