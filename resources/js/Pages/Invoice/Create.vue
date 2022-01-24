@@ -72,7 +72,7 @@
                         <tr v-for="(student, index) in students">
                             <td>{{ index + 1 }}</td>
                             <td class="text-center">
-                                <input type="checkbox" ref="selectedStudent" checked v-model="selected_student[student.id]" class="rounded-full">
+                                <input type="checkbox" ref="selectedStudent" :checked="allSelectedStudents" v-model="selected_student[student.id]" class="rounded-full">
                             </td>
                             <td>{{ student.name }}</td>
                             <td>{{ student.bank_branch }}</td>
@@ -133,7 +133,7 @@ export default {
             selected_student: {
 
             },
-            allSelectedStudents: true
+            allSelectedStudents: false
         }
     },
     methods: {
@@ -210,7 +210,6 @@ export default {
                 selected_student = {}
             }
             this.selected_student = selected_student
-            console.log(selected_student)
         }
     },
     computed:{
@@ -222,12 +221,12 @@ export default {
                 billableFee[fee.fee_type] = true
             })
         }
-        let selected_student = this.selected_student
-        if (this.students){
-            this.students.map((student) => {
-                selected_student[student.id] = true
-            })
-        }
+        // let selected_student = this.selected_student
+        // if (this.students){
+        //     this.students.map((student) => {
+        //         selected_student[student.id] = true
+        //     })
+        // }
 
     }
 }
