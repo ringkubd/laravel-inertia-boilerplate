@@ -49,11 +49,12 @@
                     </CardHeader>
                 </div>
                 <div class="card-body table-responsive">
-                    <table class="table table-secondary table-bordered">
+                    <table class="table table-secondary table-bordered table-auto">
                         <thead>
-                        <tr>
+                        <tr class="align-middle">
                             <th rowspan="2">Sl.#</th>
-                            <th rowspan="2">Billable</th>
+                            <th rowspan="2">Billable <br>
+                                <input type="checkbox" class="rounded-full" v-model="allSelectedStudents" @change="allSelectedStudent"></th>
                             <th rowspan="2">Name</th>
                             <th rowspan="2">IBBL Branch</th>
                             <th rowspan="2">IBBL Account</th>
@@ -71,7 +72,7 @@
                         <tr v-for="(student, index) in students">
                             <td>{{ index + 1 }}</td>
                             <td class="text-center">
-                                <input type="checkbox" checked v-model="selected_student[student.id]" class="rounded-full">
+                                <input type="checkbox" ref="selectedStudent" checked v-model="selected_student[student.id]" class="rounded-full">
                             </td>
                             <td>{{ student.name }}</td>
                             <td>{{ student.bank_branch }}</td>
@@ -131,7 +132,8 @@ export default {
             },
             selected_student: {
 
-            }
+            },
+            allSelectedStudents: true
         }
     },
     methods: {
@@ -195,10 +197,23 @@ export default {
         changeYearMonth(date){
             let invoice_month = date.month+" "+date.year
             this.invoice_month = invoice_month
+        },
+        allSelectedStudent(){
+            let selected_student = this.selected_student
+            if(this.allSelectedStudents){
+                if (this.students){
+                    this.students.map((student) => {
+                        selected_student[student.id] = true
+                    })
+                }
+            }else {
+                selected_student = {}
+            }
+            this.selected_student = selected_student
+            console.log(selected_student)
         }
     },
-    computed(){
-
+    computed:{
     },
     mounted() {
         let billableFee= this.billableFee

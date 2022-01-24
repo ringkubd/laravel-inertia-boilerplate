@@ -62,7 +62,6 @@ class InvoiceController extends Controller
             ->where('polytechnic_session', "$request->polytechnic_session")
             ->with(['fees' => function($q) use ($request){
                 $q->where('fees.semester', $request->semester)
-                    ->selectRaw('fees.*')
                     ->where('fees.session', "$request->polytechnic_session");
             }])
             ->when($request->semester, function ($q, $v) use($request){
@@ -150,18 +149,9 @@ class InvoiceController extends Controller
                         $q->where('status','!=','Dropout')->where('semester', $request->semester);
                     })->where('polytechnic_session', "$request->academic_session");
             })
-            ->doesntHave('invoice', 'and',function ($q) use ($request, $billableFee) {
-                $q->where('invoice_month', $request->invoice_month)
-                    ->where('semester', $request->semester)
-                    ->whereHas('details', function ($q) use ($billableFee) {
-                        $q->whereIn('fee_type', array_keys($billableFee));
-                    });
-            })
-            ->with('invoice')
             ->where('polytechnic_session', "$request->academic_session")
             ->whereIn('id', array_keys($selected_student))
             ->get();
-
         $invoiceId = rand(1111,99999);
         foreach($students as $student){
             $invoiceDetails = [];
