@@ -71,7 +71,7 @@
                         <tr v-for="(student, index) in students">
                             <td>{{ index + 1 }}</td>
                             <td class="text-center">
-                                <input type="checkbox" v-model="selected_student[student.id]" class="rounded-full">
+                                <input type="checkbox" checked v-model="selected_student[student.id]" class="rounded-full">
                             </td>
                             <td>{{ student.name }}</td>
                             <td>{{ student.bank_branch }}</td>

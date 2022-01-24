@@ -1,27 +1,27 @@
 <template>
     <div>
 <!--        bg-gradient-to-r from-[#60BAAD] to-[#60BAAD] shadow-lg text-black border-b-4 opacity-100 border-gray-600 sticky top-0 z-50-->
-        <nav class="bg-gradient-to-r from-[#60BAAD] to-[#60BAAD] shadow-lg">
+        <nav class="bg-[#002147] shadow-lg">
             <div class="max-w-6xl mx-auto px-4 sm:hidden md:flex ">
                 <div class="sm:hidden md:flex justify-between">
                     <div class="sm:hidden md:flex space-x-7">
                         <!--Website Logo-->
-                        <inertia-link :href="route('dashboard')" class="hidden md:flex text-sm text-gray-700 underline mb-2">
+                        <inertia-link :href="route('dashboard')" class="hidden md:flex text-sm text-white underline mb-2">
                             <ApplicationLogo/>
                         </inertia-link>
                     </div>
                     <div class="hidden md:flex items-center space-x-1">
                         <div v-if="canLogin" class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
-                            <inertia-link v-if="$page.props.auth.user" href="/dashboard" class="text-sm text-gray-700 underline">
+                            <inertia-link v-if="$page.props.auth.user" href="/dashboard" class="text-sm text-white underline">
                                 Dashboard
                             </inertia-link>
 
                             <template v-else>
-                                <inertia-link :href="route('login')" class="text-sm text-gray-700 underline">
+                                <inertia-link :href="route('login')" class="text-sm text-white underline">
                                     Log in
                                 </inertia-link>
 
-                                <inertia-link v-if="canRegister" :href="route('register')" class="ml-4 text-sm text-gray-700 underline">
+                                <inertia-link v-if="canRegister" :href="route('register')" class="ml-4 text-sm text-white underline">
                                     Register
                                 </inertia-link>
                             </template>
