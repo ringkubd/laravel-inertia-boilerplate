@@ -23,53 +23,87 @@
                         <thead>
                         <tr>
                             <th :colspan="6+ (feeTypes != null ? feeTypes.length : 0)" rowspan="4">
-                                Invoice
+                                Annex - A
+                                <p style="padding: 0!important; margin: 0!important;">Academic Year: {{ basicInfo.session }}</p>
                                 <br>
-                                <div class="text-left">
+                                <div class="text-left" style="text-align: left">
+                                    Semester: <span class="font-normal ml-5">{{ basicInfo.semester }}</span>
+                                    <br>
                                     Invoice: <span class="font-normal ml-5">{{ basicInfo.invoice_id }}</span>
                                     <br>
                                     Date: <span class="font-normal ml-5">{{ basicInfo.invoice_date }}</span>
+                                    <div v-if="last_mma != 0">
+                                        <br>
+                                        MMA No. : {{ last_mma }}
+                                    </div>
                                 </div>
                             </th>
                         </tr>
                         </thead>
                         <thead>
-                        <tr>
+                        <tr class="align-middle" style="background-color: #e0d5d5!important;">
                             <th rowspan="2">Sl.#</th>
                             <th rowspan="2">Name</th>
                             <th rowspan="2">Trade</th>
                             <th rowspan="2">IBBL Branch</th>
                             <th rowspan="2">IBBL Account</th>
                             <th :colspan="feeTypes != null ? feeTypes.length : 0">Tuition Fees</th>
-                            <th rowspan="2">Amount</th>
+                            <th rowspan="2">Total</th>
                         </tr>
-                        <tr>
+                        <tr style="background-color: #e0d5d5!important;">
                             <th v-for="feeType in feeTypes">
                                 {{feeType}}
                             </th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="font-mono">
                         <tr v-for="(invoice, index) in data">
-                            <td>{{ index + 1 }}</td>
-                            <td>{{ invoice.student_name }}</td>
-                            <td>{{ getFirstWord(invoice.student.polytechnic_trade_id) }}</td>
-                            <td>{{ getFirstWord(invoice.bank_branch, ',') }}</td>
+                            <td class="text-center">{{ index + 1 }}</td>
+                            <td style="width: 20%!important;">{{ invoice.student_name }}</td>
+                            <td style="width: 10%!important;">{{ getFirstWord(invoice.student.polytechnic_trade_id) }}</td>
+                            <td style="width: 15%!important;">{{ getFirstWord(invoice.bank_branch, ',') }}</td>
                             <td>{{ invoice.bank_account }}</td>
-                            <td v-for="fee in invoice.details">{{ fee.amount }}</td>
-                            <td>{{invoice.amount}}</td>
+                            <td class="text-center" v-for="fee in invoice.details">{{ fee.amount }}</td>
+                            <td class="text-center">{{invoice.amount}}</td>
                         </tr>
                         </tbody>
-                        <tfoot>
-                        <tr>
-                            <td :colspan="5+ (feeTypes != null ? feeTypes.length : 0)" class="total" style="text-align: right">Total</td>
-                            <td>{{totalInvoiceAmount()}}</td>
+                        <tfoot style="border-top: 2px solid gray!important;">
+                        <tr rowspan="2" style="border-top: 2px solid gray!important; color: black!important; font-weight: 600">
+                            <th :colspan="5+ (feeTypes != null ? feeTypes.length : 0)" class="total" style="text-align: right">Total</th>
+                            <th class="text-center">{{totalInvoiceAmount()}}</th>
                         </tr>
                         </tfoot>
                     </table>
-                </div>
-                <div class="card-footer">
-
+                    <table class="text-center" style="width: 100%!important; margin-top: 50px!important;text-align: center!important; position:fixed!important; bottom: 0; font-size: small">
+                        <tbody style="text-align: center!important;">
+                        <tr class="text-center border-t border-2">
+                            <td class="text-center" style="margin: 0 2px!important;">
+                                <hr style="color: black!important;">
+                                Jr. Officer (Projects)
+                                <br>
+                                IsDB-BISEW
+                            </td>
+                            <td class="text-center" style="">
+                                <hr>
+                                Program Officer
+                                <br>
+                                IsDB-BISEW
+                            </td>
+                            <td class="text-center" style="">
+                                <hr>
+                                Program Coordinator
+                                <br>
+                                IsDB-BISEW
+                            </td>
+                            <td class="text-center" style="">
+                                <hr>
+                                Chief Executive Officer
+                                <br>
+                                IsDB-BISEW
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -83,7 +117,7 @@ import Back from "@/Shared/Back";
 import Button from "@/Shared/Button";
 export default {
     name: "Invoice",
-    props: ['can', 'errors', 'data', 'feeTypes', 'basicInfo'],
+    props: ['can', 'errors', 'data', 'feeTypes', 'basicInfo', 'last_mma'],
     components: {Button, Back, CardHeader, Authenticated},
     methods: {
         search(params){

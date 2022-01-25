@@ -203,7 +203,13 @@ class InvoiceController extends Controller
             ->with('student')
             ->get();
         $basicInfo = $invoice->first();
+        $lastMma = 0;
         $feeTypes = $invoice->whereNotNull('details')->first()->details->pluck('fee_type');
+
+        if (in_array('MMA', $feeTypes->toArray())) {
+            $lastMma = lastMmaNo($basicInfo->session, $basicInfo->semester);
+        }
+
         return Inertia::render('Invoice/Invoice', [
             'can' => [
                 'create' => auth()->user()->can('create_invoice'),
@@ -213,7 +219,8 @@ class InvoiceController extends Controller
             ],
             'data' => $invoice,
             'feeTypes' => $feeTypes,
-            'basicInfo' => $basicInfo
+            'basicInfo' => $basicInfo,
+            'last_mma' => $lastMma
         ]);
     }
 

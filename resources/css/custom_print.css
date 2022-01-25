@@ -1,14 +1,14 @@
 @import "app.css";
 .table > :not(caption) > * > *{
-    padding: 0px!important;
-    border-width: thin;
+    padding: 2px!important;
+    border-width: 0px;
     border-style: solid;
     border-color: gray;
     font-size: x-small;
 }
 tr th{
     vertical-align: middle;
-    border-width: thin!important;
+    border-width: 0px!important;
     border-style: solid!important;
     border-color: gray!important;
 }
@@ -25,4 +25,10 @@ thead{
 }
 .total{
     text-align: right!important;
+}
+.text-center{
+    text-align: center!important;
+}
+td{
+    padding: 2px!important;
 }
