@@ -20,6 +20,7 @@
                             <th>Sl.#</th>
                             <th>Invoice ID.</th>
                             <th>Invoice Month</th>
+                            <th>Invoice Type</th>
                             <th>Invoice Date</th>
                             <th>Total Amount</th>
                             <th>Action</th>
@@ -30,6 +31,7 @@
                             <td>{{ index + 1 }}</td>
                             <td>{{ invoice.invoice_id }}</td>
                             <td>{{ invoice.invoice_month }}</td>
+                            <td>{{ JSON.parse(invoice.fee_type).toString() }}</td>
                             <td>{{ invoice.invoice_date }}</td>
                             <td>{{ invoice.total_amount }}</td>
                             <td>
