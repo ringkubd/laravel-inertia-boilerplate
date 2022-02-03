@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class InvoiceFeeType extends Migration
+class InvoiceModificationAddNoteSheet extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,10 @@ class InvoiceFeeType extends Migration
     public function up()
     {
         Schema::table('invoices', function (Blueprint $table) {
-            $table->json('fee_type')->after('amount');
+            $table->unsignedBigInteger('notesheet_id')->nullable();
+            $table->foreign('notesheet_id')->references('id')->on('notesheets');
+            $table->integer('page_no')->nullable();
+            $table->integer('serial_no')->nullable();
         });
     }
 
@@ -26,7 +29,9 @@ class InvoiceFeeType extends Migration
     public function down()
     {
         Schema::table('invoices', function (Blueprint $table) {
-            $table->dropColumn('fee_type');
+            $table->dropColumn('notesheet_id');
+            $table->dropColumn('page_no');
+            $table->dropColumn('serial_no');
         });
     }
 }

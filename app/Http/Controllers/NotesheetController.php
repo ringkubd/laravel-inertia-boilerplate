@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Invoice;
 use App\Models\Notesheet;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class NotesheetController extends Controller
 {
@@ -14,7 +16,11 @@ class NotesheetController extends Controller
      */
     public function index()
     {
-        //
+        $invoice = Invoice::query()
+            ->whereNull('notesheet_id')->get();
+        return Inertia::render('NoteSheet/Index', [
+            'invoices' => $invoice
+        ]);
     }
 
     /**

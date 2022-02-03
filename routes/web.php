@@ -101,6 +101,7 @@ Route::get('search/fee', [\App\Http\Controllers\FeeController::class, 'search'])
 
 // Invoice Management
 Route::resource('invoice', \App\Http\Controllers\InvoiceController::class);
+Route::resource('note_sheet', \App\Http\Controllers\NotesheetController::class);
 
 // Polytechnic Admission Management
 Route::resource('admission', \App\Http\Controllers\AdmissionController::class);
@@ -151,7 +152,8 @@ Route::delete('delete_message/{message}', [\App\Http\Controllers\SupportControll
  * Setting Management
  */
 
-Route::get('config', [\App\Http\Controllers\SettingsController::class, 'index']);
+Route::get('config', [\App\Http\Controllers\SettingsController::class, 'index'])->name('config.index');
+Route::get('config/create', [\App\Http\Controllers\SettingsController::class, 'create'])->name('config.create');
 
 
 // Blog

@@ -14,8 +14,9 @@ class InvoiceModification extends Migration
     public function up()
     {
         Schema::table('invoices', function (Blueprint $table) {
-            $table->string('uid')->unique()->after('invoice_id');
+            $table->string('uid')->after('invoice_id');
             $table->string('session')->after('uid');
+//            $table->unique('uid');
         });
     }
 
@@ -27,7 +28,8 @@ class InvoiceModification extends Migration
     public function down()
     {
         Schema::table('invoices', function (Blueprint $table) {
-            //
+            $table->dropColumn('uid');
+            $table->dropColumn('session');
         });
     }
 }

@@ -28,7 +28,7 @@ class ModifyAdmissionTableDropAdmissionFee extends Migration
     public function down()
     {
         Schema::table('admissions', function (Blueprint $table) {
-            //
+            $table->dropColumn('supporting_documents');
         });
     }
 }

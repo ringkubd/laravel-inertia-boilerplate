@@ -26,6 +26,7 @@
     "browser-sync": "^2.27.4",
     "browser-sync-webpack-plugin": "^2.3.0",
     "bulma": "^0.9.3",
+    "codemirror-editor-vue3": "^1.0.1",
     "docxtemplater": "^3.23.2",
     "jquery": "^3.6.0",
     "laravel-echo": "^1.11.2",

@@ -28,7 +28,8 @@ class ModifyInvoiceDetails extends Migration
     public function down()
     {
         Schema::table('invoice_details', function (Blueprint $table) {
-            //
+            $table->dropColumn('student_id');
+            $table->dropColumn('invoice_month');
         });
     }
 }

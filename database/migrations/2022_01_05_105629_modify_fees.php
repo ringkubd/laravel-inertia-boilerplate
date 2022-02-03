@@ -28,7 +28,9 @@ class ModifyFees extends Migration
     public function down()
     {
         Schema::table('fees', function (Blueprint $table) {
-            //
+            $table->dropColumn('student');
+            $table->dropColumn('board');
+            $table->dropColumn('institute');
         });
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class StudentTableModification extends Migration
+class ModifyNoteSheet extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class StudentTableModification extends Migration
      */
     public function up()
     {
-        Schema::table('students', function (Blueprint $table) {
-            $table->renameColumn('polytechnic','polytechnic_id');
+        Schema::table('notesheets', function (Blueprint $table) {
+            $table->unsignedBigInteger('invoice_id')->after('serial_no');
         });
     }
 
@@ -25,8 +25,8 @@ class StudentTableModification extends Migration
      */
     public function down()
     {
-        Schema::table('students', function (Blueprint $table) {
-            $table->dropColumn('polytechnic_id');
+        Schema::table('notesheet', function (Blueprint $table) {
+            $table->dropColumn('invoice_id');
         });
     }
 }
