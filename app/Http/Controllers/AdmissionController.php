@@ -33,7 +33,6 @@ class AdmissionController extends Controller
             $admissions = Admission::query()->paginate();
         }
 
-
         $academicSession = AcademicSession::selectRaw('session as text')->get();
 
         return Inertia::render('Admission/Index', [

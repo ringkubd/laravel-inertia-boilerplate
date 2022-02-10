@@ -29,8 +29,6 @@
                                 <div class="text-left" style="text-align: left">
                                     Semester: <span class="font-normal ml-5">{{ basicInfo.semester }}</span>
                                     <br>
-                                    Invoice: <span class="font-normal ml-5">{{ basicInfo.invoice_id }}</span>
-                                    <br>
                                     Date: <span class="font-normal ml-5">{{ basicInfo.invoice_date }}</span>
                                     <div v-if="last_mma != 0">
                                         <br>
@@ -60,8 +58,8 @@
                         <tr v-for="(invoice, index) in data">
                             <td class="text-center">{{ index + 1 }}</td>
                             <td style="width: 20%!important;">{{ invoice.student_name }}</td>
-                            <td style="width: 10%!important;">{{ getFirstWord(invoice.student.polytechnic_trade_id) }}</td>
-                            <td style="width: 15%!important;">{{ getFirstWord(invoice.bank_branch, ',') }}</td>
+                            <td style="width: 15%!important;">{{ getFirstWord(invoice.student.polytechnic_trade_id) }}</td>
+                            <td style="width: 25%!important;">{{ invoice.bank_branch }}</td>
                             <td>{{ invoice.bank_account }}</td>
                             <td class="text-center" v-for="fee in invoice.details">{{ fee.amount }}</td>
                             <td class="text-center">{{invoice.amount}}</td>
@@ -74,9 +72,9 @@
                         </tr>
                         </tfoot>
                     </table>
-                    <table class="text-center" style="width: 100%!important; margin-top: 50px!important;text-align: center!important; position:fixed!important; bottom: 0; font-size: small">
+                    <table class="text-center bg-white print:fixed" style="width: 100%!important; margin-top: 50px!important;text-align: center!important; position:fixed!important; bottom: 0; font-size: small">
                         <tbody style="text-align: center!important;">
-                        <tr class="text-center border-t border-2">
+                        <tr class="text-center border-t-4 border-2">
                             <td class="text-center" style="margin: 0 2px!important;">
                                 <hr style="color: black!important;">
                                 Jr. Officer (Projects)
@@ -95,7 +93,21 @@
                                 <br>
                                 IsDB-BISEW
                             </td>
-                            <td class="text-center" style="">
+                        </tr>
+                        <tr class="text-center border-t-4 border-2" style="padding-top: 50px!important;">
+                            <td class="text-center"  style="padding-top: 50px!important;">
+                                <hr>
+                                Asst. Accounts Officer
+                                <br>
+                                IsDB-BISEW
+                            </td>
+                            <td class="text-center"  style="padding-top: 50px!important;">
+                                <hr>
+                                Accounts Officer
+                                <br>
+                                IsDB-BISEW
+                            </td>
+                            <td class="text-center" style="padding-top: 50px!important;">
                                 <hr>
                                 Chief Executive Officer
                                 <br>

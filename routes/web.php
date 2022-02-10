@@ -101,6 +101,7 @@ Route::get('search/fee', [\App\Http\Controllers\FeeController::class, 'search'])
 
 // Invoice Management
 Route::resource('invoice', \App\Http\Controllers\InvoiceController::class);
+Route::resource('note_sheet_template', \App\Http\Controllers\NoteSheetTemplateController::class);
 Route::resource('note_sheet', \App\Http\Controllers\NotesheetController::class);
 
 // Polytechnic Admission Management
