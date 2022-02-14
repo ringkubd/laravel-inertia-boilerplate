@@ -397,17 +397,26 @@ class StudentsController extends Controller
 
     public function search(Request $request){
         $students =  Student::search($request->search, function ($meilisearch, $query, $options) use($request){
+            $filter = "";
             if ($request->only_polytechnic) {
-                $filter = "";
                 if (auth()->user()->hasRole('Student')) {
                     $madrasahName = auth()->user()?->student_madrasah->first()?->name;
                     $filter = ["madrasah_name='$madrasahName'"];
                 }
                 $options['filter'] = [['polytechnic_name!=null'], ['madrasa_completed=1'], $filter];;
+            }elseif ($request->only_madrasa) {
+                if (auth()->user()->hasRole('Student')) {
+                    $madrasahName = auth()->user()?->student_madrasah->first()?->name;
+                    $filter = ["madrasah_name='$madrasahName'"];
+                }
+                $options['filter'] = [['madrasa_completed=0'], ['madrasah_name!=null'], $filter];
+            }else{
+                if (auth()->user()->hasRole('Student')) {
+                    $madrasahName = auth()->user()?->student_madrasah->first()?->name;
+                    $options['filter'] = [["madrasah_name='$madrasahName'"]];
+                }
             }
-            if ($request->only_madrasa) {
-                $options['filter'] = [['madrasa_completed=0'], ['madrasah_name!=null']];
-            }
+
             $options['attributesToHighlight'] = ["*"];
             return $meilisearch->search($query, $options);
         })->paginate(100);

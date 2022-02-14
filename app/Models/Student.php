@@ -71,7 +71,6 @@ class Student extends Model
         $array = $this->toArray();
         $array['polytechnic_name'] = $this->polytechnic?->name;
         $array['madrasah_name'] = $this->madrasha?->name;
-
         return $array;
     }
 
