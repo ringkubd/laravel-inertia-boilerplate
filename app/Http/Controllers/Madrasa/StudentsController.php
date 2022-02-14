@@ -239,6 +239,9 @@ class StudentsController extends Controller
     public function show($id)
     {
         $student = Student::with('madrasahResult', 'polytechnicResult', 'classroom', 'madrasha', 'polytechnic', 'users')->find($id);
+        if(auth()->user()->hasRole('Student') && $student->users_id != auth()->user()->id){
+            abort(403);
+        }
         return Inertia::render('Student/Profile', [
             'student' => $student
         ]);
@@ -395,7 +398,12 @@ class StudentsController extends Controller
     public function search(Request $request){
         $students =  Student::search($request->search, function ($meilisearch, $query, $options) use($request){
             if ($request->only_polytechnic) {
-                $options['filter'] = [['polytechnic_name!=null'], ['madrasa_completed=1']];;
+                $filter = "";
+                if (auth()->user()->hasRole('Student')) {
+                    $madrasahName = auth()->user()?->student_madrasah->first()?->name;
+                    $filter = ["madrasah_name='$madrasahName'"];
+                }
+                $options['filter'] = [['polytechnic_name!=null'], ['madrasa_completed=1'], $filter];;
             }
             if ($request->only_madrasa) {
                 $options['filter'] = [['madrasa_completed=0'], ['madrasah_name!=null']];

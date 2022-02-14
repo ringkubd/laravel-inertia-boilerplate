@@ -549,6 +549,13 @@
 
                                     <template #content>
                                         <breeze-dropdown-link
+                                            :href="route('madrasa.student.show', $page.props.auth.user.student?.id)"
+                                            v-if="$page.props.menu_permission.student"
+                                            :active="route().current('madrasa.student.show', $page.props.auth.user.student?.id)"
+                                        >
+                                            Profile
+                                        </breeze-dropdown-link>
+                                        <breeze-dropdown-link
                                             :href="route('logout')"
                                             method="post"
                                             as="button"

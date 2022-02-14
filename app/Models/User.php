@@ -42,7 +42,7 @@ class User extends Authenticatable
     protected static function booted()
     {
         static::addGlobalScope("relation", function (Builder $builder){
-            $builder->with('madrasah', 'student','teacher', 'roles');
+            $builder->with('madrasah', 'student','teacher', 'roles', 'student_madrasah');
         });
     }
 
@@ -85,6 +85,10 @@ class User extends Authenticatable
 
     public function madrasah(){
         return $this->belongsTo(Madrasha::class, 'madrasha_id');
+    }
+
+    public function student_madrasah(){
+        return $this->belongsToMany(Madrasha::class, 'students', 'users_id');
     }
 
     public function support(){

@@ -28,9 +28,14 @@ class ResultController extends Controller
                 $q->where('polytechnic_session', $v);
             })
             ->when($request->search, function ($q, $v) {
-                $q->where('polytechnic_session', 'like', "%$v%")
-                    ->orWhere('name', 'like', "%$v%")
-                    ->orWhere('name', 'like', "%$v%");
+                $q->where(function ($q) use ($v){
+                    $q->where('polytechnic_session', 'like', "%$v%")
+                        ->orWhere('name', 'like', "%$v%")
+                        ->orWhere('name', 'like', "%$v%");
+                });
+            })
+            ->when(auth()->user()->hasRole('Student'), function ($q){
+                $q->where('users_id', auth()->user()->id);
             })
             ->paginate(10);
         $sessions = AcademicSession::query()
@@ -186,7 +191,7 @@ class ResultController extends Controller
      */
 
     public function studentList(Request $request){
-        return Student::query()
+        $students = Student::query()
             ->when($request->name, function ($q, $v) {
                 $q->where('name', 'like', "%$v%");
             })
@@ -194,7 +199,11 @@ class ResultController extends Controller
                 $q->where('polytechnic_session', 'like', "%$v%");
             })
             ->select('name as label', 'id as value')
-            ->polytechnic()
-            ->get();
+            ->polytechnic();
+        if (auth()->user()->hasRole('Student')) {
+            $students->where('users_id', auth()->user()->id);
+        }
+        return $students->get();
+
     }
 }

@@ -64,7 +64,7 @@
                                 </ol>
                             </td>
                             <td>
-                                {{ user?.madrasah?.name }}
+                                {{ user?.madrasah?.name ?? user?.student_madrasah[0]?.name }}
                             </td>
                             <td class="flex justify-center">
                                 <Actions

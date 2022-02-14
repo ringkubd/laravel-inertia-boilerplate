@@ -19,10 +19,10 @@
                     </CardHeader>
                 </div>
                 <div class="card-body" id="printme">
-                    <table class="table table-secondary table-bordered">
-                        <thead>
-                        <tr>
-                            <th :colspan="6+ (feeTypes != null ? feeTypes.length : 0)" rowspan="4">
+                    <table class="table table-secondary border-0 print:border-0">
+                        <thead class="border-0 print:border-0">
+                        <tr class="border-0 print:border-0">
+                            <th :colspan="6+ (feeTypes != null ? feeTypes.length : 0)" rowspan="4" class="border-0 print:border-0">
                                 Annex - A
                                 <p style="padding: 0!important; margin: 0!important;">Academic Year: {{ basicInfo.session }}</p>
                                 <br>
@@ -31,15 +31,14 @@
                                     <br>
                                     Date: <span class="font-normal ml-5">{{ basicInfo.invoice_date }}</span>
                                     <div v-if="last_mma != 0">
-                                        <br>
                                         MMA No. : {{ last_mma }}
                                     </div>
                                 </div>
                             </th>
                         </tr>
                         </thead>
-                        <thead>
-                        <tr class="align-middle" style="background-color: #e0d5d5!important;">
+                        <thead class="border-0 print:border-0">
+                        <tr class="align-middle border-0 print:border-0" style="background-color: #e0d5d5!important;">
                             <th rowspan="2">Sl.#</th>
                             <th rowspan="2">Name</th>
                             <th rowspan="2">Trade</th>
@@ -74,44 +73,50 @@
                     </table>
                     <table class="text-center bg-white print:fixed" style="width: 100%!important; margin-top: 50px!important;text-align: center!important; position:fixed!important; bottom: 0; font-size: small">
                         <tbody style="text-align: center!important;">
-                        <tr class="text-center border-t-4 border-2">
-                            <td class="text-center" style="margin: 0 2px!important;">
-                                <hr style="color: black!important;">
+                        <tr>
+                            <td class="text-center flex flex-col justify-center items-center" style="margin: 0 2px!important;">
+                                <hr style="color: black!important;" class="w-1/2">
                                 Jr. Officer (Projects)
                                 <br>
                                 IsDB-BISEW
                             </td>
                             <td class="text-center" style="">
-                                <hr>
+                                <hr style="color: black!important;" class="mx-10">
                                 Program Officer
                                 <br>
                                 IsDB-BISEW
                             </td>
-                            <td class="text-center" style="">
-                                <hr>
-                                Program Coordinator
-                                <br>
-                                IsDB-BISEW
+                            <td>
+                                <div class="text-center flex flex-col justify-center items-center">
+                                    <hr style="color: black!important;" class="w-1/2">
+                                    Program Coordinator
+                                    <br>
+                                    IsDB-BISEW
+                                </div>
                             </td>
                         </tr>
-                        <tr class="text-center border-t-4 border-2" style="padding-top: 50px!important;">
+                        <tr style="padding-top: 50px!important;">
                             <td class="text-center"  style="padding-top: 50px!important;">
-                                <hr>
-                                Asst. Accounts Officer
-                                <br>
-                                IsDB-BISEW
+                                <div class="text-center flex flex-col justify-center items-center">
+                                    <hr style="color: black!important;" class="w-1/2">
+                                    Asst. Accounts Officer
+                                    <br>
+                                    IsDB-BISEW
+                                </div>
                             </td>
                             <td class="text-center"  style="padding-top: 50px!important;">
-                                <hr>
+                                <hr style="color: black!important;" class="mx-10">
                                 Accounts Officer
                                 <br>
                                 IsDB-BISEW
                             </td>
                             <td class="text-center" style="padding-top: 50px!important;">
-                                <hr>
-                                Chief Executive Officer
-                                <br>
-                                IsDB-BISEW
+                                <div class="text-center print:text-center flex print:flex flex-col print:flex-col justify-center print:justify-center items-center print:items-center">
+                                    <hr style="color: black!important;" class="w-1/2 print:w-1/2">
+                                    Chief Executive Officer
+                                    <br>
+                                    IsDB-BISEW
+                                </div>
                             </td>
                         </tr>
                         </tbody>
@@ -154,11 +159,12 @@ export default {
                 ],
                 styles: [
                     '/css/custom_print.css',
+                    '/css/app.css'
                 ]
             }
 
-            this.$htmlToPaper('printme', printOptions, () => {
-                console.log('Printing finished');
+            this.$htmlToPaper('printme', printOptions, (e) => {
+                console.log(this);
             });
         },
         getFirstWord(str, delimter = " ") {

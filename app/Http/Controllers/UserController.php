@@ -23,6 +23,7 @@ class UserController extends Controller
         })->with(['roles' => function($q){
             $q->select('name');
         }])->paginate();
+
         $this->authorize('view_users');
         return Inertia::render('Users/Index', [
             'users' => $users,

@@ -626,6 +626,10 @@ select {
   margin-left: 0.75rem;
   margin-right: 0.75rem;
 }
+.mx-10 {
+  margin-left: 2.5rem;
+  margin-right: 2.5rem;
+}
 .my-3 {
   margin-top: 0.75rem;
   margin-bottom: 0.75rem;
@@ -873,6 +877,9 @@ select {
 .w-12 {
   width: 3rem;
 }
+.w-1\/2 {
+  width: 50%;
+}
 .w-2\/4 {
   width: 50%;
 }
@@ -887,9 +894,6 @@ select {
 }
 .w-36 {
   width: 9rem;
-}
-.w-1\/2 {
-  width: 50%;
 }
 .w-3\/4 {
   width: 75%;
@@ -2370,6 +2374,27 @@ table thead tr {
 @media print {
   .print\:fixed {
     position: fixed;
+  }
+  .print\:flex {
+    display: flex;
+  }
+  .print\:w-1\/2 {
+    width: 50%;
+  }
+  .print\:flex-col {
+    flex-direction: column;
+  }
+  .print\:items-center {
+    align-items: center;
+  }
+  .print\:justify-center {
+    justify-content: center;
+  }
+  .print\:border-0 {
+    border-width: 0px;
+  }
+  .print\:text-center {
+    text-align: center;
   }
 }
 @media (min-width: 640px) {

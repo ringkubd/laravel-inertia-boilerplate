@@ -20,9 +20,14 @@ class Student extends Model
     protected static function booted()
     {
         $user_madrasha = auth()->user()?->madrasha_id;
-        static::addGlobalScope('relation', function (Builder $builder)use($user_madrasha){
-            if ($user_madrasha != null) {
-                $builder->where('madrasha_id', auth()->user()->madrasha_id);
+        $student_madrasah = null;
+        if (auth()->user()?->hasRole('student')) {
+            $student_madrasah = auth()->user()->student_madrasah->first();
+            $student_madrasah = $student_madrasah->id;
+        }
+        static::addGlobalScope('relation', function (Builder $builder)use($user_madrasha, $student_madrasah){
+            if ($user_madrasha != null || $student_madrasah != null) {
+                $builder->where('madrasha_id', auth()->user()->madrasha_id ?? $student_madrasah);
             }
             $builder->with(['madrasha', 'polytechnicInfo', 'classroom']);
         });
@@ -53,7 +58,8 @@ class Student extends Model
         ->with( 'polytechnicSession')
         ->with( 'madrasahResult')
         ->with( 'polytechnicResult')
-        ->with('madrasha');
+        ->with('madrasha')
+        ->with('student_madrasah');
     }
 
     /**
@@ -65,7 +71,7 @@ class Student extends Model
     {
         $array = $this->toArray();
         $array['polytechnic_name'] = $this->polytechnic?->name;
-        $array['madrasah_name'] = $this->madrasha?->name;
+        $array['madrasah_name'] = $this->madrasha?->name ?? $this->student_madrasah?->name;
 
         return $array;
     }
