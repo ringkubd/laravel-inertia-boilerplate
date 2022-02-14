@@ -58,8 +58,7 @@ class Student extends Model
         ->with( 'polytechnicSession')
         ->with( 'madrasahResult')
         ->with( 'polytechnicResult')
-        ->with('madrasha')
-        ->with('student_madrasah');
+        ->with('madrasha');
     }
 
     /**
@@ -71,7 +70,7 @@ class Student extends Model
     {
         $array = $this->toArray();
         $array['polytechnic_name'] = $this->polytechnic?->name;
-        $array['madrasah_name'] = $this->madrasha?->name ?? $this->student_madrasah?->name;
+        $array['madrasah_name'] = $this->madrasha?->name;
 
         return $array;
     }
