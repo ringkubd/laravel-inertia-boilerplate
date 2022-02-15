@@ -25,7 +25,6 @@
                             <th :colspan="6+ (feeTypes != null ? feeTypes.length : 0)" rowspan="4" class="border-0 print:border-0">
                                 Annex - A
                                 <p style="padding: 0!important; margin: 0!important;">Academic Year: {{ basicInfo.session }}</p>
-                                <br>
                                 <div class="text-left" style="text-align: left">
                                     Semester: <span class="font-normal ml-5">{{ basicInfo.semester }}</span>
                                     <br>
@@ -53,7 +52,7 @@
                             </th>
                         </tr>
                         </thead>
-                        <tbody class="font-mono">
+                        <tbody>
                         <tr v-for="(invoice, index) in data">
                             <td class="text-center">{{ index + 1 }}</td>
                             <td style="width: 20%!important;">{{ invoice.student_name }}</td>
@@ -63,64 +62,61 @@
                             <td class="text-center" v-for="fee in invoice.details">{{ fee.amount }}</td>
                             <td class="text-center">{{invoice.amount}}</td>
                         </tr>
-                        </tbody>
-                        <tfoot style="border-top: 2px solid gray!important;">
                         <tr rowspan="2" style="border-top: 2px solid gray!important; color: black!important; font-weight: 600">
                             <th :colspan="5+ (feeTypes != null ? feeTypes.length : 0)" class="total" style="text-align: right">Total</th>
                             <th class="text-center">{{totalInvoiceAmount()}}</th>
                         </tr>
+                        </tbody>
+                        <tfoot class="footer" style="position: static; width: 	21.0cm!important; bottom: 0;">
+                        <tr style="border-bottom: 0!important;">
+                            <td colspan="2" class="text-center" style="padding-top: 40px!important;">
+                                <div class="text-center flex flex-col justify-center items-center">
+                                    <hr style="color: black!important;" class="w-1/2">
+                                    <span>Jr. Officer (Projects)</span>
+                                    <span>IsDB-BISEW</span>
+                                </div>
+                            </td>
+                            <td colspan="2"  class="text-center" style="padding-top: 40px!important;">
+                                <div class="text-center flex flex-col justify-center items-center">
+                                    <hr style="color: black!important;" class="w-1/2">
+                                    <span>Program Officer</span>
+                                    <span>IsDB-BISEW</span>
+                                </div>
+                            </td>
+                            <td colspan="3" class="text-center" style="padding-top: 40px!important;">
+                                <div class="text-center flex flex-col justify-center items-center">
+                                    <hr style="color: black!important;" class="w-1/2">
+                                    <span>Program Coordinator</span>
+                                    <span>IsDB-BISEW</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="text-center" style="padding-top: 40px!important;">
+                                <div class="text-center flex flex-col justify-center items-center">
+                                    <hr style="color: black!important;" class="w-1/2">
+                                    <span> Asst. Accounts Officer</span>
+                                    <span>IsDB-BISEW</span>
+                                </div>
+                            </td>
+                            <td colspan="2" class="text-center"  style="padding-top: 40px!important;">
+                                <div class="text-center flex flex-col justify-center items-center">
+                                    <hr style="color: black!important;" class="w-1/2">
+                                    <span>Accounts Officer</span>
+                                    <span>IsDB-BISEW</span>
+                                </div>
+                            </td>
+                            <td colspan="3" class="text-center" style="padding-top: 40px!important;">
+                                <div class="text-center flex flex-col justify-center items-center">
+                                    <hr style="color: black!important;" class="w-1/2">
+                                    <span>Chief Executive Officer</span>
+                                    <span>IsDB-BISEW</span>
+                                </div>
+                            </td>
+                        </tr>
                         </tfoot>
                     </table>
-                    <table class="text-center bg-white print:fixed" style="width: 100%!important; margin-top: 50px!important;text-align: center!important; position:fixed!important; bottom: 0; font-size: small">
-                        <tbody style="text-align: center!important;">
-                        <tr>
-                            <td class="text-center flex flex-col justify-center items-center" style="margin: 0 2px!important;">
-                                <hr style="color: black!important;" class="w-1/2">
-                                Jr. Officer (Projects)
-                                <br>
-                                IsDB-BISEW
-                            </td>
-                            <td class="text-center" style="">
-                                <hr style="color: black!important;" class="mx-10">
-                                Program Officer
-                                <br>
-                                IsDB-BISEW
-                            </td>
-                            <td>
-                                <div class="text-center flex flex-col justify-center items-center">
-                                    <hr style="color: black!important;" class="w-1/2">
-                                    Program Coordinator
-                                    <br>
-                                    IsDB-BISEW
-                                </div>
-                            </td>
-                        </tr>
-                        <tr style="padding-top: 50px!important;">
-                            <td class="text-center"  style="padding-top: 50px!important;">
-                                <div class="text-center flex flex-col justify-center items-center">
-                                    <hr style="color: black!important;" class="w-1/2">
-                                    Asst. Accounts Officer
-                                    <br>
-                                    IsDB-BISEW
-                                </div>
-                            </td>
-                            <td class="text-center"  style="padding-top: 50px!important;">
-                                <hr style="color: black!important;" class="mx-10">
-                                Accounts Officer
-                                <br>
-                                IsDB-BISEW
-                            </td>
-                            <td class="text-center" style="padding-top: 50px!important;">
-                                <div class="text-center print:text-center flex print:flex flex-col print:flex-col justify-center print:justify-center items-center print:items-center">
-                                    <hr style="color: black!important;" class="w-1/2 print:w-1/2">
-                                    Chief Executive Officer
-                                    <br>
-                                    IsDB-BISEW
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+
                 </div>
             </div>
         </div>

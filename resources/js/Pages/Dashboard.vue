@@ -87,7 +87,6 @@ export default {
             axios.get(route('madrasah.student.search', {'search': this.search_input, 'only_polytechnic': this.only_polytechnic, 'only_madrasa': this.only_madrasa }))
                 .then((res) => {
                     _this.queryData = res.data
-                    console.log(res.data)
                     _this.empty_queryData = false
                     if (res.data.data.length <= 0){
                         _this.empty_queryData = true

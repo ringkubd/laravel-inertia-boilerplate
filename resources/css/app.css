@@ -97,6 +97,7 @@ table thead tr {
     justify-content: center;
     align-items: center;
     place-content: center;
+    border: 0!important;
 }
 /*th{*/
 /*    text-align: center!important;*/

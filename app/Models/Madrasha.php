@@ -19,7 +19,7 @@ class Madrasha extends Model
         $user_madrasha = auth()->user()?->madrasha_id;
         static::addGlobalScope('relation', function (Builder $builder)use($user_madrasha){
             if ($user_madrasha != null) {
-                $builder->where('id', auth()->user()->madrasha_id);
+                $builder->where('madrashas.id', auth()->user()->madrasha_id);
             }
         });
     }

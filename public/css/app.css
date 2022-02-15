@@ -767,6 +767,9 @@ select {
 .table-cell {
   display: table-cell;
 }
+.table-footer-group {
+  display: table-footer-group;
+}
 .grid {
   display: grid;
 }
@@ -900,6 +903,11 @@ select {
 }
 .min-w-full {
   min-width: 100%;
+}
+.min-w-max {
+  min-width: -webkit-max-content;
+  min-width: -moz-max-content;
+  min-width: max-content;
 }
 .max-w-xl {
   max-width: 36rem;
@@ -2061,6 +2069,7 @@ table thead tr {
     justify-content: center;
     align-items: center;
     place-content: center;
+    border: 0!important;
 }
 /*th{*/
 /*    text-align: center!important;*/
@@ -2372,14 +2381,26 @@ table thead tr {
   }
 }
 @media print {
+  .print\:static {
+    position: static;
+  }
   .print\:fixed {
     position: fixed;
+  }
+  .print\:absolute {
+    position: absolute;
   }
   .print\:flex {
     display: flex;
   }
+  .print\:table-footer-group {
+    display: table-footer-group;
+  }
   .print\:w-1\/2 {
     width: 50%;
+  }
+  .print\:w-full {
+    width: 100%;
   }
   .print\:flex-col {
     flex-direction: column;
