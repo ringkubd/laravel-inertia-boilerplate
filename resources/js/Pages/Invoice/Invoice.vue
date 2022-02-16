@@ -14,7 +14,7 @@
                             <Back :back-url="route('invoice.index')"></Back>
                         </template>
                         <template #second>
-                            <Button class="btn btn-success" @click="print">Print</Button>
+                            <Button class="btn btn-success mma" @click="print">Print</Button>
                         </template>
                     </CardHeader>
                 </div>
