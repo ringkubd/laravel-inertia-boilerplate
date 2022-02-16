@@ -1,11 +1,3 @@
-@tailwind base;
-
-@tailwind components;
-
-@tailwind utilities;
-
-/*@import "bootstrap";*/
-
 .modal-mask {
     position: fixed;
     z-index: 9998;
@@ -96,7 +88,7 @@ table thead tr {
     background-size:200% 200%!important;
     background-position: left center!important;
     -webkit-animation: gradient-x 15s ease infinite!important;
-            animation: gradient-x 15s ease infinite!important;
+    animation: gradient-x 15s ease infinite!important;
     text-align: center;
     justify-content: center;
     align-items: center;
@@ -144,4 +136,5 @@ thead{
 td{
     padding: 2px!important;
 }
+
 

@@ -1,4 +1,108 @@
-@import "app.css";
+.modal-mask {
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: table;
+}
+
+.modal-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.modal-container {
+    width: 50vw;
+    margin: 0px auto;
+    padding: 1rem 2rem;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+.modal-header h3 {
+    margin-top: 0;
+    color: #42b983;
+}
+
+.modal-body {
+    margin: 1rem 0;
+}
+
+.modal-default-button {
+    display: block;
+    margin-top: 1rem;
+}
+
+/*
+ * The following styles are auto-applied to elements with
+ * transition="modal" when their visibility is toggled
+ * by Vue.js.
+ *
+ * You can easily play with the modal transition by editing
+ * these styles.
+ */
+
+.modal-enter-active,
+.modal-leave-active {
+    transition: opacity 0.5s ease;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+    opacity: 0;
+}
+/*.table tr th {*/
+/*    vertical-align : middle;*/
+/*    text-align:center;*/
+/*}*/
+
+.card{
+    /*background-image: linear-gradient(to bottom,#36AFAD, #27a11142);*/
+    background-size:200% 200%;
+    background-position: left center;
+    /*animation: gradient-x 15s ease infinite;*/
+}
+
+.table-secondary{
+    --bs-table-bg: current!important;
+    --bs-table-striped-bg:  current!important;;
+    --bs-table-striped-color: #000;
+    --bs-table-active-bg: #cbccce;
+    --bs-table-active-color: #000;
+    --bs-table-hover-bg: #d1d2d4;
+    --bs-table-hover-color: #000;
+}
+.table-striped{
+    /*background-image: linear-gradient(to left,#ffffff, #56D38D)!important;*/
+    /*background-size:150% 200%!important;*/
+    /*background-position: left center!important;*/
+    /*animation: gradient-x 15s ease infinite!important;*/
+}
+table thead tr {
+    /*background-image: linear-gradient(to bottom right,#36AFAD, #27a11142, #56d598)!important;*/
+    background-size:200% 200%!important;
+    background-position: left center!important;
+    -webkit-animation: gradient-x 15s ease infinite!important;
+    animation: gradient-x 15s ease infinite!important;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    place-content: center;
+    border: 0!important;
+}
+/*th{*/
+/*    text-align: center!important;*/
+/*    background-image: linear-gradient(to bottom right,rgb(54, 175, 173), rgba(103, 172, 133, 1.26), rgb(345, 210, 9))!important;*/
+/*    background-size:200% 200%!important;*/
+/*    background-position: left center!important;*/
+/*    animation: gradient-x 15s ease infinite!important;*/
+/*}*/
+
 .table > :not(caption) > * > *{
     padding: 2px!important;
     border-width: 0px;
@@ -18,10 +122,10 @@ tr td{
     margin-left: 1em;
 }
 thead{
-    border: thin solid black!important;
+    border: 0!important;
 }
 .table > :not(:first-child) {
-    border-top: 1px solid currentColor;
+    border-top: 0!important;
 }
 .total{
     text-align: right!important;
@@ -32,3 +136,4 @@ thead{
 td{
     padding: 2px!important;
 }
+
