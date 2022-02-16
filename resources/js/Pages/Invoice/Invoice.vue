@@ -30,7 +30,7 @@
                                     <br>
                                     Date: <span class="font-normal ml-5">{{ basicInfo.invoice_date }}</span>
                                     <div v-if="last_mma != 0">
-                                        MMA No. : {{ last_mma }}
+                                        MMA No. : {{ basicInfo.invoice_no }}
                                     </div>
                                 </div>
                             </th>
@@ -59,7 +59,7 @@
                             <td style="width: 15%!important;">{{ getFirstWord(invoice.student.polytechnic_trade_id) }}</td>
                             <td style="width: 25%!important;">{{ invoice.bank_branch }}</td>
                             <td>{{ invoice.bank_account }}</td>
-                            <td class="text-center" v-for="fee in invoice.details">{{ fee.amount }}</td>
+                            <td class="text-center" v-for="ty in feeTypes">{{tuition_fees(invoice.details, ty)}}</td>
                             <td class="text-center">{{invoice.amount}}</td>
                         </tr>
                         <tr rowspan="2" style="border-top: 2px solid gray!important; color: black!important; font-weight: 600">
@@ -166,6 +166,12 @@ export default {
         getFirstWord(str, delimter = " ") {
             let spaceIndex = str.indexOf(delimter);
             return spaceIndex === -1 ? str : str.substr(0, spaceIndex);
+        },
+        tuition_fees(details, fee_types){
+            let amount = details.filter((i) => {
+                return fee_types === i.fee_type
+            })[0]?.amount
+            return amount ? amount : 0
         }
     }
 }

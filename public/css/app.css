@@ -626,10 +626,6 @@ select {
   margin-left: 0.75rem;
   margin-right: 0.75rem;
 }
-.mx-10 {
-  margin-left: 2.5rem;
-  margin-right: 2.5rem;
-}
 .my-3 {
   margin-top: 0.75rem;
   margin-bottom: 0.75rem;
@@ -767,9 +763,6 @@ select {
 .table-cell {
   display: table-cell;
 }
-.table-footer-group {
-  display: table-footer-group;
-}
 .grid {
   display: grid;
 }
@@ -903,11 +896,6 @@ select {
 }
 .min-w-full {
   min-width: 100%;
-}
-.min-w-max {
-  min-width: -webkit-max-content;
-  min-width: -moz-max-content;
-  min-width: max-content;
 }
 .max-w-xl {
   max-width: 36rem;
@@ -1660,9 +1648,6 @@ select {
 .font-sans {
   font-family: Nunito, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
-.font-mono {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-}
 .font-serif {
   font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
 }
@@ -2381,41 +2366,8 @@ table thead tr {
   }
 }
 @media print {
-  .print\:static {
-    position: static;
-  }
-  .print\:fixed {
-    position: fixed;
-  }
-  .print\:absolute {
-    position: absolute;
-  }
-  .print\:flex {
-    display: flex;
-  }
-  .print\:table-footer-group {
-    display: table-footer-group;
-  }
-  .print\:w-1\/2 {
-    width: 50%;
-  }
-  .print\:w-full {
-    width: 100%;
-  }
-  .print\:flex-col {
-    flex-direction: column;
-  }
-  .print\:items-center {
-    align-items: center;
-  }
-  .print\:justify-center {
-    justify-content: center;
-  }
   .print\:border-0 {
     border-width: 0px;
-  }
-  .print\:text-center {
-    text-align: center;
   }
 }
 @media (min-width: 640px) {

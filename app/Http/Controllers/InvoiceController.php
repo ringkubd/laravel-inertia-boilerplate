@@ -122,6 +122,11 @@ class InvoiceController extends Controller
             return false;
         });
 
+        $lastMMa = 0;
+       if (array_key_exists('MMA',$billableFee)) {
+           $lastMMa = lastMmaNo($request->academic_session, $request->semester);
+       }
+
         $selected_student = collect(json_decode($request->selected_students))->toArray();
         $selected_student = array_filter($selected_student, function ($var){
             if ($var) {
@@ -169,6 +174,7 @@ class InvoiceController extends Controller
 
             $invoice = Invoice::create([
                 'invoice_id' => $invoiceId,
+                'invoice_no' => $lastMMa + 1,
                 'uid' => UuidV4::uuid4()->toString(),
                 'session' => $student->polytechnic_session,
                 'student_id' => $student->id,
@@ -201,6 +207,7 @@ class InvoiceController extends Controller
             ->where('invoice_id', $invoice_id)
             ->with('details')
             ->with('student')
+            ->whereHas('details')
             ->get();
         $basicInfo = $invoice->first();
         $lastMma = 0;

@@ -1,3 +1,11 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+/*@import "bootstrap";*/
+
 .modal-mask {
     position: fixed;
     z-index: 9998;
@@ -88,7 +96,7 @@ table thead tr {
     background-size:200% 200%!important;
     background-position: left center!important;
     -webkit-animation: gradient-x 15s ease infinite!important;
-    animation: gradient-x 15s ease infinite!important;
+            animation: gradient-x 15s ease infinite!important;
     text-align: center;
     justify-content: center;
     align-items: center;
@@ -122,10 +130,10 @@ tr td{
     margin-left: 1em;
 }
 thead{
-    border: 0 solid black!important;
+    border: 0!important;
 }
 .table > :not(:first-child) {
-    border-top: 0px solid currentColor;
+    border-top: 0!important;
 }
 .total{
     text-align: right!important;
@@ -137,40 +145,3 @@ td{
     padding: 2px!important;
 }
 
-table {
-    page-break-inside:auto;
-    page-break-after:auto
-}
-tr    { page-break-inside:avoid; page-break-after:auto }
-thead { display:table-header-group }
-.footer {
-    display:table-footer-group;
-    overflow: auto;
-}
-@media print {
-    /* avoid cutting tr's in half */
-    th div, td div {
-        margin-top:-8px;
-        padding-top:8px;
-        page-break-inside:avoid;
-    }
-    html {
-        height: 0;
-    }
-}
-@page {
-    size: A4 portrait;
-    padding-left: 8px;
-    padding-right: 0px;
-    padding-bottom: 0px!important;
-    margin-bottom: 0px!important;
-    @bottom-center {width: 100%; content: element(footer)}
-}
-
-@media print {
-    .footer {
-        left: 0;
-        width: 200%!important;
-        position: running(footer);
-    }
-}
