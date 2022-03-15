@@ -44,7 +44,7 @@ class NewMailCommand extends ImapIdleCommand
      * @param Message $message
      */
     public function onNewMessage(Message $message){
-
+        $this->info('New Message Appeared');
         $attachments = $message->getAttachments();
         $sender = explode('<',$message->sender);
         $mail = [
@@ -61,7 +61,7 @@ class NewMailCommand extends ImapIdleCommand
             'received_at' => $message->date
         ];
         $mailBox = MailBox::create($mail);
-
+        $this->info($message->sender);
         $attachmentsArray = [];
         foreach ($attachments as $attachment){
             $attributes = $attachment->getAttributes();

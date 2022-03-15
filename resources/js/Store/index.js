@@ -8,6 +8,8 @@ export const store = createStore({
         messages: [],
         activeChatTarget: null,
         activeConversation: null,
+        activeFolder: false,
+        activeFolderInfo: {}
     },
     plugins: [createLogger()],
     mutations: {
@@ -23,6 +25,9 @@ export const store = createStore({
                 newUser[i.id] = true
             }
             this.state.onlineFriendsId = newUser
+        },
+        activeFolder(state, folder){
+            this.state.activeFolder = folder
         }
     },
     modules: {
@@ -67,6 +72,12 @@ export const store = createStore({
         },
         setActiveConversation({ commit, state }, conversationId){
             this.state.activeConversation = conversationId
+        },
+        setActiveFolder({commit, state}, folder){
+            this.state.activeFolder = folder
+        },
+        setActiveFolderInfo({commit, state}, folder){
+            this.state.activeFolderInfo = folder
         }
     }
 })

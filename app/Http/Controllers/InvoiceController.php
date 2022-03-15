@@ -165,6 +165,9 @@ class InvoiceController extends Controller
                 $invoiceDetails[] = new InvoiceDetail([
                     'fee_type' => $fee->fee_type,
                     'amount' => $fee->amount,
+                    'institute_amount' => $fee->institute,
+                    'board_amount' => $fee->board,
+                    'student_amount' => $fee->student,
                     'invoice' => $invoiceId,
                     'student_id' => $student->id,
                     'invoice_month' => $request->invoice_month,
@@ -272,11 +275,11 @@ class InvoiceController extends Controller
         $this->authorize('update_invoice');
         $invoiceDetails = InvoiceDetail::find($invoiceDetails_id);
         $invoice = Invoice::find($invoiceDetails->invoice_id);
-        $currentTotalAmount = ($invoice->amount - $invoiceDetails->amount) + $request->amount;
-
-        $invoiceDetails->update($request->only('amount'));
+        $currentTotalAmount = ($invoice->amount - $invoiceDetails->amount) + (int)$request->amount;
+        $invoiceDetails->update($request->only('amount', 'student_amount', 'board_amount', 'institute_amount'));
         $invoice->update(['amount' => $currentTotalAmount]);
-        return redirect()->route('invoice.edit', $invoice->invoice_id)->withSuccess("Invoice Successfully Updated.");
+        $url = route('invoice.edit', $invoice->invoice_id). '#updateForm'.$invoiceDetails_id;
+        return redirect($url)->withSuccess("Invoice Successfully Updated.");
     }
 
     /**

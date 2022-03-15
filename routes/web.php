@@ -67,7 +67,6 @@ Route::prefix('polytechnic')->group(function (){
     Route::resource('result', \App\Http\Controllers\ResultController::class, ['as' => 'polytechnic']);
 });
 
-
 // Madrasa Management
 Route::prefix('madrasa')->group(function (){
     Route::resource('student', \App\Http\Controllers\Madrasa\StudentsController::class, ['as' => 'madrasa']);
@@ -88,7 +87,6 @@ Route::resource('trade', \App\Http\Controllers\TradeController::class);
 // Teacher
 Route::resource('teacher', \App\Http\Controllers\TeacherController::class);
 
-
 // Trade
 Route::resource('academic_session', \App\Http\Controllers\AcademicSessionController::class);
 
@@ -103,6 +101,11 @@ Route::get('search/fee', [\App\Http\Controllers\FeeController::class, 'search'])
 Route::resource('invoice', \App\Http\Controllers\InvoiceController::class);
 Route::resource('note_sheet_template', \App\Http\Controllers\NoteSheetTemplateController::class);
 Route::resource('note_sheet', \App\Http\Controllers\NotesheetController::class);
+Route::get('note_sheet_info/invoice/{invoice_id?}', [\App\Http\Controllers\NotesheetController::class, 'getInvoiceInfo'])->name('note_sheet_invoice_info');
+
+Route::get('notesheet/{invoice_id}/mma_table', [\App\Http\Controllers\NotesheetController::class, 'mmaTable'])->name('mma_table');
+Route::get('notesheet/{invoice_id}/semester_table', [\App\Http\Controllers\NotesheetController::class, 'semesterTable'])->name('semestar_table');
+Route::get('notesheet/{invoice_id}/admission_table', [\App\Http\Controllers\NotesheetController::class, 'admissionTable'])->name('admission_table');
 
 // Polytechnic Admission Management
 Route::resource('admission', \App\Http\Controllers\AdmissionController::class);
@@ -117,10 +120,19 @@ Route::resource('teacher_attendance', \App\Http\Controllers\TeacherAttendanceCon
 Route::get('attendance_verify/{uid}/teacher', [\App\Http\Controllers\TeacherAttendanceController::class, 'verify'])->name('teacher_attendance.verify');
 
 // Extra Feature
-Route::get('bteb_result', [\App\Http\Controllers\BTEBResultController::class, 'result']);
+Route::get('bteb_result', [\App\Http\Controllers\BTEBResultController::class, 'index'])->name('bteb.index');
+Route::get('bteb_result/new', [\App\Http\Controllers\BTEBResultController::class, 'new'])->name('bteb.new');
+Route::post('bteb_result', [\App\Http\Controllers\BTEBResultController::class, 'result'])->name('bteb.search');
+
 Route::get('mail_inbox', [\App\Http\Controllers\MailboxController::class, 'inbox'])->name('mail.inbox');
 Route::get('mail_details/{mailBox}', [\App\Http\Controllers\MailboxController::class, 'details'])->name('mail.details');
 
+// Bill Attachment
+Route::resource('payment_prove', \App\Http\Controllers\BillAttachmentController::class);
+Route::post('create_folder', [\App\Http\Controllers\BillAttachmentController::class, 'createFolder'])->name('create_folder');
+Route::delete('delete_folder/{folder}', [\App\Http\Controllers\BillAttachmentController::class, 'deleteFolder'])->name('delete_folder');
+Route::post('upload_file', [\App\Http\Controllers\BillAttachmentController::class, 'uploadFile'])->name('upload_file');
+Route::get('folder_list/{base?}', [\App\Http\Controllers\BillAttachmentController::class, 'folderList'])->name('folder_list');
 // Test
 
 Route::get('conv', function(){

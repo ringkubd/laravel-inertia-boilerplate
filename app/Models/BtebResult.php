@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use App\Models\Traits\RecordsActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Notesheet extends Model
+class BtebResult extends Model
 {
-    use HasFactory, RecordsActivity;
+    use HasFactory;
 
     protected $guarded = ['id'];
 }

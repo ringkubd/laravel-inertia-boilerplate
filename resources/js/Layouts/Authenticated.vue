@@ -396,6 +396,20 @@
                                             >
                                                 Invoice's
                                             </breeze-dropdown-link>
+                                            <breeze-dropdown-link
+                                                :href="route('note_sheet_template.index')"
+                                                :active="route().current('note_sheet_template.*')"
+                                                v-if="$page.props.menu_permission.invoice"
+                                            >
+                                                Note Template
+                                            </breeze-dropdown-link>
+                                            <breeze-dropdown-link
+                                                :href="route('note_sheet.index')"
+                                                :active="route().current('note_sheet.*')"
+                                                v-if="$page.props.menu_permission.invoice"
+                                            >
+                                                Note Sheet
+                                            </breeze-dropdown-link>
                                         </template>
                                     </breeze-dropdown>
                                 </div>
@@ -462,6 +476,16 @@
                                             </breeze-dropdown-link>
                                         </template>
                                     </breeze-dropdown>
+                                </div>
+                                <div class="hidden sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.polytechnic_result && $page.props.menu_permission.student">
+                                    <breeze-nav-link
+                                        :href="route('polytechnic.result.index')"
+                                        :active="route().current('polytechnic.result.*')"
+                                        class="rounded-md text-white"
+                                        v-if="$page.props.menu_permission.polytechnic_result"
+                                    >
+                                        Results
+                                    </breeze-nav-link>
                                 </div>
                                 <div class="hidden sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.admission">
                                     <breeze-nav-link
@@ -1003,6 +1027,20 @@
                                     >
                                         Invoice's
                                     </breeze-dropdown-link>
+                                    <breeze-dropdown-link
+                                        :href="route('note_sheet_template.index')"
+                                        :active="route().current('note_sheet_template.*')"
+                                        v-if="$page.props.menu_permission.invoice"
+                                    >
+                                        Note Template
+                                    </breeze-dropdown-link>
+                                    <breeze-dropdown-link
+                                        :href="route('note_sheet.index')"
+                                        :active="route().current('note_sheet.*')"
+                                        v-if="$page.props.menu_permission.invoice"
+                                    >
+                                        Note Sheet
+                                    </breeze-dropdown-link>
                                 </template>
                             </breeze-dropdown>
                         </div>
@@ -1072,6 +1110,16 @@
                                 </template>
                             </breeze-dropdown>
                         </div>
+                    </div>
+                    <div class="space-y-1 pl-3" v-if="$page.props.menu_permission.polytechnic_result && $page.props.menu_permission.student">
+                        <breeze-nav-link
+                            :href="route('polytechnic.result.index')"
+                            :active="route().current('polytechnic.result.*')"
+                            class="rounded-md text-white"
+                            v-if="$page.props.menu_permission.polytechnic_result"
+                        >
+                            Results
+                        </breeze-nav-link>
                     </div>
                     <div class="space-y-1 pl-3">
                         <div class="sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.admission">
@@ -1277,7 +1325,7 @@ export default {
                 const user = this.convertProxyObjectToPojo(e.user)
                 app.addOnlineFriend(user);
                 app.removeOnlineFriend(user);
-                if (user.id != this.$page.props.user.id){
+                if (user.id !== this.$page.props.user.id){
                     this.$store.dispatch('addOnlineFriends', user)
                 }
             })
@@ -1305,7 +1353,7 @@ export default {
             return user.id != app.user.id;
         })
         this.offlineFriends = app.offline.filter(user => {
-            return user.id != app.user.id;
+            return user.id !== app.user.id;
         })
     },
     beforeDestroy () {

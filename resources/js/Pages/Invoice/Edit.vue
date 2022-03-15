@@ -14,15 +14,15 @@
                             <Back :back-url="route('invoice.index')"></Back>
                         </template>
                         <template #second>
-                            <Button class="btn btn-success" @click="print">Print</Button>
+<!--                            <Button class="btn btn-success" @click="print">Print</Button>-->
                         </template>
                     </CardHeader>
                 </div>
-                <div class="card-body" id="printme">
-                    <table class="table table-secondary table-bordered text-center">
+                <div class="card-body table-responsive overflow-x-scroll" id="printme">
+                    <table class="table table-secondary table-bordered text-center align-middle">
                         <thead>
                         <tr style="border-left: solid white 2px; border-right: solid white 2px; border-top: solid white 2px;">
-                            <th :colspan="6+ (feeTypes != null ? feeTypes.length : 0)" rowspan="4">
+                            <th :colspan="8+ (feeTypes != null ? feeTypes.length : 0)" rowspan="4">
                                 Invoice
                                 <br>
                                 <div class="text-left">
@@ -40,11 +40,11 @@
                             <th rowspan="2">Trade</th>
                             <th rowspan="2">IBBL Branch</th>
                             <th rowspan="2">IBBL Account</th>
-                            <th :colspan="feeTypes != null ? feeTypes.length : 0">Tuition Fees</th>
+                            <th :colspan="feeTypes != null ? feeTypes.length * 2 : 0">Tuition Fees</th>
                             <th rowspan="2">Amount</th>
                         </tr>
                         <tr>
-                            <th v-for="feeType in feeTypes">
+                            <th colspan="2" v-for="feeType in feeTypes">
                                 {{feeType}}
                             </th>
                         </tr>
@@ -56,7 +56,11 @@
                             <td>{{ invoice.student.polytechnic_trade_id }}</td>
                             <td>{{ invoice.bank_branch }}</td>
                             <td>{{ invoice.bank_account }}</td>
-                            <td class="border-4 border-blue-400 animate-pulse" v-for="fee in invoice.details" :name="fee.fee_type" :invoiceDetalsId="fee.id" :contenteditable="contentEditable" @input="changeFees">{{ fee.amount }}</td>
+                            <td class="border-2 border-blue-400 " v-for="fee in invoice.details" :name="fee.fee_type" :invoiceDetalsId="fee.id" colspan="2">
+                                <div class="h-32 w-full text-left">
+                                    <Form :fee="fee" :changeAmount="changeAmount"/>
+                                </div>
+                            </td>
                             <td>{{invoice.amount}}</td>
                         </tr>
                         </tbody>
@@ -81,10 +85,11 @@ import Authenticated from "@/Layouts/Authenticated";
 import CardHeader from "@/Shared/CardHeader";
 import Back from "@/Shared/Back";
 import Button from "@/Shared/Button";
+import Form from "@/Pages/Invoice/inc/Form";
 export default {
     name: "Edit",
     props: ['can', 'errors', 'data', 'feeTypes', 'basicInfo'],
-    components: {Button, Back, CardHeader, Authenticated},
+    components: {Form, Button, Back, CardHeader, Authenticated},
     data(){
         return {
             contentEditable: this.can.update
@@ -128,6 +133,9 @@ export default {
             let invoiceDetailsId = e.target.getAttribute('invoiceDetalsId');
             let amount = e.target.innerText;
             this.$inertia.put(route('invoice.update', invoiceDetailsId), { amount: amount })
+        },
+        changeAmount(formData){
+            this.$inertia.put(route('invoice.update', formData.invoice_details_id), formData)
         }
     }
 }

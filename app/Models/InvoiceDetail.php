@@ -18,4 +18,8 @@ class InvoiceDetail extends Model
         return $this->belongsTo(Invoice::class);
     }
 
+    public function student(){
+        return $this->belongsTo(Student::class);
+    }
+
 }

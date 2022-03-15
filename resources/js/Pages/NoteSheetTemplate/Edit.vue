@@ -34,7 +34,7 @@ export default {
     props: ['fee_types', 'note_template', 'selected_fee_types'],
     methods: {
         submit(formData){
-            this.$inertia.put(route('note_sheet_template.update', note_template.id), formData)
+            this.$inertia.put(route('note_sheet_template.update', this.note_template.id), formData)
         }
     }
 }

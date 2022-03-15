@@ -106,3 +106,6 @@ table thead tr {
 /*    background-position: left center!important;*/
 /*    animation: gradient-x 15s ease infinite!important;*/
 /*}*/
+ol li {
+    @apply list-decimal
+}

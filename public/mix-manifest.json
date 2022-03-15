@@ -1,7 +1,7 @@
 {
     "/js/app.js": "/js/app.js",
-    "/css/custom_print.css": "/css/custom_print.css",
     "/css/attendance_print.css": "/css/attendance_print.css",
+    "/css/custom_print.css": "/css/custom_print.css",
     "/css/app.css": "/css/app.css",
     "/css/chat.css": "/css/chat.css"
 }

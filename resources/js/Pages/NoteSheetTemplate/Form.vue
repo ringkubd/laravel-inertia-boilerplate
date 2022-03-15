@@ -16,6 +16,9 @@
                     <li>[idb_account]</li>
                     <li>[bill_period]</li>
                     <li>[session]</li>
+                    <li>[mma_table]</li>
+                    <li>[ad_table]</li>
+                    <li>[sem_table]</li>
                 </ol>
             </div>
             <div class="w-full md:w-1/2">
@@ -96,7 +99,7 @@ export default {
             form : useForm({
                 title : this.note_template.title,
                 content: this.note_template.content,
-                fee_type: this.note_template.selected_fee_types
+                fee_type: this.selected_fee_types
             })
         }
     },

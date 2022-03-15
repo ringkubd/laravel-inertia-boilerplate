@@ -17,7 +17,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-3">
-                                    <label for="board">Board Fee</label>
+                                    <label for="board">Board Fee / Book & Stationary</label>
                                     <input type="number" id="board" class="form-control" v-model="formData.board">
                                     <div v-if="errors.board" class="text-danger">
                                         {{ errors.board }}

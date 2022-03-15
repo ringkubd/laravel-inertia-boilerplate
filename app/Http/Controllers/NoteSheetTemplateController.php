@@ -94,7 +94,7 @@ class NoteSheetTemplateController extends Controller
             $q->selectRaw('id as value, name as label');
         }])->find($note_sheet_template);
 
-        return Inertia::render('NoteSheetTemplate/Create', [
+        return Inertia::render('NoteSheetTemplate/Edit', [
             'fee_types' => $feeTypes,
             'note_template' => $noteTemplate,
             'selected_fee_types' => $noteTemplate->fee_types->pluck('value')->toArray(),
@@ -113,7 +113,14 @@ class NoteSheetTemplateController extends Controller
      */
     public function update(Request $request, NotesheetTemplate $note_sheet_template)
     {
-        return redirect()->route('note_sheet_template.index')->withSuccess("Notesheet Template created.");
+        $request->validate([
+            'title' => 'required',
+            'fee_type' => 'required',
+            'content' => 'required'
+        ]);
+        $note_sheet_template->update($request->only('title', 'content'));
+        $note_sheet_template->fee_types()->sync($request->fee_type);
+        return redirect()->route('note_sheet_template.index')->withSuccess("Notesheet Template updated.");
     }
 
     /**
