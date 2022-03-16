@@ -28,7 +28,7 @@ class Sanctum
 
         return response()->json([
             'success' => false,
-            'error' => $request->headers,
+            'error' => $request->header('Authorization'),
         ]);
     }
 }
