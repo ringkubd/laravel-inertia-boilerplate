@@ -28,7 +28,7 @@ class Sanctum
 
         return response()->json([
             'success' => false,
-            'error' => 'Access denied.',
+            'error' => $bearer,
         ]);
     }
 }
