@@ -20,6 +20,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('register', [\App\Http\Controllers\Api\UserController::class, 'register']);
 Route::post('login', [\App\Http\Controllers\Api\UserController::class, 'login']);
 
-Route::middleware('auth:sanctum')->group(function (){
+Route::middleware('auth:api')->group(function (){
     Route::get('result', [\App\Http\Controllers\Api\ResultController::class, 'index']);
 });
