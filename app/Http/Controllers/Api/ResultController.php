@@ -17,7 +17,7 @@ class ResultController extends Controller
      */
     public function index()
     {
-        return $user = auth()->user();
+        $user = auth()->user();
         $result = Result::where('student_id', $user->student?->id)->orderBy('semester')->get();
         return new ResultResource($result);
     }
