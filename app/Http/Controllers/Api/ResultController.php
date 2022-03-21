@@ -111,7 +111,7 @@ class ResultController extends Controller
             return [
                 'status' => false,
                 'messages' => [
-                    "error" => "Database insertion failed"
+                    "error" => $e->getMessage()
                 ],
                 'data' => []
             ];
