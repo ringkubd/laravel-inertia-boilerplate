@@ -85,6 +85,7 @@ class ResultController extends Controller
         if ($request->status !== "Dropout" && $request->semester != 8 && $existingResult == 0) {
             $classRoom = ClassRoom::where('class_name_number', $request->semester + 1)->first();
             $student = Student::find($student_id);
+            $student->update(['semester' => $classRoom->class_name_number]);
             $student->classroom()->sync($classRoom->id);
         }
         if ($request->semester == 8 && $request->status == "Passed") {
