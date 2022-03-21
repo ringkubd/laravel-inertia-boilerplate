@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreResultRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class StoreResultRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->user()->hasRole('Student');
     }
 
     /**
@@ -23,8 +24,22 @@ class StoreResultRequest extends FormRequest
      */
     public function rules()
     {
+        $semester = $this->request->get('semester');
+        $student_id = $this->request->get('student_id');
         return [
-            //
+            'semester' => [
+                'required', Rule::unique('results')->using(function ($query) use($student_id) {
+                    return $query->where('student_id', $student_id)
+                        ->whereNull('deleted_at')
+                        ->where('status', '!=',"Referred");
+                }),
+                'max:8',
+                'min:1',
+            ],
+            'student_id' => ['required'],
+            'status' => ['required'],
+            'failed_in_subject' => 'required',
+            'supporting_document' => 'required'
         ];
     }
 }
