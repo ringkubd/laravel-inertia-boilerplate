@@ -36,7 +36,7 @@ class PushNotificationController extends Controller
             Log::info($e->getMessage());
         }
 
-
+        Log::info($token);
         return response()->json([], 200);
     }
 
