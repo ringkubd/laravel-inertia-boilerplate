@@ -139,6 +139,10 @@ Route::post('upload_file', [\App\Http\Controllers\BillAttachmentController::clas
 Route::get('folder_list/{base?}', [\App\Http\Controllers\BillAttachmentController::class, 'folderList'])->name('folder_list');
 // Test
 
+// Notice
+
+Route::resource('notice', \App\Http\Controllers\NoticeController::class);
+
 
 // FrontEnd Backend
 Route::prefix('frontend')->group(function (){

@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AcademicSession;
+use App\Models\ClassRoom;
 use App\Models\Notice;
+use App\Models\Student;
+use App\Notifications\AppNotification;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class NoticeController extends Controller
 {
@@ -14,7 +19,18 @@ class NoticeController extends Controller
      */
     public function index()
     {
-
+        $notices = Notice::query()
+            ->with('classRoom')
+            ->where("published_at", '<=', now())
+            ->paginate();
+        return Inertia::render('Notice/Index', [
+            'notices' => $notices,
+            'can' => [
+                'create' => auth()->user()->can('create_notice'),
+                'delete' => auth()->user()->can('delete_notice'),
+                'view' => auth()->user()->can('view_notice'),
+            ]
+        ]);
     }
 
     /**
@@ -22,7 +38,13 @@ class NoticeController extends Controller
      */
 
     public function create(){
-
+        $sessions = AcademicSession::all();
+        $classRoom = ClassRoom::all();
+        return Inertia::render('Notice/Create', [
+            'notice' => new Notice(),
+            'sessions' => $sessions,
+            'class_rooms' => $classRoom
+        ]);
     }
 
     /**
@@ -33,7 +55,27 @@ class NoticeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'body' => 'required'
+        ]);
+        $notice = Notice::create($request->all());
+        $students = Student::query()
+            ->with('classroom')
+            ->when($request->class_room_id, function ($q)use($request){
+                $q->whereHas('classroom', function ($q) use ($request){
+                    $q->where('class_rooms.id', $request->class_room_id);
+                });
+            })
+            ->when($request->academic_session, function ($q)use($request){
+                $q->where('polytechnic_session', $request->academic_session);
+            })
+            ->with('users')
+            ->get();
+        foreach ($students as $student){
+            $student->users->notify(new AppNotification($notice));
+        }
+        return redirect()->route('notice.index')->withSuccess("Successfully added.");
     }
 
     /**

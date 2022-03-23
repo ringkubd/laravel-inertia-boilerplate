@@ -25,7 +25,7 @@ class CreateExpoPushTokensTable extends Migration
 //            $table->string('notifiable_id');
             $table->foreignId('notifiable_id');
             $table->string('notifiable_type');
-            $table->unique(['token']);
+            $table->unique(['token', 'notifiable_id']);
         });
     }
 

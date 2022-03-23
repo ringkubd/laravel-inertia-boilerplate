@@ -17,8 +17,8 @@ class CreateNoticesTable extends Migration
             $table->id();
             $table->string('title');
             $table->text('body');
-            $table->integer('semester')->nullable();
-            $table->string('session');
+            $table->unsignedBigInteger('class_room_id')->nullable();
+            $table->string('academic_session')->nullable();
             $table->dateTime('published_at');
             $table->unsignedBigInteger('created_by');
             $table->softDeletes();
