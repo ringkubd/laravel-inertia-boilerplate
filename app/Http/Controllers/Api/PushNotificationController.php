@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class PushNotificationController extends Controller
 {
@@ -26,10 +27,16 @@ class PushNotificationController extends Controller
     public function store(Request $request)
     {
         $token = $request->input('token');
-        $request->user()->pushTokens()->firstOrCreate(
-            ['token' => $token],
-            ['token' => $token],
-        );
+        try {
+            $request->user()->pushTokens()->firstOrCreate(
+                ['token' => $token],
+                ['token' => $token],
+            );
+        }catch (\Exception $e){
+            Log::info($e->getMessage());
+        }
+
+
         return response()->json([], 200);
     }
 
