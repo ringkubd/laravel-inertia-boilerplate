@@ -10,12 +10,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Scout\Searchable;
+use Relative\LaravelExpoPushNotifications\Traits\HasPushTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasRoles, HasApiTokens, SoftDeletes, RecordsActivity, Searchable;
+    use HasFactory, Notifiable, HasRoles, HasApiTokens, SoftDeletes, RecordsActivity, Searchable, HasPushTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -54,6 +55,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Specifies the user's FCM token
+     *
+     * @return string|array
+     */
+    public function routeNotificationForFcm()
+    {
+        return 'jWIQpFPiZ238LxQPJLMJVe';
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Relations\BelongsToMany

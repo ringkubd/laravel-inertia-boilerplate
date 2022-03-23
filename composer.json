@@ -27,6 +27,7 @@
         "league/fractal": "^0.19.2",
         "maatwebsite/excel": "^3.1",
         "meilisearch/meilisearch-php": "^0.20.0",
+        "relative/laravel-expo-push-notifications": "^1.0",
         "simplesoftwareio/simple-qrcode": "~4",
         "spatie/laravel-permission": "^4.2",
         "svnwa/inertiavuepaginator": "^1.0",

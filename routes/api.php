@@ -22,5 +22,6 @@ Route::post('login', [\App\Http\Controllers\Api\UserController::class, 'login'])
 
 Route::middleware('auth:sanctum')->group(function (){
     Route::resource('result', \App\Http\Controllers\Api\ResultController::class);
+    Route::post('token', [\App\Http\Controllers\Api\PushNotificationController::class, 'store']);
 });
 

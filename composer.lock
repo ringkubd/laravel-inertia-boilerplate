@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "877611dd20aa1be35f275ce9ccaff404",
+    "content-hash": "57865afaa072233c48a6e86829fb5d6b",
     "packages": [
         {
             "name": "alimranahmed/laraocr",
@@ -6955,6 +6955,74 @@
                 }
             ],
             "time": "2021-07-11T12:37:55+00:00"
+        },
+        {
+            "name": "relative/laravel-expo-push-notifications",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/agilicent/laravel-expo-push-notifications.git",
+                "reference": "75c154ac3e70102e00fb7064b1da9a37d3a97818"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/agilicent/laravel-expo-push-notifications/zipball/75c154ac3e70102e00fb7064b1da9a37d3a97818",
+                "reference": "75c154ac3e70102e00fb7064b1da9a37d3a97818",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~7|~8",
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "orchestra/testbench": "~5|~6",
+                "phpunit/phpunit": "~8.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Relative\\LaravelExpoPushNotifications\\ExpoPushNotificationsServiceProvider"
+                    ],
+                    "aliases": {
+                        "ExpoPushNotifications": "Relative\\LaravellExpoPushNotifications\\Facades\\ExpoPushNotifications"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Relative\\LaravelExpoPushNotifications\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Relative Ltd",
+                    "email": "opensource@relative.uk.com",
+                    "homepage": "https://relative.uk.com"
+                },
+                {
+                    "name": "Nick Cousins",
+                    "email": "nick.cousins@relative.uk.com",
+                    "homepage": "https://nickcousins.co.uk",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Expo Push Notifications Driver for Laravel Notifications, PHP 7.4",
+            "homepage": "https://github.com/relative/laravel-expo-push-notifications",
+            "keywords": [
+                "expo",
+                "laravel",
+                "push notifications"
+            ],
+            "support": {
+                "issues": "https://github.com/agilicent/laravel-expo-push-notifications/issues",
+                "source": "https://github.com/agilicent/laravel-expo-push-notifications/tree/1.0.2"
+            },
+            "time": "2021-03-29T13:49:40+00:00"
         },
         {
             "name": "ringcentral/psr7",

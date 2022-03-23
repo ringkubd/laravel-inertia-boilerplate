@@ -33,7 +33,11 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+//    auth()->user()->notify(new \App\Notifications\AppNotification());
+    $notices = \App\Models\Notice::where('published_at', '<=', now())->get();
+    return Inertia::render('Dashboard', [
+        'notices' => $notices
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__.'/auth.php';
@@ -134,6 +138,13 @@ Route::delete('delete_folder/{folder}', [\App\Http\Controllers\BillAttachmentCon
 Route::post('upload_file', [\App\Http\Controllers\BillAttachmentController::class, 'uploadFile'])->name('upload_file');
 Route::get('folder_list/{base?}', [\App\Http\Controllers\BillAttachmentController::class, 'folderList'])->name('folder_list');
 // Test
+
+
+// FrontEnd Backend
+Route::prefix('frontend')->group(function (){
+    Route::get('/', [\App\Http\Controllers\FrontEndController::class, 'index']);
+});
+
 
 Route::get('conv', function(){
     //dd(conversation(2));

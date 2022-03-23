@@ -7,10 +7,10 @@
                     <div class="sm:hidden md:flex space-x-7">
                         <!--Website Logo-->
                         <inertia-link :href="route('dashboard')" class="hidden md:flex text-sm text-white underline mb-2">
-                            <ApplicationLogo/>
+                            <ApplicationLogo />
                         </inertia-link>
                     </div>
-                    <div class="hidden md:flex items-center space-x-1">
+                    <div class="hidden md:flex items-center space-x-7">
                         <div v-if="canLogin" class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                             <inertia-link v-if="$page.props.auth.user" href="/dashboard" class="text-sm text-white underline">
                                 Dashboard
@@ -29,7 +29,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="md:hidden sm:flex w-full h-screen">
                 <!-- <section id="bottom-navigation" class="md:hidden block fixed inset-x-0 bottom-0 z-10 bg-white shadow"> // if shown only tablet/mobile-->
                 <section id="bottom-navigation" class="block fixed inset-x-0 bottom-0 z-10 bg-white shadow">
@@ -98,7 +97,24 @@
                 </section>
             </div>
         </nav>
+        <div class="container-fluid flex">
+            <div class="flex-auto min-h-screen border-r-2">
 
+            </div>
+            <div class="md:w-1/5 min-h-screen">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>App Download</h4>
+                    </div>
+                    <div class="card-body flex justify-center items-center">
+                        <a href="diploma_student.apk" class="text-center flex flex-col justify-center items-center">
+                            <img src="icons8-app-24.png" class="w-10" alt="Android">
+                            Diploma Student
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
