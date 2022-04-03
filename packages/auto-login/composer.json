@@ -1,0 +1,52 @@
+{
+    "name": "anwar/auto-login",
+    "description": "Larvel Multiple App AutoLogin from single app...",
+    "type": "library",
+    "homepage": "https://github.com/ringkubd/auto-login",
+    "keywords": [
+        "anwar",
+        "auto-login"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Anwar\\AutoLogin\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Anwar\\AutoLogin\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "authors": [
+        {
+            "name": "Anwar Jahid",
+            "email": "ajr.jahid@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "license": "MIT",
+    "require-dev": {
+        "orchestra/testbench": "^6.0",
+        "phpunit/phpunit": "^9.0"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Anwar\\AutoLogin\\AutoLoginServiceProvider"
+            ],
+            "aliases": {
+                "AutoLogin": "Anwar\\AutoLogin\\AutoLoginFacade"
+            }
+        }
+    }
+}
