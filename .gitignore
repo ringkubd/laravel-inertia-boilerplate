@@ -15,5 +15,9 @@ yarn-error.log
 /.idea
 /.vscode
 /public/photos
+/public/payment_slip
+/public/result_document
+/public/attendance
+/public/admission_attach
 /public/js/app.js
 /public/diploma_student.apk
