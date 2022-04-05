@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\PaymentSlipResource;
+use App\Models\FeeType;
 use App\Models\PaymentSlip;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class PaymentSlipControllerApi extends Controller
 {
@@ -19,7 +22,6 @@ class PaymentSlipControllerApi extends Controller
      */
     public function index($student=false, $semester = false)
     {
-        return $student;
         $paymentSlip = PaymentSlip::query()
             ->when($student, function ($q, $v){
                 $q->where('student_id', $v);
@@ -43,13 +45,23 @@ class PaymentSlipControllerApi extends Controller
         $validator = Validator::make($request->all(), [
             'student_id' => 'required',
             'semester' => 'required',
+            'fee_type' => ['required', Rule::unique('payment_slips')->using(function ($q) use($request){
+                $q
+                    ->where('student_id', $request->student_id)
+                    ->where('fee_type', $request->fee_type)
+                    ->where('status','!=',2)
+                    ->where('semester', $request->semester);
+            })],
             'amount' => 'required',
             'attachment' => 'required',
             'extention' => 'required'
         ]);
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), 403);
+        }
         try {
             DB::beginTransaction();
-            $result_request = $request->only('student_id', 'semester','amount');
+            $result_request = $request->only('student_id', 'semester','amount', 'fee_type');
             $result_request['added_by'] = auth()->user()->id;
             $slip = PaymentSlip::create($result_request);
 
@@ -128,5 +140,10 @@ class PaymentSlipControllerApi extends Controller
         ];
 
 
+    }
+
+    public function getFeeType(){
+        $feeType = FeeType::where('is_madrasa', 0)->selectRaw('name')->get()->toArray();
+        return response()->json($feeType);
     }
 }

@@ -24,5 +24,6 @@ Route::middleware('auth:sanctum')->group(function (){
     Route::resource('result', \App\Http\Controllers\Api\ResultController::class);
     Route::post('token', [\App\Http\Controllers\Api\PushNotificationController::class, 'store']);
     Route::resource('payment_slip', \App\Http\Controllers\Api\PaymentSlipControllerApi::class, ['as' => 'api_payment_slip']);
+    Route::get('fee_type', [\App\Http\Controllers\Api\PaymentSlipControllerApi::class, 'getFeeType'])->name('get_fee_type');
 });
 
