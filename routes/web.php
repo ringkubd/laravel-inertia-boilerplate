@@ -29,8 +29,9 @@ Route::get('/', function () {
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
+        'applications' => \App\Models\MobileApplication::where('status', 1)->get()
     ]);
-});
+})->name('base');
 
 Route::get('/dashboard', function () {
 //    auth()->user()->notify(new \App\Notifications\AppNotification());
@@ -140,7 +141,8 @@ Route::get('folder_list/{base?}', [\App\Http\Controllers\BillAttachmentControlle
 
 Route::resource('payment_slip', \App\Http\Controllers\PaymentSlipController::class);
 // Test
-
+// Mobile Application
+Route::resource('mobile', \App\Http\Controllers\MobileApplicationController::class);
 // Notice
 
 Route::resource('notice', \App\Http\Controllers\NoticeController::class);

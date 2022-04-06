@@ -106,11 +106,17 @@
                     <div class="card-header">
                         <h4>App Download</h4>
                     </div>
-                    <div class="card-body flex justify-center items-center">
-                        <a href="diploma_student.apk" class="text-center flex flex-col justify-center items-center">
-                            <img src="icons8-app-24.png" class="w-10" alt="Android">
-                            Diploma Student
+                    <div class="card-body flex flex-col justify-center items-center" v-for="app in applications">
+                        <a :href="route('mobile.show', app.id)" class="text-center flex flex-col justify-center items-center">
+                            <img src="android.png" v-if="app.platform == 'android'" class="w-10" alt="Android">
+                            <img src="ios.png" v-else class="w-10" alt="IOS">
+                            {{ app.name }}
                         </a>
+                        <div class="flex flex-1 flex-col justify-center items-center">
+                            <span class="mr-2">V-{{app.version_code}}</span>
+                            <span>Last Updated: {{ dateFormat(app.created_at) }}</span>
+                            <span>Downloded: {{ app.number_of_download }}</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -184,6 +190,7 @@
 
 <script>
 import ApplicationLogo from "@/Components/ApplicationLogo";
+import moment from "moment/moment";
 export default {
     components: {ApplicationLogo},
     props: {
@@ -191,6 +198,13 @@ export default {
         canRegister: Boolean,
         laravelVersion: String,
         phpVersion: String,
+        applications: Object
+    },
+    methods: {
+        dateFormat(dateString){
+            const date = new moment(dateString);
+            return date.format('DD-MM-YYYY')
+        }
     },
     mounted(){
 
