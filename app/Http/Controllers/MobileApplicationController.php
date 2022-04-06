@@ -16,6 +16,7 @@ class MobileApplicationController extends Controller
     public function index()
     {
         $mobileApplication = MobileApplication::all();
+        dd(ini_get('post_max_size'));
         return Inertia::render('Mobile/Index', [
             'applications' => $mobileApplication,
             'can' => [
@@ -51,7 +52,6 @@ class MobileApplicationController extends Controller
             'file_path' => 'required',
             'version_code' => 'required',
         ]);
-        dd(ini_get('post_max_size'));
         $file = $request->file('file_path');
         $name = $request->version_code.'_'.$request->platform.'_'.$file->getClientOriginalName().'.'.$file->getClientOriginalExtension();
         $file->move(public_path('mobile_app'), $name);
