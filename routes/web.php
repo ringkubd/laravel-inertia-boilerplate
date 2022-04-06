@@ -209,6 +209,9 @@ Route::any('/ckfinder/browser', '\CKSource\CKFinderBridge\Controller\CKFinderCon
 Route::any('/ckfinder/examples/{example?}', 'CKSource\CKFinderBridge\Controller\CKFinderController@examplesAction')
     ->name('ckfinder_examples');
 
+Route::get('phpinfo', function (){
+    phpinfo();
+});
 
 // openssl test
 Route::get('openssl', [\App\Http\Controllers\OpensslManagementController::class, 'generate']);
