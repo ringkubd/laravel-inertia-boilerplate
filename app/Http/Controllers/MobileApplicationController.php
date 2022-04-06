@@ -16,7 +16,6 @@ class MobileApplicationController extends Controller
     public function index()
     {
         $mobileApplication = MobileApplication::all();
-        dd(ini_get('post_max_size'));
         return Inertia::render('Mobile/Index', [
             'applications' => $mobileApplication,
             'can' => [
