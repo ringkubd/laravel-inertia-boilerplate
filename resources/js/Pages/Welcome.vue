@@ -1,4 +1,7 @@
 <template>
+    <Head>
+        <title>Four Year Diploma|IsDB-BISEW</title>
+    </Head>
     <div>
 <!--        bg-gradient-to-r from-[#60BAAD] to-[#60BAAD] shadow-lg text-black border-b-4 opacity-100 border-gray-600 sticky top-0 z-50-->
         <nav class="bg-[#002147] shadow-lg">
