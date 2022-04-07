@@ -9,10 +9,10 @@ if (!function_exists('pusherInstance')) {
             env('PUSHER_APP_SECRET'),
             env('PUSHER_APP_ID'),
             [
-                'cluster' => env('PUSHER_APP_CLUSTER')
+                'cluster' => env('PUSHER_APP_CLUSTER'),
+                'host' => gethostname(),
+                'port' => 6001
             ],
-            gethostname(),
-            6001
         );
     }
 }
