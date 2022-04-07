@@ -139,7 +139,8 @@ Route::delete('delete_folder/{folder}', [\App\Http\Controllers\BillAttachmentCon
 Route::post('upload_file', [\App\Http\Controllers\BillAttachmentController::class, 'uploadFile'])->name('upload_file');
 Route::get('folder_list/{base?}', [\App\Http\Controllers\BillAttachmentController::class, 'folderList'])->name('folder_list');
 
-Route::resource('payment_slip', \App\Http\Controllers\PaymentSlipController::class);
+Route::resource('payment-slip', \App\Http\Controllers\PaymentSlipController::class);
+Route::post('paymentslip/{slip}/{status}', [\App\Http\Controllers\PaymentSlipController::class, 'changeStatus'])->name('payment-slip.change-status');
 // Test
 // Mobile Application
 Route::resource('mobile', \App\Http\Controllers\MobileApplicationController::class);

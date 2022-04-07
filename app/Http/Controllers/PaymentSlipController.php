@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PaymentSlip;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class PaymentSlipController extends Controller
 {
@@ -14,7 +15,19 @@ class PaymentSlipController extends Controller
      */
     public function index()
     {
-        //
+        $paymentSlip = PaymentSlip::query()
+            ->with('student', 'attachments')
+            ->orderBy('created_at')
+            ->get();
+        return Inertia::render('PaymentSlip/Index', [
+            'payment_slip' => $paymentSlip,
+            'can' => [
+                'create' => auth()->user()->can('create_payment-slip'),
+                'update' => auth()->user()->can('update_payment-slip'),
+                'delete' => auth()->user()->can('create_payment-slip'),
+                'view' => auth()->user()->can('update_payment-slip'),
+            ],
+        ]);
     }
 
     /**
@@ -81,5 +94,11 @@ class PaymentSlipController extends Controller
     public function destroy(PaymentSlip $paymentSlip)
     {
         //
+    }
+
+
+    public function changeStatus(PaymentSlip $slip, $status){
+        $slip->updateOrFail(['status' => $status]);
+        return redirect()->route('payment-slip.index')->with('Status successfully updated');
     }
 }
