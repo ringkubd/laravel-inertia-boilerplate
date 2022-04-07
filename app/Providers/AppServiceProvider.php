@@ -27,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         date_default_timezone_set('Asia/Dhaka');
+        ini_set('post_max_size', '500M');
         $this->app->resolving(LengthAwarePaginator::class, function ($paginator) {
             return $paginator->appends(Arr::except(request()->query(), $paginator->getPageName()));
         });
