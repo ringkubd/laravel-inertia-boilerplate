@@ -25,18 +25,12 @@ class ResultController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $result = Result::where('student_id', $user?->student?->id)->orderBy('semester')->get();
-        return new ResultResource($result);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $result = Result::where('student_id', $user?->student?->id)
+        ->orderBy('semester')->get();
+        return response()->json([
+            'success' => true,
+            'data' =>new ResultResource($result),
+        ], 201);
     }
 
     /**
@@ -117,7 +111,10 @@ class ResultController extends Controller
                 'data' => []
             ];
         }
-        return new ResultResource($result);
+        return response()->json([
+            'success' => true,
+            'data' =>new ResultResource($result),
+        ], 201);
 
 
     }
@@ -129,17 +126,6 @@ class ResultController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Result $result)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Result  $result
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Result $result)
     {
         //
     }
