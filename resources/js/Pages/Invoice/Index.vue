@@ -19,6 +19,7 @@
                         <tr>
                             <th>Sl.#</th>
                             <th>Invoice ID.</th>
+                            <th>Session</th>
                             <th>Invoice Month</th>
                             <th>Invoice Type</th>
                             <th>Invoice Date</th>
@@ -30,6 +31,7 @@
                         <tr v-for="(invoice, index) in invoices.data">
                             <td>{{ index + 1 }}</td>
                             <td>{{ invoice.invoice_id }}</td>
+                            <td>{{ invoice.session }}</td>
                             <td>{{ invoice.invoice_month }}</td>
                             <td>{{ JSON.parse(invoice.fee_type).toString() }}</td>
                             <td>{{ invoice.invoice_date }}</td>

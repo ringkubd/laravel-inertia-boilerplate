@@ -33,7 +33,7 @@ class InvoiceController extends Controller
                     ->orWhere('invoice_date', 'like', "%$v%")
                     ->orWhere('student_name', 'like', "%$v%");
             })
-            ->orderBy('invoice_id')
+            ->orderBy('invoice_date')
             ->with('details')
             ->groupBy('invoice_id')
             ->paginate();
