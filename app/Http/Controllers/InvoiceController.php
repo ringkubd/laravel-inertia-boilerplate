@@ -25,7 +25,7 @@ class InvoiceController extends Controller
     {
         $this->authorize('view_invoice');
         $invoices = Invoice::query()
-            ->select('invoice_id', 'invoice_month', 'invoice_date', DB::raw( 'sum(amount) as total_amount'), 'fee_type')
+            ->select('invoice_id', 'invoice_month', 'invoice_date', DB::raw( 'sum(amount) as total_amount'), 'fee_type', 'session', 'semester')
             ->when($request->search, function ($q, $v){
                 $q->where('student_id', 'like', "%$v%")
                     ->orWhere('invoice_month', 'like', "%$v%")
@@ -33,7 +33,7 @@ class InvoiceController extends Controller
                     ->orWhere('invoice_date', 'like', "%$v%")
                     ->orWhere('student_name', 'like', "%$v%");
             })
-            ->orderBy('invoice_date')
+            ->orderByDesc('invoice_date')
             ->with('details')
             ->groupBy('invoice_id')
             ->paginate();
