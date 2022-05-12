@@ -5,7 +5,6 @@ namespace App\Notifications;
 use App\Models\Notice;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Log;
 use Relative\LaravelExpoPushNotifications\ExpoPushNotifications;
@@ -47,10 +46,10 @@ class AppNotification extends Notification  implements ShouldQueue
      */
     public function toExpoPushNotification($notifiable)
     {
-        Log::info($this->notice->title);
+        Log::info($notifiable);
         return (new PushNotification)
             ->title($this->notice->title)
-//            ->data($notifiable)
+            ->data([...$notifiable])
             ->body($this->notice->body);
     }
 
