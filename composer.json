@@ -7,8 +7,8 @@
     "require": {
         "php": "^8.0",
         "alimranahmed/laraocr": "^1.2",
-        "anwar/auto-login": "dev-main",
-        "anwar/config-editor": "dev-main",
+        "anwar/auto-login": "dev-master",
+        "anwar/config-editor": "dev-master",
         "awobaz/compoships": "^2.1",
         "barryvdh/laravel-dompdf": "^0.9.0",
         "beyondcode/laravel-websockets": "^1.13",

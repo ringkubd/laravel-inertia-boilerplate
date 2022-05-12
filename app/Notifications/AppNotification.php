@@ -50,7 +50,7 @@ class AppNotification extends Notification  implements ShouldQueue
         Log::info($this->notice->title);
         return (new PushNotification)
             ->title($this->notice->title)
-            ->data($notifiable)
+//            ->data($notifiable)
             ->body($this->notice->body);
     }
 
