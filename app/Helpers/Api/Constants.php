@@ -1,0 +1,8 @@
+<?php
+const VALIDATION_ERROR = 422;
+const NOT_FOUND = 404;
+const NOT_AUTHORIZED = 401;
+const ACCESS_FORBIDDEN = 403;
+const BAD_REQUEST = 400;
+const SERVER_ERROR = 500;
+const EXPIRED = 419;

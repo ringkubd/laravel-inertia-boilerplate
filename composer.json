@@ -27,7 +27,7 @@
         "laravel/tinker": "^2.5",
         "league/fractal": "^0.19.2",
         "maatwebsite/excel": "^3.1",
-        "meilisearch/meilisearch-php": "^0.20.0",
+        "meilisearch/meilisearch-php": "^0.23.1",
         "relative/laravel-expo-push-notifications": "^1.0",
         "simplesoftwareio/simple-qrcode": "~4",
         "spatie/laravel-permission": "^4.2",
@@ -55,7 +55,9 @@
             "app/Helpers/conversation.php",
             "app/Helpers/settings.php",
             "app/Helpers/common.php",
-            "app/Helpers/pusher.php"
+            "app/Helpers/pusher.php",
+            "app/Helpers/Api/Constants.php",
+            "app/Helpers/Api/ResponseHelper.php"
         ]
     },
     "autoload-dev": {

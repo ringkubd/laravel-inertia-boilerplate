@@ -8,6 +8,7 @@ use App\Http\Resources\Api\ResultResource;
 use App\Models\ClassRoom;
 use App\Models\Result;
 use App\Models\Student;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -24,13 +25,24 @@ class ResultController extends Controller
      */
     public function index()
     {
-        $user = auth()->user();
-        $result = Result::where('student_id', $user?->student?->id)
-        ->orderBy('semester')->get();
-        return response()->json([
-            'success' => true,
-            'data' =>new ResultResource($result),
-        ], 201);
+        try {
+            $user = auth()->user();
+            $result = Result::where('student_id', $user?->student?->id)
+                ->orderBy('semester')->get();
+            return response()->json([
+                'success' => true,
+                'data' => new ResultResource($result),
+            ], 201);
+        }catch (Exception $exception){
+            return response()->json([
+                'success' => false,
+                'messages' => [
+                    "error" => $exception->getMessage()
+                ],
+                'data' => []
+            ], 500);
+        }
+
     }
 
     /**
@@ -46,7 +58,7 @@ class ResultController extends Controller
         ];
 
         $semester = $request->semester;
-        $student_id = $request->student_id;
+        $student_id = auth()->user()->student->id;
         $validate = Validator::make($request->all(), [
             'semester' => [
                 'required', Rule::unique('results')->using(function ($query) use($student_id) {
@@ -57,9 +69,9 @@ class ResultController extends Controller
                 'max:8',
                 'min:1',
             ],
-            'student_id' => ['required'],
+//            'student_id' => ['required'],
             'status' => ['required'],
-            'failed_in_subject' => 'required',
+//            'failed_in_subject' => 'required',
             'attachment' => 'required'
         ],
             $messages
@@ -90,6 +102,7 @@ class ResultController extends Controller
             DB::beginTransaction();
             $result_request = $request->all();
             $result_request['added_by'] = auth()->user()->id;
+            $result_request['student_id'] = $student_id;
             $result = Result::create($result_request);
 
             $image = base64_decode($request->attachment);
@@ -113,7 +126,7 @@ class ResultController extends Controller
         }
         return response()->json([
             'success' => true,
-            'data' =>new ResultResource($result),
+            'data' => new ResultResource($result),
         ], 201);
 
 

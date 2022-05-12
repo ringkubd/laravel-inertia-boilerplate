@@ -102,6 +102,14 @@
                                     {{ errors.bank_branch }}
                                 </div>
                             </div>
+                            <div class="col">
+                                <label for="bank_document">Bank Document</label>
+                                <input type="file" id="bank_document" class="form-control" ref="photo" @input="form.photo = $event.target.files[0]" @change="updatePhotoPreview">
+                                <div v-if="errors.bank_document" class="text-danger">
+                                    {{ errors.bank_document }}
+                                </div>
+                                <div class="imagePreviewWrapper" v-if="photoPreview && photoPreview !== ''" :style="{ 'background-image': `url(${photoPreview})` }"></div>
+                            </div>
                         </div>
                         <input type="hidden" v-model="currentSession">
                         <input type="hidden" v-model="currentTrade">
@@ -116,9 +124,7 @@
                             <div v-if="errors.photo" class="text-danger">
                                 {{ errors.photo }}
                             </div>
-                            <div class="imagePreviewWrapper" v-if="photoPreview && photoPreview !== ''"
-                                 :style="{ 'background-image': `url(${photoPreview})` }"
-                            ></div>
+                            <div class="imagePreviewWrapper" v-if="photoPreview && photoPreview !== ''" :style="{ 'background-image': `url(${photoPreview})` }"></div>
                         </div>
                         <div class="col-md">
                             <label for="id_card">ID Card</label>

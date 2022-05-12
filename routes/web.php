@@ -34,7 +34,7 @@ Route::get('/', function () {
 })->name('base');
 
 Route::get('/dashboard', function () {
-//    auth()->user()->notify(new \App\Notifications\AppNotification());
+    auth()->user()->notify(new \App\Notifications\AppNotification());
     $notices = \App\Models\Notice::where('published_at', '<=', now())->get();
     return Inertia::render('Dashboard', [
         'notices' => $notices
