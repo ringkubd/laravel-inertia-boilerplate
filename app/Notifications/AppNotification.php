@@ -46,10 +46,9 @@ class AppNotification extends Notification  implements ShouldQueue
      */
     public function toExpoPushNotification($notifiable)
     {
-        Log::info($notifiable->toArray());
         return (new PushNotification)
             ->title($this->notice->title)
-            ->data($notifiable->toArray())
+            ->data($this->notice->toArray())
             ->body($this->notice->body);
     }
 

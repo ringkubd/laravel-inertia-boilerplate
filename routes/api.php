@@ -26,5 +26,6 @@ Route::middleware('auth:sanctum')->group(function (){
     Route::resource('payment_slip', \App\Http\Controllers\Api\PaymentSlipControllerApi::class, ['as' => 'api_payment_slip']);
     Route::get('fee_type', [\App\Http\Controllers\Api\PaymentSlipControllerApi::class, 'getFeeType'])->name('get_fee_type');
     Route::apiResource('madrasah_result', \App\Http\Controllers\Api\MadrasahResultController::class);
+    Route::apiResource('notices', \App\Http\Controllers\Api\NotificationApiController::class);
 });
 
