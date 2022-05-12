@@ -22,6 +22,7 @@ class NoticeController extends Controller
         $notices = Notice::query()
             ->with('classRoom')
             ->where("published_at", '<=', now())
+            ->latest()
             ->paginate();
         return Inertia::render('Notice/Index', [
             'notices' => $notices,
@@ -109,6 +110,7 @@ class NoticeController extends Controller
      */
     public function destroy(Notice $notice)
     {
-        //
+        $notice->delete();
+        return redirect()->route('notice.index')->withSuccess("Successfully deleted.");
     }
 }
