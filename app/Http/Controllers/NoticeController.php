@@ -9,6 +9,7 @@ use App\Models\Student;
 use App\Notifications\AppNotification;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use function Clue\StreamFilter\fun;
 
 class NoticeController extends Controller
 {
@@ -20,7 +21,7 @@ class NoticeController extends Controller
     public function index()
     {
         $notices = Notice::query()
-            ->with('classRoom')
+            ->with('classRoom', 'seen')
             ->where("published_at", '<=', now())
             ->latest()
             ->paginate();

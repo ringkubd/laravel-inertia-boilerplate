@@ -18,8 +18,12 @@ class NotificationApiController extends Controller
         $student = auth()->user()->student;
         try {
             $notice = Notice::query()
+                ->select('notices.*', 'notice_seen.seen_at')
                 ->where('academic_session', $student?->polytechnic_session)
                 ->orWhereNull('academic_session')
+                ->leftJoin('notice_seen', function ($join){
+                    $join->on('notice_seen.notice_id', '=', 'notices.id')->where('user_id', auth()->user()->id);
+                })
                 ->latest()->get();
             return sendResponse($notice, 'Notice successfully retrived.');
         }catch (\Exception $exception){
@@ -58,7 +62,8 @@ class NotificationApiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $notice = Notice::find($id);
+        return $notice->seen()->sync(auth()->user()->id);
     }
 
     /**
