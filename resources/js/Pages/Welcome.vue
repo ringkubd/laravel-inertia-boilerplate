@@ -3,7 +3,7 @@
         <title>Four Year Diploma|IsDB-BISEW</title>
     </Head>
     <div>
-<!--        bg-gradient-to-r from-[#60BAAD] to-[#60BAAD] shadow-lg text-black border-b-4 opacity-100 border-gray-600 sticky top-0 z-50-->
+        <!--        bg-gradient-to-r from-[#60BAAD] to-[#60BAAD] shadow-lg text-black border-b-4 opacity-100 border-gray-600 sticky top-0 z-50-->
         <nav class="bg-[#002147] shadow-lg">
             <div class="max-w-6xl mx-auto px-4 sm:hidden md:flex ">
                 <div class="sm:hidden md:flex justify-between">
@@ -109,17 +109,10 @@
                     <div class="card-header">
                         <h4>App Download</h4>
                     </div>
-                    <div class="card-body flex flex-col justify-center items-center" v-for="app in applications">
-                        <a :href="route('mobile.show', app.id)" class="text-center flex flex-col justify-center items-center">
-                            <img src="android.png" v-if="app.platform == 'android'" class="w-10" alt="Android">
-                            <img src="ios.png" v-else class="w-10" alt="IOS">
-                            {{ app.name }}
+                    <div class="card-body flex flex-col justify-center items-center" >
+                        <a class="text-center flex flex-col justify-center items-center" href='https://play.google.com/store/apps/details?id=com.ringkubd.diploma_student&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'>
+                            <img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/>
                         </a>
-                        <div class="flex flex-1 flex-col justify-center items-center">
-                            <span class="mr-2">V-{{app.version_code}}</span>
-                            <span>Last Updated: {{ dateFormat(app.created_at) }}</span>
-                            <span>Downloded: {{ app.number_of_download }}</span>
-                        </div>
                     </div>
                 </div>
             </div>
