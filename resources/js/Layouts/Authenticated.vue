@@ -1213,24 +1213,21 @@
             <div class="container max-w-6xl mx-auto flex items-center px-2 py-8">
 
                 <div class="w-full mx-auto flex flex-wrap items-center">
-                    <div class="flex w-full md:w-1/2 justify-center md:justify-start text-white font-extrabold">
-                        <a class="text-gray-900 no-underline hover:text-gray-900 hover:no-underline" href="#">
+                    <div class="flex flex-col w-full md:w-1/2 justify-center md:justify-start text-white font-extrabold">
+                        <InertiaLink class="text-gray-900 no-underline hover:text-gray-900 hover:no-underline" :href="route('post.index')">
                             <span class="text-base">Blog</span>
+                        </InertiaLink>
+                        <a class="text-gray-900 no-underline hover:text-gray-900 hover:no-underline w-20" href='https://play.google.com/store/apps/details?id=com.ringkubd.diploma_student&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'>
+                            <img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/>
                         </a>
                     </div>
                     <div class="flex w-full pt-2 content-center justify-between md:w-1/2 md:justify-end">
                         <ul class="list-reset flex justify-center flex-col md:flex-1 md:flex-none items-center">
                             <li>
-                                <a class="inline-block py-2 px-3 no-underline" href="index.html">HOME</a>
+                                <InertiaLink class="inline-block py-2 px-3 no-underline" :href="route('dashboard')">Home</InertiaLink>
                             </li>
                             <li>
-                                <a class="inline-block text-gray-600 no-underline hover:text-gray-200 hover:underline py-2 px-3" href="#">link</a>
-                            </li>
-                            <li>
-                                <a class="inline-block text-gray-600 no-underline hover:text-gray-200 hover:underline py-2 px-3" href="#">link</a>
-                            </li>
-                            <li>
-                                <a class="inline-block text-gray-600 no-underline hover:text-gray-200 hover:underline py-2 px-3" href="#">link</a>
+                                <a class="inline-block text-gray-600 no-underline hover:text-gray-200 hover:underline py-2 px-3" target="_blank" href="https://isdb-bisew.org">IsDB-BISEW</a>
                             </li>
                         </ul>
                     </div>

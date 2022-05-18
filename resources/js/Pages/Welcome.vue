@@ -32,8 +32,7 @@
                     </div>
                 </div>
             </div>
-            <div class="md:hidden sm:flex w-full h-screen">
-                <!-- <section id="bottom-navigation" class="md:hidden block fixed inset-x-0 bottom-0 z-10 bg-white shadow"> // if shown only tablet/mobile-->
+            <div class="md:hidden sm:flex w-full h-10">
                 <section id="bottom-navigation" class="block fixed inset-x-0 bottom-0 z-10 bg-white shadow">
                     <div id="tabs" class="flex justify-between">
                         <a href="#" class="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1">
@@ -88,14 +87,14 @@
                             </svg>
                             <span class="tab tab-whishlist block text-xs">Whishlist</span>
                         </a>
-                        <a href=# class="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1">
+                        <InertiaLink :href="route('login')" class="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1">
                             <svg xmlns="http://www.w3.org/2000/svg" class="inline-block mb-1 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
                             </svg>
                             <span class="tab tab-account block text-xs">
                                 <InertiaLink :href="route('login')">Login</InertiaLink>
                             </span>
-                        </a>
+                        </InertiaLink>
                     </div>
                 </section>
             </div>
