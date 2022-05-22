@@ -101,6 +101,7 @@ Route::get('student_list', [\App\Http\Controllers\ResultController::class, "stud
 // Fee Management
 Route::resource('fee', \App\Http\Controllers\FeeController::class);
 Route::get('search/fee', [\App\Http\Controllers\FeeController::class, 'search'])->name('fee.search');
+Route::get('fee_type', [\App\Http\Controllers\Api\PaymentSlipControllerApi::class, 'getFeeType']);
 
 // Invoice Management
 Route::resource('invoice', \App\Http\Controllers\InvoiceController::class);
