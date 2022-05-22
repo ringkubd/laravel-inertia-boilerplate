@@ -143,7 +143,12 @@ class PaymentSlipControllerApi extends Controller
     }
 
     public function getFeeType(){
-        $feeType = FeeType::where('is_madrasa', 0)->selectRaw('name as value, name as label')->get()->toArray();
-        return response()->json($feeType);
+        try{
+            $feeType = FeeType::where('is_madrasa', 0)->selectRaw('name as value, name as label')->get()->toArray();
+            return sendResponse($feeType, 'Notice successfully retrived.');
+        }catch(\Exception $e){
+            return sendError($e->getMessage());
+        }
+       
     }
 }
