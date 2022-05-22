@@ -143,7 +143,7 @@ class PaymentSlipControllerApi extends Controller
     }
 
     public function getFeeType(){
-        $feeType = FeeType::where('is_madrasa', 0)->selectRaw('name')->get()->toArray();
+        $feeType = FeeType::where('is_madrasa', 0)->selectRaw('name as value', 'name as label')->get()->toArray();
         return response()->json($feeType);
     }
 }
