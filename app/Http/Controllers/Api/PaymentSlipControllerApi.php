@@ -54,11 +54,11 @@ class PaymentSlipControllerApi extends Controller
             })],
             'amount' => 'required',
             'attachment' => 'required',
-            'extention' => 'required'
         ]);
         if ($validator->fails()) {
             return response()->json($validator->messages(), 403);
         }
+        
         try {
             DB::beginTransaction();
             $result_request = $request->only('student_id', 'semester','amount', 'fee_type');
@@ -66,11 +66,12 @@ class PaymentSlipControllerApi extends Controller
             $slip = PaymentSlip::create($result_request);
 
             $image = base64_decode($request->attachment);
-            $safeName = Str::random(50).'.'.$request->extention;
+            $extension = getImageMimeType($image);
+            $safeName = Str::random(50).'.'.$extension;
             $store = Storage::disk('public_path')->put("payment_slip/".$safeName, $image);
             $slip->attachments()->insert([
                 'path' => 'payment_slip/'.$safeName,
-                'extention' => $request->extention,
+                'extention' => $extension,
                 'payment_slip_id' => $slip->id
             ]);
             DB::commit();
