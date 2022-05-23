@@ -43,11 +43,10 @@ class PaymentSlipControllerApi extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'student_id' => 'required',
             'semester' => 'required',
             'fee_type' => ['required', Rule::unique('payment_slips')->using(function ($q) use($request){
                 $q
-                    ->where('student_id', $request->student_id)
+                    ->where('student_id', auth()->user()->student->student_id)
                     ->where('fee_type', $request->fee_type)
                     ->where('status','!=',2)
                     ->where('semester', $request->semester);
@@ -63,6 +62,7 @@ class PaymentSlipControllerApi extends Controller
             DB::beginTransaction();
             $result_request = $request->only('student_id', 'semester','amount', 'fee_type');
             $result_request['added_by'] = auth()->user()->id;
+            $result_request['student_id'] =  auth()->user()->student->student_id;
             $slip = PaymentSlip::create($result_request);
 
             $image = base64_decode($request->attachment);
@@ -86,8 +86,7 @@ class PaymentSlipControllerApi extends Controller
                 'data' => []
             ];
         }
-
-        return new PaymentSlipResource($slip);
+        return sendResponse(new PaymentSlipResource($slip), 'Payment Slip Successfully Stored.');
     }
 
     /**
