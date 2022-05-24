@@ -20,8 +20,9 @@ class PaymentSlipControllerApi extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($student=false, $semester = false)
+    public function index()
     {
+        $student = auth()->user()->student->student_id;
         $paymentSlip = PaymentSlip::query()
             ->when($student, function ($q, $v){
                 $q->where('student_id', $v);
