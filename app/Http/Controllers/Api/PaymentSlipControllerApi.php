@@ -66,7 +66,7 @@ class PaymentSlipControllerApi extends Controller
             'attachment' => 'required',
         ]);
         if ($validator->fails()) {
-            return response()->json($validator->messages(), 403);
+            return sendError($validator->messages());
         }
         
         try {
