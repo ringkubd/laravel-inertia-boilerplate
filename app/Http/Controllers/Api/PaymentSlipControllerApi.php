@@ -22,17 +22,27 @@ class PaymentSlipControllerApi extends Controller
      */
     public function index()
     {
-        $student = auth()->user()->student->student_id;
-        $paymentSlip = PaymentSlip::query()
-            ->when($student, function ($q, $v){
-                $q->where('student_id', $v);
-            })->when($semester, function ($q, $v){
-                $q->where('semester', $v);
-            })
-            ->with('attachments')
-            ->get();
+        try{
+            $student = auth()->user()->student->student_id;
+            $paymentSlip = PaymentSlip::query()
+                ->when($student, function ($q, $v){
+                    $q->where('student_id', $v);
+                })
+                ->with('attachments')
+                ->get();
+                return response()->json(new PaymentSlipResource($paymentSlip));
+        }catch(\Exception $e){
+            return [
+                'status' => false,
+                'messages' => [
+                    "error" => $e->getMessage()
+                ],
+                'data' => []
+            ];
+        }
+        
 
-        return response()->json(new PaymentSlipResource($paymentSlip));
+        
     }
 
     /**
