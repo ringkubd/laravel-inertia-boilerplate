@@ -17,8 +17,14 @@
                             <label class="col-3" for="student">Select a Student</label>
                             <select required name="student" id="student" class="col-9" v-model="form.student_id">
                                 <option value=""></option>
-                                <option :value="st.id" v-for="st in students">{{ st.name }}</option>
+                                <option :value="st.id" v-for="st in students">{{ st.name +"-"+ st.ssc_session }}</option>
                             </select>
+                            <div class="flex flex-row mt-4 justify-between border-b-2">
+                                <div class="mx-2"><strong>Name: </strong> {{studentId?.name}}</div>
+                                <div class="mx-2"><strong>Father: </strong> {{studentId?.father_name}}</div>
+                                <div class="mx-2"><strong>Madrasah: </strong> {{studentId?.madrasha?.name}}</div>
+                                <div class="mx-2"><strong>Trade: </strong> {{studentId?.trade}}</div>
+                            </div>
                         </div>
                     </fieldset>
                     <fieldset class="row form-group">
@@ -45,7 +51,7 @@
                             <div class="col-md">
                                 <label for="semester">Semester</label>
                                 <select required name="" id="semester" v-model="form.semester" class="form-control">
-                                    <option v-for="index in 8" :value="index">{{index}}</option>
+                                    <option v-for="index in 1" :value="index">{{index}}</option>
                                 </select>
                                 <div v-if="errors.semester" class="text-danger">
                                     {{ errors.semester }}
@@ -78,7 +84,7 @@
                             </div>
                         </div>
                     </fieldset>
-                    <fieldset class="row form-group">
+                    <fieldset class="row form-group" v-if="super_admin">
                         <legend>Bank Information</legend>
                         <div class="row">
                             <div class="col">
@@ -165,7 +171,7 @@ export default {
         'student', 'students', 'user', 'createForm',
         'postForm', 'trade_polytechnic', 'academic_session',
         'banks', 'selected_bank', 'selected_trade', 'selected_session',
-        'polytechnic', 'errors', 'classes'
+        'polytechnic', 'errors', 'classes', 'super_admin'
     ],
     data(){
         return {
@@ -189,6 +195,7 @@ export default {
             }),
             photoPreview: this.student.photo,
             idCardPreview: this.student.id_card,
+            selected_student: {}
         }
     },
     methods: {
@@ -212,6 +219,13 @@ export default {
         },
         submitForm(){
             this.postForm(this.form)
+        },
+        selectStudent(e){
+            const studentId = e.target.value
+            this.selected_student = this.students.filter((student) => {
+                return e.target.value === student.id
+            })
+            console.log(this.selected_student)
         }
     },
     mounted() {
@@ -253,6 +267,11 @@ export default {
                 this.form.classroom = currentClass[0].id
             }
             return this.form.classroom;
+        },
+        studentId(){
+            return this.selected_student = this.students.filter((student) => {
+                return this.form.student_id === student.id
+            })[0]
         }
     }
 }

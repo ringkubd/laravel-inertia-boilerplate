@@ -168,6 +168,7 @@ class StudentsController extends Controller
                 'view' => auth()->user()->hasPermissionTo('view_student'),
                 'update' => auth()->user()->hasPermissionTo('update_student'),
                 'delete' => auth()->user()->hasPermissionTo('delete_student'),
+                'super_admin' => auth()->user()->hasRole('Super Admin') || auth()->user()->hasRole('Admin')
             ]
         ]);
     }

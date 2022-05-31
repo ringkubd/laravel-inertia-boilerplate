@@ -1,4 +1,7 @@
 <template>
+    <Head>
+        <title>Add New Polytechnic Student</title>
+    </Head>
     <authenticated>
         <template #header>
             <page-header>
@@ -22,6 +25,7 @@
                       :trade_madrasa="trade_madrasa"
                       :students="students"
                       :classes="classes"
+                      :super_admin="can.super_admin"
                       :academic_session="academic_session">
 
                 </Form>
@@ -40,9 +44,12 @@ export default {
         'student', 'students', 'selected_trade', 'selected_session',
         'academic_session', 'trade_madrasa', 'trade_polytechnic',
         'banks', 'selected_bank', 'user', 'polytechnic', 'madrasa',
-        'errors',"classes"
+        'errors',"classes", 'can'
     ],
     components: {Form, PageHeader, Authenticated},
+    mounted() {
+
+    },
     data(){
 
     },

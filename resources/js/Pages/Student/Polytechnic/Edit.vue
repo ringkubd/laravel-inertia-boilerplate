@@ -8,6 +8,11 @@
             <page-header>Edit Student {{student.name}}</page-header>
         </template>
         <div class="container-fluid">
+            <div class="flex flex-row mt-4 justify-between border-b-2 font-serif">
+                <div class="mx-2"><strong>Name: </strong> {{student?.name}}</div>
+                <div class="mx-2"><strong>Father: </strong> {{student?.father_name}}</div>
+                <div class="mx-2"><strong>Madrasah: </strong> {{student?.madrasha?.name}}</div>
+            </div>
             <Form :errors="errors"
                   :polytechnic="polytechnic"
                   :user="user"

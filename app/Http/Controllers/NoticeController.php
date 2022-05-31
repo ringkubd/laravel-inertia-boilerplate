@@ -75,7 +75,12 @@ class NoticeController extends Controller
             ->with('users')
             ->get();
         foreach ($students as $student){
-            $student->users->notify(new AppNotification($notice));
+            try{
+                $student->users->notify(new AppNotification($notice));
+            }catch(Execption $e){
+                dd($e->getMessage());
+            }
+            
         }
         return redirect()->route('notice.index')->withSuccess("Successfully added.");
     }

@@ -29,6 +29,8 @@ class PaymentSlipControllerApi extends Controller
                     $q->where('student_id', $v);
                 })
                 ->with('attachments')
+                ->orderBy('fee_type')
+                ->latest()
                 ->get();
                 return response()->json(new PaymentSlipResource($paymentSlip));
         }catch(\Exception $e){
@@ -40,9 +42,9 @@ class PaymentSlipControllerApi extends Controller
                 'data' => []
             ];
         }
-        
 
-        
+
+
     }
 
     /**
@@ -66,9 +68,9 @@ class PaymentSlipControllerApi extends Controller
             'attachment' => 'required',
         ]);
         if ($validator->fails()) {
-            return sendError($validator->messages(), 200);
+            return sendError($validator->messages(), $validator->messages(), 401);
         }
-        
+
         try {
             DB::beginTransaction();
             $result_request = $request->only('student_id', 'semester','amount', 'fee_type');
@@ -160,6 +162,6 @@ class PaymentSlipControllerApi extends Controller
         }catch(\Exception $e){
             return sendError($e->getMessage());
         }
-       
+
     }
 }
