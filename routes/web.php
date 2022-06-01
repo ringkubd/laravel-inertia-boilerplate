@@ -220,7 +220,9 @@ Route::get('openssl', [\App\Http\Controllers\OpensslManagementController::class,
 Route::get('openssl/encrypt', [\App\Http\Controllers\OpensslManagementController::class, 'publicEncrypt']);
 Route::get('openssl/decrypt', [\App\Http\Controllers\OpensslManagementController::class, 'privateDecrypt']);
 
-
+Route::get('privacy-policy', function (){
+    return Inertia::render('PrivacyPolicy');
+});
 // Inbox
 Route::get('inbox', [\App\Http\Controllers\InboxController::class, 'inbox'])->name('inbox');
 
