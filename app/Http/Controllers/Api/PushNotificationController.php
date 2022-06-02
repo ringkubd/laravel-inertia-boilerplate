@@ -28,7 +28,7 @@ class PushNotificationController extends Controller
     {
         $token = $request->input('token');
         try {
-            $request->user()->pushTokens()->firstOrCreate(
+            $request->user()->pushTokens()->updateOrCreate(
                 ['token' => $token],
                 ['token' => $token],
             );
