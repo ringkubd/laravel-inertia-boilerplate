@@ -76,11 +76,12 @@ class NoticeController extends Controller
             ->get();
         foreach ($students as $student){
             try{
-                $student->users->notify(new AppNotification($notice));
+                if ($student->users)
+                    $student->users->notify(new AppNotification($notice));
             }catch(Execption $e){
                 dd($e->getMessage());
             }
-            
+
         }
         return redirect()->route('notice.index')->withSuccess("Successfully added.");
     }
