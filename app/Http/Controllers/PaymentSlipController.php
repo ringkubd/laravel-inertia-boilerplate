@@ -13,10 +13,22 @@ class PaymentSlipController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $paymentSlip = PaymentSlip::query()
-            ->with('student', 'attachments')
+            ->with(['student'])
+            ->when($request->academic_session, function ($q, $v) use($request) {
+                $q->whereHas('student', function ($q) use($request){
+                    $q->where('polytechnic_session',$request->academic_session);
+                });
+            })
+            ->when($request->semester, function ($q, $v){
+                $q->where('semester', $v);
+            })
+            ->when($request->fee_type, function ($q, $v){
+                $q->where('fee_type', $v);
+            })
+            ->with('attachments' )
             ->orderBy('created_at')
             ->get();
         return Inertia::render('PaymentSlip/Index', [
@@ -100,5 +112,9 @@ class PaymentSlipController extends Controller
     public function changeStatus(PaymentSlip $slip, $status){
         $slip->updateOrFail(['status' => $status]);
         return redirect()->route('payment-slip.index')->with('Status successfully updated');
+    }
+
+    public function download(){
+
     }
 }

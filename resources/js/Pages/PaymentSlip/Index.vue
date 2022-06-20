@@ -41,6 +41,9 @@
                                 <td>
                                     <vue-picture-swipe v-if="slip.attachments?.length !== 0" :items="imageItems(slip.attachments)" />
                                     <p class="p-0 m-0 text-red-700" v-else>N</p>
+                                    <InertiaLink href="" class="no-underline">
+                                        <Button title="Download">Download</Button>
+                                    </InertiaLink>
                                 </td>
                                 <td>
                                     <select
@@ -77,10 +80,12 @@ import Authenticated from "@/Layouts/Authenticated";
 import PageHeader from "@/Shared/PageHeader";
 import CardHeader from "@/Shared/CardHeader";
 import Actions from "@/Shared/Actions";
+import Button from "@/Shared/Button";
 export default {
     name: "Index",
     props: ['payment_slip', 'can'],
     components: {
+        Button,
         Actions,
         CardHeader,
         PageHeader,
