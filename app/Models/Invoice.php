@@ -12,6 +12,10 @@ class Invoice extends Model
 
     protected $guarded = ['id'];
 
+    public function getStudentNameAttribute($value){
+        return ucfirst(strtolower($value));
+    }
+
     public function student(){
         return $this->belongsTo(Student::class);
     }
@@ -19,4 +23,5 @@ class Invoice extends Model
     public function details(){
         return $this->hasMany(InvoiceDetail::class);
     }
+
 }

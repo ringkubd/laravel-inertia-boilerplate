@@ -227,7 +227,7 @@ class InvoiceController extends Controller
                 'delete' => auth()->user()->can('delete_invoice'),
                 'view' => auth()->user()->can('view_invoice'),
             ],
-            'data' => $invoice,
+            'data' => $invoice->sortBy('bank_branch')->values(),
             'feeTypes' => $feeTypes,
             'basicInfo' => $basicInfo,
             'last_mma' => $lastMma
