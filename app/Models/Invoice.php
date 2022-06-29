@@ -13,7 +13,7 @@ class Invoice extends Model
     protected $guarded = ['id'];
 
     public function getStudentNameAttribute($value){
-        return ucfirst(strtolower($value));
+        return ucwords(strtolower($value));
     }
 
     public function student(){
