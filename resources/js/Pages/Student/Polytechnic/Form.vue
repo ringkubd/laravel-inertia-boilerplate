@@ -110,11 +110,11 @@
                             </div>
                             <div class="col">
                                 <label for="bank_document">Bank Document</label>
-                                <input type="file" id="bank_document" class="form-control" ref="photo" @input="form.photo = $event.target.files[0]" @change="updatePhotoPreview">
+                                <input type="file" id="bank_document" class="form-control" ref="bank_document" @input="form.bank_document = $event.target.files[0]" @change="updateBankDocumentPreview" accept="image/png, image/jpeg">
                                 <div v-if="errors.bank_document" class="text-danger">
                                     {{ errors.bank_document }}
                                 </div>
-                                <div class="imagePreviewWrapper" v-if="photoPreview && photoPreview !== ''" :style="{ 'background-image': `url(${photoPreview})` }"></div>
+                                <div class="imagePreviewWrapper" v-if="bankDocumentPreview && bankDocumentPreview !== ''" :style="{ 'background-image': `url(${bankDocumentPreview})` }"></div>
                             </div>
                         </div>
                         <input type="hidden" v-model="currentSession">
@@ -126,7 +126,7 @@
                         <legend>Photo & ID</legend>
                         <div class="col-md">
                             <label for="photo">Photo</label>
-                            <input type="file" id="photo" class="form-control" ref="photo" @input="form.photo = $event.target.files[0]" @change="updatePhotoPreview">
+                            <input type="file" id="photo" class="form-control" ref="photo" @input="form.photo = $event.target.files[0]" @change="updatePhotoPreview" accept="image/png, image/jpeg">
                             <div v-if="errors.photo" class="text-danger">
                                 {{ errors.photo }}
                             </div>
@@ -134,7 +134,7 @@
                         </div>
                         <div class="col-md">
                             <label for="id_card">ID Card</label>
-                            <input type="file" id="id_card" class="form-control" ref="id_card" @input="form.id_card = $event.target.files[0]" @change="updateIDCardPreview">
+                            <input type="file" id="id_card" class="form-control" ref="id_card" @input="form.id_card = $event.target.files[0]" @change="updateIDCardPreview" accept="image/png, image/jpeg">
                             <div v-if="errors.id_card" class="text-danger">
                                 {{ errors.id_card }}
                             </div>
@@ -187,6 +187,7 @@ export default {
                 bank_account: this.student.bank_account,
                 bank_branch: this.student.bank_branch,
                 bank_name: this.selected_bank,
+                bank_document: this.student.bank_document,
                 current_session: this.selected_session,
                 classroom: '',
                 photo: this.student.photo,
@@ -195,6 +196,7 @@ export default {
             }),
             photoPreview: this.student.photo,
             idCardPreview: this.student.id_card,
+            bankDocumentPreview: this.student.bank_document,
             selected_student: {}
         }
     },
@@ -215,7 +217,16 @@ export default {
                 this.idCardPreview = e.target.result;
             };
             reader.readAsDataURL(this.$refs.id_card.files[0]);
-            this.$emit('input', this.$refs.photo.files[0])
+            this.$emit('input', this.$refs.id_card.files[0])
+        },
+        updateBankDocumentPreview() {
+            const reader = new FileReader();
+            console.log(reader)
+            reader.onload = (e) => {
+                this.bankDocumentPreview = e.target.result;
+            };
+            reader.readAsDataURL(this.$refs.bank_document.files[0]);
+            this.$emit('input', this.$refs.bank_document.files[0])
         },
         submitForm(){
             this.postForm(this.form)
@@ -234,6 +245,9 @@ export default {
         }
         if (this.student.id_card){
             this.idCardPreview = "/"+this.student.id_card
+        }
+        if (this.student.bank_document){
+            this.bankDocumentPreview = "/"+this.student.bank_document
         }
     },
     computed: {

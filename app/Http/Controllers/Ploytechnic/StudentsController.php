@@ -219,6 +219,17 @@ class StudentsController extends Controller
             $data['id_card'] ='photos/students/id_card/'.$fileName.'.'.$image->getClientOriginalExtension();
         }
 
+        if ($request->hasFile('bank_document')) {
+            if ($student->bank_document != null && file_exists(public_path($student->bank_document))) {
+                unlink(public_path($student->id_card));
+            }
+            $image = $request->file('bank_document');
+            $fileName = $request->madrashas_id.'_'.$request->class_roll.'_'.$request->trade.'_'.$student->student_id.'_'.rand(99,999);
+            $path = $image->move(public_path('photos/students/bank_document'), $fileName.'.'.$image->getClientOriginalExtension());
+            unset($data['bank_document']);
+            $data['bank_document'] ='photos/students/bank_document/'.$fileName.'.'.$image->getClientOriginalExtension();
+        }
+
         $student->update($data);
         $student->classroom()->sync($request->classroom);
         return redirect()->route('polytechnic.student.index')->withMessage('Student addedd.');
@@ -273,7 +284,14 @@ class StudentsController extends Controller
             'classes' => $classes,
             'polytechnic' => $polytechnic,
             'trade_polytechnic' => $trade_polytechnic,
-            'students' => $students
+            'students' => $students,
+            'can' => [
+                'create' => auth()->user()->hasPermissionTo('create_student'),
+                'view' => auth()->user()->hasPermissionTo('view_student'),
+                'update' => auth()->user()->hasPermissionTo('update_student'),
+                'delete' => auth()->user()->hasPermissionTo('delete_student'),
+                'super_admin' => auth()->user()->hasRole('Super Admin') || auth()->user()->hasRole('Admin')
+            ]
         ]);
     }
 
@@ -322,6 +340,28 @@ class StudentsController extends Controller
             $path = $image->move(public_path('photos/students/id_card'), $fileName.'.'.$image->getClientOriginalExtension());
             unset($data['id_card']);
             $data['id_card'] ='photos/students/id_card/'.$fileName.'.'.$image->getClientOriginalExtension();
+        }
+
+        if ($request->hasFile('id_card')) {
+            if ($student->id_card != null && file_exists(public_path($student->id_card))) {
+                unlink(public_path($student->id_card));
+            }
+            $image = $request->file('id_card');
+            $fileName = $request->madrashas_id.'_'.$request->class_roll.'_'.$request->trade.'_'.$student->student_id.'_'.rand(99,999);
+            $path = $image->move(public_path('photos/students/id_card'), $fileName.'.'.$image->getClientOriginalExtension());
+            unset($data['id_card']);
+            $data['id_card'] ='photos/students/id_card/'.$fileName.'.'.$image->getClientOriginalExtension();
+        }
+
+        if ($request->hasFile('bank_document')) {
+            if ($student->bank_document != null && file_exists(public_path($student->bank_document))) {
+                unlink(public_path($student->id_card));
+            }
+            $image = $request->file('bank_document');
+            $fileName = $request->madrashas_id.'_'.$request->class_roll.'_'.$request->trade.'_'.$student->student_id.'_'.rand(99,999);
+            $path = $image->move(public_path('photos/students/bank_document'), $fileName.'.'.$image->getClientOriginalExtension());
+            unset($data['bank_document']);
+            $data['bank_document'] ='photos/students/bank_document/'.$fileName.'.'.$image->getClientOriginalExtension();
         }
 
         $student->update($data);

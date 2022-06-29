@@ -26,6 +26,7 @@
                   :trade_polytechnic="trade_polytechnic"
                   :trade_madrasa="trade_madrasa"
                   :classes="classes"
+                  :super_admin="can.super_admin"
                   :academic_session="academic_session">
             </Form>
         </div>
@@ -42,7 +43,7 @@ export default {
     props: [
         'student', 'selected_trade', 'selected_session', 'academic_session', 'trade_madrasa',
         'trade_polytechnic', 'banks', 'selected_bank', 'user', 'polytechnic', 'madrasa', 'errors',
-        'classes'
+        'classes', 'can'
     ],
     components: {PageHeader, Back, Form, Authenticated},
     methods: {
