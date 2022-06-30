@@ -208,11 +208,13 @@ class TeacherController extends Controller
         }
         $userData = [
             'name' => $request->name,
-            'email' => $request->email,
             'profile_photo' => $data['photo']
         ];
         if ($request->has('password') && $request->password != "") {
             $userData['password'] = Hash::make($request->password);
+        }
+        if ($request->has('email') && $request->email != ""){
+            $userData['email'] =  $request->email;
         }
         // Update Teacher User
         $users = User::find($teacher->users_id)->update($userData);
