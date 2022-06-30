@@ -195,8 +195,6 @@ class TeacherController extends Controller
             'mobile' => 'required',
             'designation' => 'required',
             'photo' => 'required',
-            'email' => 'required',
-            'password' => 'required',
         ]);
         $data = [];
         DB::beginTransaction();
