@@ -5,5 +5,5 @@
  */
 return [
     'users_table' => 'users',
-    'redirect_to' => '/'
+    'redirect_to' => '/dashboard'
 ];
