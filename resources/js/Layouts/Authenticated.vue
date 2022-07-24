@@ -19,7 +19,7 @@
                             <div
                                 class="
                                     hidden
-                                    space-x-8
+                                    space-x-2
                                     sm:-my-px sm:ml-10 sm:flex
                                     rounded-md
                                 "
@@ -78,27 +78,201 @@
                                         <template #content>
                                             <breeze-dropdown-link
                                                 :href="route('users.index')"
-                                                :active="route().current('users')"
+                                                :active="route().current('users.*')"
                                             >
                                                 User
                                             </breeze-dropdown-link>
                                             <breeze-dropdown-link
                                                 :href="route('user_role.index')"
-                                                :active="route().current('users')"
+                                                :active="route().current('user_role.*')"
                                             >
                                                 User's Role
                                             </breeze-dropdown-link>
                                             <breeze-dropdown-link
                                                 :href="route('roles.index')"
-                                                :active="route().current('roles')"
+                                                :active="route().current('roles.*')"
                                             >
                                                 Role
                                             </breeze-dropdown-link>
                                             <breeze-dropdown-link
                                                 :href="route('permission.index')"
-                                                :active="route().current('permission')"
+                                                :active="route().current('permission.*')"
                                             >
                                                 Permission
+                                            </breeze-dropdown-link>
+                                        </template>
+                                    </breeze-dropdown>
+                                </div>
+
+                                <div class="hidden sm:flex sm:items-center sm:ml-6">
+                                    <breeze-dropdown align="right" width="48">
+                                        <template #trigger>
+                                        <span class="inline-flex items-center rounded-md">
+                                            <button
+                                                type="button"
+                                                class="
+                                                    inline-flex
+                                                    items-center
+                                                    px-3
+                                                    py-2
+                                                    border border-transparent
+                                                    text-sm
+                                                    leading-4
+                                                    font-medium
+                                                    rounded-md
+                                                    text-gray-500
+                                                    bg-white
+                                                    hover:text-gray-700
+                                                    focus:outline-none
+                                                    transition
+                                                    ease-in-out
+                                                    duration-150
+                                                "
+                                            >
+                                                Blog
+
+                                                <svg
+                                                    class="ml-2 -mr-0.5 h-4 w-4"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 20 20"
+                                                    fill="currentColor"
+                                                >
+                                                    <path
+                                                        fill-rule="evenodd"
+                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                        clip-rule="evenodd"
+                                                    />
+                                                </svg>
+                                            </button>
+                                        </span>
+                                        </template>
+
+                                        <template #content>
+                                            <breeze-dropdown-link
+                                                :href="route('post.index')"
+                                                :active="route().current('post.*')"
+                                            >
+                                                Post
+                                            </breeze-dropdown-link>
+                                            <breeze-dropdown-link
+                                                :href="route('page.index')"
+                                                :active="route().current('page.*')"
+                                            >
+                                                Pages
+                                            </breeze-dropdown-link>
+                                            <breeze-dropdown-link
+                                                :href="route('category.index')"
+                                                :active="route().current('category.*')"
+                                            >
+                                                Category
+                                            </breeze-dropdown-link>
+                                        </template>
+                                    </breeze-dropdown>
+                                </div>
+
+                                <div class="hidden sm:flex sm:items-center sm:ml-6">
+                                    <breeze-dropdown align="right" width="48">
+                                        <template #trigger>
+                                        <span class="inline-flex items-center rounded-md">
+                                            <button
+                                                type="button"
+                                                class="
+                                                    inline-flex
+                                                    items-center
+                                                    px-3
+                                                    py-2
+                                                    border border-transparent
+                                                    text-sm
+                                                    leading-4
+                                                    font-medium
+                                                    rounded-md
+                                                    text-gray-500
+                                                    bg-white
+                                                    hover:text-gray-700
+                                                    focus:outline-none
+                                                    transition
+                                                    ease-in-out
+                                                    duration-150
+                                                "
+                                            >
+                                                Madrasa
+
+                                                <svg
+                                                    class="ml-2 -mr-0.5 h-4 w-4"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 20 20"
+                                                    fill="currentColor"
+                                                >
+                                                    <path
+                                                        fill-rule="evenodd"
+                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                        clip-rule="evenodd"
+                                                    />
+                                                </svg>
+                                            </button>
+                                        </span>
+                                        </template>
+
+                                        <template #content>
+                                            <breeze-dropdown-link
+                                                :href="route('madrasa.index')"
+                                                :active="route().current('madrasa.*')"
+                                            >
+                                                Madrasa
+                                            </breeze-dropdown-link>
+                                        </template>
+                                    </breeze-dropdown>
+                                </div>
+
+                                <div class="hidden sm:flex sm:items-center sm:ml-6">
+                                    <breeze-dropdown align="right" width="48">
+                                        <template #trigger>
+                                        <span class="inline-flex items-center rounded-md">
+                                            <button
+                                                type="button"
+                                                class="
+                                                    inline-flex
+                                                    items-center
+                                                    px-3
+                                                    py-2
+                                                    border border-transparent
+                                                    text-sm
+                                                    leading-4
+                                                    font-medium
+                                                    rounded-md
+                                                    text-gray-500
+                                                    bg-white
+                                                    hover:text-gray-700
+                                                    focus:outline-none
+                                                    transition
+                                                    ease-in-out
+                                                    duration-150
+                                                "
+                                            >
+                                                Polytechnic
+
+                                                <svg
+                                                    class="ml-2 -mr-0.5 h-4 w-4"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 20 20"
+                                                    fill="currentColor"
+                                                >
+                                                    <path
+                                                        fill-rule="evenodd"
+                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                        clip-rule="evenodd"
+                                                    />
+                                                </svg>
+                                            </button>
+                                        </span>
+                                        </template>
+
+                                        <template #content>
+                                            <breeze-dropdown-link
+                                                :href="route('polytechnic.index')"
+                                                :active="route().current('polytechnic.*')"
+                                            >
+                                                Polytechnic
                                             </breeze-dropdown-link>
                                         </template>
                                     </breeze-dropdown>
@@ -108,6 +282,9 @@
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ml-6">
+                            <div align="left" width="10" class="border-1 border-green-400 border-solid rounded">
+                                <span class="inline-flex border-1px rounded-md"> {{onlineFriends.length}} </span>
+                            </div>
                             <!-- Settings Dropdown -->
                             <div class="ml-3 relative">
                                 <breeze-dropdown align="right" width="48">
@@ -168,10 +345,7 @@
                         <!-- Hamburger -->
                         <div class="-mr-2 flex items-center sm:hidden">
                             <button
-                                @click="
-                                    showingNavigationDropdown =
-                                        !showingNavigationDropdown
-                                "
+                                @click="showingNavigationDropdown = !showingNavigationDropdown"
                                 class="
                                     inline-flex
                                     items-center
@@ -287,9 +461,40 @@
 
             <!-- Page Content -->
             <main>
-                <slot />
+                <slot :onlineFriends="onlineFriends" :offlineFriends="offlineFriends" />
             </main>
         </div>
+        <footer class="bg-white">
+            <div class="container max-w-6xl mx-auto flex items-center px-2 py-8">
+
+                <div class="w-full mx-auto flex flex-wrap items-center">
+                    <div class="flex w-full md:w-1/2 justify-center md:justify-start text-white font-extrabold">
+                        <a class="text-gray-900 no-underline hover:text-gray-900 hover:no-underline" href="#">
+                            <span class="text-base">Blog</span>
+                        </a>
+                    </div>
+                    <div class="flex w-full pt-2 content-center justify-between md:w-1/2 md:justify-end">
+                        <ul class="list-reset flex justify-center flex-1 md:flex-none items-center">
+                            <li>
+                                <a class="inline-block py-2 px-3 no-underline" href="index.html">HOME</a>
+                            </li>
+                            <li>
+                                <a class="inline-block text-gray-600 no-underline hover:text-gray-200 hover:underline py-2 px-3" href="#">link</a>
+                            </li>
+                            <li>
+                                <a class="inline-block text-gray-600 no-underline hover:text-gray-200 hover:underline py-2 px-3" href="#">link</a>
+                            </li>
+                            <li>
+                                <a class="inline-block text-gray-600 no-underline hover:text-gray-200 hover:underline py-2 px-3" href="#">link</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </footer>
     </div>
 </template>
 
@@ -301,6 +506,7 @@ import BreezeNavLink from "@/Components/NavLink";
 import BreezeResponsiveNavLink from "@/Components/ResponsiveNavLink";
 
 export default {
+    props: ['user', 'auth', 'online', 'offline'],
     components: {
         BreezeApplicationLogo,
         BreezeDropdown,
@@ -308,11 +514,89 @@ export default {
         BreezeNavLink,
         BreezeResponsiveNavLink,
     },
-
     data() {
         return {
             showingNavigationDropdown: false,
+            onlineFriends: [],
+            offlineFriends: []
         };
+    },
+    methods: {
+        refreshClient(){
+        },
+        addOnlineFriend(user){
+            let app = this.$page.props
+            if(this.onlineFriends.indexOf(user) < 0 && app.user.id != user.id){
+                this.onlineFriends.push(user)
+            }
+            //console.log(this.onlineFriends)
+        },
+        removeOfflineFriend(offlineUser){
+            this.onlineFriends = this.onlineFriends.filter(user => {
+                return user.id != offlineUser.id;
+            })
+        },
+        addOfflineFriend(user){
+            let app = this.$page.props
+            if(this.offlineFriends.indexOf(user) < 0 && app.user.id != user.id){
+                this.offlineFriends.push(user)
+            }
+        },
+        removeOnlineFriend(onlineUser){
+            this.offlineFriends = this.offlineFriends.filter(user => {
+                return user.id != onlineUser.id;
+            })
+        },
+        convertProxyObjectToPojo(proxyObj) {
+            return _.cloneDeep(proxyObj);
+        }
+    },
+    created() {
+        let app = this;
+        app.channel
+            .subscribed(user => {
+                //console.log(users)
+            })
+            .joining(user => {
+                axios.put(route('online', user.id))
+            })
+            .leaving(user => {
+                axios.put(route('offline', user.id))
+            })
+            .listen("OnlineEvent", e => {
+                const user = this.convertProxyObjectToPojo(e.user)
+                app.addOnlineFriend(user);
+                app.removeOnlineFriend(user);
+                console.log(user)
+            })
+            .listen('OfflineEvent', e => {
+                const user = this.convertProxyObjectToPojo(e.user)
+                app.removeOfflineFriend(user);
+                app.addOfflineFriend(user)
+            });
+        window.setInterval(function () {
+            app.refreshClient();
+        }, 60000);
+    },
+    computed:{
+        channel () {
+            return window.Echo.join("user_online_status");
+        },
+        connection () {
+            return window.Echo.connector.pusher.connection;
+        }
+    },
+    mounted () {
+        let app = this.$page.props
+        this.onlineFriends = app.online.filter(user => {
+            return user.id != app.user.id;
+        })
+        this.offlineFriends = app.offline.filter(user => {
+            return user.id != app.user.id;
+        })
+    },
+    beforeDestroy () {
+        window.Echo.leave("user_online_status");
     },
 };
 </script>

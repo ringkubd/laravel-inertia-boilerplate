@@ -1,0 +1,30 @@
+{
+    "name": "anwar/laravel-office",
+    "description": "PhpWord plugin management in Laravel",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Anwar\\LaravelOffice\\": "src/"
+        }
+    },
+    "require": {
+        "phpoffice/phpword": "0.19.x-dev",
+        "laravel/framework": "8.*"
+    },
+    "authors": [
+        {
+            "name": "Anwar Jahid",
+            "email": "ajr.jahid@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Anwar\\LaravelOffice\\LaravelOfficeProvider"
+            ],
+            "aliases": {
+            }
+        }
+    }
+}
