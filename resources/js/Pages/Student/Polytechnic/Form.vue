@@ -117,12 +117,12 @@
                                 <div class="imagePreviewWrapper" v-if="bankDocumentPreview && bankDocumentPreview !== ''" :style="{ 'background-image': `url(${bankDocumentPreview})` }"></div>
                             </div>
                         </div>
-                        <input type="hidden" v-model="currentSession">
-                        <input type="hidden" v-model="currentTrade">
-                        <input type="hidden" v-model="currentClass">
                     </fieldset>
 
                     <fieldset class="row form-group">
+                        <input type="hidden" v-model="currentSession">
+                        <input type="hidden" v-model="currentTrade">
+                        <input type="hidden" v-model="currentClass">
                         <legend>Photo & ID</legend>
                         <div class="col-md">
                             <label for="photo">Photo</label>
