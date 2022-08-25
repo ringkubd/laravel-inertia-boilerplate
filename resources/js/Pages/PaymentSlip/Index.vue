@@ -15,7 +15,31 @@
                         <CardHeader
                             :create="route('payment-slip.create')"
                             :can="can"
-                        />
+                            :search-method="search"
+                        >
+                            <template #first>
+                                <div class="form-group row">
+                                    <label for="trade" class="col-sm-3 col-form-label">Trade</label>
+                                    <div class="col-sm-9">
+                                        <select v-model="filterParam.trade" name="trade" id="trade" class="form-control" @change="filterData">
+                                            <option value=""></option>
+                                            <option v-for="trade in trades" :value="trade.name">{{trade.name}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </template>
+                            <template #second>
+                                <div class="form-group row">
+                                    <label for="session" class="col-sm-3 col-form-label">Session</label>
+                                    <div class="col-sm-9">
+                                        <select v-model="filterParam.session" name="session" id="session" class="form-control" @change="filterData">
+                                            <option value=""></option>
+                                            <option v-for="session in academic_session" :value="session.session">{{session.session}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </template>
+                        </CardHeader>
                     </div>
                     <div class="card-body table-responsive">
                         <table class="table table-secondary table-striped text-center">
@@ -83,7 +107,7 @@ import Actions from "@/Shared/Actions";
 import Button from "@/Shared/Button";
 export default {
     name: "Index",
-    props: ['payment_slip', 'can'],
+    props: ['payment_slip', 'can', 'trades', 'academic_session'],
     components: {
         Button,
         Actions,
@@ -93,6 +117,11 @@ export default {
     },
     data(){
         return {
+            filterParam: {
+                trade: GET('trade')[0]?.normalize(),
+                session: GET('current_session')[0],
+                classroom: GET('classroom')[0]
+            }
         }
     },
     methods:{
@@ -126,6 +155,12 @@ export default {
             const slipId = e.currentTarget.getAttribute('slipid');
             const value = e.currentTarget.value;
             this.$inertia.post(route('payment-slip.change-status',{slip: slipId, status: value}))
+        },
+        search(data){
+            this.$inertia.replace(route('payment-slip.index', {search: data}));
+        },
+        filterData(){
+            this.$inertia.replace(route('payment-slip.index', {'current_session': this.filterParam.session, 'trade': this.filterParam.trade, 'classroom': this.filterParam.classroom}))
         }
     }
 }
@@ -141,8 +176,6 @@ export default {
     object-fit: contain !important;
     max-width: 2rem!important;
     margin: 0!important;
-    margin-bottom: 0!important;
-    margin-top: 0!important;
 }
 .gallery-thumbnail{
     display: flex!important;

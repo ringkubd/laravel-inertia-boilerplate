@@ -506,14 +506,14 @@
                                         Support
                                     </breeze-nav-link>
                                 </div>
-                                <div class="hidden sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.super_admin">
+                                <div class="sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.paymentSlip">
                                     <breeze-nav-link
-                                        :href="route('mail.inbox')"
-                                        :active="route().current('mail.inbox')"
+                                        :href="route('payment-slip.index')"
+                                        :active="route().current('payment-slip.index')"
                                         class="rounded-md text-white"
-                                        v-if="$page.props.menu_permission.student || $page.props.menu_permission.super_admin"
+                                        v-if="$page.props.menu_permission.paymentSlip"
                                     >
-                                        Mail
+                                        Payment Slip
                                     </breeze-nav-link>
                                 </div>
                             </div>
@@ -1141,6 +1141,18 @@
                                 v-if="$page.props.menu_permission.support"
                             >
                                 Support
+                            </breeze-nav-link>
+                        </div>
+                    </div>
+                    <div class="space-y-1 pl-3">
+                        <div class="sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.support">
+                            <breeze-nav-link
+                                :href="route('payment-slip.index')"
+                                :active="route().current('payment-slip.index')"
+                                class="rounded-md text-white"
+                                v-if="$page.props.menu_permission.support"
+                            >
+                                Payment Slip
                             </breeze-nav-link>
                         </div>
                     </div>

@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AcademicSession;
+use App\Models\ClassRoom;
 use App\Models\PaymentSlip;
+use App\Models\Trade;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -28,11 +31,35 @@ class PaymentSlipController extends Controller
             ->when($request->fee_type, function ($q, $v){
                 $q->where('fee_type', $v);
             })
+            ->when($request->search, function ($q, $v){
+                $q->whereHas('student', function ($q) use($v){
+                    $q->where('name','like',"%$v%");
+                });
+                $q->orWhere('semester', $v);
+                $q->orWhere('semester', $v);
+            })
+            ->when($request->current_session, function ($q, $v){
+                $q->whereHas('student', function ($q) use($v){
+                    $q->where('current_session', 'like', "%$v%");
+                });
+            })
+            ->when($request->trade, function ($q, $v){
+                $q->whereHas('student', function ($q) use($v){
+                    $q->where('madrasa_trade_id', 'like', "%$v%");
+                });
+            })
             ->with('attachments' )
             ->orderBy('created_at')
             ->get();
+
+        $classes =  ClassRoom::where('is_madrasa', false)->get();
+        $session = AcademicSession::all();
+        $trade = Trade::where('is_madrasa', 0)->get();
+
         return Inertia::render('PaymentSlip/Index', [
             'payment_slip' => $paymentSlip,
+            'trades' => $trade,
+            'academic_session' => $session,
             'can' => [
                 'create' => auth()->user()->can('create_payment-slip'),
                 'update' => auth()->user()->can('update_payment-slip'),
