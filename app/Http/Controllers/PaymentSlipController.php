@@ -117,7 +117,7 @@ class PaymentSlipController extends Controller
     }
 
     public function downloadAll(Request $request){
-        $slips = $this->getCollection($request);
+        $slips = $this->getCollection($request)->where('status', 1);
         if ($slips->count() > 0){
             $zip = new ZipArchive();
             $archiveName = "payment_slip/zip/45.zip";
@@ -177,7 +177,6 @@ class PaymentSlipController extends Controller
                 });
             })
             ->with('attachments')
-            ->where('status', 1)
             ->orderBy('created_at')
             ->get();
     }
