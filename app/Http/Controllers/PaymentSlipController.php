@@ -7,7 +7,10 @@ use App\Models\ClassRoom;
 use App\Models\PaymentSlip;
 use App\Models\Trade;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\File;
 use Inertia\Inertia;
+use ZipArchive;
 
 class PaymentSlipController extends Controller
 {
@@ -18,39 +21,7 @@ class PaymentSlipController extends Controller
      */
     public function index(Request $request)
     {
-        $paymentSlip = PaymentSlip::query()
-            ->with(['student'])
-            ->when($request->academic_session, function ($q, $v) use($request) {
-                $q->whereHas('student', function ($q) use($request){
-                    $q->where('polytechnic_session',$request->academic_session);
-                });
-            })
-            ->when($request->semester, function ($q, $v){
-                $q->where('semester', $v);
-            })
-            ->when($request->fee_type, function ($q, $v){
-                $q->where('fee_type', $v);
-            })
-            ->when($request->search, function ($q, $v){
-                $q->whereHas('student', function ($q) use($v){
-                    $q->where('name','like',"%$v%");
-                });
-                $q->orWhere('semester', $v);
-                $q->orWhere('semester', $v);
-            })
-            ->when($request->current_session, function ($q, $v){
-                $q->whereHas('student', function ($q) use($v){
-                    $q->where('current_session', 'like', "%$v%");
-                });
-            })
-            ->when($request->trade, function ($q, $v){
-                $q->whereHas('student', function ($q) use($v){
-                    $q->where('madrasa_trade_id', 'like', "%$v%");
-                });
-            })
-            ->with('attachments' )
-            ->orderBy('created_at')
-            ->get();
+        $paymentSlip = $this->getCollection($request);
 
         $classes =  ClassRoom::where('is_madrasa', false)->get();
         $session = AcademicSession::all();
@@ -142,6 +113,72 @@ class PaymentSlipController extends Controller
     }
 
     public function download(){
+        dd(123);
+    }
 
+    public function downloadAll(Request $request){
+        $slips = $this->getCollection($request);
+        if ($slips->count() > 0){
+            $zip = new ZipArchive();
+            $archiveName = "payment_slip/zip/45.zip";
+            if ($zip->open(public_path($archiveName), ZipArchive::CREATE) === true){
+                foreach ($slips as $slip){
+                    $fee_type = $slip->fee_type;
+                    $student_name = $slip->student->name;
+                    foreach ($slip->attachments as $attach){
+                        $file = public_path($attach->path);
+                        $fileName = str_replace(" ","_" ,$fee_type)."_".str_replace(" ", "_", $student_name)."_".$attach->id.".".$attach->extention;
+                        if (File::exists($file)){
+                            $zip->addFile($file, $fileName);
+                        }
+                    }
+                }
+                $zip->close();
+                return response()->download(public_path($archiveName));
+            }
+
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return array|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getCollection(Request $request)
+    {
+        return PaymentSlip::query()
+            ->with(['student'])
+            ->when($request->academic_session, function ($q, $v) use ($request) {
+                $q->whereHas('student', function ($q) use ($request) {
+                    $q->where('polytechnic_session', $request->academic_session);
+                });
+            })
+            ->when($request->semester, function ($q, $v) {
+                $q->where('semester', $v);
+            })
+            ->when($request->fee_type, function ($q, $v) {
+                $q->where('fee_type', $v);
+            })
+            ->when($request->search, function ($q, $v) {
+                $q->whereHas('student', function ($q) use ($v) {
+                    $q->where('name', 'like', "%$v%");
+                });
+                $q->orWhere('semester', $v);
+                $q->orWhere('semester', $v);
+            })
+            ->when($request->current_session, function ($q, $v) {
+                $q->whereHas('student', function ($q) use ($v) {
+                    $q->where('current_session', 'like', "%$v%");
+                });
+            })
+            ->when($request->trade, function ($q, $v) {
+                $q->whereHas('student', function ($q) use ($v) {
+                    $q->where('madrasa_trade_id', 'like', "%$v%");
+                });
+            })
+            ->with('attachments')
+            ->where('status', 1)
+            ->orderBy('created_at')
+            ->get();
     }
 }

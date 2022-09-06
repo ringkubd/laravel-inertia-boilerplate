@@ -141,6 +141,7 @@ Route::post('upload_file', [\App\Http\Controllers\BillAttachmentController::clas
 Route::get('folder_list/{base?}', [\App\Http\Controllers\BillAttachmentController::class, 'folderList'])->name('folder_list');
 
 Route::resource('payment-slip', \App\Http\Controllers\PaymentSlipController::class);
+Route::get('payment-slip-download', [\App\Http\Controllers\PaymentSlipController::class, 'downloadAll'])->name('payment-slip.download-all');
 Route::post('paymentslip/{slip}/{status}', [\App\Http\Controllers\PaymentSlipController::class, 'changeStatus'])->name('payment-slip.change-status');
 // Test
 // Mobile Application

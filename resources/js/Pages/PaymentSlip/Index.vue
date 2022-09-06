@@ -39,6 +39,11 @@
                                     </div>
                                 </div>
                             </template>
+                            <template #third>
+                                <div class="form-group row justify-center align-content-center align-items-center">
+                                    <button @click="downloadAll" style="max-width: 50%" class="button py-2 mx-0 w-1/3 max-w-sm bg-green-300 rounded">Download</button>
+                                </div>
+                            </template>
                         </CardHeader>
                     </div>
                     <div class="card-body table-responsive">
@@ -161,6 +166,11 @@ export default {
         },
         filterData(){
             this.$inertia.replace(route('payment-slip.index', {'current_session': this.filterParam.session, 'trade': this.filterParam.trade, 'classroom': this.filterParam.classroom}))
+        },
+        downloadAll(){
+            const link = route('payment-slip.download-all', {'current_session': this.filterParam.session, 'trade': this.filterParam.trade, 'classroom': this.filterParam.classroom})
+           console.log(window.location)
+            window.location.href = link
         }
     }
 }
