@@ -6,6 +6,7 @@ use App\Models\AcademicSession;
 use App\Models\ClassRoom;
 use App\Models\PaymentSlip;
 use App\Models\Trade;
+use App\Notifications\PaymentSlipNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\File;
@@ -109,6 +110,9 @@ class PaymentSlipController extends Controller
 
     public function changeStatus(PaymentSlip $slip, $status){
         $slip->updateOrFail(['status' => $status]);
+
+        $paymentSlip = PaymentSlip::with('student')->find($slip->id);
+        $paymentSlip->student->users->notify(new PaymentSlipNotification($paymentSlip));
         return redirect()->route('payment-slip.index')->with('Status successfully updated');
     }
 
