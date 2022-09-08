@@ -104,7 +104,8 @@ class PaymentSlipController extends Controller
      */
     public function destroy(PaymentSlip $paymentSlip)
     {
-        //
+        $paymentSlip->delete();
+        return redirect()->route('payment-slip.index')->with('Status successfully deleted');
     }
 
 
