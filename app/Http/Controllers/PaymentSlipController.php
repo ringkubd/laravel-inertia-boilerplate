@@ -181,6 +181,7 @@ class PaymentSlipController extends Controller
                     $q->where('madrasa_trade_id', 'like', "%$v%");
                 });
             })
+            ->has('student')
             ->with('attachments')
             ->orderBy('created_at')
             ->get();
