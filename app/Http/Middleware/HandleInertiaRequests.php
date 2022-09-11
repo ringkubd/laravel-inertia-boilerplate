@@ -43,7 +43,7 @@ class HandleInertiaRequests extends Middleware
             'menu_permission' => [
                 'user_management' => $request->user()?->hasRole('Super Admin') ?? false,
                 'support' => $request->user()?->hasRole('Super Admin') || $request->user()?->hasRole('Admin') ?? false,
-                'paymentSlip' => $request->user()?->hasRole('Super Admin') || $request->user()?->hasRole('Admin') ?? $request->user()?->hasPermissionTo('view_payment-slip'),
+                'paymentSlip' => $request->user()?->hasRole('Super Admin') || $request->user()?->hasRole('Admin') || $request->user()?->hasPermissionTo('view_payment-slip'),
                 'blog_management' => $request->user()?->hasRole('Super Admin') ?? false,
                 'madrasah' => $request->user()?->hasPermissionTo('view_madrasa') || $request->user()?->hasRole('Super Admin'),
                 'teacher' => $request->user()?->hasPermissionTo('view_teacher') || $request->user()?->hasRole('Super Admin'),

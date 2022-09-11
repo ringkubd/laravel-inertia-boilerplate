@@ -1145,12 +1145,12 @@
                         </div>
                     </div>
                     <div class="space-y-1 pl-3">
-                        <div class="sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.support">
+                        <div class="sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.paymentSlip">
                             <breeze-nav-link
                                 :href="route('payment-slip.index')"
                                 :active="route().current('payment-slip.index')"
                                 class="rounded-md text-white"
-                                v-if="$page.props.menu_permission.support"
+                                v-if="$page.props.menu_permission.paymentSlip"
                             >
                                 Payment Slip
                             </breeze-nav-link>
