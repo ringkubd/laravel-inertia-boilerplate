@@ -76,17 +76,18 @@ class SupportController extends Controller
             ->with('roles')
             ->where('email', 'mahadi@isdb-bisew.org')->get();
 
-        $onlineUsers = onlineUsers() ? onlineUsers()->pluck('id')->toArray() : [];
+//        $onlineUsers = onlineUsers() ? onlineUsers()->pluck('id')->toArray() : [];
         $userArray = $user->pluck('id')->toArray();
 
         if (auth()->user()->id !== $support->creator) {
             $userArray[] = $support->creator;
         }
-        $recipient = User::whereIn('id',array_diff($userArray, $onlineUsers))->get();
+//        $recipient = User::whereIn('id',array_diff($userArray, $onlineUsers))->get();
 
-        dispatch(new SupportNotificationJob($recipient));
 
         $conversation = $support->message()->create($chat);
+
+//        dispatch(new SupportNotificationJob($recipient));
         broadcast(new SupportEvent(new SupportMessageResource($conversation)));
         return response()->json([
             'successs' => true,

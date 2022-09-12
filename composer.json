@@ -6,9 +6,10 @@
     "license": "MIT",
     "require": {
         "php": "^8.0",
+        "ext-zip": "*",
         "alimranahmed/laraocr": "^1.2",
-        "anwar/auto-login": "dev-master",
-        "anwar/config-editor": "dev-master",
+        "anwar/auto-login": "dev-main",
+        "anwar/config-editor": "dev-main",
         "awobaz/compoships": "^2.1",
         "barryvdh/laravel-dompdf": "^0.9.0",
         "beyondcode/laravel-websockets": "^1.13",
@@ -28,13 +29,13 @@
         "league/fractal": "^0.19.2",
         "maatwebsite/excel": "^3.1",
         "meilisearch/meilisearch-php": "^0.23.1",
+        "predis/predis": "^2.0",
         "relative/laravel-expo-push-notifications": "^1.0",
         "simplesoftwareio/simple-qrcode": "~4",
         "spatie/laravel-permission": "^4.2",
         "svnwa/inertiavuepaginator": "^1.0",
         "tightenco/ziggy": "^1.0",
-        "webklex/laravel-imap": "^2.4",
-        "ext-zip": "*"
+        "webklex/laravel-imap": "^2.4"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
