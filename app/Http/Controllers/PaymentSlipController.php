@@ -143,6 +143,7 @@ class PaymentSlipController extends Controller
             }
 
         }
+        return back();
     }
 
     /**
