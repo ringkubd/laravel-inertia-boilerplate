@@ -19,11 +19,18 @@
                         >
                             <template #first>
                                 <div class="form-group row">
-                                    <label for="trade" class="col-sm-3 col-form-label">Trade</label>
+                                    <label for="trade" class="col-sm-3 col-form-label">Semester</label>
                                     <div class="col-sm-9">
-                                        <select v-model="filterParam.trade" name="trade" id="trade" class="form-control" @change="filterData">
+                                        <select v-model="filterParam.semester" name="semester" id="semester" class="form-control" @change="filterData">
                                             <option value=""></option>
-                                            <option v-for="trade in trades" :value="trade.name">{{trade.name}}</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
                                         </select>
                                     </div>
                                 </div>
@@ -120,7 +127,7 @@ export default {
     data(){
         return {
             filterParam: {
-                trade: GET('trade')[0]?.normalize(),
+                semester: GET('semester')[0]?.normalize(),
                 session: GET('current_session')[0],
                 classroom: GET('classroom')[0]
             }
@@ -162,10 +169,10 @@ export default {
             this.$inertia.replace(route('payment-slip.index', {search: data}));
         },
         filterData(){
-            this.$inertia.replace(route('payment-slip.index', {'current_session': this.filterParam.session, 'trade': this.filterParam.trade, 'classroom': this.filterParam.classroom}))
+            this.$inertia.replace(route('payment-slip.index', {'current_session': this.filterParam.session, 'semester': this.filterParam.semester, 'classroom': this.filterParam.classroom}))
         },
         downloadAll(){
-            const link = route('payment-slip.download-all', {'current_session': this.filterParam.session, 'trade': this.filterParam.trade, 'classroom': this.filterParam.classroom})
+            const link = route('payment-slip.download-all', {'current_session': this.filterParam.session, 'semester': this.filterParam.semester, 'classroom': this.filterParam.classroom})
            console.log(window.location)
             window.location.href = link
         }

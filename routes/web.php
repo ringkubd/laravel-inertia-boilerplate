@@ -151,6 +151,16 @@ Route::resource('mobile', \App\Http\Controllers\MobileApplicationController::cla
 Route::resource('notice', \App\Http\Controllers\NoticeController::class);
 
 
+Route::get('student_unique_id_generator', function (){
+    $students = \App\Models\Student::all();
+    foreach ($students as $student){
+        $update = $student->update([
+            "student_id" => mt_rand(100, 999) * mt_rand(100, 999) * mt_rand(100, 999)
+        ]);
+        dump($update, $student, mt_rand(100, 999) * mt_rand(100, 999) * mt_rand(100, 999));
+    }
+});
+
 // FrontEnd Backend
 Route::prefix('frontend')->group(function (){
     Route::get('/', [\App\Http\Controllers\FrontEndController::class, 'index']);
