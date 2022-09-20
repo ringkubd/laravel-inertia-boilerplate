@@ -20,6 +20,7 @@
                             <th>Sl.#</th>
                             <th>Invoice ID.</th>
                             <th>Session</th>
+                            <th>Semester</th>
                             <th>Invoice Month</th>
                             <th>Invoice Type</th>
                             <th>Invoice Date</th>
@@ -32,6 +33,7 @@
                             <td>{{ index + 1 }}</td>
                             <td>{{ invoice.invoice_id }}</td>
                             <td>{{ invoice.session }}</td>
+                            <td>{{ semester(invoice.semester) }}</td>
                             <td>{{ invoice.invoice_month }}</td>
                             <td>{{ JSON.parse(invoice.fee_type).toString() }}</td>
                             <td>{{ invoice.invoice_date }}</td>
@@ -68,6 +70,26 @@ export default {
     methods: {
         search(params){
             this.$inertia.replace(route('invoice.index', {'search': params}))
+        },
+        semester(semester){
+            switch (semester) {
+                case 1:
+                    return "1st";
+                case 2:
+                    return "2nd";
+                case 3:
+                    return "3rd";
+                case 4:
+                    return "4th";
+                case 5:
+                    return "5th";
+                case 6:
+                    return "6th";
+                case 7:
+                    return "7th";
+                case 8:
+                    return "8th";
+            }
         }
     }
 }

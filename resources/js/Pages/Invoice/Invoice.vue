@@ -22,7 +22,7 @@
                     <table class="table table-secondary border-0 print:border-0">
                         <thead class="border-0 print:border-0">
                         <tr class="border-0 print:border-0">
-                            <th :colspan="6+ (feeTypes != null ? feeTypes.length : 0)" rowspan="4" class="border-0 print:border-0">
+                            <th :colspan="7+ (feeTypes != null ? feeTypes.length : 0)" rowspan="4" class="border-0 print:border-0">
                                 Annex - A
                                 <p style="padding: 0!important; margin: 0!important;">Academic Year: {{ basicInfo.session }}</p>
                                 <div class="text-left" style="text-align: left">
@@ -39,6 +39,7 @@
                         <thead class="border-0 print:border-0">
                         <tr class="align-middle border-0 print:border-0" style="background-color: #e0d5d5!important;">
                             <th rowspan="2">Sl.#</th>
+                            <th rowspan="2">Dakhil Roll</th>
                             <th rowspan="2">Name</th>
                             <th rowspan="2">Trade</th>
                             <th rowspan="2">IBBL Branch</th>
@@ -55,6 +56,7 @@
                         <tbody>
                         <tr v-for="(invoice, index) in data">
                             <td class="text-center">{{ index + 1 }}</td>
+                            <td class="text-center">{{ invoice.student?.ssc_roll }}</td>
                             <td style="width: 20%!important;">{{ invoice.student_name }}</td>
                             <td style="width: 15%!important;">{{ getFirstWord(invoice.student.polytechnic_trade_id) }}</td>
                             <td style="width: 25%!important;">{{ invoice.bank_branch }}</td>
@@ -63,7 +65,7 @@
                             <td class="text-center">{{invoice.amount}}</td>
                         </tr>
                         <tr rowspan="2" style="border-top: 2px solid gray!important; color: black!important; font-weight: 600">
-                            <th :colspan="5+ (feeTypes != null ? feeTypes.length : 0)" class="total" style="text-align: right">Total</th>
+                            <th :colspan="6+ (feeTypes != null ? feeTypes.length : 0)" class="total" style="text-align: right">Total</th>
                             <th class="text-center">{{totalInvoiceAmount()}}</th>
                         </tr>
                         </tbody>
@@ -76,7 +78,7 @@
                                     <span>IsDB-BISEW</span>
                                 </div>
                             </td>
-                            <td colspan="2"  class="text-center" style="padding-top: 40px!important;">
+                            <td colspan="3"  class="text-center" style="padding-top: 40px!important;">
                                 <div class="text-center flex flex-col justify-center items-center">
                                     <hr style="color: black!important;" class="w-1/2">
                                     <span>Program Officer</span>
@@ -99,7 +101,7 @@
                                     <span>IsDB-BISEW</span>
                                 </div>
                             </td>
-                            <td colspan="2" class="text-center"  style="padding-top: 40px!important;">
+                            <td colspan="3" class="text-center"  style="padding-top: 40px!important;">
                                 <div class="text-center flex flex-col justify-center items-center">
                                     <hr style="color: black!important;" class="w-1/2">
                                     <span>Accounts Officer</span>
