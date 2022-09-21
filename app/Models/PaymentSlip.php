@@ -12,7 +12,7 @@ class PaymentSlip extends Model
     protected $guarded = ['id'];
 
     public function student(){
-        return $this->belongsTo(Student::class);
+        return $this->belongsTo(Student::class, 'student_id', 'student_id');
     }
 
     public function attachments(){
