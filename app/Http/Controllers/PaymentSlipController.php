@@ -114,7 +114,7 @@ class PaymentSlipController extends Controller
 
         $paymentSlip = PaymentSlip::with('student')->find($slip->id);
         $paymentSlip->student->users->notify(new PaymentSlipNotification($paymentSlip));
-        return redirect()->route('payment-slip.index')->with('Status successfully updated');
+        return redirect()->back()->with('Status successfully updated');
     }
 
     public function download(){
