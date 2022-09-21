@@ -152,12 +152,14 @@ Route::resource('notice', \App\Http\Controllers\NoticeController::class);
 
 
 Route::get('student_unique_id_generator', function (){
-    $students = \App\Models\Student::all();
+    $students = \App\Models\Student::where('student_id', '<', 1000)->get();
     foreach ($students as $student){
-        $update = $student->update([
-            "student_id" => mt_rand(100, 999) * mt_rand(100, 999) * mt_rand(100, 999)
-        ]);
-        dump($update, $student, mt_rand(100, 999) * mt_rand(100, 999) * mt_rand(100, 999));
+        if ($student->student_id < 1000){
+            $update = $student->update([
+                "student_id" => mt_rand(100, 999) * mt_rand(100, 999) * mt_rand(100, 999)
+            ]);
+            dump($update, $student, mt_rand(100, 999) * mt_rand(100, 999) * mt_rand(100, 999));
+        }
     }
 });
 
