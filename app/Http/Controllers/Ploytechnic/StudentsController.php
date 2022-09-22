@@ -40,7 +40,7 @@ class StudentsController extends Controller
                             $q->where('class_rooms.name', 'like', "%$v%");
                         });
                 })->when($request->current_session, function ($q, $v){
-                    $q->where('current_session', 'like', "%$v%");
+                    $q->where('polytechnic_session', 'like', "%$v%");
                 })
                 ->when($request->trade, function ($q, $v){
                     $q->where('polytechnic_trade_id', 'like', "%$v%");
@@ -81,7 +81,7 @@ class StudentsController extends Controller
                         $q->where('class_rooms.name', 'like', "%$v%");
                     });
             })->when($request->current_session, function ($q, $v){
-                $q->where('current_session', 'like', "%$v%");
+                $q->where('polytechnic_session', 'like', "%$v%");
             })
             ->when($request->trade, function ($q, $v){
                 $q->where('polytechnic_trade_id', 'like', "%$v%");
