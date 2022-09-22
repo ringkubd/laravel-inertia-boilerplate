@@ -106,11 +106,6 @@ class StudentsController extends Controller
             })
             ->paginate();
 
-        $classes = ClassRoom::where('is_madrasa', false)->get();
-        $session = AcademicSession::all();
-        $trade = Trade::where('is_madrasa', 0)->get();
-        $madrasah = Madrasha::all();
-
         return Inertia::render($this->root_component.'Index', [
             'students' => $students,
             'can' => [
@@ -119,10 +114,10 @@ class StudentsController extends Controller
                 'update' => auth()->user()->can('update_student'),
                 'delete' => auth()->user()->can('delete_student'),
             ],
-            'trades' => $trade,
-            'academic_session' => $session,
-            'classes' => $classes,
-            'madrasahs' => $madrasah,
+            'trades' => Trade::where('is_madrasa', 0)->get(),
+            'academic_session' => AcademicSession::all(),
+            'classes' => ClassRoom::where('is_madrasa', false)->get(),
+            'madrasahs' => Madrasha::all(),
             'selected_madrasah' => $madrasah_id
         ]);
     }
