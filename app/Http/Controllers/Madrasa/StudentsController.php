@@ -84,7 +84,7 @@ class StudentsController extends Controller
                             $q->where('class_rooms.name', 'like', "%$v%");
                         });
                 })->when($request->current_session, function ($q, $v){
-                    $q->where('current_session', 'like', "%$v%");
+                    $q->where('ssc_session', 'like', "%$v%");
                 },function ($q){
                     $q->where('madrasa_completed', false);
                 })
