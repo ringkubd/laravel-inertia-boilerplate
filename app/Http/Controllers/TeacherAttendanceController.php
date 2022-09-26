@@ -77,7 +77,7 @@ class TeacherAttendanceController extends Controller
         }else if ($teacherAttendance){
             $uid = $teacherAttendance->document_uri;
             $qrImage = "/attendance/{$uid}.png";
-            if (!file_exists($qrImage)) {
+            if (!file_exists(public_path($qrImage))) {
                 $verificationUrl = route('teacher_attendance.verify', $uid);
                 $qrCode = QrCode::format('png')->size(300)->generate($verificationUrl);
                 $filePath = public_path("attendance/{$uid}.png");
