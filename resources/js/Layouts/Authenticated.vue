@@ -516,6 +516,16 @@
                                         Payment Slip
                                     </breeze-nav-link>
                                 </div>
+                                <div class="sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.paymentSlip">
+                                    <breeze-nav-link
+                                        :href="route('notice.index')"
+                                        :active="route().current('notice.index')"
+                                        class="rounded-md text-white"
+                                        v-if="$page.props.menu_permission.paymentSlip"
+                                    >
+                                        App Notice
+                                    </breeze-nav-link>
+                                </div>
                             </div>
                         </div>
 
@@ -1153,6 +1163,18 @@
                                 v-if="$page.props.menu_permission.paymentSlip"
                             >
                                 Payment Slip
+                            </breeze-nav-link>
+                        </div>
+                    </div>
+                    <div class="space-y-1 pl-3">
+                        <div class="sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.paymentSlip">
+                            <breeze-nav-link
+                                :href="route('notice.index')"
+                                :active="route().current('notice.index')"
+                                class="rounded-md text-white"
+                                v-if="$page.props.menu_permission.paymentSlip"
+                            >
+                                App Notice
                             </breeze-nav-link>
                         </div>
                     </div>

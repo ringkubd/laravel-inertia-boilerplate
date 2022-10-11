@@ -162,21 +162,13 @@ class PaymentSlipController extends Controller
             ->when($request->semester, function ($q, $v) {
                 $q->where('semester', $v);
             })
-            ->when($request->fee_type, function ($q, $v) {
-                $q->where('fee_type', $v);
-            })
             ->when($request->search, function ($q, $v) {
                 $q->whereHas('student', function ($q) use ($v) {
                     $q->where('name', 'like', "%$v%");
                 });
                 $q->orWhere('semester', $v);
-                $q->orWhere('semester', $v);
             })
-            ->when($request->trade, function ($q, $v) {
-                $q->whereHas('student', function ($q) use ($v) {
-                    $q->where('madrasa_trade_id', 'like', "%$v%");
-                });
-            })
+
             ->has('student')
             ->with('attachments')
             ->orderBy('created_at')
