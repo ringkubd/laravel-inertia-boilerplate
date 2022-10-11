@@ -152,11 +152,12 @@ class PaymentSlipController extends Controller
      */
     public function getCollection(Request $request)
     {
+        dd($request->all());
         return PaymentSlip::query()
             ->with(['student'])
-            ->when($request->academic_session, function ($q, $v) use ($request) {
+            ->when($request->current_session, function ($q, $v) use ($request) {
                 $q->whereHas('student', function ($q) use ($request) {
-                    $q->where('polytechnic_session', $request->academic_session);
+                    $q->where('polytechnic_session', $request->current_session);
                 });
             })
             ->when($request->semester, function ($q, $v) {
@@ -171,11 +172,6 @@ class PaymentSlipController extends Controller
                 });
                 $q->orWhere('semester', $v);
                 $q->orWhere('semester', $v);
-            })
-            ->when($request->current_session, function ($q, $v) {
-                $q->whereHas('student', function ($q) use ($v) {
-                    $q->where('current_session', 'like', "%$v%");
-                });
             })
             ->when($request->trade, function ($q, $v) {
                 $q->whereHas('student', function ($q) use ($v) {
