@@ -152,7 +152,6 @@ class PaymentSlipController extends Controller
      */
     public function getCollection(Request $request)
     {
-        dd($request->all());
         return PaymentSlip::query()
             ->with(['student'])
             ->when($request->current_session, function ($q, $v) use ($request) {
