@@ -23,8 +23,6 @@ class PaymentSlipController extends Controller
     public function index(Request $request)
     {
         $paymentSlip = $this->getCollection($request);
-
-        $classes =  ClassRoom::where('is_madrasa', false)->get();
         $session = AcademicSession::all();
         $trade = Trade::where('is_madrasa', 0)->get();
 

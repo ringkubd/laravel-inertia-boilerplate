@@ -173,7 +173,7 @@ export default {
         },
         downloadAll(){
             const link = route('payment-slip.download-all', {'current_session': this.filterParam.session, 'semester': this.filterParam.semester, 'classroom': this.filterParam.classroom})
-           console.log(window.location)
+            console.log(window.location)
             window.location.href = link
         }
     }
