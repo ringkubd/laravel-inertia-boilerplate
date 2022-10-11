@@ -123,7 +123,8 @@ class PaymentSlipController extends Controller
         $slips = $this->getCollection($request)->where('status', 1);
         if ($slips->count() > 0){
             $zip = new ZipArchive();
-            $archiveName = "payment_slip/zip/45.zip";
+            $rand = rand(9999, 111111);
+            $archiveName = "payment_slip/zip/{$rand}.zip";
             if ($zip->open(public_path($archiveName), ZipArchive::CREATE) === true){
                 foreach ($slips as $slip){
                     $fee_type = $slip->fee_type;
