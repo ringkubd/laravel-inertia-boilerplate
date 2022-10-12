@@ -6,7 +6,7 @@
         <template #header>
             <page-header>Generate New Invoice</page-header>
         </template>
-        <div class="container-fluid">
+        <div class="container-fluid min-h-screen">
             <div class="card mt-1 min-vh-100">
                 <div class="card-header">
                     <CardHeader :can="can" :search-method="search">
@@ -69,23 +69,25 @@
                             <th class="text-center">{{totalInvoiceAmount()}}</th>
                         </tr>
                         </tbody>
-                        <tfoot class="footer" style="position: static; width: 	21.0cm!important; bottom: 0;">
+                    </table>
+                    <table class="table-auto w-full mt-10">
+                        <tbody>
                         <tr style="border-bottom: 0!important;">
-                            <td colspan="2" class="text-center" style="padding-top: 40px!important;">
+                            <td class="text-center" style="padding-top: 50px!important;">
                                 <div class="text-center flex flex-col justify-center items-center">
                                     <hr style="color: black!important;" class="w-1/2">
                                     <span>Jr. Officer (Projects)</span>
                                     <span>IsDB-BISEW</span>
                                 </div>
                             </td>
-                            <td colspan="3"  class="text-center" style="padding-top: 40px!important;">
+                            <td class="text-center" style="padding-top: 50px!important;">
                                 <div class="text-center flex flex-col justify-center items-center">
                                     <hr style="color: black!important;" class="w-1/2">
                                     <span>Program Officer</span>
                                     <span>IsDB-BISEW</span>
                                 </div>
                             </td>
-                            <td colspan="3" class="text-center" style="padding-top: 40px!important;">
+                            <td class="text-center" style="padding-top: 50px!important;">
                                 <div class="text-center flex flex-col justify-center items-center">
                                     <hr style="color: black!important;" class="w-1/2">
                                     <span>Program Coordinator</span>
@@ -93,22 +95,23 @@
                                 </div>
                             </td>
                         </tr>
+                        <tr></tr>
                         <tr>
-                            <td colspan="2" class="text-center" style="padding-top: 40px!important;">
+                            <td class="text-center" style="padding-top: 50px!important;">
                                 <div class="text-center flex flex-col justify-center items-center">
                                     <hr style="color: black!important;" class="w-1/2">
                                     <span> Asst. Accounts Officer</span>
                                     <span>IsDB-BISEW</span>
                                 </div>
                             </td>
-                            <td colspan="3" class="text-center"  style="padding-top: 40px!important;">
+                            <td class="text-center"  style="padding-top: 50px!important;">
                                 <div class="text-center flex flex-col justify-center items-center">
                                     <hr style="color: black!important;" class="w-1/2">
                                     <span>Accounts Officer</span>
                                     <span>IsDB-BISEW</span>
                                 </div>
                             </td>
-                            <td colspan="3" class="text-center" style="padding-top: 40px!important;">
+                            <td class="text-center" style="padding-top: 50px!important;">
                                 <div class="text-center flex flex-col justify-center items-center">
                                     <hr style="color: black!important;" class="w-1/2">
                                     <span>Chief Executive Officer</span>
@@ -116,9 +119,8 @@
                                 </div>
                             </td>
                         </tr>
-                        </tfoot>
+                        </tbody>
                     </table>
-
                 </div>
             </div>
         </div>
