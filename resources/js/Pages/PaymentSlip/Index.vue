@@ -91,6 +91,9 @@
                                         <option value="1">Approved</option>
                                         <option value="2">Rejected</option>
                                     </select>
+                                    <span v-else>
+                                        {{statusString(slip.status)}}
+                                    </span>
                                 </td>
                                 <td>
                                     <Actions
@@ -175,6 +178,16 @@ export default {
         downloadAll(){
             const link = route('payment-slip.download-all', {'current_session': this.filterParam.session, 'semester': this.filterParam.semester, 'classroom': this.filterParam.classroom})
             window.location.href = link
+        },
+        statusString(st){
+            switch (st) {
+                case 0:
+                    return "Pending";
+                case 1:
+                    return "Approved";
+                case 2:
+                    return "Rejected"
+            }
         }
     }
 }
