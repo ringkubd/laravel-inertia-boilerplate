@@ -85,6 +85,7 @@
                                         name="status"
                                         :value="slip.status"
                                         class="rounded p-1" :class="statusStyle(slip.status)"
+                                        v-if="can.update"
                                     >
                                         <option value="0">Pending</option>
                                         <option value="1">Approved</option>
