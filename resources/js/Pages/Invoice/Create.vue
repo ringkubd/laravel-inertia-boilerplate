@@ -106,7 +106,7 @@ import { MonthPickerInput } from 'vue-month-picker'
 import Back from "@/Shared/Back";
 
 function GET() {
-    var data = [];
+    const data = [];
     for(let x = 0; x < arguments.length; ++x){
         if(location.href.match(new RegExp("/\?".concat(arguments[x],"=","([^\n&]*)"))) !== null){
             data.push(location.href.match(new RegExp("/\?".concat(arguments[x],"=","([^\n&]*)")))[1])

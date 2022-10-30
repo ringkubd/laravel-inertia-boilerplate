@@ -82,7 +82,12 @@ class InvoiceController extends Controller
                 $q->where('session', $request->polytechnic_session)
                     ->where('semester', $request->semester);
             }])
-            ->with('invoiceDetails')
+            ->with(['invoiceDetails' => function($q) use($request){
+                $q->whereHas('invoice', function ($q) use($request){
+                    $q->where('session', $request->polytechnic_session)
+                    ->where('semester', $request->semester);
+                });
+            }])
             ->get();
         $feeTypes = $students->whereNotNull('fees')->unique('fee_type')->max('fees');
         return Inertia::render('Invoice/Create', [
