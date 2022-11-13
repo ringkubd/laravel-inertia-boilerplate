@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Spatie\Permission\Models\Role;
@@ -62,6 +63,9 @@ class UserController extends Controller
        }
        $user = User::where('email', $request->email)->first();
        if (! $user || ! Hash::check($request->password, $user->password) || !$user->hasAnyRole(Role::whereIn('name', ['Instructor', 'Lab Attendant'])->get())) {
+           Log::info($user);
+           Log::info(Hash::check($request->password, $user->password) ? "Yes" : "NO");
+           Log::info($user->hasAnyRole(Role::whereIn('name', ['Instructor', 'Lab Attendant'])->get()) ? "Role" : "NO");
            return response()->json([
                'status' => 'failed',
                'error' => [
