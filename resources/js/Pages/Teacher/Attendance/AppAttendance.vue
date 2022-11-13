@@ -41,9 +41,12 @@
                             <td>{{ att?.date }}</td>
                             <td>
                                 {{ att.login }}
-                                <img :src="`/teacher_attendance/{att.user.id}_{att?.date}_login`" alt="" class="img-thumbnail w-1/5">
+                                <img :src="'/teacher_attendance/'+att.login_photo" alt="" class="img-thumbnail w-1/5">
                             </td>
-                            <td>{{ att.logout }}</td>
+                            <td>
+                                {{ att.logout }}
+                                <img :src="'/teacher_attendance/'+att.logout_photo" alt="" class="img-thumbnail w-1/5">
+                            </td>
                             <td>
                                 <span v-if="att.login_location">
                                     {{distance(att?.user?.madrasah?.location, att.login_location)}}M
@@ -84,9 +87,6 @@ export default {
         chanDate(){},
         distance(madrasah_location, current_location){
             return getPreciseDistance(JSON.parse(madrasah_location), JSON.parse(current_location));
-        },
-        imageLocate(userId, attDate, type){
-            return `teacher_attendance/`+userId+"_"+attDate+"_"+type
         }
     }
 }
