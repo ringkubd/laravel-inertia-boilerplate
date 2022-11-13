@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -60,7 +61,7 @@ class UserController extends Controller
            ], 419);
        }
        $user = User::where('email', $request->email)->first();
-       if (! $user || ! Hash::check($request->password, $user->password) || !$user->hasAnyRole(['Instructor', 'Lab Attendant'])) {
+       if (! $user || ! Hash::check($request->password, $user->password) || !$user->hasAnyRole(Role::whereIn('name', ['Instructor', 'Lab Attendant'])->get())) {
            return response()->json([
                'status' => 'failed',
                'error' => [
