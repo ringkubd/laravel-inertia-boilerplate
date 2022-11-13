@@ -28,6 +28,7 @@ class User extends Authenticatable
         'email',
         'password',
         'madrasha_id',
+        'public_key',
     ];
 
     /**
@@ -55,6 +56,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+//    public function getPublicKeyAttribute($public_key){
+//        return $public_key;
+//    }
 
     /**
      * Specifies the user's FCM token

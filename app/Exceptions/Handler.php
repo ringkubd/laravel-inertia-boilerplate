@@ -52,7 +52,7 @@ class Handler extends ExceptionHandler
         if ($request->is('api/*')){
             return match ($response->status()) {
                 EXPIRED => sendError("Page expired. If error persists, contact {$contactEmail}", [], EXPIRED),
-                SERVER_ERROR => sendError("Server error. If error persists, contact {$contactEmail}", [$response->content()], SERVER_ERROR),
+                SERVER_ERROR => sendError("Server error. If error persists, contact {$contactEmail}", [$e->getMessage()], SERVER_ERROR),
                 ACCESS_FORBIDDEN => sendError("Access forbidden. If error persists, contact {$contactEmail}", [], ACCESS_FORBIDDEN),
                 NOT_AUTHORIZED => sendError("You are not authorized for access this page. If error persists, contact {$contactEmail}", [], NOT_AUTHORIZED),
                 BAD_REQUEST => sendError("Bad request check for param. If error persists, contact {$contactEmail}", [], BAD_REQUEST),
