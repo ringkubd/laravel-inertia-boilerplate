@@ -102,8 +102,8 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 img[itemprop="thumbnail"] {
-    width: 50px;
+    width: 50px!important;
 }
 </style>
