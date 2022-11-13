@@ -93,7 +93,9 @@ export default {
             const item = {
                 src: image,
                 thumbnail: image,
-                title: 'Will be used for caption'
+                title: 'Will be used for caption',
+                width: 300,
+                height: 300
             };
             items.push(item)
             return items;
