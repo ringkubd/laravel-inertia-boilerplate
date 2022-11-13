@@ -32,6 +32,7 @@
     "bulma": "^0.9.3",
     "codemirror-editor-vue3": "^1.0.1",
     "docxtemplater": "^3.28.6",
+    "geolib": "^3.3.3",
     "jquery": "^3.6.0",
     "laravel-echo": "^1.11.2",
     "mammoth": "^1.4.18",

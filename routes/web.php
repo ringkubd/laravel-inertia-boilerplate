@@ -163,6 +163,9 @@ Route::get('student_unique_id_generator', function (){
     }
 });
 
+// Teacher's App Attendance
+Route::resource('app_attendance', \App\Http\Controllers\TeacherAtendanceLog::class);
+
 // FrontEnd Backend
 Route::prefix('frontend')->group(function (){
     Route::get('/', [\App\Http\Controllers\FrontEndController::class, 'index']);
