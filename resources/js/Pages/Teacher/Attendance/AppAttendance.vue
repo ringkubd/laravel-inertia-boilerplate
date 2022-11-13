@@ -41,11 +41,11 @@
                             <td>{{ att?.date }}</td>
                             <td>
                                 {{ att.login }}
-                                <img :src="'/teacher_attendance/'+att.login_photo" alt="" class="img-thumbnail w-1/5">
+                                <vue-picture-swipe v-if="att.login_photo" :items="imageItems('/teacher_attendance/'+att.login_photo)" />
                             </td>
                             <td>
                                 {{ att.logout }}
-                                <img :src="'/teacher_attendance/'+att.logout_photo" alt="" class="img-thumbnail w-1/5">
+                                <vue-picture-swipe v-if="att.logout_photo" :items="imageItems('/teacher_attendance/'+att.logout_photo)" />
                             </td>
                             <td>
                                 <span v-if="att.login_location">
@@ -87,6 +87,18 @@ export default {
         chanDate(){},
         distance(madrasah_location, current_location){
             return getPreciseDistance(JSON.parse(madrasah_location), JSON.parse(current_location));
+        },
+        imageItems(image){
+            let items = []
+            const item = {
+                src: image,
+                thumbnail: image,
+                w: 1200,
+                h: 900,
+                title: 'Will be used for caption'
+            };
+            items.push(item)
+            return items;
         }
     }
 }
