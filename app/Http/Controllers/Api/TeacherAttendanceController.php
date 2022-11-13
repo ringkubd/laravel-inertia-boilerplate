@@ -34,22 +34,23 @@ class TeacherAttendanceController extends Controller
         $extension = getImageMimeType($image);
 
         if ($today){
-            $attendance = $today->update([
-                'logout_location' =>  json_encode($request->coords),
-                'logout' => Carbon::now()
-            ]);
-
             $safeName = "{$userId}_{$todayDate}_logout.".$extension;
             Storage::disk('public_path')->put("teacher_attendance/".$safeName, $image);
+            $attendance = $today->update([
+                'logout_location' =>  json_encode($request->coords),
+                'logout' => Carbon::now(),
+                'logout_photo' => $safeName,
+            ]);
 
         }else{
+            $safeName = "{$userId}_{$todayDate}_login.".$extension;
+            Storage::disk('public_path')->put("teacher_attendance/".$safeName, $image);
             $attendance = TeacherAttendanceLog::create([
                 'login_location' => json_encode($request->coords),
                 'login' => Carbon::now(),
-                'user_id' => auth()->user()->id
+                'user_id' => auth()->user()->id,
+                'login_photo' => $safeName,
             ]);
-            $safeName = "{$userId}_{$todayDate}_login.".$extension;
-            Storage::disk('public_path')->put("teacher_attendance/".$safeName, $image);
         }
 
         return response()->json(new TeachersAttendanceResource($attendance));
