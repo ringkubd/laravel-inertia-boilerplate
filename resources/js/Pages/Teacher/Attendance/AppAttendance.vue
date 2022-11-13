@@ -93,8 +93,6 @@ export default {
             const item = {
                 src: image,
                 thumbnail: image,
-                w: 50,
-                h: 50,
                 title: 'Will be used for caption'
             };
             items.push(item)
@@ -105,5 +103,7 @@ export default {
 </script>
 
 <style scoped>
-
+img[itemprop="thumbnail"] {
+    width: 50px;
+}
 </style>
