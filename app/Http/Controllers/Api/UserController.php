@@ -60,7 +60,7 @@ class UserController extends Controller
            ], 419);
        }
        $user = User::where('email', $request->email)->first();
-       if (! $user || ! Hash::check($request->password, $user->password) || !$user->hasRole('Instructor')) {
+       if (! $user || ! Hash::check($request->password, $user->password) || !$user->hasAnyRole(['Instructor', 'Lab Attendant'])) {
            return response()->json([
                'status' => 'failed',
                'error' => [
