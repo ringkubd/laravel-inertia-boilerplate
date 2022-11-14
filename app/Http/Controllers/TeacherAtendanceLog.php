@@ -61,7 +61,10 @@ class TeacherAtendanceLog extends Controller
      */
     public function show($id)
     {
-        //
+        $teacherAttendanceLog = TeacherAttendanceLog::find($id);
+        return Inertia::render('Teacher/Attendance/AttendanceMap', [
+            'attendance' => new TeachersAttendanceResource($teacherAttendanceLog)
+        ]);
     }
 
     /**

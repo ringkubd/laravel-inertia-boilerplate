@@ -57,7 +57,9 @@
                                     {{distance(att?.user?.madrasah?.location, att.logout_location)}}M
                                 </span>
                             </td>
-                            <td></td>
+                            <td>
+                                <InertiaLink :href="route('app_attendance.show', att.id)">Show</InertiaLink>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
