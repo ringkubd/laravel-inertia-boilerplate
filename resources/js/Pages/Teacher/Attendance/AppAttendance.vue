@@ -13,13 +13,15 @@
                         <template #first>
                             <Back :back-url="$page.props.urlPrev" />
                         </template>
-                        <div class="form-group">
-                            <input type="date" id="current_date" v-model="today" class="form-control" @change="chanDate">
-                        </div>
+                        <template #second>
+                            <div class="form-group">
+                                <input type="date" id="current_date" v-model="today" class="form-control" @change="chanDate">
+                            </div>
+                        </template>
                     </CardHeader>
                 </div>
                 <div class="card-body">
-                    <table class="table table-bordered">
+                    <table class="table table-striped">
                         <thead>
                         <tr>
                             <th>Sl#</th>
@@ -86,7 +88,10 @@ export default {
         }
     },
     methods: {
-        chanDate(){},
+        chanDate(){
+            console.log(this.today)
+            this.$inertia.replace(route('app_attendance.index', {today: this.today}))
+        },
         distance(madrasah_location, current_location){
             return getPreciseDistance(JSON.parse(madrasah_location), JSON.parse(current_location));
         },
