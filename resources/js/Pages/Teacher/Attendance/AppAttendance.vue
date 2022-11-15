@@ -42,14 +42,14 @@
                             <td>{{ att?.user?.madrasah?.name }}</td>
                             <td>{{ att?.date }}</td>
                             <td>
-                                <div class="flex flex-row">
+                                <div class="flex flex-row justify-center items-center">
                                     {{ att.login }}
                                     <vue-picture-swipe v-if="att.login_photo" :items="imageItems('/teacher_attendance/'+att.login_photo)" />
                                 </div>
 
                             </td>
                             <td>
-                                <div class="flex flex-row">
+                                <div class="flex flex-row justify-center items-center">
                                     {{ att.logout }}
                                     <vue-picture-swipe v-if="att.logout_photo" :items="imageItems('/teacher_attendance/'+att.logout_photo)" />
                                 </div>
@@ -106,8 +106,8 @@ export default {
                 src: image,
                 thumbnail: image,
                 title: 'Will be used for caption',
-                width: 300,
-                height: 300
+                w: 300,
+                h: 300
             };
             items.push(item)
             return items;
