@@ -42,12 +42,17 @@
                             <td>{{ att?.user?.madrasah?.name }}</td>
                             <td>{{ att?.date }}</td>
                             <td>
-                                {{ att.login }}
-                                <vue-picture-swipe v-if="att.login_photo" :items="imageItems('/teacher_attendance/'+att.login_photo)" />
+                                <div class="flex flex-row">
+                                    {{ att.login }}
+                                    <vue-picture-swipe v-if="att.login_photo" :items="imageItems('/teacher_attendance/'+att.login_photo)" />
+                                </div>
+
                             </td>
                             <td>
-                                {{ att.logout }}
-                                <vue-picture-swipe v-if="att.logout_photo" :items="imageItems('/teacher_attendance/'+att.logout_photo)" />
+                                <div class="flex flex-row">
+                                    {{ att.logout }}
+                                    <vue-picture-swipe v-if="att.logout_photo" :items="imageItems('/teacher_attendance/'+att.logout_photo)" />
+                                </div>
                             </td>
                             <td>
                                 <span v-if="att.login_location">
