@@ -13,15 +13,6 @@
             </div>
             <div class="card-body">
                 <MapboxMap
-                    access-token="pk.eyJ1IjoiYW53YXJpZGIiLCJhIjoiY2xhNTVia282MTd4YjN4bWhuOHZnczYydyJ9.LvvEs2YhpE4xoe5FNW9oww"
-                    map-style="mapbox://styles/mapbox/streets-v11"
-
-                    :zoom="1"
-                    @mb-created="(mapInstance) => map = mapInstance"
-                >
-
-                </MapboxMap>
-                <MapboxMap
                     style="height: 100vh"
                     access-token="pk.eyJ1IjoiYW53YXJpZGIiLCJhIjoiY2xhNTVia282MTd4YjN4bWhuOHZnczYydyJ9.LvvEs2YhpE4xoe5FNW9oww"
                     map-style="mapbox://styles/anwaridb/cla6ot5z0002915qwrfuh74b8"

@@ -18,7 +18,7 @@ class TeacherAtendanceLog extends Controller
     public function index()
     {
         $today = Carbon::now()->toDateString();
-        $before30 = Carbon::now()->subDay(30)->toDateString();
+        $before30 = Carbon::now()->toDateString();
         $attendance = TeacherAttendanceLog::query()
             ->whereRaw("date(login) between '{$before30}' and '{$today}'")->latest()->get();
         return Inertia::render('Teacher/Attendance/AppAttendance', [
