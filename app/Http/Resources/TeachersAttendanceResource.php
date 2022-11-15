@@ -28,8 +28,8 @@ class TeachersAttendanceResource extends JsonResource
             'logout' => $this->logout ? Carbon::parse($this->logout)->toTimeString() : null,
             'logout_location' => $this->logout_location,
             'logout_photo' => $this->logout_photo,
-            'logout_location_latitude' => json_decode($this->logout_location)->latitude,
-            'logout_location_longitude' => json_decode($this->logout_location)->longitude,
+            'logout_location_latitude' => json_decode($this->logout_location)->latitude ?? null,
+            'logout_location_longitude' => json_decode($this->logout_location)->longitude ?? null,
         ];
     }
 }
