@@ -112,13 +112,13 @@ class UserController extends Controller
         $publicKey = auth()->user()->public_key;
         $publicKey = openssl_pkey_get_public( "-----BEGIN PUBLIC KEY-----\n$publicKey\n-----END PUBLIC KEY-----");
         if (!$publicKey) {
-            return false;
+            return response()->json([], 419);;
         }
-        $signature = base64_decode($signature);
+        $signature = base64_decode($signature, false);
         $result = openssl_verify($payload, $signature, $publicKey, OPENSSL_ALGO_SHA256);
         if ($result === 1) {
             return response()->json(['status' => $result], 200);
         }
-        return response()->json([], 419);
+        return response()->json([$signature], 419);
     }
 }
