@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Spatie\Permission\Models\Role;
@@ -93,6 +94,9 @@ class UserController extends Controller
                'message' => 'Public Key is required.'
            ], 419);
        }
+       $userid = auth()->user()->id;
+       $formattedKey = "-----BEGIN PUBLIC KEY-----\n$request->public_key\n-----END PUBLIC KEY-----";
+       Storage::put("public_key/{$userid}.key", $formattedKey);
        $user = auth()->user()->update(['public_key' => $request->public_key]);
        return response()->json(['message' => auth()->user()->public_key]);
    }
@@ -104,17 +108,22 @@ class UserController extends Controller
     public function isValid(Request $request)
     {
 
-        $signature = $request->signature;
+//        $signature = $request->signature;
+        $signature = $request->header('x-signature');
         $payload = $request->signature_string;
         if (! $signature) {
             return false;
         }
-        $publicKey = auth()->user()->public_key;
-        $publicKey = openssl_pkey_get_public( "-----BEGIN PUBLIC KEY-----\n$publicKey\n-----END PUBLIC KEY-----");
+//        $publicKey = auth()->user()->public_key;
+//        $formattedKey = "-----BEGIN PUBLIC KEY-----\n$publicKey\n-----END PUBLIC KEY-----";
+        $userid = auth()->user()->id;
+//        Storage::put("public_key/{$userid}.key", $formattedKey);
+        $file = Storage::get("public_key/{$userid}.key");
+        $publicKey = openssl_pkey_get_public($file);
         if (!$publicKey) {
             return response()->json([], 419);;
         }
-        $signature = base64_decode($signature, false);
+        $signature = base64_decode($signature);
         $result = openssl_verify($payload, $signature, $publicKey, OPENSSL_ALGO_SHA256);
         if ($result === 1) {
             return response()->json(['status' => $result], 200);
