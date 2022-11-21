@@ -87,7 +87,6 @@ table thead tr {
     /*background-image: linear-gradient(to bottom right,#36AFAD, #27a11142, #56d598)!important;*/
     background-size:200% 200%!important;
     background-position: left center!important;
-    -webkit-animation: gradient-x 15s ease infinite!important;
     animation: gradient-x 15s ease infinite!important;
     text-align: center;
     justify-content: center;

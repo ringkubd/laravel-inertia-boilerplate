@@ -526,6 +526,16 @@
                                         App Notice
                                     </breeze-nav-link>
                                 </div>
+                                <div class="sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.app_attendance">
+                                    <breeze-nav-link
+                                        :href="route('app_attendance.index')"
+                                        :active="route().current('app_attendance.index')"
+                                        class="rounded-md text-white"
+                                        v-if="$page.props.menu_permission.app_attendance"
+                                    >
+                                        Attendance
+                                    </breeze-nav-link>
+                                </div>
                             </div>
                         </div>
 
@@ -1175,6 +1185,18 @@
                                 v-if="$page.props.menu_permission.app_notice"
                             >
                                 App Notice
+                            </breeze-nav-link>
+                        </div>
+                    </div>
+                    <div class="space-y-1 pl-3">
+                        <div class="sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.app_attendance">
+                            <breeze-nav-link
+                                :href="route('app_attendance.index')"
+                                :active="route().current('app_attendance.index')"
+                                class="rounded-md text-white"
+                                v-if="$page.props.menu_permission.app_attendance"
+                            >
+                               Attendance
                             </breeze-nav-link>
                         </div>
                     </div>

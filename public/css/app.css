@@ -541,7 +541,6 @@ select {
   position: relative;
 }
 .sticky {
-  position: -webkit-sticky;
   position: sticky;
 }
 .inset-0 {
@@ -836,7 +835,6 @@ select {
   height: 8rem;
 }
 .h-max {
-  height: -webkit-max-content;
   height: -moz-max-content;
   height: max-content;
 }
@@ -847,7 +845,6 @@ select {
   height: auto;
 }
 .max-h-fit {
-  max-height: -webkit-fit-content;
   max-height: -moz-fit-content;
   max-height: fit-content;
 }
@@ -927,7 +924,6 @@ select {
   width: 15rem;
 }
 .min-w-max {
-  min-width: -webkit-max-content;
   min-width: -moz-max-content;
   min-width: max-content;
 }
@@ -1002,16 +998,6 @@ select {
 .transform {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
-@-webkit-keyframes gradient-x {
-  0%, 100% {
-    background-size: 200% 200%;
-    background-position: left center;
-  }
-  50% {
-    background-size: 200% 200%;
-    background-position: right center;
-  }
-}
 @keyframes gradient-x {
   0%, 100% {
     background-size: 200% 200%;
@@ -1023,13 +1009,7 @@ select {
   }
 }
 .animate-gradient-x {
-  -webkit-animation: gradient-x 10s ease infinite;
-          animation: gradient-x 10s ease infinite;
-}
-@-webkit-keyframes pulse {
-  50% {
-    opacity: .5;
-  }
+  animation: gradient-x 10s ease infinite;
 }
 @keyframes pulse {
   50% {
@@ -1037,14 +1017,7 @@ select {
   }
 }
 .animate-pulse {
-  -webkit-animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-          animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-@-webkit-keyframes ping {
-  75%, 100% {
-    transform: scale(2);
-    opacity: 0;
-  }
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 @keyframes ping {
   75%, 100% {
@@ -1053,46 +1026,20 @@ select {
   }
 }
 .animate-ping {
-  -webkit-animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
-          animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
-}
-@-webkit-keyframes bounce {
-  0%, 100% {
-    transform: translateY(-25%);
-    -webkit-animation-timing-function: cubic-bezier(0.8,0,1,1);
-            animation-timing-function: cubic-bezier(0.8,0,1,1);
-  }
-  50% {
-    transform: none;
-    -webkit-animation-timing-function: cubic-bezier(0,0,0.2,1);
-            animation-timing-function: cubic-bezier(0,0,0.2,1);
-  }
+  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 @keyframes bounce {
   0%, 100% {
     transform: translateY(-25%);
-    -webkit-animation-timing-function: cubic-bezier(0.8,0,1,1);
-            animation-timing-function: cubic-bezier(0.8,0,1,1);
+    animation-timing-function: cubic-bezier(0.8,0,1,1);
   }
   50% {
     transform: none;
-    -webkit-animation-timing-function: cubic-bezier(0,0,0.2,1);
-            animation-timing-function: cubic-bezier(0,0,0.2,1);
+    animation-timing-function: cubic-bezier(0,0,0.2,1);
   }
 }
 .animate-bounce {
-  -webkit-animation: bounce 1s infinite;
-          animation: bounce 1s infinite;
-}
-@-webkit-keyframes gradient-xy {
-  0%, 100% {
-    background-size: 400% 400%;
-    background-position: left center;
-  }
-  50% {
-    background-size: 200% 200%;
-    background-position: right center;
-  }
+  animation: bounce 1s infinite;
 }
 @keyframes gradient-xy {
   0%, 100% {
@@ -1105,8 +1052,7 @@ select {
   }
 }
 .animate-gradient-xy {
-  -webkit-animation: gradient-xy 10s ease infinite;
-          animation: gradient-xy 10s ease infinite;
+  animation: gradient-xy 10s ease infinite;
 }
 .cursor-default {
   cursor: default;
@@ -2114,8 +2060,7 @@ table thead tr {
     /*background-image: linear-gradient(to bottom right,#36AFAD, #27a11142, #56d598)!important;*/
     background-size:200% 200%!important;
     background-position: left center!important;
-    -webkit-animation: gradient-x 15s ease infinite!important;
-            animation: gradient-x 15s ease infinite!important;
+    animation: gradient-x 15s ease infinite!important;
     text-align: center;
     justify-content: center;
     align-items: center;
@@ -2401,8 +2346,7 @@ ol li {
   }
 }
 .group:hover .group-hover\:animate-pulse {
-  -webkit-animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-          animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 .group:hover .group-hover\:border-2 {
   border-width: 2px;

@@ -62,6 +62,7 @@ class HandleInertiaRequests extends Middleware
                 'student' => $request->user()?->hasRole('Student'),
                 'teacher_attendance' => !$request->user()?->hasRole('Student'),
                 'app_notice' => $request->user()?->hasPermissionTo('create_notice') || $request->user()?->hasRole('Super Admin') || $request->user()?->hasPermissionTo('delete_notice') || $request->user()?->hasPermissionTo('view_notice'),
+                'app_attendance' => $request->user()?->hasPermissionTo('create_app_attendance') || $request->user()?->hasRole('Super Admin') || $request->user()?->hasPermissionTo('delete_app_attendance') || $request->user()?->hasPermissionTo('view_app_attendance'),
             ],
             'flash' => [
                 'message' => fn () => $request->session()->get('message'),

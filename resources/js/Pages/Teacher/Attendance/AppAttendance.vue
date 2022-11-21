@@ -32,6 +32,7 @@
                             <th>Logout</th>
                             <th>Login Distance</th>
                             <th>Logout Distance</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
@@ -40,32 +41,36 @@
                             <td>{{ index + 1 }}</td>
                             <td>{{ att?.user?.name }}</td>
                             <td>{{ att?.user?.madrasah?.name }}</td>
-                            <td>{{ att?.date }}</td>
+                            <td>{{ att.attendanceLogOneDay?.date }}</td>
                             <td>
                                 <div class="flex flex-row justify-center items-center">
-                                    {{ att.login }}
-                                    <vue-picture-swipe v-if="att.login_photo" :items="imageItems('/teacher_attendance/'+att.login_photo)" />
+                                    {{ att.attendanceLogOneDay?.login }}
+                                    <vue-picture-swipe v-if="att.attendanceLogOneDay && att.attendanceLogOneDay?.login_photo" :items="imageItems('/teacher_attendance/'+att.attendanceLogOneDay?.login_photo)" />
                                 </div>
 
                             </td>
                             <td>
                                 <div class="flex flex-row justify-center items-center">
-                                    {{ att.logout }}
-                                    <vue-picture-swipe v-if="att.logout_photo" :items="imageItems('/teacher_attendance/'+att.logout_photo)" />
+                                    {{ att.attendanceLogOneDay?.logout }}
+                                    <vue-picture-swipe v-if="att.attendanceLogOneDay && att.attendanceLogOneDay?.logout_photo" :items="imageItems('/teacher_attendance/'+att.logout_photo)" />
                                 </div>
                             </td>
                             <td>
-                                <span v-if="att.login_location">
-                                    {{distance(att?.user?.madrasah?.location, att.login_location)}}M
+                                <span v-if="att.attendanceLogOneDay && att.attendanceLogOneDay?.login_location">
+                                    {{distance(att?.user?.madrasah?.location, att.attendanceLogOneDay.login_location)}}M
                                 </span>
                             </td>
                             <td>
-                                <span v-if="att.logout_location">
-                                    {{distance(att?.user?.madrasah?.location, att.logout_location)}}M
+                                <span v-if="att.attendanceLogOneDay && att.attendanceLogOneDay.logout_location">
+                                    {{distance(att?.user?.madrasah?.location, att.attendanceLogOneDay.logout_location)}}M
                                 </span>
                             </td>
+                            <th>
+                                <span v-if="!att.attendanceLogOneDay">Absent</span>
+                                <span v-else-if="att.attendanceLogOneDay && !att.attendanceLogOneDay.logout">No Logout</span>
+                            </th>
                             <td>
-                                <InertiaLink :href="route('app_attendance.show', att.id)">Show</InertiaLink>
+                                <InertiaLink v-if="att.attendanceLogOneDay" :href="route('app_attendance.show', att.attendanceLogOneDay?.id)">Show</InertiaLink>
                             </td>
                         </tr>
                         </tbody>
@@ -94,7 +99,6 @@ export default {
     },
     methods: {
         chanDate(){
-            console.log(this.today)
             this.$inertia.replace(route('app_attendance.index', {today: this.today}))
         },
         distance(madrasah_location, current_location){

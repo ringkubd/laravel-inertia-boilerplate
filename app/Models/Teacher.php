@@ -36,4 +36,12 @@ class Teacher extends Model
     public function madrasa(){
         return $this->belongsTo(Madrasha::class, 'madrashas_id');
     }
+
+    public function attendanceLog(){
+        return $this->hasMany(TeacherAttendanceLog::class, 'user_id', 'users_id');
+    }
+
+    public function attendanceLogOneDay(){
+        return $this->hasOne(TeacherAttendanceLog::class, 'user_id', 'users_id');
+    }
 }

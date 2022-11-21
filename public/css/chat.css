@@ -189,7 +189,6 @@ ul li, ol li {
 }
 .modal-content {
   align-content: center;
-  width: -webkit-max-content;
   width: -moz-max-content;
   width: max-content;
 }

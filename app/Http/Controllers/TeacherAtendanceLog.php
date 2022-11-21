@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TeacherResource;
 use App\Http\Resources\TeachersAttendanceResource;
+use App\Models\Teacher;
 use App\Models\TeacherAttendanceLog;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -18,15 +20,19 @@ class TeacherAtendanceLog extends Controller
     public function index(Request $request)
     {
         $today = $request->today ?? Carbon::now()->toDateString();
-        $attendance = TeacherAttendanceLog::query()
-            ->whereRaw("date(login) = '{$today}'")->latest()->get();
+        $attendance = Teacher::query()
+            ->with(['attendanceLogOneDay' => function($q) use($today){
+                $q->whereRaw("date(login) = '{$today}'");
+            }])
+            ->get();
+
         return Inertia::render('Teacher/Attendance/AppAttendance', [
-            'attendances' => TeachersAttendanceResource::collection($attendance),
+            'attendances' => TeacherResource::collection($attendance),
             'can' => [
-                'create' => auth()->user()->can('create_fee'),
-                'update' => auth()->user()->can('update_fee'),
-                'delete' => auth()->user()->can('delete_fee'),
-                'view' => auth()->user()->can('view_fee'),
+                'create' => auth()->user()->can('create_app_attendance'),
+                'update' => auth()->user()->can('update_app_attendance'),
+                'delete' => auth()->user()->can('delete_app_attendance'),
+                'view' => auth()->user()->can('view_app_attendance'),
             ]
         ]);
     }
