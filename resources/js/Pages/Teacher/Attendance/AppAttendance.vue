@@ -52,7 +52,7 @@
                             <td>
                                 <div class="flex flex-row justify-center items-center">
                                     {{ att.attendanceLogOneDay?.logout }}
-                                    <vue-picture-swipe v-if="att.attendanceLogOneDay && att.attendanceLogOneDay?.logout_photo" :items="imageItems('/teacher_attendance/'+att.logout_photo)" />
+                                    <vue-picture-swipe v-if="att.attendanceLogOneDay && att.attendanceLogOneDay?.logout_photo" :items="imageItems('/teacher_attendance/'+att.attendanceLogOneDay?.logout_photo)" />
                                 </div>
                             </td>
                             <td>
