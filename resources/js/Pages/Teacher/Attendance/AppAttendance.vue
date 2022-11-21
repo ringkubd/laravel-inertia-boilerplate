@@ -68,6 +68,7 @@
                             <th>
                                 <span v-if="!att.attendanceLogOneDay">Absent</span>
                                 <span v-else-if="att.attendanceLogOneDay && !att.attendanceLogOneDay.logout">No Logout</span>
+                                <span v-else>Present</span>
                             </th>
                             <td>
                                 <InertiaLink v-if="att.attendanceLogOneDay" :href="route('app_attendance.show', att.attendanceLogOneDay?.id)">Show</InertiaLink>
