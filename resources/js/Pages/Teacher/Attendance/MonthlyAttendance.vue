@@ -33,32 +33,34 @@
                     <div class="card-header table-responsive"  id="printMe">
                         <div class="flex flex-col justify-center items-center my-2">
                             <img src="/isdb-bisew.png" alt="isdb-bisew.org">
-                            <h6>Teacher's Attendance</h6>
+                            <h6>Teaching Staff Attendance</h6>
                             <h5>{{madrasahs.filter((m) => request.madrasha_id == m.id)[0]?.name ?? ""}}</h5>
-                            <h6>{{month_year}}</h6>
+                            <h6>{{monthFormat()}}</h6>
                         </div>
                         <table class="table table-bordered print:text-sm">
                             <thead class="text-center align-middle border-2 border-gray-200">
                             <tr>
-                                <th>Date</th>
-                                <td v-for="t in teachers" :key="t.id">{{t.name}}</td>
+                                <th>Name</th>
+                                <td v-for="t in dates" :key="t">{{day(t)}}</td>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="(attn, attnDate) in attendances" :key="attnDate" class="text-center align-middle">
-                                <td class="text-sm">{{attnDate}}</td>
-                                <td v-for="t in teachers" :key="t.id +''+ attnDate" class="p-0 m-0">
+                            <tr v-for="(attn, teacher_id) in attendances" :key="teacher_id" class="text-center align-middle">
+                                <td class="text-sm text-left">
                                     <div class="flex flex-col">
                                         <div>
-                                            {{attn.filter((a) => a.user_id === t.users_id)[0]?.status ?? 'A'}}
+                                            {{teachers.filter((t) => t.users_id == teacher_id)[0]?.name}}
                                         </div>
-                                        <div class="text-sm font-extralight">
-                                            {{attn.filter((a) => a.user_id === t.users_id)[0]?.login ?? ''}}
+                                        <div class="font-extralight text-sm">
+                                            {{teachers.filter((t) => t.users_id == teacher_id)[0]?.trade?.name}}
                                         </div>
-                                        <div class="text-sm font-extralight">
-                                            {{attn.filter((a) => a.user_id === t.users_id)[0]?.logout ?? ''}}
+                                    </div>
+                                </td>
+                                <td v-for="t in dates" :key="t.id +''+ teacher_id" class="p-0 m-0">
+                                    <div class="flex flex-col">
+                                        <div>
+                                            {{attn.filter((a) => a.date === t)[0]?.status ?? 'A'}}
                                         </div>
-
                                     </div>
                                 </td>
                             </tr>
@@ -84,7 +86,7 @@ import Button from "@/Shared/Button.vue";
 
 export default {
     name: "MonthlyAttendance",
-    props: ['attendances', 'teachers', 'request', 'madrasahs'],
+    props: ['attendances', 'teachers', 'request', 'madrasahs', 'dates'],
     components: {Button, CardHeader, PageHeader, Authenticated},
     data(){
         return {
@@ -103,6 +105,16 @@ export default {
         changeMonth(){
             const yearMonth = this.month_year.split("-")
             this.$inertia.replace(route('monthly_attendance', {year: yearMonth[0], month: yearMonth[1], madrasha_id: this.madrasah_id}))
+        },
+        day(d){
+            return moment(d).date()
+        },
+        monthFormat(){
+            if (this.month_year){
+                const dateMonth = this.month_year + "-01";
+                return moment(dateMonth).format("MMMM YYYY")
+            }
+            return moment().format("h YYYY")
         }
     }
 }

@@ -113,7 +113,7 @@ class TeacherAtendanceLog extends Controller
         $first_day = Carbon::parse("$year-$month-01")->toDateString();
         $last_day =  Carbon::parse($first_day)->lastOfMonth()->toDateString();
         $attendance = TeacherAttendanceLog::query()
-            ->selectRaw('user_id, time(login) as login, time(logout) as logout, login_location, login_photo, logout_location, logout_photo, date(login) as attn_date')
+            ->selectRaw('user_id, login, logout, login_location, login_photo, logout_location, logout_photo, date(login) as attn_date')
             ->whereRaw("date(login) between '$first_day' and '$last_day'")
             ->when(\request()->madrasha_id, function ($q, $v){
                 $q->whereHas('user', function ($q) use($v){
@@ -122,11 +122,14 @@ class TeacherAtendanceLog extends Controller
             })
             ->get();
         $madrasah_list = Madrasha::all();
+        $teachers = Teacher::query()->when(\request()->madrasha_id, function ($q, $v){
+            $q->where('madrashas_id', $v);
+        })->get();
+
         return Inertia::render('Teacher/Attendance/MonthlyAttendance', [
-            'attendances' => TeachersAttendanceResource::collection($attendance)->groupBy("attn_date"),
-            'teachers' => Teacher::query()->when(\request()->madrasha_id, function ($q, $v){
-                $q->where('madrashas_id', $v);
-            })->get(),
+            'attendances' => TeachersAttendanceResource::collection($attendance)->groupBy("user_id"),
+            'dates' => array_unique($attendance->pluck("attn_date")->toArray()),
+            'teachers' => $teachers,
             'madrasahs' => $madrasah_list,
             'request' => \request()->all()
         ]);
