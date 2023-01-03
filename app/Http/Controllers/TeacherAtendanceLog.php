@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\TeacherResource;
 use App\Http\Resources\TeachersAttendanceResource;
+use App\Models\Madrasha;
 use App\Models\Teacher;
 use App\Models\TeacherAttendanceLog;
 use Carbon\Carbon;
@@ -104,5 +105,30 @@ class TeacherAtendanceLog extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function monthly_attendance(){
+        $month = \request()->month ?? Carbon::now()->month;
+        $year = \request()->year ?? Carbon::now()->year;
+        $first_day = Carbon::parse("$year-$month-01")->toDateString();
+        $last_day =  Carbon::parse($first_day)->lastOfMonth()->toDateString();
+        $attendance = TeacherAttendanceLog::query()
+            ->selectRaw('user_id, time(login) as login, time(logout) as logout, login_location, login_photo, logout_location, logout_photo, date(login) as attn_date')
+            ->whereRaw("date(login) between '$first_day' and '$last_day'")
+            ->when(\request()->madrasha_id, function ($q, $v){
+                $q->whereHas('user', function ($q) use($v){
+                    $q->where('madrasha_id', $v);
+                });
+            })
+            ->get();
+        $madrasah_list = Madrasha::all();
+        return Inertia::render('Teacher/Attendance/MonthlyAttendance', [
+            'attendances' => TeachersAttendanceResource::collection($attendance)->groupBy("attn_date"),
+            'teachers' => Teacher::query()->when(\request()->madrasha_id, function ($q, $v){
+                $q->where('madrashas_id', $v);
+            })->get(),
+            'madrasahs' => $madrasah_list,
+            'request' => \request()->all()
+        ]);
     }
 }

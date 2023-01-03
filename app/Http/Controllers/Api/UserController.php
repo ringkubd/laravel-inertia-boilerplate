@@ -107,17 +107,12 @@ class UserController extends Controller
      */
     public function isValid(Request $request)
     {
-
-//        $signature = $request->signature;
         $signature = $request->header('x-signature');
         $payload = $request->signature_string;
         if (! $signature) {
             return false;
         }
-//        $publicKey = auth()->user()->public_key;
-//        $formattedKey = "-----BEGIN PUBLIC KEY-----\n$publicKey\n-----END PUBLIC KEY-----";
         $userid = auth()->user()->id;
-//        Storage::put("public_key/{$userid}.key", $formattedKey);
         $file = Storage::get("public_key/{$userid}.key");
         $publicKey = openssl_pkey_get_public($file);
         if (!$publicKey) {
@@ -129,5 +124,15 @@ class UserController extends Controller
             return response()->json(['status' => $result], 200);
         }
         return response()->json([$signature], 419);
+    }
+
+    /**
+     * App Error Log
+     * @param Request $request
+     * @return void
+     */
+
+    public function logError(Request $request){
+
     }
 }

@@ -18,6 +18,11 @@
                                 <input type="date" id="current_date" v-model="today" class="form-control" @change="chanDate">
                             </div>
                         </template>
+                        <template #third>
+                            <InertiaLink :href="route('monthly_attendance')" class="no-underline justify-center items-end">
+                                <Button class="bg-blend-color bg-primary">Monthly</Button>
+                            </InertiaLink>
+                        </template>
                     </CardHeader>
                 </div>
                 <div class="card-body">
@@ -89,9 +94,10 @@ import Back from "@/Shared/Back";
 import moment from "moment";
 import { getPreciseDistance } from 'geolib';
 import Paginator from "@/Components/Paginator";
+import Button from "@/Shared/Button.vue";
 export default {
     name: "AppAttendance",
-    components: {Paginator, Back, CardHeader, Authenticated},
+    components: {Button, Paginator, Back, CardHeader, Authenticated},
     props: ['attendances'],
     data(){
         return {

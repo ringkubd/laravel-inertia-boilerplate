@@ -10,6 +10,7 @@ import VuePictureSwipe from 'vue-picture-swipe';
 import VueHtmlToPaper from './Plugins/Print/VueHtmlToPaper'
 import { store } from "@/Store";
 import VueConfirmPlugin from "v3confirm";
+import print from 'vue3-print-nb'
 
 
 const el = document.getElementById("app");
@@ -44,6 +45,7 @@ createInertiaApp({
                 },
             })
             .use(plugin)
+            .use(print)
             .use(store)
             .use(VueHtmlToPaper)
             .use(VueConfirmPlugin, {

@@ -165,6 +165,7 @@ Route::get('student_unique_id_generator', function (){
 
 // Teacher's App Attendance
 Route::resource('app_attendance', \App\Http\Controllers\TeacherAtendanceLog::class);
+Route::get('monthly_attendance', [\App\Http\Controllers\TeacherAtendanceLog::class, 'monthly_attendance'])->name('monthly_attendance');
 
 // FrontEnd Backend
 Route::prefix('frontend')->group(function (){
