@@ -90,11 +90,11 @@ export default {
         }
     },
     computed:{
-        // academicSession(){
-        //     return this.academicSession.filter((session) => {
-        //         return session['id'] = session.text
-        //     })
-        // }
+        academicSession(){
+            return this.academicSession.filter((session) => {
+                return session['id'] = session.text
+            })
+        }
     }
 }
 </script>
