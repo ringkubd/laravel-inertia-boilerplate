@@ -120,7 +120,7 @@
                         </tr>
                         </tbody>
                     </table>
-                    <paginator :paginator="students"></paginator>
+                    <Paginator :paginator="students"></Paginator>
                 </div>
             </div>
         </div>

