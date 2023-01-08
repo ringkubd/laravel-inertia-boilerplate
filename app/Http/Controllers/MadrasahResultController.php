@@ -24,7 +24,7 @@ class MadrasahResultController extends Controller
             $search = $request->search ?? $request->input('query');
 
             try {
-                $result = MadrasahResult::search($search)->paginate();
+                $result = MadrasahResult::search($search)->paginate()->load('student');
             } catch (ApiException $exception){
                 abort(404);
             }
