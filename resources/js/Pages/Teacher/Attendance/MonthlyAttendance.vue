@@ -35,10 +35,12 @@
                             <img src="/isdb-bisew.png" alt="isdb-bisew.org">
                             <h6>Teaching Staff Attendance</h6>
                             <h5>{{madrasahs.filter((m) => request.madrasha_id == m.id)[0]?.name ?? ""}}</h5>
-                            <h6>{{monthFormat()}}</h6>
                         </div>
                         <table class="table table-bordered print:text-sm">
                             <thead class="text-center align-middle border-2 border-gray-200">
+                            <tr>
+                                <th :colspan="dates.length + 1">{{monthFormat()}}</th>
+                            </tr>
                             <tr>
                                 <th>Name</th>
                                 <td v-for="t in dates" :key="t">{{day(t)}}</td>
