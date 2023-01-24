@@ -35,7 +35,6 @@
                             <img src="/isdb-bisew.png" alt="isdb-bisew.org">
                             <h6>Teaching Staff Attendance</h6>
                             <h5>{{madrasahs.filter((m) => request.madrasha_id == m.id)[0]?.name ?? ""}}</h5>
-                            <h5>{{today}}</h5>
                         </div>
                         <table class="table border print:text-sm">
                             <thead class="text-center align-middle border-2 border-gray-300">
@@ -53,6 +52,9 @@
                                     <div class="flex flex-col">
                                         <div>
                                             {{teachers.filter((t) => t.users_id == teacher_id)[0]?.name}}
+                                        </div>
+                                        <div class="font-extralight text-sm">
+                                            {{teachers.filter((t) => t.users_id == teacher_id)[0]?.designation}}
                                         </div>
                                         <div class="font-extralight text-sm">
                                             {{teachers.filter((t) => t.users_id == teacher_id)[0]?.trade?.name}}
@@ -95,7 +97,6 @@ export default {
         return {
             month_year: this.request?.year + "-" + this.request?.month,
             madrasah_id: this.request?.madrasha_id ?? "",
-            today: moment().format("hh:mm:ss - DD MMM YYYY")
         }
     },
     methods: {
