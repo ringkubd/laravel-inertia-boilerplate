@@ -53,7 +53,7 @@ class MadrasahResult extends Model
     {
         $array = $this->toArray();
         $array['name'] = $this->student?->name;
-        $array['session'] = $this->student?->ssc_session;
+        $array['ssc_session'] = $this->student?->ssc_session;
 
         return $array;
     }

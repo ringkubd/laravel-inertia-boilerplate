@@ -24,9 +24,13 @@ class MadrasahResultController extends Controller
             $search = $request->search ?? $request->input('query');
 
             try {
-                $result = MadrasahResult::search($search)->paginate();
+                $result = MadrasahResult::search($search,function ($meilisearch, $query, $options) use($search){
+                    $options['filter'] =  [["ssc_session='$search'"], ['madrasah_name!=null']];
+                    $options['attributesToHighlight'] = ["*"];
+                    return $meilisearch->search($query, $options);
+                })->paginate();
             } catch (ApiException $exception){
-                abort(404);
+               dd($exception);
             }
         }else{
             $result = MadrasahResult::query()->has('student')->paginate();
