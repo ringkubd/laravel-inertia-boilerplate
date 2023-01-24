@@ -31,10 +31,14 @@
                         </CardHeader>
                     </div>
                     <div class="card-header table-responsive"  id="printMe">
-                        <div class="flex flex-col justify-center items-center my-2">
+                        <div class="flex flex-col justify-center items-center">
                             <img src="/isdb-bisew.png" alt="isdb-bisew.org">
-                            <h6>Teaching Staff Attendance</h6>
+                            <h6 class="mt-1">Teaching Staff Attendance</h6>
                             <h5>{{madrasahs.filter((m) => request.madrasha_id == m.id)[0]?.name ?? ""}}</h5>
+                        </div>
+                        <div class="flex flex-row justify-left">
+                            <p class="font-bold mr-2">Attendance Month:</p>
+                            <p>{{ monthFormat() }}</p>
                         </div>
                         <table class="table border print:text-sm">
                             <thead class="text-center align-middle border-2 border-gray-300">
@@ -43,7 +47,16 @@
                                 <th :colspan="Object.keys(dates).length"  class="border-b-2 border-gray-300">{{monthFormat()}}</th>
                             </tr>
                             <tr>
-                                <td v-for="t in dates" :key="t" class="border-r-2 border-b-2 border-gray-300">{{day(t)}}</td>
+                                <td v-for="t in dates" :key="t" class="border-r-2 border-b-2 border-gray-300 px-0 mx-0">
+                                    <div class="flex flex-col mx-0 px-0">
+                                        <div class="w-full border-b mx-0 px-0">
+                                            {{ dayName(t) }}
+                                        </div>
+                                        <div>
+                                            {{day(t)}}
+                                        </div>
+                                    </div>
+                                </td>
                             </tr>
                             </thead>
                             <tbody>
@@ -113,6 +126,9 @@ export default {
         },
         day(d){
             return moment(d).date()
+        },
+        dayName(d){
+            return moment(d).format('ddd')
         },
         monthFormat(){
             if (this.month_year){
