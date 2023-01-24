@@ -35,20 +35,21 @@
                             <img src="/isdb-bisew.png" alt="isdb-bisew.org">
                             <h6>Teaching Staff Attendance</h6>
                             <h5>{{madrasahs.filter((m) => request.madrasha_id == m.id)[0]?.name ?? ""}}</h5>
+                            <h5>{{today}}</h5>
                         </div>
-                        <table class="table table-bordered print:text-sm">
-                            <thead class="text-center align-middle border-2 border-gray-200">
+                        <table class="table border print:text-sm">
+                            <thead class="text-center align-middle border-2 border-gray-300">
                             <tr>
-                                <th :colspan="dates.length + 1">{{monthFormat()}}</th>
+                                <th rowspan="2" class="border-r-2 border-gray-300 text-left">Name</th>
+                                <th :colspan="Object.keys(dates).length"  class="border-b-2 border-gray-300">{{monthFormat()}}</th>
                             </tr>
                             <tr>
-                                <th>Name</th>
-                                <td v-for="t in dates" :key="t">{{day(t)}}</td>
+                                <td v-for="t in dates" :key="t" class="border-r-2 border-b-2 border-gray-300">{{day(t)}}</td>
                             </tr>
                             </thead>
                             <tbody>
                             <tr v-for="(attn, teacher_id) in attendances" :key="teacher_id" class="text-center align-middle">
-                                <td class="text-sm text-left">
+                                <td class="text-sm text-left border-r-2">
                                     <div class="flex flex-col">
                                         <div>
                                             {{teachers.filter((t) => t.users_id == teacher_id)[0]?.name}}
@@ -58,7 +59,7 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td v-for="t in dates" :key="t.id +''+ teacher_id" class="p-0 m-0">
+                                <td v-for="t in dates" :key="t.id +''+ teacher_id" class="p-0 m-0 border-r-2">
                                     <div class="flex flex-col">
                                         <div>
                                             {{attn.filter((a) => a.date === t)[0]?.status ?? 'A'}}
@@ -94,6 +95,7 @@ export default {
         return {
             month_year: this.request?.year + "-" + this.request?.month,
             madrasah_id: this.request?.madrasha_id ?? "",
+            today: moment().format("hh:mm:ss - DD MMM YYYY")
         }
     },
     methods: {

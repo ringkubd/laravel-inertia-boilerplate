@@ -125,13 +125,16 @@ class TeacherAtendanceLog extends Controller
         $teachers = Teacher::query()->when(\request()->madrasha_id, function ($q, $v){
             $q->where('madrashas_id', $v);
         })->get();
+        $data = \request()->all();
+        $data['year'] = $year;
+        $data['month'] = $month;
 
         return Inertia::render('Teacher/Attendance/MonthlyAttendance', [
             'attendances' => TeachersAttendanceResource::collection($attendance)->groupBy("user_id"),
             'dates' => array_unique($attendance->pluck("attn_date")->toArray()),
             'teachers' => $teachers,
             'madrasahs' => $madrasah_list,
-            'request' => \request()->all()
+            'request' => $data
         ]);
     }
 }
