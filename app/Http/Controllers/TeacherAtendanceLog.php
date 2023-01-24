@@ -108,8 +108,8 @@ class TeacherAtendanceLog extends Controller
     }
 
     public function monthly_attendance(){
-        $month = request()->has('month') && request()->month != "" ? \request()->month : Carbon::now()->month;
-        $year = request()->has('year') && request()->year != "" ? \request()->year : Carbon::now()->year;
+        $month = request()->has('month') && request()->month != "" && request()->month != 'undefined' ? \request()->month : Carbon::now()->month;
+        $year = request()->has('year') && request()->year != "" && request()->year != 'undefined' ? \request()->year : Carbon::now()->year;
         $first_day = Carbon::parse("$year-$month-01")->toDateString();
         $last_day =  Carbon::parse($first_day)->lastOfMonth()->toDateString();
         $attendance = TeacherAttendanceLog::query()
