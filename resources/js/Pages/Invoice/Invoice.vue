@@ -76,13 +76,6 @@
                             <td class="text-center" style="padding-top: 50px!important;">
                                 <div class="text-center flex flex-col justify-center items-center">
                                     <hr style="color: black!important;" class="w-1/2">
-                                    <span>Jr. Officer (Projects)</span>
-                                    <span>IsDB-BISEW</span>
-                                </div>
-                            </td>
-                            <td class="text-center" style="padding-top: 50px!important;">
-                                <div class="text-center flex flex-col justify-center items-center">
-                                    <hr style="color: black!important;" class="w-1/2">
                                     <span>Program Officer</span>
                                     <span>IsDB-BISEW</span>
                                 </div>
@@ -94,20 +87,27 @@
                                     <span>IsDB-BISEW</span>
                                 </div>
                             </td>
+                            <td class="text-center" style="padding-top: 50px!important;">
+                                <div class="text-center flex flex-col justify-center items-center">
+                                    <hr style="color: black!important;" class="w-1/2">
+                                    <span>Sr. Program Coordinator</span>
+                                    <span>IsDB-BISEW</span>
+                                </div>
+                            </td>
                         </tr>
                         <tr></tr>
                         <tr>
                             <td class="text-center" style="padding-top: 50px!important;">
                                 <div class="text-center flex flex-col justify-center items-center">
                                     <hr style="color: black!important;" class="w-1/2">
-                                    <span> Asst. Accounts Officer</span>
+                                    <span>Accounts Officer</span>
                                     <span>IsDB-BISEW</span>
                                 </div>
                             </td>
                             <td class="text-center"  style="padding-top: 50px!important;">
                                 <div class="text-center flex flex-col justify-center items-center">
                                     <hr style="color: black!important;" class="w-1/2">
-                                    <span>Accounts Officer</span>
+                                    <span>Sr. Accounts Officer</span>
                                     <span>IsDB-BISEW</span>
                                 </div>
                             </td>
