@@ -23,7 +23,7 @@ class MadrasahResult extends Model
     }
 
     /**
-     * Modify the query used to retrieve models when making all of the models searchable.
+     * Modify the query used to retrieve models when making all the models searchable.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder

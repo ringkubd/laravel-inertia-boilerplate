@@ -22,10 +22,9 @@ class MadrasahResultController extends Controller
         $this->authorize('view_madrasa_result');
         if (($request->has('search') && $request->search != "") || ($request->has('query') && $request->input('query') != "")) {
             $search = $request->search ?? $request->input('query');
-
             try {
                 $result = MadrasahResult::search($search,function ($meilisearch, $query, $options) use($search){
-                    $options['filter'] =  [["ssc_session='$search'"], ['madrasah_name!=null']];
+//                    $options['filter'] =  [["ssc_session='$search'"], ['madrasah_name!=null']];
                     $options['attributesToHighlight'] = ["*"];
                     return $meilisearch->search($query, $options);
                 })->paginate();

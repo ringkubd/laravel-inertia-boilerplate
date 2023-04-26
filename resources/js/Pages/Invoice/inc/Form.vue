@@ -5,25 +5,25 @@
             <tr>
                 <th>Student</th>
                 <td class="text-right">
-                    <input type="text" name="student_amount" class="max-h-2 max-w-2xl border-0 text-right w-24" v-model="student_amount">
+                    <input type="text" name="student_amount" class="max-h-[1.5rem] max-w-2xl border-0 text-right w-24" v-model="student_amount">
                 </td>
             </tr>
             <tr>
                 <th>Board</th>
                 <td class="text-right">
-                    <input type="text" name="board_amount" class="max-h-2 max-w-2xl border-0 text-right w-24" v-model="board_amount">
+                    <input type="text" name="board_amount" class="max-h-[1.5rem] max-w-2xl border-0 text-right w-24" v-model="board_amount">
                 </td>
             </tr>
             <tr>
                 <th>Institute</th>
                 <td class="text-right">
-                    <input type="text" name="institute" class="max-h-2 max-w-2xl border-0 text-right w-24" v-model="institute_amount">
+                    <input type="text" name="institute" class="max-h-[1.5rem] max-w-2xl border-0 text-right w-24" v-model="institute_amount">
                 </td>
             </tr>
             <tr class="border-t-2">
                 <th>Total</th>
                 <td class="text-right">
-                    <input type="text" disabled v-model="amount" class="max-h-2 max-w-2xl border-0 text-right w-24">
+                    <input type="text" disabled v-model="amount" class="max-h-[1.5rem] max-w-2xl border-0 text-right w-24">
                 </td>
             </tr>
             <tr>
