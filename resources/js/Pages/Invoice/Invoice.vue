@@ -26,17 +26,30 @@
                                 Annex - A
                                 <p style="padding: 0!important; margin: 0!important;">Academic Year: {{ basicInfo.session }}</p>
                                 <div class="text-left" style="text-align: left">
-                                    Semester: <span class="font-normal ml-5">{{ basicInfo.semester }}</span>
-                                    <br>
-                                    Date: <span class="font-normal ml-5">{{ basicInfo.invoice_date }}</span>
-                                    <div v-if="last_mma != 0">
-                                        MMA No. : {{ basicInfo.invoice_no }}
-                                    </div>
+                                    <table class="">
+                                        <tbody class="">
+                                        <tr class="">
+                                            <th class="text-left pr-6">Semester</th>
+                                            <td class="text-left px-6">{{ basicInfo.semester }}</td>
+                                        </tr>
+                                        <tr class="">
+                                            <th class="text-left pr-6">Date:</th>
+                                            <td class="text-left px-6">{{ basicInfo.invoice_date }}</td>
+                                        </tr>
+                                        <tr class="" v-if="last_mma != 0">
+                                            <th class="text-left pr-6">MMA No.</th>
+                                            <td class="text-left px-6">
+                                                {{ basicInfo.invoice_no }}
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+
                                 </div>
                             </th>
                         </tr>
                         </thead>
-                        <thead class="border-0 print:border-0">
+                        <thead class="border-1 print:border-1">
                         <tr class="align-middle border-0 print:border-0" style="background-color: #e0d5d5!important;">
                             <th rowspan="2">Sl.#</th>
                             <th rowspan="2">Dakhil Roll</th>
@@ -44,9 +57,9 @@
                             <th rowspan="2">Trade</th>
                             <th rowspan="2">IBBL Branch</th>
                             <th rowspan="2">IBBL Account</th>
-                            <th rowspan="2">Status</th>
                             <th :colspan="feeTypes != null ? feeTypes.length : 0">Tuition Fees</th>
                             <th rowspan="2">Total</th>
+                            <th rowspan="2">Remarks</th>
                         </tr>
                         <tr style="background-color: #e0d5d5!important;">
                             <th v-for="feeType in feeTypes">
@@ -62,9 +75,9 @@
                             <td style="width: 15%!important;">{{ getFirstWord(invoice.student.polytechnic_trade_id) }}</td>
                             <td style="width: 25%!important;">{{ invoice.bank_branch }}</td>
                             <td>{{ invoice.bank_account }}</td>
-                            <td class="text-center">{{invoice.result_status ? invoice.result_status: 'No Result'}}</td>
                             <td class="text-center" v-for="ty in feeTypes">{{tuition_fees(invoice.details, ty)}}</td>
                             <td class="text-center">{{invoice.amount}}</td>
+                            <td class="text-right">{{invoice.result_status ? invoice.result_status: 'No Result'}}</td>
                         </tr>
                         <tr rowspan="2" style="border-top: 2px solid gray!important; color: black!important; font-weight: 600">
                             <th :colspan="7+ (feeTypes != null ? feeTypes.length : 0)" class="total" style="text-align: right">Total</th>

@@ -1642,6 +1642,9 @@ select {
 .pt-5 {
   padding-top: 1.25rem;
 }
+.pr-6 {
+  padding-right: 1.5rem;
+}
 .text-left {
   text-align: left;
 }

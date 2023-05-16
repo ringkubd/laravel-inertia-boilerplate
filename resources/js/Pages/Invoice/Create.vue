@@ -58,9 +58,9 @@
                             <th rowspan="2">Name</th>
                             <th rowspan="2">IBBL Branch</th>
                             <th rowspan="2">IBBL Account</th>
-                            <th rowspan="2">Status</th>
                             <th :colspan="feeTypes != null ? feeTypes.length : 0">Tuition Fees</th>
                             <th rowspan="2">Amount</th>
+                            <th rowspan="2">Remarks</th>
                         </tr>
                         <tr>
                             <th v-for="feeType in feeTypes">
@@ -78,7 +78,6 @@
                             <td>{{ student.name }}</td>
                             <td>{{ student.bank_branch }}</td>
                             <td class="text-center">{{ student.bank_account }}</td>
-                            <td class="text-center">{{student.results[0]?.status}}</td>
                             <td class="text-center" v-for="fee in student.fees">
                                 <span v-if="(fee.fee_type === 'MMA' && student.results[0]?.status !== 'Passed') || semester == 1">0</span>
                                 <span v-else>
@@ -88,6 +87,7 @@
                             <td class="text-center">
                                 {{ individualTotal(student.fees, student.invoice_details, student.results[0]?.status) }}
                             </td>
+                            <td class="text-center">{{student.results[0]?.status}}</td>
                         </tr>
                         </tbody>
                         <tfoot>
