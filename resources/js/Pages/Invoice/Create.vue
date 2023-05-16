@@ -80,7 +80,7 @@
                             <td class="text-center">{{ student.bank_account }}</td>
                             <td class="text-center">{{student.results[0]?.status}}</td>
                             <td class="text-center" v-for="fee in student.fees">
-                                <span v-if="fee.fee_type === 'MMA' && student.results[0]?.status !== 'Passed'">0</span>
+                                <span v-if="(fee.fee_type === 'MMA' && student.results[0]?.status !== 'Passed') || semester == 1">0</span>
                                 <span v-else>
                                      {{ isPaid(student.invoice_details, fee.fee_type).length === 0 ?  fee.amount : 0}}
                                 </span>
