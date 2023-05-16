@@ -231,18 +231,21 @@ class InvoiceController extends Controller
     public function show($invoice_id)
     {
         $this->authorize('view_invoice');
+        $basicInfo = Invoice::where('invoice_id', $invoice_id)->first();
+        $resultSemester = $basicInfo->semester - 1;
         $invoice = Invoice::query()
             ->select('invoices.*', 'r.status as result_status', 'r.gpa')
             ->where('invoice_id', $invoice_id)
             ->with('details')
             ->with('student')
             ->whereHas('details')
-            ->leftJoin('results as r', function ($join){
-                $join->on('r.student_id','invoices.student_id')->on('r.semester', 'invoices.semester');
+            ->leftJoin('results as r', function ($join) use ($resultSemester){
+                $join->on('r.student_id','invoices.student_id')->where('r.semester', $resultSemester)->latest();
             })
             ->orderByDesc('result_status')
+            ->groupBy('student_id')
             ->get();
-        $basicInfo = $invoice->first();
+
         $lastMma = 0;
         $feeTypes = $invoice->whereNotNull('details')->first()->details->pluck('fee_type');
 
