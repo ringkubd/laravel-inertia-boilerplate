@@ -65,7 +65,7 @@ class InvoiceController extends Controller
                     ->where('fees.session', "$request->polytechnic_session");
             }])
             ->with(['results' => function($q)use($request){
-                $q->where('semester', $request->semester)->latest();
+                $q->where('semester', $request->semester)->where('status', 'Dropout')->latest();
             }])
 //            ->when($request->semester, function ($q, $v) use($request){
 //                if ($v != 1) {
