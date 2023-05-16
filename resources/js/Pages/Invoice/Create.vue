@@ -58,6 +58,7 @@
                             <th rowspan="2">Name</th>
                             <th rowspan="2">IBBL Branch</th>
                             <th rowspan="2">IBBL Account</th>
+                            <th rowspan="2">Status</th>
                             <th :colspan="feeTypes != null ? feeTypes.length : 0">Tuition Fees</th>
                             <th rowspan="2">Amount</th>
                         </tr>
@@ -77,15 +78,21 @@
                             <td>{{ student.name }}</td>
                             <td>{{ student.bank_branch }}</td>
                             <td class="text-center">{{ student.bank_account }}</td>
+                            <td class="text-center">{{student.results[0]?.status}}</td>
                             <td class="text-center" v-for="fee in student.fees">
-                                {{ isPaid(student.invoice_details, fee.fee_type).length === 0 ?  fee.amount : 0}}
+                                <span v-if="fee.fee_type === 'MMA' && student.results[0]?.status !== 'Passed'">0</span>
+                                <span v-else>
+                                     {{ isPaid(student.invoice_details, fee.fee_type).length === 0 ?  fee.amount : 0}}
+                                </span>
                             </td>
-                            <td class="text-center">{{ individualTotal(student.fees, student.invoice_details) }}</td>
+                            <td class="text-center">
+                                {{ individualTotal(student.fees, student.invoice_details, student.results[0]?.status) }}
+                            </td>
                         </tr>
                         </tbody>
                         <tfoot>
                         <tr>
-                            <td :colspan="5+ (feeTypes != null ? feeTypes.length : 0)" style="text-align: right">Total</td>
+                            <td :colspan="6+ (feeTypes != null ? feeTypes.length : 0)" style="text-align: right">Total</td>
                             <td class="text-center">{{ totalInvoiceAmount() }}</td>
                         </tr>
                         </tfoot>
@@ -142,18 +149,18 @@ export default {
             const details = invoiceDetails.filter((details) => {
                 return fee_type === details.fee_type && (fee_type !== "MMA" || _this.invoice_month === details.invoice_month)
             })
-            return details
+            return details;
         },
-        individualTotal(fees, invoice_details){
+        individualTotal(fees, invoice_details, resultStatus){
             let total = 0;
             const self = this
             fees.map(function (fee) {
                 let details = invoice_details.filter(d => {
-                    return fee.fee_type === d.fee_type && (fee.fee_type  !== "MMA" || self.invoice_month === d.invoice_month)
+                    return fee.fee_type === d.fee_type && (fee.fee_type  !== "MMA" || self.invoice_month === d.invoice_month) && (fee.fee_type  !== "MMA" || resultStatus ==="Passed")
                 })
                 if (details.length === 0){
                     if(self.billableFee[fee.fee_type]){
-                        total += fee.amount
+                        total += fee.fee_type  !== "MMA" || resultStatus ==="Passed" ? fee.amount : 0
                     }
                 }
             })
@@ -169,7 +176,7 @@ export default {
                     })
                     if (details.length === 0){
                         if(self.billableFee[fee.fee_type]){
-                            total += fee.amount
+                            total += fee.fee_type  !== "MMA" || student.results[0]?.status === "Passed" ? fee.amount : 0;
                         }
                     }
                 })

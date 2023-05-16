@@ -44,6 +44,7 @@
                             <th rowspan="2">Trade</th>
                             <th rowspan="2">IBBL Branch</th>
                             <th rowspan="2">IBBL Account</th>
+                            <th rowspan="2">Status</th>
                             <th :colspan="feeTypes != null ? feeTypes.length : 0">Tuition Fees</th>
                             <th rowspan="2">Total</th>
                         </tr>
@@ -61,11 +62,12 @@
                             <td style="width: 15%!important;">{{ getFirstWord(invoice.student.polytechnic_trade_id) }}</td>
                             <td style="width: 25%!important;">{{ invoice.bank_branch }}</td>
                             <td>{{ invoice.bank_account }}</td>
+                            <td class="text-center">{{invoice.result_status ? invoice.result_status: 'No Result'}}</td>
                             <td class="text-center" v-for="ty in feeTypes">{{tuition_fees(invoice.details, ty)}}</td>
                             <td class="text-center">{{invoice.amount}}</td>
                         </tr>
                         <tr rowspan="2" style="border-top: 2px solid gray!important; color: black!important; font-weight: 600">
-                            <th :colspan="6+ (feeTypes != null ? feeTypes.length : 0)" class="total" style="text-align: right">Total</th>
+                            <th :colspan="7+ (feeTypes != null ? feeTypes.length : 0)" class="total" style="text-align: right">Total</th>
                             <th class="text-center">{{totalInvoiceAmount()}}</th>
                         </tr>
                         </tbody>

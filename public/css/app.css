@@ -852,8 +852,8 @@ select {
   max-height: -moz-fit-content;
   max-height: fit-content;
 }
-.max-h-2 {
-  max-height: 0.5rem;
+.max-h-\[1\.5rem\] {
+  max-height: 1.5rem;
 }
 .min-h-screen {
   min-height: 100vh;
