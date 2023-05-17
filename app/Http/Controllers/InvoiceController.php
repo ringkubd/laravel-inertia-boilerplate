@@ -234,13 +234,13 @@ class InvoiceController extends Controller
         $basicInfo = Invoice::where('invoice_id', $invoice_id)->first();
         $resultSemester = $basicInfo->semester - 1;
         $invoice = Invoice::query()
-            ->select('invoices.*', 'r.status as result_status', 'r.gpa')
+            ->select('invoices.*', 'r.status as result_status', 'r.gpa', 'r.created_at')
             ->where('invoice_id', $invoice_id)
             ->with('details')
             ->with('student')
             ->whereHas('details')
             ->leftJoin('results as r', function ($join) use ($resultSemester){
-                $join->on('r.student_id','invoices.student_id')->where('r.semester', $resultSemester);
+                $join->on('r.student_id','invoices.student_id')->where('r.semester', $resultSemester)->latest();
             })
             ->orderByDesc('r.created_at')
             ->groupBy('student_id')
