@@ -240,9 +240,9 @@ class InvoiceController extends Controller
             ->with('student')
             ->whereHas('details')
             ->leftJoin('results as r', function ($join) use ($resultSemester){
-                $join->on('r.student_id','invoices.student_id')->where('r.semester', $resultSemester)->groupBy('semester')->latest();
+                $join->on('r.student_id','invoices.student_id')->where('r.semester', $resultSemester);
             })
-            ->orderByDesc('result_status')
+            ->orderByDesc('r.created_at')
             ->groupBy('student_id')
             ->get();
 
