@@ -1615,6 +1615,9 @@ select {
 .pl-4 {
   padding-left: 1rem;
 }
+.pr-6 {
+  padding-right: 1.5rem;
+}
 .pl-1\.5 {
   padding-left: 0.375rem;
 }
@@ -1641,9 +1644,6 @@ select {
 }
 .pt-5 {
   padding-top: 1.25rem;
-}
-.pr-6 {
-  padding-right: 1.5rem;
 }
 .text-left {
   text-align: left;

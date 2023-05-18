@@ -77,7 +77,7 @@
                             <td>{{ invoice.bank_account }}</td>
                             <td class="text-center" v-for="ty in feeTypes">{{tuition_fees(invoice.details, ty)}}</td>
                             <td class="text-center">{{invoice.amount}}</td>
-                            <td class="text-right">{{invoice.result_status ? invoice.result_status: 'No Result'}}</td>
+                            <td class="text-right">{{remarks(invoice.result_status, invoice.payment_slip, basicInfo)}}</td>
                         </tr>
                         <tr rowspan="2" style="border-top: 2px solid gray!important; color: black!important; font-weight: 600">
                             <th :colspan="7+ (feeTypes != null ? feeTypes.length : 0)" class="total" style="text-align: right">Total</th>
@@ -191,6 +191,16 @@ export default {
                 return fee_types === i.fee_type
             })[0]?.amount
             return amount ? amount : 0
+        },
+        remarks(status, paymentSlip, basicInfo){
+            const feeTypes = JSON.parse(basicInfo.fee_type)
+            if (feeTypes.includes('Sem. Fee')){
+                return paymentSlip.filter(slip => slip.fee_type === "Sem. Fee").length ? '' : 'N.D'
+            }
+            if (feeTypes.includes('MMA') && feeTypes.includes('Sem. Fee')){
+                return paymentSlip.filter(slip => slip.fee_type === "Sem. Fee").length && status !== "Passed" ? `${status} and N.D.` : ''
+            }
+            return status
         }
     }
 }

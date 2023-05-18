@@ -23,4 +23,8 @@ class Invoice extends Model
     public function details(){
         return $this->hasMany(InvoiceDetail::class);
     }
+
+    public function paymentSlip(){
+        return $this->belongsToMany(PaymentSlip::class, 'students','id', 'student_id', 'student_id', 'student_id');
+    }
 }

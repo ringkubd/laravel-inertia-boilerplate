@@ -190,4 +190,8 @@ class Student extends Model
         return $this->hasManyThrough(InvoiceDetail::class, Invoice::class)->with('invoice');
     }
 
+    public function paymentSlip(){
+        return $this->hasMany(PaymentSlip::class, 'student_id', 'student_id');
+    }
+
 }
