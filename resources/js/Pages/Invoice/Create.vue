@@ -157,7 +157,7 @@ export default {
             const self = this
             fees.map(function (fee) {
                 let details = invoice_details.filter(d => {
-                    return fee.fee_type === d.fee_type && (fee.fee_type  !== "MMA" || self.invoice_month === d.invoice_month) && (fee.fee_type  !== "MMA" || resultStatus === "Passed" ||  paymentSlip > 0)
+                    return fee.fee_type === d.fee_type && (fee.fee_type  !== "MMA" || self.invoice_month === d.invoice_month) && ((fee.fee_type  !== "MMA" || resultStatus === "Passed") && (fee.fee_type  !== "MMA" && paymentSlip > 0))
                 })
                 if (details.length === 0){
                     if(self.billableFee[fee.fee_type]){
