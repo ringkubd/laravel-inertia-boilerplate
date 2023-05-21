@@ -174,11 +174,11 @@ export default {
                 const semFeeAttachment = student.payment_slip.length
                 student.fees.map(function (fee) {
                     let details = student.invoice_details.filter(d => {
-                        return fee.fee_type === d.fee_type && (fee.fee_type  !== "MMA" || self.invoice_month === d.invoice_month) && semFeeAttachment > 0
+                        return fee.fee_type === d.fee_type && (fee.fee_type  !== "MMA" || self.invoice_month === d.invoice_month) && (fee.fee_type  !== "MMA" || semFeeAttachment > 0)  > 0
                     })
                     if (details.length === 0){
                         if(self.billableFee[fee.fee_type]){
-                            total += (fee.fee_type  !== "MMA" || student.results[0]?.status === "Passed") && semFeeAttachment > 0 ? fee.amount : 0;
+                            total += (fee.fee_type  !== "MMA" || student.results[0]?.status === "Passed") && (fee.fee_type  !== "MMA" || semFeeAttachment > 0) ? fee.amount : 0;
                         }
                     }
                 })
