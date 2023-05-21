@@ -221,7 +221,7 @@ class InvoiceController extends Controller
             ->with('details')
             ->with('student')
             ->with(['paymentSlip' => function($q) use($basicInfo){
-                $q->where('payment_slips.semester', $basicInfo->semester);
+                $q->where('payment_slips.semester', $basicInfo->semester)->latest();
             }])
             ->whereHas('details')
             ->leftJoin('results as r', function ($join) use ($resultSemester){
