@@ -194,8 +194,7 @@ export default {
             return amount ? amount : 0
         },
         remarks(status, paymentSlip, basicInfo){
-            console.log(status, basicInfo)
-            return paymentSlip.length ? status : 'N.D'
+            return status === "Dropout" ? status : paymentSlip.length ? status : 'N.D'
         }
     }
 }

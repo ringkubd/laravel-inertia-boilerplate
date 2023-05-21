@@ -221,7 +221,7 @@ export default {
             this.selected_student = selected_student
         },
         remarks(status, paymentSlip){
-            return paymentSlip.length ? status : 'N.D'
+            return status === "Dropout" ? status : paymentSlip.length ? status : 'N.D'
         }
     },
     computed:{
