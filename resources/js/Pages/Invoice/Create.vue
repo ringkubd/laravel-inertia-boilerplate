@@ -162,7 +162,7 @@ export default {
                 if (details.length === 0){
                     if(self.billableFee[fee.fee_type]){
                         // total += (fee.fee_type  !== "MMA" || resultStatus ==="Passed") && ((fee.fee_type  !== "MMA" || resultStatus === "Passed") || (fee.fee_type  !== "MMA" && paymentSlip > 0)) ? fee.amount : 0
-                        total += (fee.fee_type  === "MMA" && resultStatus === "Passed") && (fee.fee_type  !== "MMA" && paymentSlip > 0) ? fee.amount : 0
+                        total += (fee.fee_type  === "MMA" && resultStatus === "Passed") || (fee.fee_type  !== "MMA" && paymentSlip > 0) ? fee.amount : 0
                     }
                 }
             })
