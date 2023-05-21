@@ -216,7 +216,7 @@ class InvoiceController extends Controller
         $basicInfo = Invoice::where('invoice_id', $invoice_id)->first();
         $resultSemester = $basicInfo->semester - 1;
         $invoice = Invoice::query()
-            ->select('invoices.*', 'r.status as result_status', 'r.gpa', 'r.created_at')
+            ->select('invoices.*', DB::raw('r.status as result_status'), 'r.gpa', 'r.created_at')
             ->where('invoice_id', $invoice_id)
             ->with('details')
             ->with('student')
@@ -225,11 +225,13 @@ class InvoiceController extends Controller
             }])
             ->whereHas('details')
             ->leftJoin('results as r', function ($join) use ($resultSemester){
-                $join->on('r.student_id','invoices.student_id')->where('r.semester', $resultSemester)->latest();
+                $join->on('r.student_id','invoices.student_id')->where('r.semester', $resultSemester);
             })
-            ->orderByDesc('r.created_at')
+            ->orderBy('r.status')
             ->groupBy('student_id')
             ->get();
+
+//        dd($invoice);
 
         $lastMma = 0;
         $feeTypes = $invoice->whereNotNull('details')->first()->details->pluck('fee_type');
