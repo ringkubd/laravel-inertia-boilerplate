@@ -93,8 +93,9 @@
                         </tbody>
                         <tfoot>
                         <tr>
-                            <td :colspan="6+ (feeTypes != null ? feeTypes.length : 0)" style="text-align: right">Total</td>
+                            <td :colspan="5+ (feeTypes != null ? feeTypes.length : 0)" style="text-align: right">Total</td>
                             <td class="text-center">{{ totalInvoiceAmount() }}</td>
+                            <td></td>
                         </tr>
                         </tfoot>
                     </table>
@@ -156,11 +157,11 @@ export default {
             const self = this
             fees.map(function (fee) {
                 let details = invoice_details.filter(d => {
-                    return fee.fee_type === d.fee_type && (fee.fee_type  !== "MMA" || self.invoice_month === d.invoice_month) && (fee.fee_type  !== "MMA" || resultStatus ==="Passed") && (fee.fee_type  !== "Sem. Fee" || paymentSlip > 0)
+                    return fee.fee_type === d.fee_type && (fee.fee_type  !== "MMA" || self.invoice_month === d.invoice_month) && (fee.fee_type  !== "MMA" || resultStatus ==="Passed") &&  paymentSlip > 0
                 })
                 if (details.length === 0){
                     if(self.billableFee[fee.fee_type]){
-                        total += (fee.fee_type  !== "MMA" || resultStatus ==="Passed") && (fee.fee_type  !== "Sem. Fee" || paymentSlip > 0) ? fee.amount : 0
+                        total += (fee.fee_type  !== "MMA" || resultStatus ==="Passed") && paymentSlip > 0 ? fee.amount : 0
                     }
                 }
             })
@@ -170,14 +171,14 @@ export default {
             let total = 0;
             const self = this
             this.students.map(function (student){
-                const semFeeAttachment = student.payment_slip.filter(slip => slip.fee_type ===  'Sem. Fee').length
+                const semFeeAttachment = student.payment_slip.length
                 student.fees.map(function (fee) {
                     let details = student.invoice_details.filter(d => {
-                        return fee.fee_type === d.fee_type && (fee.fee_type  !== "MMA" || self.invoice_month === d.invoice_month) && (fee.fee_type !== "Sem. Fee" || semFeeAttachment > 0)
+                        return fee.fee_type === d.fee_type && (fee.fee_type  !== "MMA" || self.invoice_month === d.invoice_month) && semFeeAttachment > 0
                     })
                     if (details.length === 0){
                         if(self.billableFee[fee.fee_type]){
-                            total += (fee.fee_type  !== "MMA" || student.results[0]?.status === "Passed") && (fee.fee_type !== "Sem. Fee" || semFeeAttachment > 0) ? fee.amount : 0;
+                            total += (fee.fee_type  !== "MMA" || student.results[0]?.status === "Passed") && semFeeAttachment > 0 ? fee.amount : 0;
                         }
                     }
                 })
@@ -220,13 +221,7 @@ export default {
             this.selected_student = selected_student
         },
         remarks(status, paymentSlip){
-            if (this.billableFee['Sem. Fee']){
-                return paymentSlip.filter(slip => slip.fee_type === "Sem. Fee").length ? '' : 'N.D'
-            }
-            if (this.billableFee['MMA'] && this.billableFee['Sem. Fee']){
-                return paymentSlip.filter(slip => slip.fee_type === "Sem. Fee").length && status !== "Passed" ? `${status} and N.D.` : ''
-            }
-            return status
+            return paymentSlip.length ? status : 'N.D'
         }
     },
     computed:{

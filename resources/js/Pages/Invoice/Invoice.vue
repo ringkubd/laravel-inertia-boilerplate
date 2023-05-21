@@ -80,8 +80,9 @@
                             <td class="text-right">{{remarks(invoice.result_status, invoice.payment_slip, basicInfo)}}</td>
                         </tr>
                         <tr rowspan="2" style="border-top: 2px solid gray!important; color: black!important; font-weight: 600">
-                            <th :colspan="7+ (feeTypes != null ? feeTypes.length : 0)" class="total" style="text-align: right">Total</th>
+                            <th :colspan="6+ (feeTypes != null ? feeTypes.length : 0)" class="total" style="text-align: right">Total</th>
                             <th class="text-center">{{totalInvoiceAmount()}}</th>
+                            <th class="text-center"></th>
                         </tr>
                         </tbody>
                     </table>
@@ -193,14 +194,8 @@ export default {
             return amount ? amount : 0
         },
         remarks(status, paymentSlip, basicInfo){
-            const feeTypes = JSON.parse(basicInfo.fee_type)
-            if (feeTypes.includes('Sem. Fee')){
-                return paymentSlip.filter(slip => slip.fee_type === "Sem. Fee").length ? '' : 'N.D'
-            }
-            if (feeTypes.includes('MMA') && feeTypes.includes('Sem. Fee')){
-                return paymentSlip.filter(slip => slip.fee_type === "Sem. Fee").length && status !== "Passed" ? `${status} and N.D.` : ''
-            }
-            return status
+            console.log(status, basicInfo)
+            return paymentSlip.length ? status : 'N.D'
         }
     }
 }

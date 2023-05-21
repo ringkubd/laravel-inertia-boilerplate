@@ -165,9 +165,7 @@ class InvoiceController extends Controller
             $invoiceDetails = [];
             $feeType = [];
             $result = $student->results->first();
-            $semFeePaymentSlip = $student->paymentSlip->filter(function ($slip){
-                return $slip->fee_type == "Sem. Fee";
-            });
+            $semFeePaymentSlip = $student->paymentSlip;
             foreach ($student->fees as $fee){
                 $invoiceDetails[] = new InvoiceDetail([
                     'fee_type' => $fee->fee_type,
