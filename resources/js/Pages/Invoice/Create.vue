@@ -204,8 +204,7 @@ export default {
             }))
         },
         changeYearMonth(date){
-            let invoice_month = date.month+" "+date.year
-            this.invoice_month = invoice_month
+            this.invoice_month = date.month + " " + date.year
         },
         allSelectedStudent(){
             let selected_student = this.selected_student
@@ -221,7 +220,7 @@ export default {
             this.selected_student = selected_student
         },
         remarks(status, paymentSlip){
-            return status === "Dropout" ? status : paymentSlip.length ? status : 'N.D'
+            return status === "Dropout" ? status : paymentSlip.length === 1 && paymentSlip.includes('MMA') ? status :  paymentSlip.length ? status : 'N.D'
         }
     },
     computed:{

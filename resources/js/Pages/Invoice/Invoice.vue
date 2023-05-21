@@ -194,7 +194,8 @@ export default {
             return amount ? amount : 0
         },
         remarks(status, paymentSlip, basicInfo){
-            return status === "Dropout" ? status : paymentSlip.length ? status : 'N.D'
+            const feeType = JSON.parse(basicInfo.fee_type)
+            return status === "Dropout" ? status : feeType.length === 1 && feeType.includes('MMA') ? status :  paymentSlip.length ? status : 'N.D'
         }
     }
 }
