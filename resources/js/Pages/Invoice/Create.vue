@@ -221,7 +221,7 @@ export default {
             this.selected_student = selected_student
         },
         remarks(status, paymentSlip){
-            return status === "Dropout" ? status : this.billableFee.includes('MMA') && this.billableFee.MMA ? status :  paymentSlip.length ? status : 'N.D'
+            return status === "Dropout" ? status : this.billableFee.MMA && this.billableFee.length === 1 ? status :  paymentSlip.length ? status : 'N.D'
         }
     },
     computed:{
