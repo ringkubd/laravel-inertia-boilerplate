@@ -31,6 +31,7 @@ class InvoiceController extends Controller
                     ->orWhere('invoice_month', 'like', "%$v%")
                     ->orWhere('invoice_id', 'like', "%$v%")
                     ->orWhere('invoice_date', 'like', "%$v%")
+                    ->orWhere('session', 'like', "%$v%")
                     ->orWhere('student_name', 'like', "%$v%");
             })
             ->orderByDesc('invoice_date')
