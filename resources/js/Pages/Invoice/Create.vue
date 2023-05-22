@@ -221,7 +221,7 @@ export default {
             this.selected_student = selected_student
         },
         remarks(status, paymentSlip){
-            return status === "Dropout" ? status : this.billableFee.MMA && Object.keys(this.billableFee).length === 1 ? status :  paymentSlip.length ? status : 'N.D'
+            return  status === "Dropout" || !status ? status : this.billableFee.MMA && Object.keys(this.billableFee).length === 1 ? status :  paymentSlip.length ? status : 'N.D'
         }
     },
     computed:{
