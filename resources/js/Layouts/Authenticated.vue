@@ -396,13 +396,13 @@
                                             >
                                                 Invoice's
                                             </breeze-dropdown-link>
-                                            <breeze-dropdown-link
-                                                :href="route('note_sheet_template.index')"
-                                                :active="route().current('note_sheet_template.*')"
-                                                v-if="$page.props.menu_permission.invoice"
-                                            >
-                                                Note Template
-                                            </breeze-dropdown-link>
+<!--                                            <breeze-dropdown-link-->
+<!--                                                :href="route('note_sheet_template.index')"-->
+<!--                                                :active="route().current('note_sheet_template.*')"-->
+<!--                                                v-if="$page.props.menu_permission.invoice"-->
+<!--                                            >-->
+<!--                                                Note Template-->
+<!--                                            </breeze-dropdown-link>-->
                                             <breeze-dropdown-link
                                                 :href="route('note_sheet.index')"
                                                 :active="route().current('note_sheet.*')"
@@ -1047,13 +1047,13 @@
                                     >
                                         Invoice's
                                     </breeze-dropdown-link>
-                                    <breeze-dropdown-link
-                                        :href="route('note_sheet_template.index')"
-                                        :active="route().current('note_sheet_template.*')"
-                                        v-if="$page.props.menu_permission.invoice"
-                                    >
-                                        Note Template
-                                    </breeze-dropdown-link>
+<!--                                    <breeze-dropdown-link-->
+<!--                                        :href="route('note_sheet_template.index')"-->
+<!--                                        :active="route().current('note_sheet_template.*')"-->
+<!--                                        v-if="$page.props.menu_permission.invoice"-->
+<!--                                    >-->
+<!--                                        Note Template-->
+<!--                                    </breeze-dropdown-link>-->
                                     <breeze-dropdown-link
                                         :href="route('note_sheet.index')"
                                         :active="route().current('note_sheet.*')"
