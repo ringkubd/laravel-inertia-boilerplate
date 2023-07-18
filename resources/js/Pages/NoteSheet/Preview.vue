@@ -91,6 +91,14 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style>
+.table-bordered{
+    border: 1px solid gray !important;
+}
+.table-bordered tr{
+    border: 1px solid gray !important;
+}
+tbody, td, tfoot, th, thead, tr{
+    border: 1px solid gray !important;
+}
 </style>
