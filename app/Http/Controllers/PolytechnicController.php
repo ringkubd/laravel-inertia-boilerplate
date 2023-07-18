@@ -62,10 +62,7 @@ class PolytechnicController extends Controller
     {
         $this->authorize('create_polytechnic');
         $validate = $request->validate([
-            'name' => 'required|max:250',
-            'address' => 'required|max:250',
-            'contact_number' => 'required',
-            'institution_number' => 'required',
+            'name' => 'required|max:250'
         ]);
         Polytechnic::create($request->all());
         return Redirect::route('polytechnic.index');
@@ -115,9 +112,6 @@ class PolytechnicController extends Controller
         $this->authorize('update_polytechnic');
         $validate = $request->validate([
             'name' => 'required|max:250',
-            'address' => 'required|max:250',
-            'contact_number' => 'required',
-            'institution_number' => 'required',
         ]);
         $updated = Polytechnic::findOrFail($id)->update($request->all());
         return Redirect::route('polytechnic.index');

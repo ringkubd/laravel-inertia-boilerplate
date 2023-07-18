@@ -177,6 +177,7 @@ class InvoiceController extends Controller
                     'invoice' => $invoiceId,
                     'student_id' => $student->id,
                     'invoice_month' => $request->invoice_month,
+                    'result_status' => $result?->status,
                 ]);
                 $feeType[] = $fee->fee_type;
             }
@@ -219,7 +220,9 @@ class InvoiceController extends Controller
         $invoice = Invoice::query()
             ->select('invoices.*', DB::raw("(SELECT status from results WHERE semester=$resultSemester and student_id=invoices.student_id ORDER BY created_at DESC LIMIT 1 ) AS result_status"), 'r.gpa', 'r.created_at')
             ->where('invoice_id', $invoice_id)
-            ->with('details')
+            ->with(['details' => function($q){
+                $q->orderBy('student_id');
+            }])
             ->with('student')
             ->with(['paymentSlip' => function($q) use($basicInfo){
                 $q->where('payment_slips.semester', $basicInfo->semester)->latest();
@@ -228,11 +231,9 @@ class InvoiceController extends Controller
             ->leftJoin('results as r', function ($join) use ($resultSemester){
                 $join->on('r.student_id','invoices.student_id')->where('r.semester', $resultSemester);
             })
-            ->orderByDesc('r.created_at')
+            ->orderByDesc('invoices.student_id')
             ->groupBy('student_id')
             ->get();
-
-//        dd($invoice);
 
         $lastMma = 0;
         $feeTypes = $invoice->whereNotNull('details')->first()->details->pluck('fee_type');

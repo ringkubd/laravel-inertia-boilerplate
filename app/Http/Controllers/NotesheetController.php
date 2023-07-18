@@ -7,7 +7,9 @@ use App\Models\Invoice;
 use App\Models\InvoiceDetail;
 use App\Models\Notesheet;
 use App\Models\NotesheetTemplate;
+use App\Models\NotesheetText;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Inertia\Inertia;
 
 class NotesheetController extends Controller
@@ -15,51 +17,75 @@ class NotesheetController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
-        $invoice = Invoice::query()
-            ->selectRaw('count(student_id) as number_of_student, sum(amount) as total_amount, invoice_month, session, invoice_id, invoice_no, invoice_date, semester,page_no,serial_no, fee_type')
-            ->whereNull('notesheet_id')
-            ->groupBy('invoice_id')
-            ->get();
+        $note_sheet = Notesheet::query()
+            ->with(['invoice' => function($q){
+                $q->selectRaw('invoice_id,invoice_no,session, sum(amount) as total_amount, invoice_month,invoice_date, semester, count(student_id) as number_of_student,page_no,serial_no, fee_type')->groupBy('invoice_id');
+            }])
+            ->latest()
+            ->paginate();
         return Inertia::render('NoteSheet/Index', [
-            'invoices' => $invoice
+            'note_sheet' => $note_sheet,
+            'can' => [
+                'create' => auth()->user()->can('create_note_sheet'),
+                'update' => auth()->user()->can('delete_note_sheet'),
+                'delete' => auth()->user()->can('update_note_sheet'),
+                'view' => auth()->user()->can('view_note_sheet'),
+            ]
         ]);
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
         $invoice = Invoice::query()
-            ->selectRaw('count(student_id) as number_of_student, sum(amount) as total_amount, invoice_month, session, invoice_id, invoice_no, invoice_date, semester,page_no,serial_no, fee_type')
+            ->selectRaw('
+            count(student_id) as number_of_student,
+            sum(amount) as total_amount,
+            invoice_month,
+            session,
+            invoice_id,
+            invoice_no,
+            invoice_date,
+            semester,
+            page_no,
+            serial_no,
+            fee_type
+            ')
             ->whereNull('notesheet_id')
             ->whereNull('page_no')
             ->whereNull('serial_no')
             ->groupBy('invoice_id')
+            ->latest()
             ->get();
 
         $notesheetTemplate = NotesheetTemplate::all();
+        $noteSheetText = NotesheetText::query()->get()->groupBy('note_type');
         $pageNo = newPageNo();
+
         $serialNo = newPageNo('serial_no');
+
         return Inertia::render('NoteSheet/Generate', [
             'invoices' => $invoice,
             'note_sheet_template' => $notesheetTemplate,
             'page_no' => $pageNo,
-            'serial_no' => $serialNo
+            'serial_no' => $serialNo,
+            'noteSheetText' => $noteSheetText,
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -71,26 +97,35 @@ class NotesheetController extends Controller
         ]);
         $data = $request->all();
         $data['user_id'] = auth()->user()->id;
-        $notesheet = Notesheet::create($data);
+        if($note = Notesheet::create($data)){
+            Invoice::where('invoice_id', $request->invoice_id)->update([
+                'page_no' => $request->page_no,
+                'serial_no' => $request->serial_no,
+                'notesheet_id' => $note->id,
+            ]);
+        }
+
         return redirect()->route('note_sheet.index')->withSuccess("Note sheet created successfully");
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Notesheet  $notesheet
-     * @return \Illuminate\Http\Response
+     * @param Notesheet $notesheet
+     * @return Response
      */
-    public function show(Notesheet $notesheet)
+    public function show(Notesheet $note_sheet)
     {
-        //
+        return Inertia::render('NoteSheet/Preview', [
+            'note_sheet' => $note_sheet
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Notesheet  $notesheet
-     * @return \Illuminate\Http\Response
+     * @param Notesheet $notesheet
+     * @return Response
      */
     public function edit(Notesheet $notesheet)
     {
@@ -100,9 +135,9 @@ class NotesheetController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Notesheet  $notesheet
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Notesheet $notesheet
+     * @return Response
      */
     public function update(Request $request, Notesheet $notesheet)
     {
@@ -112,8 +147,8 @@ class NotesheetController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Notesheet  $notesheet
-     * @return \Illuminate\Http\Response
+     * @param Notesheet $notesheet
+     * @return Response
      */
     public function destroy(Notesheet $notesheet)
     {
@@ -129,6 +164,7 @@ class NotesheetController extends Controller
             ->where('invoice_id',$invoiceId)
             ->groupBy('invoice_id')
             ->first();
+
         if ($invoice) {
             return response()->json($invoice);
         }
@@ -137,12 +173,28 @@ class NotesheetController extends Controller
 
     public function mmaTable($invoiceId){
         $invoice = InvoiceDetail::query()
-            ->selectRaw('SUM(IF(student_amount > 0, 1, 0)) as mma_student, SUM(IF(board_amount > 0, 1, 0)) as book_student, sum(student_amount) as total_student_amount, max(student_amount) as student_amount, sum(board_amount) as total_board_amount, board_amount, sum(institute_amount) as total_institute_amount, institute_amount, sum(amount) as amount, invoice_month, invoice')
+            ->selectRaw('
+            SUM(IF(student_amount > 0, 1, 0)) as mma_student,
+            SUM(IF(board_amount > 0, 1, 0)) as book_student,
+            sum(student_amount) as total_student_amount,
+            max(student_amount) as student_amount,
+            sum(board_amount) as total_board_amount,
+            board_amount,
+            sum(institute_amount) as total_institute_amount,
+            institute_amount,
+            SUM(amount) as amount,
+            SUM(IF(amount = 0 , 1, 0)) as failed_student,
+            SUM(IF(amount > 0 , 1, 0)) as eligible_student,
+            invoice_month, invoice'
+            )
             ->where('invoice', $invoiceId)
             ->groupBy('fee_type')
             ->firstOrFail();
-        return <<<TEMPLATE
-<table class="table table-bordered border-t-1 mt-10" style="margin-top: 5rem; border-top: 2px solid black">
+        $mma = number_format(2000 * $invoice->eligible_student, 2, '.', ',');
+        $book_stationary = number_format(500 * $invoice->eligible_student, 2, '.', ',');
+        $total = number_format(2500 * $invoice->eligible_student, 2, '.', ',');
+        $table =  <<<TEMPLATE
+<table class="table table-bordered mt-10">
         <thead>
         <tr>
             <th>Number of Students</th>
@@ -156,25 +208,30 @@ class NotesheetController extends Controller
         <tbody class="text-center align-middle">
         <tr>
             <td>
-                $invoice->mma_student
+                $invoice->eligible_student
             </td>
             <th>MMA</th>
-            <td> $invoice->student_amount </td>
+            <td> 2,000 </td>
             <td rowspan="2"> $invoice->invoice_month </td>
-            <td> $invoice->total_student_amount </td>
-            <td rowspan="2">$invoice->amount </td>
+            <td> $mma </td>
+            <td rowspan="2">$total</td>
         </tr>
         <tr>
             <td>
-                $invoice->book_student
+                $invoice->eligible_student
             </td>
-            <td>Book & Stationary</td>
-            <td>$invoice->board_amount</td>
-            <td>$invoice->total_board_amount</td>
+            <th>Book & Stationary</th>
+            <td>500</td>
+            <td>$book_stationary</td>
         </tr>
         </tbody>
     </table>
 TEMPLATE;
+
+        return [
+            'table' => $table,
+            'invoice' => $invoice
+        ];
     }
 
     public function admissionTable($invoiceId){
@@ -189,7 +246,7 @@ TEMPLATE;
         $totalAmount =  number_format($invoices->sum('amount'), 0, '.', ',');
         $totalStudent = number_format($invoices->count('student_id'), 0, '.', ',');
         $template = <<<TEMPLATE
-<table class="table table-bordered border-t-1 mt-10" style="margin-top: 5rem; border-top: 2px solid black">
+<table class="table table-bordered mt-10">
         <thead>
         <tr>
             <th>SL.#</th>
@@ -236,9 +293,6 @@ TEMPLATE;
         $template .= "</tbody>
     </table>";
         return $template;
-
-    }
-    public function semesterTable($invoiceId){
 
     }
 }

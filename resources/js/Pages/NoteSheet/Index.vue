@@ -38,20 +38,20 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="(inv, i) in invoices">
+                            <tr v-for="(ns, i) in note_sheet.data">
                                 <td>{{ i + 1 }}</td>
-                                <td>{{ inv.session }}</td>
-                                <td>{{ inv.semester }}</td>
-                                <td>{{ inv.invoice_date }}</td>
-                                <td>{{ inv.invoice_id }}</td>
-                                <td>{{ inv.invoice_month }}</td>
-                                <td>{{ inv.invoice_no }}</td>
-                                <td>{{ inv.number_of_student }}</td>
-                                <td>{{ JSON.parse(inv.fee_type).join() }}</td>
-                                <td>{{ inv.page_no }}</td>
-                                <td>{{ inv.serial_no }}</td>
-                                <td>{{ inv.total_amount }}</td>
-                                <td><Actions /></td>
+                                <td>{{ ns.invoice?.session }}</td>
+                                <td>{{ ns.invoice?.semester }}</td>
+                                <td>{{ ns.invoice?.invoice_date }}</td>
+                                <td>{{ ns.invoice_id }}</td>
+                                <td>{{ ns.invoice?.invoice_month }}</td>
+                                <td>{{ ns.invoice?.invoice_no }}</td>
+                                <td>{{ ns.invoice?.number_of_student }}</td>
+                                <td>{{ JSON.parse(ns.invoice?.fee_type).join(", ") }}</td>
+                                <td>{{ ns.page_no }}</td>
+                                <td>{{ ns.serial_no }}</td>
+                                <td>{{ parseFloat(ns.invoice?.total_amount).toFixed(2) }}</td>
+                                <td><Actions :can="can" :detail-url="route('note_sheet.show', ns.id)" /></td>
                             </tr>
                             </tbody>
                         </table>
@@ -72,7 +72,7 @@ import Actions from "@/Shared/Actions";
 import NavLink from "@/Components/NavLink";
 export default {
     name: "Index",
-    props: ['invoices'],
+    props: ['note_sheet', 'can'],
     components: {NavLink, Actions, Button, Label, CardHeader, PageHeader, Authenticated}
 }
 </script>

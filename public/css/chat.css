@@ -3,7 +3,6 @@
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
   -moz-appearance: none;
   -webkit-appearance: none;
@@ -214,7 +213,6 @@ ul li, ol li {
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
   background-color: transparent;
   border: transparent;

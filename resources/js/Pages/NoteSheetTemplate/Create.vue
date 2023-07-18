@@ -34,7 +34,10 @@ export default {
     props: ['fee_types', 'note_template', 'selected_fee_types'],
     methods: {
         submit(formData){
-            this.$inertia.post(route('note_sheet_template.store'), formData)
+            this.$inertia.post(route('note_sheet_template.store'), formData, {
+                success: (s) => console.log(s),
+                error: e => console.log(e)
+            })
         }
     }
 }
