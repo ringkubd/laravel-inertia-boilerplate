@@ -235,7 +235,7 @@ export default {
                 this.template_text = this.template_text.replaceAll('[admission_enrolled_student]', this.admission_enrolled_student)
                 this.note = this.template_text;
             }
-            if (this.admission_enrolled_student !== ""){
+            if (this.circular_date !== ""){
                 this.template_text = this.template_text.replaceAll('[circular_date]', this.circular_date)
                 this.note = this.template_text;
             }
