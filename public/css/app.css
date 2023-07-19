@@ -1753,6 +1753,9 @@ select {
 .pt-\[19mm\] {
   padding-top: 19mm;
 }
+.pt-\[10mm\] {
+  padding-top: 10mm;
+}
 .text-left {
   text-align: left;
 }
@@ -2527,6 +2530,9 @@ ol li {
   }
   .print\:mt-10 {
     margin-top: 2.5rem;
+  }
+  .print\:mt-8 {
+    margin-top: 2rem;
   }
   .print\:border-0 {
     border-width: 0px;
