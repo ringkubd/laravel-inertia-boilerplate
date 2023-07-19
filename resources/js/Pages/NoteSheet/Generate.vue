@@ -177,11 +177,6 @@ export default {
                 // .replace('<ol>', `<ol start={this.serial_no}>`)
             this.template_text += "</ol>"
             this.note = this.template_text
-            if (this.circular_date !== ""){
-                this.note = this.template_text.replaceAll('[circular_date]', this.circular_date)
-                this.template_text = this.template_text.replaceAll('[circular_date]', this.circular_date)
-            }
-
         },
         noteEdit(v){
             this.note = v
@@ -236,7 +231,8 @@ export default {
                 this.note = this.template_text;
             }
             if (this.circular_date !== ""){
-                this.template_text = this.template_text.replaceAll('[circular_date]', this.circular_date)
+                const circular_date = moment(circular_date).format("DD MMMM YYYY")
+                this.template_text = this.template_text.replaceAll('[circular_date]', circular_date)
                 this.note = this.template_text;
             }
         }
