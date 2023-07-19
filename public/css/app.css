@@ -1672,10 +1672,6 @@ select {
   padding-top: 2rem;
   padding-bottom: 2rem;
 }
-.px-\[20mm\] {
-  padding-left: 20mm;
-  padding-right: 20mm;
-}
 .pb-1 {
   padding-bottom: 0.25rem;
 }

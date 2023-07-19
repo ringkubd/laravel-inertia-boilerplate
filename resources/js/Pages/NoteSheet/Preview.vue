@@ -35,7 +35,7 @@
                                 <div>IsDB-BISEW</div>
                             </div>
                         </div>
-                        <div class="flex flex-row justify-content-between pt-24 flex-1 align-items-center">
+                        <div class="flex flex-row justify-content-between pt-16 flex-1 align-items-center">
                             <div class="flex flex-column text-center border-t border-black px-3">
                                 <div>Accounts Officer</div>
                                 <div>IsDB-BISEW</div>
@@ -104,7 +104,6 @@ tbody, td, tfoot, th, thead, tr{
 }
 #printMe{
     font-size: 15px;
-    font-family: 'Goudy Bookletter 1911', serif;
 }
 ol li{
     text-align: justify!important;
