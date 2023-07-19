@@ -20,7 +20,7 @@
                     </div>
                     <div v-html="note_sheet.note_text" class="px-[15mm] py-8 text-sm">
                     </div>
-                    <div class="flex flex-column pt-[10mm] px-[19mm] flex-1">
+                    <div class="flex flex-column pt-[10mm] px-[19mm] flex-1 max-h-[5rem]">
                         <div class="flex flex-row justify-content-between flex-1 align-items-center">
                             <div class="flex flex-column text-center border-t border-black px-3">
                                 <div>Program Officer</div>
@@ -35,7 +35,7 @@
                                 <div>IsDB-BISEW</div>
                             </div>
                         </div>
-                        <div class="flex flex-row justify-content-between pt-16 flex-1 align-items-center">
+                        <div class="flex flex-row justify-content-between pt-[19mm] flex-1 align-items-center">
                             <div class="flex flex-column text-center border-t border-black px-3">
                                 <div>Accounts Officer</div>
                                 <div>IsDB-BISEW</div>

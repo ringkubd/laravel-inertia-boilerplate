@@ -914,6 +914,15 @@ select {
   max-height: -moz-fit-content;
   max-height: fit-content;
 }
+.max-h-\[2rem\] {
+  max-height: 2rem;
+}
+.max-h-\[2\.5rem\] {
+  max-height: 2.5rem;
+}
+.max-h-\[5rem\] {
+  max-height: 5rem;
+}
 .min-h-\[100\%\] {
   min-height: 100%;
 }
@@ -1755,6 +1764,12 @@ select {
 }
 .pt-\[10mm\] {
   padding-top: 10mm;
+}
+.pt-\[15mm\] {
+  padding-top: 15mm;
+}
+.pt-\[18mm\] {
+  padding-top: 18mm;
 }
 .text-left {
   text-align: left;
