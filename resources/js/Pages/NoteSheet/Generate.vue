@@ -139,7 +139,7 @@ export default {
             }
             const numberFormat = new Intl.NumberFormat('en-BD', { style: 'currency', currency: 'BDT' })
             this.template_text = `<ol start="${this.serial_no}">`
-            this.template_text += `<li>`+content.replaceAll('[number_of_student]', this.invoice_info?.number_of_student)
+            this.template_text += `<li>`+content.replaceAll('[number_of_student]', this.invoice_info?.total_student)
                 .replace('[section]', this.invoice_info?.section)
                 .replace('[subject]', this.invoice_info?.subject)
                 .replace('[semester]', this.semesterString(this.invoice_info?.semester))

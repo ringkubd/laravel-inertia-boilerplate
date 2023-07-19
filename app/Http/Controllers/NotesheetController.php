@@ -48,6 +48,7 @@ class NotesheetController extends Controller
         $invoice = Invoice::query()
             ->selectRaw('
             count(student_id) as number_of_student,
+            SUM(IF(amount > 0, 1, 0 )) as total_student,
             sum(amount) as total_amount,
             invoice_month,
             session,
@@ -166,7 +167,7 @@ class NotesheetController extends Controller
 
     public function getInvoiceInfo($invoiceId = ""){
         $invoice = Invoice::query()
-            ->selectRaw('count(student_id) as number_of_student, sum(amount) as total_amount, invoice_month, session, invoice_id, invoice_no, invoice_date, semester,page_no,serial_no, fee_type')
+            ->selectRaw('count(student_id) as number_of_student, SUM(IF(amount > 0, 1, 0 )) as total_student, sum(amount) as total_amount, invoice_month, session, invoice_id, invoice_no, invoice_date, semester,page_no,serial_no, fee_type')
             ->whereNull('notesheet_id')
             ->whereNull('page_no')
             ->whereNull('serial_no')
