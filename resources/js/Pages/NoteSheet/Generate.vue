@@ -63,7 +63,7 @@
                                     <label for="admission_enrolled_student">Admitted Student</label>
                                     <input type="number" id="admission_enrolled_student" name="admission_enrolled_student" v-model="admission_enrolled_student" class="form-control">
                                 </div>
-                                <div class="mx-auto w-1/2" v-if="template_id === 'admission'">
+                                <div class="mx-auto w-1/2" v-if="template_id === 'semester' || template_id === 'admission'">
                                     <button class="btn btn-success" type="button" @click="update">Update</button>
                                 </div>
                             </form>
@@ -238,12 +238,12 @@ export default {
         }
     },
     watch: {
-        circular_date(circular_date){
-            circular_date = moment(circular_date).format("DD MMMM YYYY")
-            this.template_text = this.template_text.replaceAll('[circular_date]', circular_date)
-            this.note = this.template_text
-            return circular_date
-        },
+        // circular_date(circular_date){
+        //     circular_date = moment(circular_date).format("DD MMMM YYYY")
+        //     this.template_text = this.template_text.replaceAll('[circular_date]', circular_date)
+        //     this.note = this.template_text
+        //     return circular_date
+        // },
         note(note){
             return note
         }
