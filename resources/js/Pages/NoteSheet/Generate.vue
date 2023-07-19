@@ -231,7 +231,8 @@ export default {
                 this.note = this.template_text;
             }
             if (this.circular_date !== ""){
-                const circular_date = moment(circular_date).format("DD MMMM YYYY")
+                console.log(this.circular_date)
+                const circular_date = moment(this.circular_date).format("DD MMMM YYYY")
                 this.template_text = this.template_text.replaceAll('[circular_date]', circular_date)
                 this.note = this.template_text;
             }
