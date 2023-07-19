@@ -51,7 +51,13 @@
                                 <td>{{ ns.page_no }}</td>
                                 <td>{{ ns.serial_no }}</td>
                                 <td>{{ parseFloat(ns.invoice?.total_amount).toFixed(2) }}</td>
-                                <td><Actions :can="can" :detail-url="route('note_sheet.show', ns.id)" /></td>
+                                <td>
+                                    <Actions
+                                    :can="can"
+                                    :detail-url="route('note_sheet.show', ns.id)"
+                                    :delete-url="route('note_sheet.destroy', ns.id)"
+                                    />
+                                </td>
                             </tr>
                             </tbody>
                         </table>

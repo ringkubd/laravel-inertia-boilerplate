@@ -151,9 +151,17 @@ class NotesheetController extends Controller
      * @param Notesheet $notesheet
      * @return Response
      */
-    public function destroy(Notesheet $notesheet)
+    public function destroy(Notesheet $note_sheet)
     {
-        //
+        $invoice = Invoice::query()
+            ->where('invoice_id', $note_sheet->invoice_id)
+            ->update([
+                'notesheet_id' => null,
+                'page_no' => null,
+                'serial_no' => null
+            ]);
+        $note_sheet->delete();
+        return redirect()->route('note_sheet.index')->withSuccess("Note sheet deleted successfully");
     }
 
     public function getInvoiceInfo($invoiceId = ""){
