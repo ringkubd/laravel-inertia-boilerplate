@@ -19,7 +19,7 @@ if (!function_exists('newPageNo')) {
             ->orderByDesc('page_no')
             ->firstOrFail();
 
-        if ($invoice) {
+        if ($invoice && $invoice->page_no != null) {
             if ($type == 'page_no') {
                 return (int)$invoice->page_no + 1;
             }else{
