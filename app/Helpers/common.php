@@ -27,7 +27,11 @@ if (!function_exists('newPageNo')) {
             }
 
         }
-        return 1;
+        if ($type == 'page_no'){
+            return 178;
+        }else{
+            return 471;
+        }
     }
 }
 function getBytesFromHexString($hexdata)
