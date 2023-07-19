@@ -92,6 +92,7 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Goudy+Bookletter+1911&family=Roboto+Condensed&display=swap');
 .table-bordered{
     border: 1px solid gray !important;
 }
@@ -100,5 +101,17 @@ export default {
 }
 tbody, td, tfoot, th, thead, tr{
     border: 1px solid gray !important;
+}
+#printMe{
+    font-size: 15px;
+    font-family: 'Goudy Bookletter 1911', serif;
+}
+ol li{
+    text-align: justify!important;
+    font-size: 14px;
+    text-justify: inter-word;
+}
+strong{
+    text-decoration: underline;
 }
 </style>

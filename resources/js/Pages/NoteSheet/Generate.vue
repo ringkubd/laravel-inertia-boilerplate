@@ -89,6 +89,7 @@ import CardHeader from "@/Shared/CardHeader";
 import Back from "@/Shared/Back";
 import Button from "@/Shared/Button";
 import moment from "moment";
+import number2text from "number2text";
 export default {
     name: "Generate",
     props: ['invoices', 'note_sheet_template', 'page_no', 'serial_no', 'noteSheetText'],
@@ -139,7 +140,6 @@ export default {
             const numberFormat = new Intl.NumberFormat('en-BD', { style: 'currency', currency: 'BDT' })
             this.template_text = `<ol start="${this.serial_no}">`
             this.template_text += `<li>`+content.replaceAll('[number_of_student]', this.invoice_info?.number_of_student)
-                .replace('[total_amount]', numberFormat.format(this.invoice_info?.total_amount))
                 .replace('[section]', this.invoice_info?.section)
                 .replace('[subject]', this.invoice_info?.subject)
                 .replace('[semester]', this.semesterString(this.invoice_info?.semester))
@@ -147,7 +147,7 @@ export default {
                 .replace('[bill_group]', this.invoice_info?.bill_group)
                 .replace('[current_date]', this.invoice_info?.current_date)
                 .replace('[invoice_date]', this.invoice_info?.invoice_date)
-                .replace('[total_amount]', numberFormat.format(this.invoice_info?.total_amount))
+                .replace('[total_amount]', numberFormat.format(this.invoice_info?.total_amount)+ ' '+ ` (${number2text(this.invoice_info?.total_amount)})`)
                 .replace('[idb_account]', this.invoice_info?.idb_account)
                 .replace('[bill_period]', this.invoice_info?.bill_period)
                 .replaceAll('[session]', this.invoice_info?.session)
@@ -158,7 +158,6 @@ export default {
                 .replaceAll('[admission_table]', app.ad_table)
                 .replaceAll('[invoice_month_year]', moment(this.invoice_info?.invoice_month).format("MMMM YYYY"))
             this.template_text += `<li>`+noteST[1]?.content.replaceAll('[number_of_student]', this.invoice_info?.number_of_student)
-                .replaceAll('[total_amount]', numberFormat.format(this.invoice_info?.total_amount))
                 .replaceAll('[section]', this.invoice_info?.section)
                 .replaceAll('[subject]', this.invoice_info?.subject)
                 .replaceAll('[semester]', this.semesterString(this.invoice_info?.semester))
@@ -166,7 +165,7 @@ export default {
                 .replaceAll('[bill_group]', this.invoice_info?.bill_group)
                 .replaceAll('[current_date]', this.invoice_info?.current_date)
                 .replaceAll('[invoice_date]', this.invoice_info?.invoice_date)
-                .replaceAll('[total_amount]', numberFormat.format(this.invoice_info?.total_amount))
+                .replaceAll('[total_amount]', numberFormat.format(this.invoice_info?.total_amount)+ ' ' + ` (${number2text(this.invoice_info?.total_amount)})`)
                 .replaceAll('[idb_account]', this.invoice_info?.idb_account)
                 .replaceAll('[bill_period]', this.invoice_info?.bill_period)
                 .replaceAll('[session]', this.invoice_info?.session)

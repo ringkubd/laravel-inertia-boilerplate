@@ -923,9 +923,6 @@ select {
 .min-h-screen {
   min-height: 100vh;
 }
-.min-h-full {
-  min-height: 100%;
-}
 .w-1\/12 {
   width: 8.333333%;
 }
@@ -1675,6 +1672,10 @@ select {
   padding-top: 2rem;
   padding-bottom: 2rem;
 }
+.px-\[20mm\] {
+  padding-left: 20mm;
+  padding-right: 20mm;
+}
 .pb-1 {
   padding-bottom: 0.25rem;
 }
@@ -1764,6 +1765,9 @@ select {
 }
 .text-right {
   text-align: right;
+}
+.text-justify {
+  text-align: justify;
 }
 .align-middle {
   vertical-align: middle;
@@ -2521,15 +2525,6 @@ ol li {
   }
 }
 @media print {
-  .print\:static {
-    position: static;
-  }
-  .print\:fixed {
-    position: fixed;
-  }
-  .print\:bottom-0 {
-    bottom: 0px;
-  }
   .print\:my-0 {
     margin-top: 0px;
     margin-bottom: 0px;

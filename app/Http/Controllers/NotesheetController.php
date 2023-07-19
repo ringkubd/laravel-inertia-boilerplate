@@ -63,6 +63,7 @@ class NotesheetController extends Controller
             ->whereNull('page_no')
             ->whereNull('serial_no')
             ->groupBy('invoice_id')
+            ->whereRaw('date(created_at) > "2023-07-01"')
             ->latest()
             ->get();
 
@@ -194,7 +195,7 @@ class NotesheetController extends Controller
         $book_stationary = number_format(500 * $invoice->eligible_student, 2, '.', ',');
         $total = number_format(2500 * $invoice->eligible_student, 2, '.', ',');
         $table =  <<<TEMPLATE
-<table class="table table-bordered mt-10">
+<table class="table table-bordered mt-4">
         <thead>
         <tr>
             <th>Number of Students</th>
@@ -246,7 +247,7 @@ TEMPLATE;
         $totalAmount =  number_format($invoices->sum('amount'), 0, '.', ',');
         $totalStudent = number_format($invoices->count('student_id'), 0, '.', ',');
         $template = <<<TEMPLATE
-<table class="table table-bordered mt-10">
+<table class="table table-bordered mt-4">
         <thead>
         <tr>
             <th>SL.#</th>
@@ -281,7 +282,7 @@ TEMPLATE;
         }
         $template .= <<<TEMPLATE
 <tr>
-<td colspan="2" class="text-right">Total</td>
+<th colspan="2" class="text-right">Total</th>
 <td>$totalStudent</td>
 <td>$totalBoardFee</td>
 <td>$totalInstituteFee</td>
