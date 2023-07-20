@@ -47,15 +47,17 @@ class NotesheetController extends Controller
     {
         $invoice = Invoice::query()
             ->selectRaw('
-            count(student_id) as number_of_student,
+            SUM(IF(results.status is null, 1, 0)) as number_of_student,
             SUM(IF(amount > 0, 1, 0 )) as total_student,
+            (SUM(IF(results.status is null, 1, 0)) - SUM(IF(amount > 0, 1, 0 ))) as nd_student,
+            (count(invoices.student_id) - SUM(IF(results.status is null, 1, 0))) as dropout_student,
             sum(amount) as total_amount,
             invoice_month,
-            session,
+            invoices.session,
             invoice_id,
             invoice_no,
             invoice_date,
-            semester,
+            invoices.semester,
             page_no,
             serial_no,
             fee_type
@@ -63,11 +65,13 @@ class NotesheetController extends Controller
             ->whereNull('notesheet_id')
             ->whereNull('page_no')
             ->whereNull('serial_no')
+            ->leftJoin('results', function ($join){
+                $join->on('results.student_id', 'invoices.student_id')->where('status', 'Dropout');
+            })
             ->groupBy('invoice_id')
-            ->whereRaw('date(created_at) > "2023-07-01"')
-            ->latest()
+            ->whereRaw('date(invoices.created_at) > "2023-07-01"')
+            ->latest('invoices.created_at')
             ->get();
-
         $notesheetTemplate = NotesheetTemplate::all();
         $noteSheetText = NotesheetText::query()->get()->groupBy('note_type');
         $pageNo = newPageNo();

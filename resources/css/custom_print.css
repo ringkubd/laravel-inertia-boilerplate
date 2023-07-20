@@ -137,3 +137,17 @@ td{
     padding: 2px!important;
 }
 
+ul#note  {
+    --icon-space: 1.3em;
+    list-style: none;
+    padding: 0;
+}
+ul#note li:before {
+    content: "*"!important;;
+    display: inline-block;
+    margin-left: calc( var(--icon-space) * -1 )!important;;
+    width: var(--icon-space)'*'!important;;
+}
+li{
+    list-style-type: '*'!important;
+}

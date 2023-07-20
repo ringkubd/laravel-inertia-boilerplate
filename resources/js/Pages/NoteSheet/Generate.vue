@@ -116,6 +116,7 @@ export default {
             const invInfo = this.invoices.filter((inv) => {
                 return inv.invoice_id === this.invoice_id
             })
+            console.log(invInfo[0])
             this.invoice_info = invInfo[0]
         },
         async templateInfo(){
@@ -139,17 +140,19 @@ export default {
             }
             const numberFormat = new Intl.NumberFormat('en-BD', { style: 'currency', currency: 'BDT' })
             this.template_text = `<ol start="${this.serial_no}">`
-            this.template_text += `<li>`+content.replaceAll('[number_of_student]', this.invoice_info?.total_student)
-                .replace('[section]', this.invoice_info?.section)
-                .replace('[subject]', this.invoice_info?.subject)
-                .replace('[semester]', this.semesterString(this.invoice_info?.semester))
-                .replace('[prev_semester]', this.semesterString(parseInt(this.invoice_info?.semester) - 1))
-                .replace('[bill_group]', this.invoice_info?.bill_group)
-                .replace('[current_date]', this.invoice_info?.current_date)
-                .replace('[invoice_date]', this.invoice_info?.invoice_date)
-                .replace('[total_amount]', numberFormat.format(this.invoice_info?.total_amount)+ ' '+ ` (${number2text(this.invoice_info?.total_amount)})`)
-                .replace('[idb_account]', this.invoice_info?.idb_account)
-                .replace('[bill_period]', this.invoice_info?.bill_period)
+            this.template_text += `<li>`+content.replaceAll('[number_of_student]', this.invoice_info?.number_of_student)
+                .replaceAll('[section]', this.invoice_info?.section)
+                .replaceAll('[total_student]', this.invoice_info?.total_student)
+                .replaceAll('[nd_student]', this.invoice_info?.nd_student)
+                .replaceAll('[subject]', this.invoice_info?.subject)
+                .replaceAll('[semester]', this.semesterString(this.invoice_info?.semester))
+                .replaceAll('[prev_semester]', this.semesterString(parseInt(this.invoice_info?.semester) - 1))
+                .replaceAll('[bill_group]', this.invoice_info?.bill_group)
+                .replaceAll('[current_date]', this.invoice_info?.current_date)
+                .replaceAll('[invoice_date]', this.invoice_info?.invoice_date)
+                .replaceAll('[total_amount]', numberFormat.format(this.invoice_info?.total_amount)+ ' '+ ` (${number2text(this.invoice_info?.total_amount)})`)
+                .replaceAll('[idb_account]', this.invoice_info?.idb_account)
+                .replaceAll('[bill_period]', this.invoice_info?.bill_period)
                 .replaceAll('[session]', this.invoice_info?.session)
                 .replaceAll('[bill_type]', JSON.parse(this.invoice_info?.fee_type))
                 .replaceAll('[eligible_student]', invoice.eligible_student)
@@ -159,9 +162,11 @@ export default {
                 .replaceAll('[invoice_month_year]', moment(this.invoice_info?.invoice_month).format("MMMM YYYY"))
             this.template_text += `<li>`+noteST[1]?.content.replaceAll('[number_of_student]', this.invoice_info?.number_of_student)
                 .replaceAll('[section]', this.invoice_info?.section)
+                .replaceAll('[total_student]', this.invoice_info?.total_student)
+                .replaceAll('[nd_student]', this.invoice_info?.nd_student)
                 .replaceAll('[subject]', this.invoice_info?.subject)
                 .replaceAll('[semester]', this.semesterString(this.invoice_info?.semester))
-                .replace('[prev_semester]', this.semesterString(parseInt(this.invoice_info?.semester) - 1))
+                .replaceAll('[prev_semester]', this.semesterString(parseInt(this.invoice_info?.semester) - 1))
                 .replaceAll('[bill_group]', this.invoice_info?.bill_group)
                 .replaceAll('[current_date]', this.invoice_info?.current_date)
                 .replaceAll('[invoice_date]', this.invoice_info?.invoice_date)

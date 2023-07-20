@@ -85,6 +85,17 @@
                             <th class="text-center"></th>
                         </tr>
                         </tbody>
+                        <tfoot>
+                        <tr>
+                            <td colspan="9" style="padding-left: 2.5em!important;">
+                                <strong>Note: </strong>
+                                <ul id="note">
+                                    <li>D.S.- Document submitted.</li>
+                                    <li>D.N.S.- Document Not submitted.</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        </tfoot>
                     </table>
                     <table class="table-auto w-full mt-10">
                         <tbody>
@@ -105,7 +116,7 @@
                             </td>
                             <td class="text-center" style="padding-top: 50px!important;">
                                 <div class="text-center flex flex-col justify-center items-center">
-                                    <hr style="color: black!important;" class="w-1/2">
+                                    <hr style="color: black!important;" class="w-1/2"/>
                                     <span>Sr. Program Coordinator</span>
                                     <span>IsDB-BISEW</span>
                                 </div>
@@ -148,10 +159,11 @@ import Authenticated from "@/Layouts/Authenticated";
 import CardHeader from "@/Shared/CardHeader";
 import Back from "@/Shared/Back";
 import Button from "@/Shared/Button";
+import PageHeader from "@/Shared/PageHeader.vue";
 export default {
     name: "Invoice",
     props: ['can', 'errors', 'data', 'feeTypes', 'basicInfo', 'last_mma'],
-    components: {Button, Back, CardHeader, Authenticated},
+    components: {PageHeader, Button, Back, CardHeader, Authenticated},
     methods: {
         search(params){
 
@@ -196,11 +208,25 @@ export default {
         remarks(status, paymentSlip, basicInfo){
             const feeType = JSON.parse(basicInfo.fee_type)
             status = !status ? 'Dropout': status;
-            return status === "Dropout" ? status : feeType.length === 1 && feeType.includes('MMA') ? status :  paymentSlip.length ? status : 'N.D'
+            return status === "Dropout" ? status : feeType.length === 1 && feeType.includes('MMA') ? status :  feeType.includes('Sem. Fee') && paymentSlip.length ? 'D.S.' : paymentSlip.length ? status : 'D.N.S.'
         }
     }
 }
 </script>
 
-<style scoped>
+<style>
+ul#note  {
+    --icon-space: 1.3em;
+    list-style: none;
+    padding: 0;
+}
+ul#note li:before {
+    content: "*";
+    display: inline-block;
+    margin-left: calc( var(--icon-space) * -1 );
+    width: var(--icon-space);
+}
+li{
+    list-style-type: '*';
+}
 </style>
