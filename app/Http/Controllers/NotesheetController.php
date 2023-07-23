@@ -25,6 +25,7 @@ class NotesheetController extends Controller
             ->with(['invoice' => function($q){
                 $q->selectRaw('invoice_id,invoice_no,session, sum(amount) as total_amount, invoice_month,invoice_date, semester, count(student_id) as number_of_student,page_no,serial_no, fee_type')->groupBy('invoice_id');
             }])
+            ->whereHas('invoice')
             ->latest()
             ->paginate();
         return Inertia::render('NoteSheet/Index', [
