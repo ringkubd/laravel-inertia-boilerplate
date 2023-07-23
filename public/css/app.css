@@ -717,10 +717,6 @@ select {
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
 }
-.mx-8 {
-  margin-left: 2rem;
-  margin-right: 2rem;
-}
 .-ml-px {
   margin-left: -1px;
 }
@@ -1678,10 +1674,6 @@ select {
 .py-8 {
   padding-top: 2rem;
   padding-bottom: 2rem;
-}
-.px-8 {
-  padding-left: 2rem;
-  padding-right: 2rem;
 }
 .pb-1 {
   padding-bottom: 0.25rem;

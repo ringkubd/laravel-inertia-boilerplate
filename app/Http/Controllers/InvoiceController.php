@@ -12,6 +12,7 @@ use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use App\Models\InvoiceDetail;
 use Ramsey\Uuid\Rfc4122\UuidV4;
+use function Aws\clear_compiled_json;
 use function Aws\map;
 
 class InvoiceController extends Controller
@@ -58,8 +59,10 @@ class InvoiceController extends Controller
     {
         $this->authorize('create_invoice');
         $sessions = AcademicSession::all();
+        $resultSemester  = $request->semester - 1;
 
         $students = Student::query()
+            ->select('students.*', DB::raw("IF(d.status is not null, d.status, r.status) AS result_status"), 'r.gpa', 'r.created_at')
             ->where('polytechnic_session', "$request->polytechnic_session")
             ->with(['fees' => function($q) use ($request){
                 $q->where('fees.semester', $request->semester)
@@ -76,6 +79,12 @@ class InvoiceController extends Controller
                     }
                 })->orWhere('status', 'Dropout')->latest();
             }])
+            ->leftJoin('results as r', function ($join) use ($resultSemester){
+                $join->on('r.student_id','students.id')->where('r.semester', $resultSemester);
+            })
+            ->leftJoin('results as d', function ($join){
+                $join->on('d.student_id','students.id')->where('d.status', 'Dropout');
+            })
             ->with(['invoice' => function($q) use($request){
                 $q->where('session', $request->polytechnic_session)
                     ->where('semester', $request->semester);
@@ -86,8 +95,11 @@ class InvoiceController extends Controller
                     ->where('semester', $request->semester);
                 });
             }])
+            ->groupBy('student_id')
             ->get();
-//        dd($students);
+
+//        dd($students->where('id', 28));
+
         $feeTypes = $students->whereNotNull('fees')->unique('fee_type')->max('fees');
         return Inertia::render('Invoice/Create', [
             'can' => [
@@ -138,8 +150,9 @@ class InvoiceController extends Controller
             }
             return false;
         });
-
+        $resultSemester  = $request->semester - 1;
         $students = Student::query()
+            ->select('students.*', DB::raw("IF(d.status is not null, d.status, r.status) AS result_status"), 'r.gpa', 'r.created_at')
             ->with(['fees' => function($q) use ($request, $billableFee){
                 $q->where('semester', $request->semester)
                     ->whereIn('fee_type', array_keys($billableFee));
@@ -155,33 +168,56 @@ class InvoiceController extends Controller
                     }
                 })->orWhere('status', 'Dropout')->latest();
             }])
+            ->leftJoin('results as r', function ($join) use ($resultSemester){
+                $join->on('r.student_id','students.id')->where('r.semester', $resultSemester);
+            })
+            ->leftJoin('results as d', function ($join){
+                $join->on('d.student_id','students.id')->where('d.status', 'Dropout');
+            })
             ->with(['paymentSlip' => function($q) use($request){
-                $q->where('payment_slips.semester', $request->semester);
+                $q->where('payment_slips.semester', $request->semester)->where('status', 1);
             }])
             ->where('polytechnic_session', "$request->academic_session")
-            ->whereIn('id', array_keys($selected_student))
+            ->whereIn('students.id', array_keys($selected_student))
+            ->groupBy('student_id')
             ->get();
         $invoiceId = rand(1111,99999);
         foreach($students as $student){
             $invoiceDetails = [];
             $feeType = [];
-            $result = $student->results->first();
-            $semFeePaymentSlip = $student->paymentSlip;
+            $semFeePaymentSlip = $student->paymentSlip->count();
             foreach ($student->fees as $fee){
-                $invoiceDetails[] = new InvoiceDetail([
-                    'fee_type' => $fee->fee_type,
-                    'amount' => ($fee->fee_type != "MMA" || ($result != null && $result->status == "Passed") || $request->semester == 1) &&  ($fee->fee_type != "Sem. Fee" || count($semFeePaymentSlip) > 0) ? $fee->amount : 0,
-                    'institute_amount' => $fee->institute,
-                    'board_amount' => $fee->board,
-                    'student_amount' => $fee->student,
-                    'invoice' => $invoiceId,
-                    'student_id' => $student->id,
-                    'invoice_month' => $request->invoice_month,
-                    'result_status' => $result?->status,
-                ]);
+                if ($fee->fee_type == "MMA"){
+                    $invoiceDetails[] = new InvoiceDetail([
+                        'fee_type' => $fee->fee_type,
+                        'amount' => $student->result_status !== "Dropout" && $student->result_status == "Passed" ? $fee->amount : 0,
+                        'institute_amount' => $fee->institute,
+                        'board_amount' => $fee->board,
+                        'student_amount' => $fee->student,
+                        'invoice' => $invoiceId,
+                        'student_id' => $student->id,
+                        'invoice_month' => $request->invoice_month,
+                        'result_status' => $student?->result_status,
+                    ]);
+                }else{
+                    $invoiceDetails[] = new InvoiceDetail([
+                        'fee_type' => $fee->fee_type,
+                        'amount' => $student->result_status !== "Dropout" && $semFeePaymentSlip > 0  ? $fee->amount : 0,
+                        'institute_amount' => $fee->institute,
+                        'board_amount' => $fee->board,
+                        'student_amount' => $fee->student,
+                        'invoice' => $invoiceId,
+                        'student_id' => $student->id,
+                        'invoice_month' => $request->invoice_month,
+                        'result_status' => $student?->result_status,
+                    ]);
+                }
+
                 $feeType[] = $fee->fee_type;
             }
-
+//            if ($student->ssc_roll == 303920){
+//                dd($student, $invoiceDetails);
+//            }
             $invoice = Invoice::create([
                 'invoice_id' => $invoiceId,
                 'invoice_no' => $lastMMa + 1,
@@ -189,9 +225,7 @@ class InvoiceController extends Controller
                 'session' => $student->polytechnic_session,
                 'student_id' => $student->id,
                 'student_name' => $student->name,
-                'amount' => $student->fees->filter(function ($fee) use($request, $result,$semFeePaymentSlip ){
-                    return  ($fee->fee_type != "MMA" || ($result != null && $result->status == "Passed") || $request->semester == 1) && ($fee->fee_type != "Sem. Fee" || count($semFeePaymentSlip)) ? $fee->amount : 0;
-                })->sum('amount'),
+                'amount' => collect($invoiceDetails)->sum('amount'),
                 'invoice_month' => $request->invoice_month,
                 'semester' => $request->semester,
                 'invoice_date' => today()->toDateString(),
@@ -218,7 +252,7 @@ class InvoiceController extends Controller
         $basicInfo = Invoice::where('invoice_id', $invoice_id)->first();
         $resultSemester = $basicInfo->semester - 1;
         $invoice = Invoice::query()
-            ->select('invoices.*', DB::raw("(SELECT status from results WHERE semester=$resultSemester and student_id=invoices.student_id ORDER BY created_at DESC LIMIT 1 ) AS result_status"), 'r.gpa', 'r.created_at')
+            ->select('invoices.*', DB::raw("IF(d.status is not null, d.status, r.status) AS result_status"), 'r.gpa', 'r.created_at')
             ->where('invoice_id', $invoice_id)
             ->with(['details' => function($q){
                 $q->orderBy('student_id');
@@ -231,10 +265,12 @@ class InvoiceController extends Controller
             ->leftJoin('results as r', function ($join) use ($resultSemester){
                 $join->on('r.student_id','invoices.student_id')->where('r.semester', $resultSemester);
             })
+            ->leftJoin('results as d', function ($join){
+                $join->on('d.student_id','invoices.student_id')->where('d.status', 'Dropout');
+            })
             ->orderByDesc('invoices.student_id')
             ->groupBy('student_id')
             ->get();
-
         $lastMma = 0;
         $feeTypes = $invoice->whereNotNull('details')->first()->details->pluck('fee_type');
 

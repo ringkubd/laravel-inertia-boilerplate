@@ -79,16 +79,17 @@
                             <td>{{ student.bank_branch }}</td>
                             <td class="text-center">{{ student.bank_account }}</td>
                             <td class="text-center" v-for="fee in student.fees">
-                                <span v-if="(fee.fee_type === 'MMA' && student.results[0]?.status !== 'Passed') || semester == 1">0</span>
-                                <span v-else-if="(fee.fee_type === 'Sem. Fee')">{{student.payment_slip.filter(slip => slip.fee_type ===  'Sem. Fee').length > 0 ? fee.amount :0}}</span>
+                                <span v-if="student.result_status === 'Dropout'">0</span>
+                                <span v-else-if="(fee.fee_type === 'MMA' && student.result_status !== 'Passed') || semester == 1">0</span>
+                                <span v-else-if="(fee.fee_type === 'Sem. Fee' || fee.fee_type ===  'Exam Fee')">{{student.payment_slip.length > 0 ? isPaid(student.invoice_details, fee.fee_type).length === 0 ?  fee.amount : 0 : 'D.N.S.'}}</span>
                                 <span v-else>
                                      {{ isPaid(student.invoice_details, fee.fee_type).length === 0 ?  fee.amount : 0}}
                                 </span>
                             </td>
                             <td class="text-center">
-                                {{ individualTotal(student.fees, student.invoice_details, student.results[0]?.status, student.payment_slip.filter(slip => slip.fee_type ===  'Sem. Fee').length) }}
+                                {{ individualTotal(student.fees, student.invoice_details, student.result_status, student.payment_slip) }}
                             </td>
-                            <td class="text-center">{{remarks(student.results[0]?.status, student.payment_slip)}}</td>
+                            <td class="text-center">{{remarks(student.result_status, student.payment_slip)}}</td>
                         </tr>
                         </tbody>
                         <tfoot>
@@ -155,6 +156,7 @@ export default {
         individualTotal(fees, invoice_details, resultStatus, paymentSlip){
             let total = 0;
             const self = this
+            if (resultStatus === 'Dropout') return 0;
             fees.map(function (fee) {
                 let details = invoice_details.filter(d => {
                     return fee.fee_type === d.fee_type && (fee.fee_type  !== "MMA" || self.invoice_month === d.invoice_month) && (fee.fee_type  !== "MMA" || resultStatus === "Passed")
@@ -162,7 +164,8 @@ export default {
                 if (details.length === 0){
                     if(self.billableFee[fee.fee_type]){
                         // total += (fee.fee_type  !== "MMA" || resultStatus ==="Passed") && ((fee.fee_type  !== "MMA" || resultStatus === "Passed") || (fee.fee_type  !== "MMA" && paymentSlip > 0)) ? fee.amount : 0
-                        total += (fee.fee_type  === "MMA" && resultStatus === "Passed") || (fee.fee_type  !== "MMA" && paymentSlip > 0) ? fee.amount : 0
+                        const slip = paymentSlip.length
+                        total += (fee.fee_type  === "MMA" && resultStatus === "Passed") || (fee.fee_type  !== "MMA" && slip > 0) ? fee.amount : 0
                     }
                 }
             })
@@ -171,7 +174,7 @@ export default {
         totalInvoiceAmount(){
             let total = 0;
             const self = this
-            this.students.map(function (student){
+            this.students.filter((s) => s.result_status !== 'Dropout' && ((this.billableFee['MMA'] && s.result_status === "Passed") || (!this.billableFee['MMA'] && s.payment_slip.length > 0))).map(function (student){
                 const semFeeAttachment = student.payment_slip.length
                 student.fees.map(function (fee) {
                     let details = student.invoice_details.filter(d => {
@@ -179,7 +182,7 @@ export default {
                     })
                     if (details.length === 0){
                         if(self.billableFee[fee.fee_type]){
-                            total += (fee.fee_type  !== "MMA" || student.results[0]?.status === "Passed") && (fee.fee_type  !== "MMA" || semFeeAttachment > 0) ? fee.amount : 0;
+                            total += student.result_status === 'Dropout' ? 0 : (fee.fee_type  === "MMA" && student.result_status === "Passed") || (fee.fee_type  !== "MMA" && semFeeAttachment > 0) ? fee.amount : 0;
                         }
                     }
                 })
@@ -221,7 +224,8 @@ export default {
             this.selected_student = selected_student
         },
         remarks(status, paymentSlip){
-            return  status === "Dropout" || !status ? status : this.billableFee.MMA && Object.keys(this.billableFee).length === 1 ? status :  paymentSlip.length ? status : 'N.D'
+            if (!status) return 'No Result'
+            return  status === "Dropout" || !status ? status : this.billableFee.MMA && Object.keys(this.billableFee).length === 1 ? status :  paymentSlip.length ? status : 'D.N.S.'
         }
     },
     computed:{
