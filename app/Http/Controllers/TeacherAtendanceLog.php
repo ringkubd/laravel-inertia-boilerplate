@@ -69,7 +69,8 @@ class TeacherAtendanceLog extends Controller
     {
         $teacherAttendanceLog = TeacherAttendanceLog::find($id);
         return Inertia::render('Teacher/Attendance/AttendanceMap', [
-            'attendance' => new TeachersAttendanceResource($teacherAttendanceLog)
+            'attendance' => new TeachersAttendanceResource($teacherAttendanceLog),
+            'logout' => false
         ]);
     }
 
@@ -135,6 +136,22 @@ class TeacherAtendanceLog extends Controller
             'teachers' => $teachers,
             'madrasahs' => $madrasah_list,
             'request' => $data
+        ]);
+    }
+
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function logoutLocation($id)
+    {
+        $teacherAttendanceLog = TeacherAttendanceLog::find($id);
+        return Inertia::render('Teacher/Attendance/AttendanceMap', [
+            'attendance' => new TeachersAttendanceResource($teacherAttendanceLog),
+            'logout' => true
         ]);
     }
 }

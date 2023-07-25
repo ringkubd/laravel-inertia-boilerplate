@@ -33,14 +33,15 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import Authenticated from "@/Layouts/Authenticated";
 import Back from "@/Shared/Back";
 import {ref} from "vue";
+import PageHeader from "@/Shared/PageHeader.vue";
 const map = ref();
 export default {
     name: "AttendanceMap",
-    components: {Back, Authenticated, MapboxMap, MapboxMarker},
-    props: ['attendance'],
+    components: {PageHeader, Back, Authenticated, MapboxMap, MapboxMarker},
+    props: ['attendance', 'logout'],
     data(){
         return {
-            position: [this.attendance.data.login_location_longitude, this.attendance.data.login_location_latitude]
+            position: [!this.logout? this.attendance.data.login_location_longitude : this.attendance.data.logout_location_longitude, !this.logout? this.attendance.data.login_location_latitude : this.attendance.data.logout_location_latitude]
         }
     }
 }
