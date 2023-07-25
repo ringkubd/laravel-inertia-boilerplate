@@ -77,7 +77,7 @@
                             </th>
                             <td>
                                 <InertiaLink v-if="att.attendanceLogOneDay" :href="route('app_attendance.show', att.attendanceLogOneDay?.id)">Login Loc.</InertiaLink>
-                                <InertiaLink v-if="att.attendanceLogOneDay.logout" :href="route('logoutLocation', att.attendanceLogOneDay?.id)">Logout Loc.</InertiaLink>
+                                <InertiaLink v-if="att.attendanceLogOneDay && att.attendanceLogOneDay.logout" :href="route('logoutLocation', att.attendanceLogOneDay?.id)">Logout Loc.</InertiaLink>
                             </td>
                         </tr>
                         </tbody>
