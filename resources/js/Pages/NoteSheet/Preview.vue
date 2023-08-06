@@ -113,4 +113,7 @@ ol li{
 strong{
     text-decoration: underline;
 }
+#admission_table>:not(caption)>*>*{
+    padding: 2px!important;
+}
 </style>

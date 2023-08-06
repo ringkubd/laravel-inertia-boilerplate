@@ -261,14 +261,14 @@ TEMPLATE;
         $totalAmount =  number_format($invoices->sum('amount'), 0, '.', ',');
         $totalStudent = number_format($invoices->groupBy('student_id')->count('student_id'), 0, '.', ',');
         $template = <<<TEMPLATE
-<table class="table table-bordered mt-4">
+<table class="table table-bordered mt-4" id="admission_table">
         <thead>
         <tr>
             <th>SL.#</th>
             <th>Technology</th>
             <th># Students</th>
-            <th>Admission Fee (BTEB) (TK.)</th>
-            <th>Admission Fee (Institute) (TK.)</th>
+            <th>Adm. Fee (BTEB) (TK.)</th>
+            <th>Adm. Fee (Ins.) (TK.)</th>
             <th>Total (TK.)</th>
         </tr>
         </thead>
@@ -282,12 +282,12 @@ TEMPLATE;
             $total_amount = number_format($inv->sum('amount'), 0, '.', ',');
             $i++;
             $template .= <<<TEMPLATE
-        <tr>
+        <tr class="m-0">
             <td>
                 $i
             </td>
-            <th style="text-align: left">$technology</th>
-             <td>$numberOfStudent</td>
+            <td style="text-align: left">$technology</td>
+            <td>$numberOfStudent</td>
             <td>$board_amount</td>
             <td>$institute_amount</td>
             <td>$total_amount</td>
