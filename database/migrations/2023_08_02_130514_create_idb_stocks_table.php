@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCategoriesTable extends Migration
+class CreateIdbStocksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('blog_categories', function (Blueprint $table) {
+        Schema::create('idb_stocks', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('parent_id')->nullable();
-            $table->string('title');
-            $table->string('meta_title');
-            $table->text('description')->nullable();
+            $table->unsignedBigInteger('product_id')->index();
+            $table->double('stock', 10, 4);
             $table->softDeletes();
             $table->timestamps();
         });
@@ -31,6 +29,6 @@ class CreateCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('idb_stocks');
     }
 }

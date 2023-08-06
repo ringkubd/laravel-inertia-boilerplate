@@ -18,7 +18,7 @@ class Post extends Model
     }
 
     public function categories(){
-        return $this->belongsToMany(Category::class, 'post_category')->whereNull('parent_id')->with('childCategory');
+        return $this->belongsToMany(BlogCategory::class, 'post_category')->whereNull('parent_id')->with('childCategory');
     }
 
     public function comments(){

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCategoriesTable extends Migration
+class CreateRequisitionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('blog_categories', function (Blueprint $table) {
+        Schema::create('requisitions', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('parent_id')->nullable();
-            $table->string('title');
-            $table->string('meta_title');
-            $table->text('description')->nullable();
+            $table->unsignedBigInteger('madrasha_id')->index();
+            $table->unsignedBigInteger('user_id')->index();
+            $table->string('academic_year')->index();
+            $table->date('requisition_date');
+            $table->text('note');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -31,6 +32,6 @@ class CreateCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('requisitions');
     }
 }

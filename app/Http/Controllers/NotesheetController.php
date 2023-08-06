@@ -259,7 +259,7 @@ TEMPLATE;
         $totalBoardFee = number_format($invoices->sum('board_amount'), 0, '.', ',');
         $totalInstituteFee = number_format($invoices->sum('institute_amount'), 0, '.', ',');
         $totalAmount =  number_format($invoices->sum('amount'), 0, '.', ',');
-        $totalStudent = number_format($invoices->count('student_id'), 0, '.', ',');
+        $totalStudent = number_format($invoices->groupBy('student_id')->count('student_id'), 0, '.', ',');
         $template = <<<TEMPLATE
 <table class="table table-bordered mt-4">
         <thead>
@@ -276,7 +276,7 @@ TEMPLATE;
 TEMPLATE;
         $i = 0;
         foreach ($invoice as $technology => $inv){
-            $numberOfStudent = number_format($inv->count(), 0, '.', ',');
+            $numberOfStudent = number_format($inv->groupBy('student_id')->count(), 0, '.', ',');
             $board_amount = number_format($inv->sum('board_amount'), 0, '.', ',');
             $institute_amount = number_format($inv->sum('institute_amount'), 0, '.', ',');
             $total_amount = number_format($inv->sum('amount'), 0, '.', ',');

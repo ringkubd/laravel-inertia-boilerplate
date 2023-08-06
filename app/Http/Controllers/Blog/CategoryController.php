@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Blog;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
+use App\Models\BlogCategory;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -26,7 +26,7 @@ class CategoryController extends Controller
     {
         $this->authorize('view_category');
         return Inertia::render($this->component_base.'Index', [
-            "categories" => Category::query()
+            "categories" => BlogCategory::query()
                 ->when($request->search, function ($query, $va){
                     $query->where('title','like', "%$va%" );
                 })
@@ -50,7 +50,7 @@ class CategoryController extends Controller
     public function create()
     {
         $this->authorize('create_category');
-        $category = new Category();
+        $category = new BlogCategory();
         return Inertia::render($this->component_base.'Create', [
             'category' => $category,
             'parent' => ""
@@ -67,7 +67,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $this->authorize('create_category');
-        $category =  new Category();
+        $category =  new BlogCategory();
         $request->validate([
             'title' => 'required',
             'meta_title' => 'required'
@@ -84,9 +84,9 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $category = Category::find($id);
+        $category = BlogCategory::find($id);
         $category_post = Post::whereHas('categories', function ($q) use ($id) {
-            $q->where('categories.id', $id);
+            $q->where('blog_categories.id', $id);
         })->with('author')->with('tags')->get();
         return Inertia::render($this->component_base.'Preview', [
             'category' => $category,
@@ -104,7 +104,7 @@ class CategoryController extends Controller
     public function edit($id)
     {
         $this->authorize('update_category');
-        $category = Category::with('parentCategory')->find($id);
+        $category = BlogCategory::with('parentCategory')->find($id);
         return Inertia::render($this->component_base.'Edit', [
             'category' => $category,
             'parent' => $category->parentCategory->id ?? ""
@@ -122,7 +122,7 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $this->authorize('update_category');
-        $category =  Category::find($id);
+        $category =  BlogCategory::find($id);
         $request->validate([
             'title' => 'required',
             'meta_title' => 'required'
@@ -141,8 +141,8 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $this->authorize('delete_category');
-        Category::where('parent_id', $id)->update(['parent_id' =>  null]);
-        Category::find($id)->delete();
+        BlogCategory::where('parent_id', $id)->update(['parent_id' =>  null]);
+        BlogCategory::find($id)->delete();
         return redirect()->route('category.index')->withFlash('success', 'Category deleted successfully');
     }
 
@@ -152,7 +152,7 @@ class CategoryController extends Controller
      */
     public function getCategory(Request $request)
     {
-        return Category::query()
+        return BlogCategory::query()
             ->when($request->title, function ($q, $v){
                 $q->where('title', 'like', "%$v%");
             })

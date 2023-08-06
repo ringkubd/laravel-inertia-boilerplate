@@ -7,17 +7,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Category extends Model
+class BlogCategory extends Model
 {
     use HasFactory, SoftDeletes, RecordsActivity;
 
     protected $guarded = ['id'];
 
     public function parentCategory(){
-        return $this->hasOne(Category::class, 'id', 'parent_id');
+        return $this->hasOne(BlogCategory::class, 'id', 'parent_id');
     }
 
     public function childCategory(){
-        return $this->hasMany(Category::class, 'id', 'parent_id');
+        return $this->hasMany(BlogCategory::class, 'id', 'parent_id');
     }
 }
