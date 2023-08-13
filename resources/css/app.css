@@ -2,7 +2,19 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
-
+*{
+    text-align: justify;
+}
+sup{
+    color: red!important;
+}
+td{
+    /*white-space: -o-pre-wrap;*/
+    /*white-space: pre-wrap;*/
+    /*white-space: -moz-pre-wrap;*/
+    word-wrap: break-word;
+    text-align: justify;
+}
 .modal-mask {
     position: fixed;
     z-index: 9998;

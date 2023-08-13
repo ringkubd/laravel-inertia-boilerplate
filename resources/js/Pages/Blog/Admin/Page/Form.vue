@@ -166,7 +166,6 @@ export default {
     },
     methods: {
         update(){
-            console.log(this.formData)
             this.submitForm(this.formData)
         },
         async fetchCategories(query){

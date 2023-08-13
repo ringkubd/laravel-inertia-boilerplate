@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Inventory;
 
 use App\Http\Controllers\Controller;
+use App\Models\Inventory\Brand;
+use App\Models\Inventory\Category;
 use App\Models\Inventory\Product;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -35,7 +37,9 @@ class ProductsController extends Controller
         return Inertia::render('Inventory/Products/Create', [
             'can' => [],
             'product' => new Product(),
-            'units' => Product::pluck('unit', 'unit')
+            'units' => Product::pluck('unit', 'unit'),
+            'category' => Category::selectRaw('id, name as text')->get(),
+            'brand' => Brand::selectRaw('id, IF(origin is not null, concat(name, " (", origin, ")"), name) as text')->get(),
         ]);
     }
 

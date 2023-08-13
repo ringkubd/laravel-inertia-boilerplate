@@ -17,11 +17,11 @@ class Invoice extends Model
     }
 
     public function student(){
-        return $this->belongsTo(Student::class)->orderBy('ssc_roll');
+        return $this->belongsTo(Student::class)->orderBy('polytechnic_roll');
     }
 
     public function details(){
-        return $this->hasMany(InvoiceDetail::class)->orderBy('student_id');
+        return $this->hasMany(InvoiceDetail::class);
     }
 
     public function paymentSlip(){

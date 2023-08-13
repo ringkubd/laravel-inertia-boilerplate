@@ -52,7 +52,7 @@
                         <thead class="border-1 print:border-1">
                         <tr class="align-middle border-0 print:border-0" style="background-color: #e0d5d5!important;">
                             <th rowspan="2">Sl.#</th>
-                            <th rowspan="2">Dakhil Roll</th>
+                            <th rowspan="2">Roll</th>
                             <th rowspan="2">Name</th>
                             <th rowspan="2">Trade</th>
                             <th rowspan="2">IBBL Branch</th>
@@ -70,7 +70,7 @@
                         <tbody>
                         <tr v-for="(invoice, index) in data">
                             <td class="text-center">{{ index + 1 }}</td>
-                            <td class="text-center">{{ invoice.student?.ssc_roll }}</td>
+                            <td class="text-center">{{ invoice.student?.polytechnic_roll }}</td>
                             <td style="width: 20%!important;">{{ invoice.student_name }}</td>
                             <td style="width: 15%!important;">{{ getFirstWord(invoice.student.polytechnic_trade_id) }}</td>
                             <td style="width: 25%!important;">{{ invoice.bank_branch }}</td>

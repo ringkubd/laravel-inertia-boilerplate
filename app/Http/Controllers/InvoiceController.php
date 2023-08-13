@@ -5,22 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\AcademicSession;
 use App\Models\Invoice;
 use App\Models\Student;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use App\Models\InvoiceDetail;
+use Inertia\Response;
 use Ramsey\Uuid\Rfc4122\UuidV4;
-use function Aws\clear_compiled_json;
-use function Aws\map;
 
 class InvoiceController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
+     * @throws AuthorizationException
      */
     public function index(Request $request)
     {
@@ -53,7 +52,8 @@ class InvoiceController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
+     * @throws AuthorizationException
      */
     public function create(Request $request)
     {
@@ -118,8 +118,9 @@ class InvoiceController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return \Illuminate\Http\Response
+     * @throws AuthorizationException
      */
     public function store(Request $request)
     {
@@ -244,7 +245,8 @@ class InvoiceController extends Controller
      * Display the specified resource.
      *
      * @param $invoice_id
-     * @return \Illuminate\Http\Response
+     * @return Response
+     * @throws AuthorizationException
      */
     public function show($invoice_id)
     {
@@ -254,10 +256,7 @@ class InvoiceController extends Controller
         $invoice = Invoice::query()
             ->select('invoices.*', DB::raw("IF(d.status is not null, d.status, r.status) AS result_status"), 'r.gpa', 'r.created_at')
             ->where('invoice_id', $invoice_id)
-            ->with(['details' => function($q){
-                $q->orderBy('student_id');
-            }])
-            ->with('student')
+            ->with('details', 'student')
             ->with(['paymentSlip' => function($q) use($basicInfo){
                 $q->where('payment_slips.semester', $basicInfo->semester)->latest();
             }])
@@ -268,9 +267,11 @@ class InvoiceController extends Controller
             ->leftJoin('results as d', function ($join){
                 $join->on('d.student_id','invoices.student_id')->where('d.status', 'Dropout');
             })
-            ->orderByDesc('invoices.student_id')
+            ->leftJoin('students as s', 's.id', 'invoices.student_id')
             ->groupBy('student_id')
+            ->orderBy('s.polytechnic_roll')
             ->get();
+
         $lastMma = 0;
         $feeTypes = $invoice->whereNotNull('details')->first()->details->pluck('fee_type');
 
@@ -285,7 +286,7 @@ class InvoiceController extends Controller
                 'delete' => auth()->user()->can('delete_invoice'),
                 'view' => auth()->user()->can('view_invoice'),
             ],
-            'data' => $invoice->sortBy('bank_branch')->values(),
+            'data' => $invoice->sortBy('polytechnic_roll')->values(),
             'feeTypes' => $feeTypes,
             'basicInfo' => $basicInfo,
             'last_mma' => $lastMma
@@ -296,15 +297,19 @@ class InvoiceController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param $invoice_id
-     * @return \Illuminate\Http\Response
+     * @return Response
+     * @throws AuthorizationException
      */
     public function edit($invoice_id)
     {
         $this->authorize('update_invoice');
         $invoice = Invoice::query()
+            ->selectRaw('invoices.*')
             ->where('invoice_id', $invoice_id)
             ->with('details')
             ->with('student')
+            ->leftJoin('students as s', 's.id', 'invoices.student_id')
+            ->orderBy('s.polytechnic_roll')
             ->get();
         $basicInfo = $invoice->first();
         $feeTypes = $invoice->whereNotNull('details')->first()->details->pluck('fee_type');
@@ -324,9 +329,10 @@ class InvoiceController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  $invoice_id
+     * @param Request $request
+     * @param $invoiceDetails_id
      * @return \Illuminate\Http\Response
+     * @throws AuthorizationException
      */
     public function update(Request $request,$invoiceDetails_id)
     {
@@ -345,6 +351,7 @@ class InvoiceController extends Controller
      *
      * @param  $invoice_id
      * @return \Illuminate\Http\Response
+     * @throws AuthorizationException
      */
     public function destroy($invoice_id)
     {

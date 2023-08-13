@@ -133,6 +133,14 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style>
+td{
+    white-space: -o-pre-wrap!important;
+    word-wrap: break-word!important;
+    white-space: pre-wrap!important;
+    white-space: -moz-pre-wrap!important;
+    white-space: -pre-wrap!important;
+    min-width: fit-content!important;
+    text-align: justify!important;
+}
 </style>

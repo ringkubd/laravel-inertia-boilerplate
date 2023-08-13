@@ -14,6 +14,8 @@
                     <Form
                         :product="product"
                         :unit="units"
+                        :category="category"
+                        :brand="brand"
                     />
                 </div>
             </div>
@@ -28,7 +30,7 @@ import Form from "@/Pages/Inventory/Products/Form.vue";
 
 export default {
     name:'ProductCreat',
-    props: ['can', 'product', 'units'],
+    props: ['can', 'product', 'units', 'category', 'brand'],
     components: {Form, Authenticated, PageHeader}
 }
 </script>
