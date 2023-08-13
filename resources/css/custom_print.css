@@ -105,14 +105,21 @@ table thead tr {
 
 .table > :not(caption) > * > *{
     padding: 2px!important;
-    border-width: 0px;
+    border-width: 1px;
     border-style: solid;
     border-color: gray;
     font-size: x-small;
+    text-align: justify;
 }
 tr th{
     vertical-align: middle;
     border-width: 0px!important;
+    border-style: solid!important;
+    border-color: gray!important;
+}
+.border-1, .border-1 > th {
+    text-align: center;
+    border-width: 1px!important;
     border-style: solid!important;
     border-color: gray!important;
 }

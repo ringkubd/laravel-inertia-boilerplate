@@ -174,9 +174,27 @@
                     Lesson
                 </div>
             </div>
+            <div class="flex flex-col md:flex-row  min-w-full md:space-x-8 mb:mb-0 mb-4">
+                <div class="md:w-1/3 block mb-2 text-sm font-medium text-gray-900 dark:text-white"></div>
+                <input type="submit" value="Submit" class="p-2 bg-[#36AFAD] rounded" @click.prevent="storeProduct">
+            </div>
             <!-- Product Meta -->
-            <div>
+            <div v-if="product.id">
                 <h2 class="block underline">Product Meta</h2>
+                <div class="flex flex-col md:flex-row  min-w-full md:space-x-8 mb:mb-0 mb-4 bg-[#002147] bg-opacity-10 p-2 text-center align-middle" v-for="m in product.meta">
+                    <div class="flex flex-col md:flex-row md:w-2/3 md:space-x-2">
+                        <div class="flex flex-col md:flex-row md:w-1/2">
+                           {{m.key}}
+                        </div>
+                        <div class="flex flex-col md:flex-row md:w-1/2">
+                            {{m.content}}
+                        </div>
+
+                    </div>
+                    <div>
+                        <button type="button" class="p-2 bg-[#36AFAD] rounded" @click="() => deleteMeta(m.id)">Delete</button>
+                    </div>
+                </div>
                 <div class="flex flex-col md:flex-row  min-w-full md:space-x-8 mb:mb-0 mb-4">
                     <div class="flex flex-col md:flex-row md:w-2/3 md:space-x-2">
                         <div class="flex flex-col md:flex-row md:w-1/2">
@@ -202,14 +220,14 @@
                             <input
                                 type="text"
                                 id="value"
-                                v-model="metaForm.value"
+                                v-model="metaForm.content"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             >
                         </div>
 
                     </div>
                     <div>
-                        <button type="button" class="p-2 bg-[#36AFAD] rounded">Add</button>
+                        <button type="button" class="p-2 bg-[#36AFAD] rounded" @click="storeMeta">Add</button>
                     </div>
                 </div>
             </div>
@@ -243,7 +261,7 @@ export default {
             }),
             metaForm: useForm({
                 key: '',
-                value: ''
+                content: ''
             })
         }
     },
@@ -273,6 +291,19 @@ export default {
                 })
             }
         },
+        storeProduct(){
+            this.form.post(route('product.store'), {
+            })
+        },
+        storeMeta(){
+            this.metaForm.put(route('product.add_meta', this.product.id), {
+                preserveState: true,
+                preserveScroll: true
+            })
+        },
+        deleteMeta(metaId){
+
+        }
     }
 }
 </script>

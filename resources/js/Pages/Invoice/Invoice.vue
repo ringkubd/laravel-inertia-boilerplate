@@ -23,7 +23,7 @@
                         <thead class="border-0 print:border-0">
                         <tr class="border-0 print:border-0">
                             <th :colspan="7+ (feeTypes != null ? feeTypes.length : 0)" rowspan="4" class="border-0 print:border-0">
-                                Annex - A
+                                <strong>Annex - A</strong>
                                 <p style="padding: 0!important; margin: 0!important;">Academic Year: {{ basicInfo.session }}</p>
                                 <div class="text-left" style="text-align: left">
                                     <table class="">
@@ -50,7 +50,7 @@
                         </tr>
                         </thead>
                         <thead class="border-1 print:border-1">
-                        <tr class="align-middle border-0 print:border-0" style="background-color: #e0d5d5!important;">
+                        <tr class="align-middle border-1 print:border-1" style="background-color: #e0d5d5!important;">
                             <th rowspan="2">Sl.#</th>
                             <th rowspan="2">Roll</th>
                             <th rowspan="2">Name</th>
@@ -61,14 +61,14 @@
                             <th rowspan="2">Total</th>
                             <th rowspan="2">Remarks</th>
                         </tr>
-                        <tr style="background-color: #e0d5d5!important;">
+                        <tr class="border-1" style="background-color: #e0d5d5!important;">
                             <th v-for="feeType in feeTypes">
                                 {{feeType}}
                             </th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr v-for="(invoice, index) in data">
+                        <tr v-for="(invoice, index) in data" class="border-1">
                             <td class="text-center">{{ index + 1 }}</td>
                             <td class="text-center">{{ invoice.student?.polytechnic_roll }}</td>
                             <td style="width: 20%!important;">{{ invoice.student_name }}</td>
@@ -86,8 +86,8 @@
                         </tr>
                         </tbody>
                         <tfoot>
-                        <tr>
-                            <td colspan="9" style="padding-left: 2.5em!important;">
+                        <tr class="border-0">
+                            <td colspan="10" style="padding-left: 2.5em!important; border: 0!important;">
                                 <strong>Note: </strong>
                                 <ul id="note">
                                     <li>D.S.- Document submitted.</li>
