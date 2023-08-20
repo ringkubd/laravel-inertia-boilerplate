@@ -2585,9 +2585,6 @@ ol li {
   .print\:border-0 {
     border-width: 0px;
   }
-  .print\:border-2 {
-    border-width: 2px;
-  }
   .print\:pt-0 {
     padding-top: 0px;
   }

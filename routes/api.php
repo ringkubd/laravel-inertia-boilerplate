@@ -35,5 +35,12 @@ Route::middleware('auth:sanctum')->group(function (){
     Route::get('madrasah_location', [\App\Http\Controllers\Api\TeacherAttendanceController::class , 'madrasah_location'])->name('attendance.madrasah');
     Route::post('store_public_key', [\App\Http\Controllers\Api\UserController::class , 'store_public_Key'])->name('users.store_public_key');
     Route::post('signature_verification', [\App\Http\Controllers\Api\UserController::class , 'isValid'])->name('signature.validation');
+
+    // Teacher Message
+    Route::group(['prefix' => 'teacher'],function (){
+        Route::resource('message', \App\Http\Controllers\Teacher\TeacherMessageController::class);
+        Route::resource('group', \App\Http\Controllers\Teacher\TeacherMessageGroupController::class);
+        Route::post('store_fcm_token', [\App\Http\Controllers\Teacher\TeacherMessageController::class, 'storeFcmToken'])->name('store_fcm_token');
+    });
 });
 

@@ -81,7 +81,7 @@
                             <td class="text-center" v-for="fee in student.fees">
                                 <span v-if="student.result_status === 'Dropout'">0</span>
                                 <span v-else-if="(fee.fee_type === 'MMA' && student.result_status !== 'Passed') || semester == 1">0</span>
-                                <span v-else-if="(fee.fee_type === 'Sem. Fee' || fee.fee_type ===  'Exam Fee')">{{student.payment_slip.length > 0 ? isPaid(student.invoice_details, fee.fee_type).length === 0 ?  fee.amount : 0 : 'D.N.S.'}}</span>
+                                <span v-else-if="(fee.fee_type === 'Sem. Fee' || fee.fee_type ===  'Exam Fee')">{{student.payment_slip.length > 0 ? isPaid(student.invoice_details, fee.fee_type).length === 0 ?  fee.amount : 0 : 'DNS'}}</span>
                                 <span v-else>
                                      {{ isPaid(student.invoice_details, fee.fee_type).length === 0 ?  fee.amount : 0}}
                                 </span>
@@ -225,7 +225,7 @@ export default {
         },
         remarks(status, paymentSlip){
             if (!status) return 'No Result'
-            return  status === "Dropout" || !status ? status : this.billableFee.MMA && Object.keys(this.billableFee).length === 1 ? status :  paymentSlip.length ? status : 'D.N.S.'
+            return  status === "Dropout" || !status ? status : this.billableFee.MMA && Object.keys(this.billableFee).length === 1 ? status :  paymentSlip.length ? status : 'DNS'
         }
     },
     computed:{

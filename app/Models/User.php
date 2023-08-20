@@ -29,6 +29,7 @@ class User extends Authenticatable
         'password',
         'madrasha_id',
         'public_key',
+        'firebase_token',
     ];
 
     /**
@@ -96,7 +97,7 @@ class User extends Authenticatable
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
 
     public function madrasah(){

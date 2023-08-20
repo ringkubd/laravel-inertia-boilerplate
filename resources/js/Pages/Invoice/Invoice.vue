@@ -90,8 +90,8 @@
                             <td colspan="10" style="padding-left: 2.5em!important; border: 0!important;">
                                 <strong>Note: </strong>
                                 <ul id="note">
-                                    <li>D.S.- Document submitted.</li>
-                                    <li>D.N.S.- Document Not submitted.</li>
+                                    <li>DS- Document submitted.</li>
+                                    <li>DNS- Document Not submitted.</li>
                                 </ul>
                             </td>
                         </tr>
@@ -207,7 +207,7 @@ export default {
         },
         remarks(status, paymentSlip, basicInfo){
             const feeType = JSON.parse(basicInfo.fee_type)
-            return status === "Dropout" ? status : feeType.length === 1 && feeType.includes('MMA') ? status :  feeType.includes('Sem. Fee') && paymentSlip.length ? 'D.S.' : paymentSlip.length ? status : 'D.N.S.'
+            return status === "Dropout" ? status : feeType.length === 1 && feeType.includes('MMA') ? status :  feeType.includes('Sem. Fee') && paymentSlip.length ? 'DS' : paymentSlip.length ? status : 'DNS'
         }
     }
 }
