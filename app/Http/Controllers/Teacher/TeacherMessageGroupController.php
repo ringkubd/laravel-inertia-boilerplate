@@ -100,7 +100,9 @@ class TeacherMessageGroupController extends Controller
             ->withTitle($title)
             ->withBody($message)
             ->withAdditionalData([
-                'user' => auth()->user()
+                'user' => auth()->user(),
+                'conversation_id' => $group->conversation_id,
+                'message_id' => $conversation->id,
             ]);
         $message = $firebase->asMessage($tokens);
         $notice = $firebase->asNotification($tokens);
