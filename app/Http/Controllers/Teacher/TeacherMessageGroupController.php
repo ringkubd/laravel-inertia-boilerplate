@@ -81,8 +81,8 @@ class TeacherMessageGroupController extends Controller
             })
             ->first();
         $members = $group->members;
-//        $tokens = $members->filter(fn($u) => $u->id !== auth()->user()->id)->pluck('firebase_token')->filter()->toArray();
-        $tokens = $members->pluck('firebase_token')->filter()->toArray();
+        $tokens = $members->filter(fn($u) => $u->id !== auth()->user()->id)->pluck('firebase_token')->filter()->toArray();
+//        $tokens = $members->pluck('firebase_token')->filter()->toArray();
 
         $conversation = TeacherMessage::create([
             'from' => $send_by,
