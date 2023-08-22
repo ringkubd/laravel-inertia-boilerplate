@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
+use App\Models\Teacher;
 use App\Models\Teacher\TeacherMessage;
 use App\Models\User;
 use App\Notifications\Teacher\TeacherMessageNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Inertia\Inertia;
+use Kutia\Larafirebase\Messages\FirebaseMessage;
 
 class TeacherMessageController extends Controller
 {
@@ -29,7 +32,13 @@ class TeacherMessageController extends Controller
      */
     public function create()
     {
-        //
+        $teachers = Teacher::query()
+            ->selectRaw('users_id as id, name as text')
+            ->where('users_id', '!=', auth()->user()->id)
+            ->get();
+        return Inertia::render('Teacher/Message/Create', [
+            'teachers' => $teachers
+        ]);
     }
 
     /**
@@ -41,30 +50,30 @@ class TeacherMessageController extends Controller
     public function store(Request $request)
     {
         $send_by = auth()->user()->id;
-        $send_to = $request->to;
-        $token = $request->firebase_token;
+        $send_to = User::find($request->to);
+        $token = $send_to->firebase_token;
         $message = $request->message;
 
         $existing_conversation = TeacherMessage::query()
             ->where(function ($q) use($send_to){
-                $q->where('from', $send_to)->orWhere('to', $send_to);
+                $q->where('from', $send_to->id)->orWhere('to', $send_to->id);
             })
             ->where(function ($q) use($send_by){
                 $q->where('from', $send_by)->orWhere('to', $send_by);
             })
             ->first();
         if ($existing_conversation == null){
-            $conversation_id = random_bytes(64);
+            $conversation_id = uiidv5($send_by.'_'.$send_to->id);
             $conversation = TeacherMessage::create([
                 'from' => $send_by,
-                'to' => $send_to,
+                'to' => $send_to->id,
                 'message' => $message,
                 'conversation_id' => $conversation_id
             ]);
         }else{
             $conversation = TeacherMessage::create([
                 'from' => $send_by,
-                'to' => $send_to,
+                'to' => $send_to->id,
                 'message' => $message,
                 'conversation_id' => $existing_conversation->conversation_id
             ]);
@@ -74,9 +83,23 @@ class TeacherMessageController extends Controller
             $request->file('attachment')->move(public_path('teacher_conversation_attachment'), $fileName);
             $conversation->attachments()->create($fileName);
         }
-        $to = User::find($send_to);
-        $out = strlen($message) > 50 ? substr($request->message,0,50)."..." : $message;
-        $to->notify(new TeacherMessageNotification($token, $out, $message));
+        $title = strlen($message) > 50 ? substr($request->message,0,50)."..." : $message;
+//        $abc = $send_to->notify(new TeacherMessageNotification($token, $title, $message));
+        $firebase = (new FirebaseMessage())
+            ->withTitle($title)
+            ->withBody($message)
+            ->withAdditionalData([
+                'user' => auth()->user()
+            ]);
+        $message = $firebase->asMessage($token);
+        $notice = $firebase->asNotification($token);
+
+        if ($request->is('api/*')){
+            return response()->json([
+                'success' => true,
+                'data' => $message
+            ]);
+        }
     }
 
     /**
@@ -140,4 +163,48 @@ class TeacherMessageController extends Controller
            'data' => auth()->user()
        ];
     }
+
+    public function conversation(){
+        $conversations = TeacherMessage::query()
+            ->selectRaw('teacher_messages.id, teacher_messages.to, teacher_messages.from, conversation_id, message, teacher_messages.created_at,teacher_messages.updated_at, u.name as from_name, u2.name as to_name')
+            ->join('users as u', 'teacher_messages.from', 'u.id')
+            ->join('users as u2', 'teacher_messages.to', 'u.id')
+            ->when(auth()->user()->hasAnyRole('Instructor', 'Lab Attendant', 'Super', 'Student'), function ($q){
+                $q->where('to', auth()->user()->id)->orWhere('from', auth()->user()->id);
+            })
+            ->where('type', 'Single')
+            ->get()
+            ->groupBy('conversation_id');
+
+        if (\request()->is('api/*')){
+            return response()->json([
+                'success' => true,
+                'data' => $conversations
+            ]);
+        }
+        return Inertia::render('Teacher/Message/Index', [
+            'conversations' => $conversations,
+            'can' => [
+                'create' => auth()->user()->hasrole('Super Admin'),
+                'update' => auth()->user()->hasrole('Super Admin'),
+                'delete' => auth()->user()->hasrole('Super Admin'),
+                'view' => auth()->user()->hasrole('Super Admin'),
+            ]
+        ]);
+    }
+
+    public function conversationMessage($conversation_id){
+        $teacher_messages = TeacherMessage::query()
+            ->where('conversation_id', $conversation_id)
+            ->with('sendBy', )
+            ->latest()
+            ->get();
+        if (\request()->is('api/*')){
+            return response()->json([
+                'success' => true,
+                'data' => $teacher_messages
+            ]);
+        }
+    }
+
 }

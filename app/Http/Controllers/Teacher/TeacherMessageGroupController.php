@@ -3,8 +3,13 @@
 namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
+use App\Models\Teacher\TeacherMessage;
 use App\Models\Teacher\TeacherMessageGroup;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Kutia\Larafirebase\Messages\FirebaseMessage;
 
 class TeacherMessageGroupController extends Controller
 {
@@ -15,7 +20,23 @@ class TeacherMessageGroupController extends Controller
      */
     public function index()
     {
-        //
+        $group = TeacherMessageGroup::query()
+            ->with('members')
+            ->with(['messages' => fn($m) => $m->with('sendBy')])
+            ->whereHas('members', function ($q){
+                $q->where('users.id', auth()->user()->id);
+            })
+            ->get();
+        if (request()->is('api/*')){
+            return response()->json([
+                'success' => 'true',
+                'data' => $group
+            ]);
+        }
+        return response()->json([
+            'success' => 'true',
+            'data' => $group
+        ]);
     }
 
     /**
@@ -25,7 +46,7 @@ class TeacherMessageGroupController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -36,7 +57,61 @@ class TeacherMessageGroupController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validate = Validator::make($request->all(),[
+            'group_id' => 'required',
+            'message' => 'required'
+        ]);
+        if ($validate->failed()){
+           if ($request->is('api/*')){
+               return response()->json([
+                   'success' => false,
+                   'data' => $validate->getMessageBag()
+               ]);
+           }
+        }
+        $message = $request->message;
+        $title = strlen($message) > 50 ? substr($message,0,50)."..." : $message;
+        $send_by = auth()->user()->id;
+
+        $group = TeacherMessageGroup::query()
+            ->where('id', $request->group_id)
+            ->with('members', 'messages')
+            ->whereHas('members', function ($q){
+                $q->where('users.id', auth()->user()->id);
+            })
+            ->first();
+        $members = $group->members;
+//        $tokens = $members->filter(fn($u) => $u->id !== auth()->user()->id)->pluck('firebase_token')->filter()->toArray();
+        $tokens = $members->pluck('firebase_token')->filter()->toArray();
+
+        $conversation = TeacherMessage::create([
+            'from' => $send_by,
+            'message' => $message,
+            'conversation_id' => $group->conversation_id,
+            'type' => 'Group'
+        ]);
+
+        if ($request->hasFile('attachment')){
+            $fileName = Carbon::now()->timestamp .'.'.$request->file('attachment')->getExtension();
+            $request->file('attachment')->move(public_path('teacher_conversation_attachment'), $fileName);
+            $conversation->attachments()->create($fileName);
+        }
+        $firebase = (new FirebaseMessage())
+            ->withTitle($title)
+            ->withBody($message)
+            ->withAdditionalData([
+                'user' => auth()->user()
+            ]);
+        $message = $firebase->asMessage($tokens);
+        $notice = $firebase->asNotification($tokens);
+
+        if ($request->is('api/*')){
+            return response()->json([
+                'success' => true,
+                'data' => $message
+            ]);
+        }
+
     }
 
     /**

@@ -17,6 +17,7 @@ class CreateTeacherMessageGroupsTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('conversation_id')->index();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

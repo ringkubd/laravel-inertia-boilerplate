@@ -40,7 +40,9 @@ Route::middleware('auth:sanctum')->group(function (){
     Route::group(['prefix' => 'teacher'],function (){
         Route::resource('message', \App\Http\Controllers\Teacher\TeacherMessageController::class);
         Route::resource('group', \App\Http\Controllers\Teacher\TeacherMessageGroupController::class);
-        Route::post('store_fcm_token', [\App\Http\Controllers\Teacher\TeacherMessageController::class, 'storeFcmToken'])->name('store_fcm_token');
+        Route::post('store_fcm_token', [\App\Http\Controllers\Teacher\TeacherMessageController::class, 'storeFcmToken']);
+        Route::get('conversation', [\App\Http\Controllers\Teacher\TeacherMessageController::class, 'conversation']);
+        Route::get('conversation_message/{conversation_id}', [\App\Http\Controllers\Teacher\TeacherMessageController::class, 'conversationMessage']);
     });
 });
 

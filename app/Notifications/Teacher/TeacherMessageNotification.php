@@ -20,7 +20,7 @@ class TeacherMessageNotification extends Notification
      *
      * @return void
      */
-    public function __construct(Array $tokens, String $title, String $message)
+    public function __construct($tokens, String $title, String $message)
     {
         $this->tokens = $tokens;
         $this->title = $title;
