@@ -196,7 +196,7 @@ class TeacherMessageController extends Controller
     public function conversationMessage($conversation_id){
         $teacher_messages = TeacherMessage::query()
             ->where('conversation_id', $conversation_id)
-            ->with('sendBy', )
+            ->with(['sendBy' => fn($u) => $u->select('id', 'name')])
             ->latest()
             ->get();
         if (\request()->is('api/*')){
