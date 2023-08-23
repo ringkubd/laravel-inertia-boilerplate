@@ -108,7 +108,7 @@ class TeacherMessageGroupController extends Controller
                 'message_id' => $conversation->id,
             ]);
         $message = $firebase->asMessage($tokens);
-        $notice = $firebase->asNotification($tokens);
+//        $notice = $firebase->asNotification($tokens);
 
         if ($request->is('api/*')){
             return response()->json([
