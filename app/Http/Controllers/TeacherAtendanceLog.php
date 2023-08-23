@@ -27,6 +27,7 @@ class TeacherAtendanceLog extends Controller
                 $q->whereRaw("date(login) = '{$today}'");
             }])
             ->get();
+        dd($attendance);
 
         return Inertia::render('Teacher/Attendance/AppAttendance', [
             'attendances' => TeacherResource::collection($attendance),
