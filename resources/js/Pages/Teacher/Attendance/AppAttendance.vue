@@ -112,6 +112,7 @@ export default {
             this.$inertia.replace(route('app_attendance.index', {today: this.today}))
         },
         distance(madrasah_location, current_location){
+            if (!madrasah_location || !current_location) return 'Invalid ';
             return getPreciseDistance(JSON.parse(madrasah_location), JSON.parse(current_location));
         },
         imageItems(image){
