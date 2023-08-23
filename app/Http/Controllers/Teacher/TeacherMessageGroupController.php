@@ -100,7 +100,10 @@ class TeacherMessageGroupController extends Controller
             ->withTitle($title)
             ->withBody($message)
             ->withAdditionalData([
-                'user' => auth()->user(),
+                'user' => [
+                    'id' => auth()->user()->id,
+                    'name' => auth()->user()->name,
+                ],
                 'conversation_id' => $group->conversation_id,
                 'message_id' => $conversation->id,
             ]);
