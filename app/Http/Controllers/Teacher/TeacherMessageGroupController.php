@@ -9,6 +9,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Kutia\Larafirebase\Facades\Larafirebase;
 use Kutia\Larafirebase\Messages\FirebaseMessage;
 
 class TeacherMessageGroupController extends Controller
@@ -22,7 +23,7 @@ class TeacherMessageGroupController extends Controller
     {
         $group = TeacherMessageGroup::query()
             ->with('members')
-            ->with(['messages' => fn($m) => $m->with('sendBy')])
+            ->with(['messages' => fn($m) => $m->with(['sendBy' => fn($s) => $s->with(['teacher' => fn($t) => $t->select('photo')])->select('id', 'name')])])
             ->whereHas('members', function ($q){
                 $q->where('users.id', auth()->user()->id);
             })
@@ -83,6 +84,7 @@ class TeacherMessageGroupController extends Controller
         $members = $group->members;
         $tokens = $members->filter(fn($u) => $u->id !== auth()->user()->id)->pluck('firebase_token')->filter()->toArray();
 //        $tokens = $members->pluck('firebase_token')->filter()->toArray();
+//        return implode(',',$tokens);
 
         $conversation = TeacherMessage::create([
             'from' => $send_by,
@@ -103,13 +105,16 @@ class TeacherMessageGroupController extends Controller
                 'user' => [
                     'id' => auth()->user()->id,
                     'name' => auth()->user()->name,
+                    'photo' => auth()->user()?->teacher?->photo
                 ],
                 'conversation_id' => $group->conversation_id,
                 'message_id' => $conversation->id,
             ]);
-        $message = $firebase->asMessage($tokens);
+        foreach ($tokens as $token){
+            $message = $firebase->asMessage($token);
+        }
 //        $notice = $firebase->asNotification($tokens);
-
+        return $message->body();
         if ($request->is('api/*')){
             return response()->json([
                 'success' => true,
