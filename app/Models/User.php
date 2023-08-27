@@ -30,6 +30,7 @@ class User extends Authenticatable
         'madrasha_id',
         'public_key',
         'firebase_token',
+        'online'
     ];
 
     /**

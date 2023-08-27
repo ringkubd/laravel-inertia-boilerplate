@@ -124,7 +124,7 @@ class TeacherMessageGroupController extends Controller
 //            ])->withPriority('high');
         foreach ($tokenMembers as $t){
             if ($t->online != 1){
-                $messages[] = $firebase->sendNotification($t->firebase_token)->body();
+//                $messages[] = $firebase->sendNotification($t->firebase_token)->body();
             }else{
                 $messages[] = $firebase->sendMessage($t->firebase_token)->body();
             }
@@ -185,6 +185,7 @@ class TeacherMessageGroupController extends Controller
     }
 
     public function updateOnlineStatus(Request $request){
-        return auth()->user()->update(['online' => $request->online ?? 0]);
+        return User::find(auth()->user()->id)->update(['online' => $request->online == true ? 1 : 0]);
+        return auth()->user()->update(['online' => $request->online == true ? 1 : 0]);
     }
 }
