@@ -43,6 +43,7 @@ Route::middleware('auth:sanctum')->group(function (){
         Route::post('store_fcm_token', [\App\Http\Controllers\Teacher\TeacherMessageController::class, 'storeFcmToken']);
         Route::get('conversation', [\App\Http\Controllers\Teacher\TeacherMessageController::class, 'conversation']);
         Route::get('conversation_message/{conversation_id}', [\App\Http\Controllers\Teacher\TeacherMessageController::class, 'conversationMessage']);
+        Route::post('update_online', [\App\Http\Controllers\Teacher\TeacherMessageGroupController::class, 'updateOnlineStatus']);
     });
 });
 

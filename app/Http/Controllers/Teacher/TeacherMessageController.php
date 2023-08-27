@@ -88,6 +88,7 @@ class TeacherMessageController extends Controller
         $firebase = (new FirebaseMessage())
             ->withTitle($title)
             ->withBody($message)
+            ->withPriority('high')
             ->withAdditionalData([
                 'user' => auth()->user()
             ]);

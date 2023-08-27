@@ -63,12 +63,12 @@ class TeacherMessageGroupController extends Controller
             'message' => 'required'
         ]);
         if ($validate->failed()){
-           if ($request->is('api/*')){
-               return response()->json([
-                   'success' => false,
-                   'data' => $validate->getMessageBag()
-               ]);
-           }
+            if ($request->is('api/*')){
+                return response()->json([
+                    'success' => false,
+                    'data' => $validate->getMessageBag()
+                ]);
+            }
         }
         $message = $request->message;
         $title = strlen($message) > 50 ? substr($message,0,50)."..." : $message;
@@ -82,7 +82,7 @@ class TeacherMessageGroupController extends Controller
             })
             ->first();
         $members = $group->members;
-        $tokens = $members->filter(fn($u) => $u->id !== auth()->user()->id)->pluck('firebase_token')->filter()->toArray();
+        $tokenMembers = $members->filter(fn($u) => $u->id !== auth()->user()->id && $u->firebase_token != null);
 //        $tokens = $members->pluck('firebase_token')->filter()->toArray();
 //        return implode(',',$tokens);
 
@@ -98,8 +98,8 @@ class TeacherMessageGroupController extends Controller
             $request->file('attachment')->move(public_path('teacher_conversation_attachment'), $fileName);
             $conversation->attachments()->create($fileName);
         }
-        $firebase = (new FirebaseMessage())
-            ->withTitle($title)
+
+        $firebase = Larafirebase::withTitle($title)
             ->withBody($message)
             ->withAdditionalData([
                 'user' => [
@@ -109,12 +109,27 @@ class TeacherMessageGroupController extends Controller
                 ],
                 'conversation_id' => $group->conversation_id,
                 'message_id' => $conversation->id,
-            ]);
-        foreach ($tokens as $token){
-            $message = $firebase->asMessage($token);
+            ])->withPriority('high');
+//        $firebase = (new FirebaseMessage())
+//            ->withTitle($title)
+//            ->withBody($message)
+//            ->withAdditionalData([
+//                'user' => [
+//                    'id' => auth()->user()->id,
+//                    'name' => auth()->user()->name,
+//                    'photo' => auth()->user()?->teacher?->photo
+//                ],
+//                'conversation_id' => $group->conversation_id,
+//                'message_id' => $conversation->id,
+//            ])->withPriority('high');
+        foreach ($tokenMembers as $t){
+            if ($t->online != 1){
+                $messages[] = $firebase->sendNotification($t->firebase_token)->body();
+            }else{
+                $messages[] = $firebase->sendMessage($t->firebase_token)->body();
+            }
         }
-//        $notice = $firebase->asNotification($tokens);
-        return $message->body();
+        return $messages;
         if ($request->is('api/*')){
             return response()->json([
                 'success' => true,
@@ -167,5 +182,9 @@ class TeacherMessageGroupController extends Controller
     public function destroy(TeacherMessageGroup $teacherMessageGroup)
     {
         //
+    }
+
+    public function updateOnlineStatus(Request $request){
+        return auth()->user()->update(['online' => $request->online ?? 0]);
     }
 }
