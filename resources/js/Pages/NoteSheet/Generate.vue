@@ -138,6 +138,8 @@ export default {
                         app.ad_table = d.data
                     })
             }
+            let didNotSubmitDocument = parseInt(this.invoice_info?.number_of_student) - parseInt(this.invoice_info?.total_student);
+            let rest_student = didNotSubmitDocument > 0 ? `Rest ${didNotSubmitDocument} students did not submit payment slips of the respective Polytechnic Institute confirming payments and excluded from the list.<br/><br/>` : "";
             const numberFormat = new Intl.NumberFormat('en-BD', { style: 'currency', currency: 'BDT' })
             this.template_text = `<ol start="${this.serial_no}">`
             this.template_text += `<li>`+content.replaceAll('[number_of_student]', this.invoice_info?.number_of_student)
@@ -159,6 +161,7 @@ export default {
                 .replaceAll('[failed_student]', invoice.failed_student)
                 .replaceAll('[mma_table]', app.mma_table)
                 .replaceAll('[admission_table]', app.ad_table)
+                .replaceAll('[rest_student]', rest_student)
                 .replaceAll('[invoice_month_year]', moment(this.invoice_info?.invoice_month).format("MMMM YYYY"))
             this.template_text += `<li>`+noteST[1]?.content.replaceAll('[number_of_student]', this.invoice_info?.number_of_student)
                 .replaceAll('[section]', this.invoice_info?.section)
@@ -178,6 +181,7 @@ export default {
                 .replaceAll('[mma_table]', app.mma_table)
                 .replaceAll('[eligible_student]', invoice.eligible_student)
                 .replaceAll('[failed_student]', invoice.failed_student)
+                .replaceAll('[rest_student]', rest_student)
                 .replaceAll('[invoice_month_year]', moment(this.invoice_info?.invoice_month).format("MMMM YYYY"))
                 // .replace('<ol>', `<ol start={this.serial_no}>`)
             this.template_text += "</ol>"

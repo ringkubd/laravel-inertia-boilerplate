@@ -11,7 +11,9 @@
                 <div class="card-header">
                     <CardHeader :can="can" :search-method="search">
                         <template #first>
-                            <Back :back-url="route('inventory.index')"></Back>
+                            <InertiaLink :href="route('product.create')">
+                                <Button>Create</Button>
+                            </InertiaLink>
                         </template>
                     </CardHeader>
                 </div>
@@ -54,7 +56,18 @@
                                     <TableBody v-text="row.lesson" />
                                     <TableBody v-text="row.status ? 'Active' : 'Inactive'" />
                                     <TableBody>
-                                        <InertiaLink :href="route('product.destroy', row.id)" method="DELETE">Delete</InertiaLink>
+                                        <div class="flex flex-row space-x-0.5">
+                                            <InertiaLink :href="route('product.edit', row.id)">
+                                                <Button class="backdrop-blur bg-amber-600">Edit</Button>
+                                            </InertiaLink>
+                                            <InertiaLink :href="route('product.destroy', row.id)" method="DELETE">
+                                                <Button class="backdrop-blur bg-red-600">Delete</Button>
+                                            </InertiaLink>
+                                            <InertiaLink :href="route('product.disable', row.id)" method="PUT">
+                                                <Button :class="row.status ? 'bg-amber-800' : 'bg-blue-600'">{{row.status ? 'Disable': 'Active'}}</Button>
+                                            </InertiaLink>
+                                        </div>
+
                                     </TableBody>
                                 </template>
 
@@ -78,11 +91,16 @@
     import CardHeader from "@/Shared/CardHeader.vue";
     import Back from "@/Shared/Back.vue";
     import {DataTable, TableBody, TableBodyCell, TableHead} from "@jobinsjp/vue3-datatable";
+    import "@jobinsjp/vue3-datatable/dist/style.css"
     import Paginator from "@/Components/Paginator.vue";
+    import Input from "@/Components/Input.vue";
+    import Button from "@/Shared/Button.vue";
 
     export default {
         name: 'ProductIndex',
         components: {
+            Button,
+            Input,
             TableBodyCell, TableHead, Paginator, DataTable, TableBody,
             Back,
             Authenticated,
@@ -92,7 +110,7 @@
         props: ['can', 'data'],
         data(){
             return {
-
+                form: {}
             }
         },
         methods: {

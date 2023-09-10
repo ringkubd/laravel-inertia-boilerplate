@@ -16,6 +16,7 @@
                         :unit="units"
                         :category="category"
                         :brand="brand"
+                        :edit="false"
                     />
                 </div>
             </div>
@@ -27,11 +28,14 @@
 import PageHeader from "@/Shared/PageHeader.vue";
 import Authenticated from "@/Layouts/Authenticated.vue";
 import Form from "@/Pages/Inventory/Products/Form.vue";
+import CardHeader from "@/Shared/CardHeader.vue";
+import Button from "@/Shared/Button.vue";
+import Back from "@/Shared/Back.vue";
 
 export default {
     name:'ProductCreat',
     props: ['can', 'product', 'units', 'category', 'brand'],
-    components: {Form, Authenticated, PageHeader}
+    components: {Back, Button, CardHeader, Form, Authenticated, PageHeader}
 }
 </script>
 

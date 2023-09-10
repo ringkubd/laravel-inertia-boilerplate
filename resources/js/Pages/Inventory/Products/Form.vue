@@ -1,5 +1,5 @@
 <template>
-    <form action="">
+    <form action="" @submit.prevent="storeProduct">
         <div class="flex flex-col">
             <div class="flex flex-col md:flex-row  min-w-full md:space-x-8 mb:mb-0 mb-4">
                 <div class="flex flex-col md:flex-row md:w-2/3 mb-4">
@@ -8,13 +8,16 @@
                         class="md:w-1/3 block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
                         Title<sup>*</sup></label>
-                    <input
-                        type="text"
-                        id="name"
-                        required
-                        v-model="form.title"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    >
+                    <div class="flex flex-col w-full p-2.5">
+                        <input
+                            type="text"
+                            id="name"
+                            required
+                            v-model="form.title"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        >
+                        <span v-if="form.errors.title" class="text-red-600">{{form.errors.title}}</span>
+                    </div>
                 </div>
                 <div>
                     Product title
@@ -28,13 +31,16 @@
                         class="md:w-1/3 block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
                         Serial No<sup>*</sup></label>
-                    <input
-                        type="text"
-                        id="sl_no"
-                        required
-                        v-model="form.sl_no"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    >
+                    <div class="flex flex-col w-full p-2.5">
+                        <input
+                            type="text"
+                            id="sl_no"
+                            required
+                            v-model="form.sl_no"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        >
+                        <span v-if="form.errors.sl_no" class="text-red-600">{{form.errors.sl_no}}</span>
+                    </div>
                 </div>
                 <div>
                     Product serial no
@@ -47,18 +53,23 @@
                         for="sl_no"
                         class="md:w-1/3 block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >Unit<sup>*</sup></label>
-                    <Select2
-                        v-model="form.unit"
-                        :options="unit"
-                        required
-                        :settings="{
+                    <div class="flex flex-col w-full p-2.5">
+                        <Select2
+                            v-model="form.unit"
+                            :options="unit.map((u) => {
+                                return {id: u.text, text: u.text}
+                            })"
+                            required
+                            :settings="{
                             dropdownAutoWidth: true,
                             placeholder: 'Select a Category',
                             width: '100%',
                             tags: true
                         }"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    />
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        />
+                        <span v-if="form.errors.unit" class="text-red-600">{{form.errors.unit}}</span>
+                    </div>
                 </div>
                 <div>
                     Product unit.
@@ -73,12 +84,15 @@
                         class="md:w-1/3 block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
                         Description</label>
-                    <input
-                        type="text"
-                        id="description"
-                        v-model="form.description"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    >
+                    <div class="flex flex-col w-full p-2.5">
+                        <input
+                            type="text"
+                            id="description"
+                            v-model="form.description"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        >
+                        <span v-if="form.errors.description" class="text-red-600">{{form.errors.description}}</span>
+                    </div>
                 </div>
                 <div>
                     Product description
@@ -92,19 +106,22 @@
                         class="md:w-1/3 block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
                         Category<sup>*</sup></label>
-                    <Select2
-                        v-model="form.category_id"
-                        :options="category"
-                        @select="storeNewCategory"
-                        :settings="{
+                    <div class="flex flex-col w-full p-2.5">
+                        <Select2
+                            v-model="form.category_id"
+                            :options="category"
+                            @select="storeNewCategory"
+                            :settings="{
                             dropdownAutoWidth: true,
                             placeholder: 'Select a Category',
                             width: '100%',
                              tags: true,
                             createTag: createNewOption
                         }"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    />
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        />
+                        <span v-if="form.errors.category_id" class="text-red-600">{{form.errors.category_id}}</span>
+                    </div>
                 </div>
                 <div>
                     Product description
@@ -118,19 +135,22 @@
                         class="md:w-1/3 block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
                         Brand</label>
-                    <Select2
-                        v-model="form.brand_id"
-                        :options="brand"
-                        @select="storeNewBrand"
-                        :settings="{
+                    <div class="flex flex-col w-full p-2.5">
+                        <Select2
+                            v-model="form.brand_id"
+                            :options="brand"
+                            @select="storeNewBrand"
+                            :settings="{
                             dropdownAutoWidth: true,
                             placeholder: 'Select a Brand',
                             width: '100%',
                             tags: true,
                             createTag: createNewOption
                         }"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    />
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        />
+                        <span v-if="form.errors.brand_id" class="text-red-600">{{form.errors.brand_id}}</span>
+                    </div>
                 </div>
                 <div>
                     Product Brand
@@ -144,12 +164,15 @@
                         class="md:w-1/3 block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
                         Class</label>
-                    <input
-                        type="number"
-                        id="class_room_id"
-                        v-model="form.class_room_id"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    >
+                    <div class="flex flex-col w-full p-2.5">
+                        <input
+                            type="number"
+                            id="class_room_id"
+                            v-model="form.class_room_id"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        >
+                        <span v-if="form.errors.class_room_id" class="text-red-600">{{form.errors.class_room_id}}</span>
+                    </div>
                 </div>
                 <div>
                     Class
@@ -163,12 +186,15 @@
                         class="md:w-1/3 block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
                         Lesson</label>
-                    <input
-                        type="text"
-                        id="lesson"
-                        v-model="form.lesson"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    >
+                    <div class="flex flex-col w-full p-2.5">
+                        <input
+                            type="text"
+                            id="lesson"
+                            v-model="form.lesson"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        >
+                        <span v-if="form.errors.lesson" class="text-red-600">{{form.errors.lesson}}</span>
+                    </div>
                 </div>
                 <div>
                     Lesson
@@ -184,7 +210,7 @@
                 <div class="flex flex-col md:flex-row  min-w-full md:space-x-8 mb:mb-0 mb-4 bg-[#002147] bg-opacity-10 p-2 text-center align-middle" v-for="m in product.meta">
                     <div class="flex flex-col md:flex-row md:w-2/3 md:space-x-2">
                         <div class="flex flex-col md:flex-row md:w-1/2">
-                           {{m.key}}
+                            {{m.key}}
                         </div>
                         <div class="flex flex-col md:flex-row md:w-1/2">
                             {{m.content}}
@@ -204,11 +230,14 @@
                             >
                                 Key
                             </label>
-                            <input
-                                type="text"
-                                v-model="metaForm.key"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            >
+                            <div class="flex flex-col w-full p-2.5">
+                                <input
+                                    type="text"
+                                    v-model="metaForm.key"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                >
+                                <span v-if="metaForm.errors.key" class="text-red-600">{{metaForm.errors.key}}</span>
+                            </div>
                         </div>
                         <div class="flex flex-col md:flex-row md:w-1/2">
                             <label
@@ -217,12 +246,15 @@
                             >
                                 Value
                             </label>
-                            <input
-                                type="text"
-                                id="value"
-                                v-model="metaForm.content"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            >
+                            <div class="flex flex-col w-full p-2.5">
+                                <input
+                                    type="text"
+                                    id="value"
+                                    v-model="metaForm.content"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                >
+                                <span v-if="metaForm.errors.content" class="text-red-600">{{metaForm.errors.content}}</span>
+                            </div>
                         </div>
 
                     </div>
@@ -242,7 +274,7 @@ import Button from "@/Shared/Button.vue";
 
 export default {
     name: 'productsForm',
-    props: ['product', 'unit', 'category', 'brand'],
+    props: ['product', 'unit', 'category', 'brand', 'edit'],
     components: {
         Button,
         Input,
@@ -292,8 +324,11 @@ export default {
             }
         },
         storeProduct(){
-            this.form.post(route('product.store'), {
-            })
+            if (this.edit){
+                this.form.put(route('product.update', this.product.id))
+            }else{
+                this.form.post(route('product.store'))
+            }
         },
         storeMeta(){
             this.metaForm.put(route('product.add_meta', this.product.id), {

@@ -20,7 +20,7 @@ class ProductsController extends Controller
     {
         return Inertia::render('Inventory/Products/Index', [
             'data' => Product::query()
-                ->with('meta','category', 'supplier', 'brand')
+                ->with('meta','category', 'supplier', 'brand', 'class')
                 ->latest()
                 ->paginate(),
             'can' => []
@@ -37,7 +37,7 @@ class ProductsController extends Controller
         return Inertia::render('Inventory/Products/Create', [
             'can' => [],
             'product' => new Product(),
-            'units' => Product::pluck('unit', 'unit'),
+            'units' => Product::selectRaw('unit as text')->groupBy('unit')->get(),
             'category' => Category::selectRaw('id, name as text')->get(),
             'brand' => Brand::selectRaw('id, IF(origin is not null, concat(name, " (", origin, ")"), name) as text')->get(),
         ]);
@@ -53,7 +53,7 @@ class ProductsController extends Controller
     {
         $request->validate([
             'title' => 'required',
-            'sl_no' => 'required',
+            'sl_no' => 'required|unique:products,sl_no',
             'unit' => 'required',
             'category_id' => 'required',
             'class_room_id' => 'required',
@@ -85,7 +85,7 @@ class ProductsController extends Controller
         return Inertia::render('Inventory/Products/Edit', [
             'can' => [],
             'product' => $product->load('meta'),
-            'units' => Product::pluck('unit', 'unit'),
+            'units' => Product::selectRaw('unit as text')->groupBy('unit')->get(),
             'category' => Category::selectRaw('id, name as text')->get(),
             'brand' => Brand::selectRaw('id, IF(origin is not null, concat(name, " (", origin, ")"), name) as text')->get(),
         ]);
@@ -100,7 +100,16 @@ class ProductsController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'sl_no' => 'required|unique:products,sl_no,'.$product->id,
+            'unit' => 'required',
+            'category_id' => 'required',
+            'class_room_id' => 'required',
+            'lesson' => 'required',
+        ]);
+        $product->update($request->all());
+        return redirect()->route('product.edit', $product->id);
     }
 
     /**
@@ -111,7 +120,17 @@ class ProductsController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        if ($product){
+            $product->meta()->delete();
+            $product->delete();
+        }
+        return redirect()->back();
+    }
+
+
+    public function disable(Product $product){
+        $product->update(['status' => !$product->status]);
+        return redirect()->back();
     }
 
     /**

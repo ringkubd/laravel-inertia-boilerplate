@@ -58,7 +58,7 @@
 
                                 <template #tbody="{row}">
                                     <TableBody v-text="row.name" />
-                                    <TableBody v-text="row.details" />
+                                    <TableBody class="max-w-md" v-text="row.details" />
                                     <TableBody>
                                         <InertiaLink :href="route('category.destroy', row.id)" method="DELETE">Delete</InertiaLink>
                                     </TableBody>
