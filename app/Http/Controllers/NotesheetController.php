@@ -209,33 +209,33 @@ class NotesheetController extends Controller
         $book_stationary = number_format(500 * $invoice->eligible_student, 2, '.', ',');
         $total = number_format(2500 * $invoice->eligible_student, 2, '.', ',');
         $table =  <<<TEMPLATE
-<table class="table table-bordered mt-4">
+<table class="table table-bordered mt-4 text-center">
         <thead>
         <tr>
-            <th>Number of Students</th>
             <th>Payment Against</th>
+            <th>Number of Students</th>
             <th>Taka / Month</th>
-            <th>Period</th>
             <th>Sub. Total (TK.)</th>
             <th>Total (TK.)</th>
+            <th>Period</th>
         </tr>
         </thead>
-        <tbody class="text-center align-middle">
+        <tbody class="text-center align-middle" style="text-align: center">
         <tr>
+            <th>MMA</th>
             <td>
                 $invoice->eligible_student
             </td>
-            <th>MMA</th>
             <td> 2,000 </td>
-            <td rowspan="2"> $invoice->invoice_month </td>
             <td> $mma </td>
             <td rowspan="2">$total</td>
+            <td rowspan="2"> $invoice->invoice_month </td>
         </tr>
         <tr>
+            <th>Book & Stationary</th>
             <td>
                 $invoice->eligible_student
             </td>
-            <th>Book & Stationary</th>
             <td>500</td>
             <td>$book_stationary</td>
         </tr>
