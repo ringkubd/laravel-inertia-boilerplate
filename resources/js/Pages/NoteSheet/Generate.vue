@@ -146,6 +146,11 @@ export default {
 final exam results and excluded from this list. However, they may be included if they pass
 and continue.` : "";
             }
+            let all = "";
+            if (faildStudent === 0){
+                all = "all"
+            }
+
             const numberFormat = new Intl.NumberFormat('en-BD', { style: 'currency', currency: 'BDT' })
             this.template_text = `<ol start="${this.serial_no}">`
             this.template_text += `<li>`+content.replaceAll('[number_of_student]', this.invoice_info?.number_of_student)
@@ -168,6 +173,7 @@ and continue.` : "";
                 .replaceAll('[mma_table]', app.mma_table)
                 .replaceAll('[admission_table]', app.ad_table)
                 .replaceAll('[rest_student]', rest_student)
+                .replaceAll('[all]', all)
                 .replaceAll('[invoice_month_year]', moment(this.invoice_info?.invoice_month).format("MMMM YYYY"))
             this.template_text += `<li>`+noteST[1]?.content.replaceAll('[number_of_student]', this.invoice_info?.number_of_student)
                 .replaceAll('[section]', this.invoice_info?.section)
@@ -188,6 +194,7 @@ and continue.` : "";
                 .replaceAll('[eligible_student]', invoice.eligible_student)
                 .replaceAll('[failed_student]', parseInt(this.invoice_info?.number_of_student) - parseInt(invoice.eligible_student))
                 .replaceAll('[rest_student]', rest_student)
+                .replaceAll('[all]', all)
                 .replaceAll('[invoice_month_year]', moment(this.invoice_info?.invoice_month).format("MMMM YYYY"))
                 // .replace('<ol>', `<ol start={this.serial_no}>`)
             this.template_text += "</ol>"
