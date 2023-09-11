@@ -141,7 +141,7 @@ export default {
                         app.mma_table = d.data['table']
                         invoice = d.data['invoice']
                     })
-                let rest_student = faildStudent > 0 ? `Rest ${faildStudent} students have failed to pass all subjects successfully and got referred in the ${this.semesterString(parseInt(this.invoice_info?.semester) - 1)} semester
+                rest_student = faildStudent > 0 ? `Rest ${faildStudent} students have failed to pass all subjects successfully and got referred in the ${this.semesterString(parseInt(this.invoice_info?.semester) - 1)} semester
 final exam results and excluded from this list. However, they may be included if they pass
 and continue.` : "";
             }
