@@ -142,11 +142,11 @@ export default {
             }
             let didNotSubmitDocument = parseInt(this.invoice_info?.number_of_student) - parseInt(this.invoice_info?.total_student);
             let faildStudent =  parseInt(this.invoice_info?.number_of_student) - parseInt(invoice.eligible_student);
-            let rest_student = didNotSubmitDocument > 0 ? `Rest ${didNotSubmitDocument} students did not submit payment slips of the respective Polytechnic Institute confirming payments and excluded from the list.<br/><br/>` : "<br/><br/>";
+            let rest_student = didNotSubmitDocument > 0 ? `Rest ${didNotSubmitDocument} students did not submit payment slips of the respective Polytechnic Institute confirming payments and excluded from the list.` : "";
             if (isMMA === 1){
                 rest_student = faildStudent > 0 ? `Rest ${faildStudent} students have failed to pass all subjects successfully and got referred in the ${this.semesterString(parseInt(this.invoice_info?.semester) - 1)} semester
 final exam results and excluded from this list. However, they may be included if they pass
-and continue.<br/>` : "";
+and continue.` : "";
             }
             let all = "";
             if (faildStudent === 0){
