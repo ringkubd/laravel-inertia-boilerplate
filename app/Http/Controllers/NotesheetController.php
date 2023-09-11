@@ -220,24 +220,24 @@ class NotesheetController extends Controller
             <th>Period</th>
         </tr>
         </thead>
-        <tbody class="text-center align-middle" style="text-align: center">
-        <tr>
-            <th>MMA</th>
-            <td>
+        <tbody class="text-center align-middle" style="text-align: center!important;">
+        <tr style="text-align: center!important;">
+            <th style="text-align: center!important;">MMA</th>
+            <td style="text-align: center!important;">
                 $invoice->eligible_student
             </td>
-            <td> 2,000 </td>
-            <td> $mma </td>
-            <td rowspan="2">$total</td>
-            <td rowspan="2"> $invoice->invoice_month </td>
+            <td style="text-align: center!important;"> 2,000 </td>
+            <td style="text-align: center!important;"> $mma </td>
+            <td style="text-align: center!important;" rowspan="2">$total</td>
+            <td style="text-align: center!important;" rowspan="2"> $invoice->invoice_month </td>
         </tr>
         <tr>
-            <th>Book & Stationary</th>
-            <td>
+            <th style="text-align: center!important;">Book & Stationary</th>
+            <td style="text-align: center!important;">
                 $invoice->eligible_student
             </td>
-            <td>500</td>
-            <td>$book_stationary</td>
+            <td style="text-align: center!important;">500</td>
+            <td style="text-align: center!important;">$book_stationary</td>
         </tr>
         </tbody>
     </table>
