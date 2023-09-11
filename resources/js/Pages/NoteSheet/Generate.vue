@@ -124,16 +124,7 @@ export default {
             let content = noteST[0]?.content
             const app = this;
             let invoice = {};
-
-            let didNotSubmitDocument = parseInt(this.invoice_info?.number_of_student) - parseInt(this.invoice_info?.total_student);
-            let faildStudent =  parseInt(this.invoice_info?.number_of_student) - parseInt(invoice.eligible_student);
-            let rest_student = didNotSubmitDocument > 0 ? `Rest ${didNotSubmitDocument} students did not submit payment slips of the respective Polytechnic Institute confirming payments and excluded from the list.<br/><br/>` : "<br/><br/>";
-
-            let all = "";
-            if (faildStudent === 0){
-                all = "all"
-            }
-
+            let isMMA = 0;
 
             if (content.search('[mma_table]') !== -1){
                 await axios.get(route('mma_table', this.invoice_id))
@@ -141,15 +132,25 @@ export default {
                         app.mma_table = d.data['table']
                         invoice = d.data['invoice']
                     })
-                rest_student = faildStudent > 0 ? `Rest ${faildStudent} students have failed to pass all subjects successfully and got referred in the ${this.semesterString(parseInt(this.invoice_info?.semester) - 1)} semester
-final exam results and excluded from this list. However, they may be included if they pass
-and continue.` : "";
+                isMMA = 1;
             }
             if (content.search('[admission_table]') !== -1){
                 await axios.get(route('admission_table', this.invoice_id))
                     .then(function (d) {
                         app.ad_table = d.data
                     })
+            }
+            let didNotSubmitDocument = parseInt(this.invoice_info?.number_of_student) - parseInt(this.invoice_info?.total_student);
+            let faildStudent =  parseInt(this.invoice_info?.number_of_student) - parseInt(invoice.eligible_student);
+            let rest_student = didNotSubmitDocument > 0 ? `Rest ${didNotSubmitDocument} students did not submit payment slips of the respective Polytechnic Institute confirming payments and excluded from the list.<br/><br/>` : "<br/><br/>";
+            if (isMMA === 1){
+                rest_student = faildStudent > 0 ? `Rest ${faildStudent} students have failed to pass all subjects successfully and got referred in the ${this.semesterString(parseInt(this.invoice_info?.semester) - 1)} semester
+final exam results and excluded from this list. However, they may be included if they pass
+and continue.` : "";
+            }
+            let all = "";
+            if (faildStudent === 0){
+                all = "all"
             }
 
             const numberFormat = new Intl.NumberFormat('en-BD', { style: 'currency', currency: 'BDT' })
