@@ -23,30 +23,30 @@
                     <div class="flex flex-column pt-[10mm] px-[19mm] flex-1 max-h-[5rem]">
                         <div class="flex flex-row justify-content-between flex-1 align-items-center">
                             <div class="flex flex-column text-center border-t border-black px-3" style="text-align: center!important;">
-                                <div>Program Officer</div>
-                                <div>IsDB-BISEW</div>
+                                <div style="text-align: center!important;">Program Officer</div>
+                                <div style="text-align: center!important;">IsDB-BISEW</div>
                             </div>
                             <div class="flex flex-column text-center border-t border-black px-3"  style="text-align: center!important;">
-                                <div>Program Coordinator</div>
-                                <div>IsDB-BISEW</div>
+                                <div style="text-align: center!important;">Program Coordinator</div>
+                                <div style="text-align: center!important;">IsDB-BISEW</div>
                             </div>
                             <div class="flex flex-column text-center border-t border-black px-3" style="text-align: center!important;">
-                                <div>Sr. Program Coordinator</div>
-                                <div>IsDB-BISEW</div>
+                                <div style="text-align: center!important;">Sr. Program Coordinator</div>
+                                <div style="text-align: center!important;">IsDB-BISEW</div>
                             </div>
                         </div>
-                        <div class="flex flex-row justify-content-between pt-[19mm] flex-1 align-items-center">
-                            <div class="flex flex-column text-center border-t border-black px-3" style="text-align: center!important;">
-                                <div>Accounts Officer</div>
-                                <div>IsDB-BISEW</div>
+                        <div class="flex flex-row justify-content-between pt-[19mm] flex-1 align-items-center" style="text-align: center!important;">
+                            <div class="flex flex-column text-center border-t border-black px-3">
+                                <div style="text-align: center!important;">Accounts Officer</div>
+                                <div style="text-align: center!important;">IsDB-BISEW</div>
                             </div>
                             <div class="flex flex-column text-center border-t border-black px-3" style="text-align: center!important;">
-                                <div>Sr. Accounts Officer</div>
-                                <div>IsDB-BISEW</div>
+                                <div style="text-align: center!important;">Sr. Accounts Officer</div>
+                                <div style="text-align: center!important;">IsDB-BISEW</div>
                             </div>
                             <div class="flex flex-column text-center border-t border-black px-3" style="text-align: center!important;">
-                                <div>Chief Executive Officer</div>
-                                <div>IsDB-BISEW</div>
+                                <div style="text-align: center!important;">Chief Executive Officer</div>
+                                <div style="text-align: center!important;">IsDB-BISEW</div>
                             </div>
                         </div>
                     </div>
