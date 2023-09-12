@@ -168,7 +168,7 @@ and continue.` : "";
                 .replaceAll('[bill_group]', this.invoice_info?.bill_group)
                 .replaceAll('[current_date]', this.invoice_info?.current_date)
                 .replaceAll('[invoice_date]', this.invoice_info?.invoice_date)
-                .replaceAll('[total_amount]', numberFormat.format(this.invoice_info?.total_amount)+ ' '+ ` (${number2wordEnglish(this.invoice_info?.total_amount)})`)
+                .replaceAll('[total_amount]', numberFormat.format(this.invoice_info?.total_amount)+ ' '+ ` (${number2wordEnglish(this.invoice_info?.total_amount).toUpperCase()})`)
                 .replaceAll('[idb_account]', this.invoice_info?.idb_account)
                 .replaceAll('[bill_period]', this.invoice_info?.bill_period)
                 .replaceAll('[session]', this.invoice_info?.session)

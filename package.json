@@ -43,7 +43,7 @@
         "moment": "^2.29.1",
         "moment-range": "^4.0.2",
         "npm-check-updates": "^16.10.15",
-        "number2english_word": "^1.0.2",
+        "number2english_word": "^1.0.4",
         "pizzip": "^3.1.1",
         "postcss-import": "^14.0.2",
         "pusher-js": "^7.0.6",
