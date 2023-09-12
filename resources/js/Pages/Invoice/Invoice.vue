@@ -79,8 +79,8 @@
                             <td class="text-center">{{invoice.amount}}</td>
                             <td class="text-right">{{remarks(invoice.result_status, invoice.payment_slip, basicInfo)}}</td>
                         </tr>
-                        <tr rowspan="2" style="border-top: 2px solid gray!important; color: black!important; font-weight: 600">
-                            <th :colspan="6+ (feeTypes != null ? feeTypes.length : 0)" class="total" style="text-align: right">Total</th>
+                        <tr rowspan="2" style="border-top: 2px solid rgb(128,128,128)!important; color: black!important; font-weight: 600">
+                            <th :colspan="6+ (feeTypes != null ? feeTypes.length : 0)" class="total" style="text-align: center!important;">Total Amount</th>
                             <th class="text-center">{{totalInvoiceAmount()}}</th>
                             <th class="text-center"></th>
                         </tr>
