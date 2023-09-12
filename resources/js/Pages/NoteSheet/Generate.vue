@@ -89,7 +89,8 @@ import CardHeader from "@/Shared/CardHeader";
 import Back from "@/Shared/Back";
 import Button from "@/Shared/Button";
 import moment from "moment";
-import number2text from "number2text";
+import number2wordEnglish from "number2english_word";
+
 export default {
     name: "Generate",
     props: ['invoices', 'note_sheet_template', 'page_no', 'serial_no', 'noteSheetText'],
@@ -153,6 +154,8 @@ and continue.` : "";
                 all = "all"
             }
 
+            // console.log(number2text(20))
+
             const numberFormat = new Intl.NumberFormat('en-BD', { style: 'currency', currency: 'BDT' })
             this.template_text = `<ol start="${this.serial_no}">`
             this.template_text += `<li>`+content.replaceAll('[number_of_student]', this.invoice_info?.number_of_student)
@@ -165,7 +168,7 @@ and continue.` : "";
                 .replaceAll('[bill_group]', this.invoice_info?.bill_group)
                 .replaceAll('[current_date]', this.invoice_info?.current_date)
                 .replaceAll('[invoice_date]', this.invoice_info?.invoice_date)
-                .replaceAll('[total_amount]', numberFormat.format(this.invoice_info?.total_amount)+ ' '+ ` (${number2text(this.invoice_info?.total_amount)})`)
+                .replaceAll('[total_amount]', numberFormat.format(this.invoice_info?.total_amount)+ ' '+ ` (${number2wordEnglish(this.invoice_info?.total_amount)})`)
                 .replaceAll('[idb_account]', this.invoice_info?.idb_account)
                 .replaceAll('[bill_period]', this.invoice_info?.bill_period)
                 .replaceAll('[session]', this.invoice_info?.session)
@@ -187,7 +190,7 @@ and continue.` : "";
                 .replaceAll('[bill_group]', this.invoice_info?.bill_group)
                 .replaceAll('[current_date]', this.invoice_info?.current_date)
                 .replaceAll('[invoice_date]', this.invoice_info?.invoice_date)
-                .replaceAll('[total_amount]', numberFormat.format(this.invoice_info?.total_amount)+ ' ' + ` (${number2text(this.invoice_info?.total_amount)})`)
+                .replaceAll('[total_amount]', numberFormat.format(this.invoice_info?.total_amount)+ ' ' + ` (${number2wordEnglish(this.invoice_info?.total_amount)})`)
                 .replaceAll('[idb_account]', this.invoice_info?.idb_account)
                 .replaceAll('[bill_period]', this.invoice_info?.bill_period)
                 .replaceAll('[session]', this.invoice_info?.session)
