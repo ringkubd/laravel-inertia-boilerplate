@@ -112,7 +112,7 @@ export default {
             this.$inertia.replace(route('app_attendance.index', {today: this.today}))
         },
         distance(madrasah_location, current_location){
-            return getPreciseDistance(JSON.parse(madrasah_location), JSON.parse(current_location));
+            return madrasah_location && current_location ? getPreciseDistance(JSON.parse(madrasah_location), JSON.parse(current_location)) : "";
         },
         imageItems(image){
             let items = []
