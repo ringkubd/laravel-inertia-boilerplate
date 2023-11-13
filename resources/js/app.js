@@ -29,6 +29,21 @@ Array.prototype.pushIfNotExist = function(element, comparer) {
     }
 };
 
+function ordinal_suffix_of(i) {
+    const j = i % 10,
+        k = i % 100;
+    if (j === 1 && k !== 11) {
+        return i + "st";
+    }
+    if (j === 2 && k !== 12) {
+        return i + "nd";
+    }
+    if (j === 3 && k !== 13) {
+        return i + "rd";
+    }
+    return i + "th";
+}
+
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Madrash & Four Year Diploma Program by IsDB-BISEW';
 
 createInertiaApp({
@@ -41,7 +56,8 @@ createInertiaApp({
             .mixin({
                 methods: {
                     route,
-                    GET
+                    GET,
+                    ordinal_suffix_of
                 },
             })
             .use(plugin)

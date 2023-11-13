@@ -23,23 +23,26 @@
                         <thead class="border-0 print:border-0">
                         <tr class="border-0 print:border-0">
                             <th :colspan="7+ (feeTypes != null ? feeTypes.length : 0)" rowspan="4" class="border-0 print:border-0">
-                                <strong>Annex - A</strong>
-                                <p style="padding: 0!important; margin: 0!important;">Academic Year: {{ basicInfo.session }}</p>
+                                <strong style="text-align: right!important;">Annex - A</strong>
                                 <div class="text-left" style="text-align: left">
                                     <table class="">
                                         <tbody class="">
                                         <tr class="">
-                                            <th class="text-left pr-6">Semester</th>
-                                            <td class="text-left px-6">{{ basicInfo.semester }}</td>
+                                            <th class="text-left pr-6">Academic Year:</th>
+                                            <td class="text-left px-6"> {{ basicInfo.session }}</td>
                                         </tr>
                                         <tr class="">
-                                            <th class="text-left pr-6">Date:</th>
-                                            <td class="text-left px-6">{{ basicInfo.invoice_date }}</td>
+                                            <th class="text-left pr-6">Semester Continuing:</th>
+                                            <td class="text-left px-6">{{ ordinal_suffix_of(basicInfo.semester) }}</td>
+                                        </tr>
+                                        <tr class="">
+                                            <th class="text-left pr-6">Invoice Date:</th>
+                                            <td class="text-left px-6">{{ moment(basicInfo.invoice_date).format('DD MMM Y') }}</td>
                                         </tr>
                                         <tr class="" v-if="last_mma != 0">
-                                            <th class="text-left pr-6">MMA No.</th>
+                                            <th class="text-left pr-6">MMA No.:</th>
                                             <td class="text-left px-6">
-                                                {{ basicInfo.invoice_no }}
+                                                {{ ordinal_suffix_of(basicInfo.invoice_no * basicInfo.semester) }}
                                             </td>
                                         </tr>
                                         </tbody>
@@ -160,8 +163,14 @@ import CardHeader from "@/Shared/CardHeader";
 import Back from "@/Shared/Back";
 import Button from "@/Shared/Button";
 import PageHeader from "@/Shared/PageHeader.vue";
+import moment from "moment";
 export default {
     name: "Invoice",
+    computed: {
+        moment() {
+            return moment
+        }
+    },
     props: ['can', 'errors', 'data', 'feeTypes', 'basicInfo', 'last_mma'],
     components: {PageHeader, Button, Back, CardHeader, Authenticated},
     methods: {

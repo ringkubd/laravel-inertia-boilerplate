@@ -45,7 +45,8 @@ class InvoiceController extends Controller
                 'delete' => auth()->user()->can('delete_invoice'),
                 'view' => auth()->user()->can('view_invoice'),
             ],
-            'invoices' => $invoices
+            'invoices' => $invoices,
+            'academic_sessions' => AcademicSession::latest()->get()
         ]);
     }
 

@@ -11,7 +11,16 @@
         <div class="container-fluid">
             <div class="card mt-1 min-vh-100">
                 <div class="card-header">
-                    <CardHeader :can="can" :create="route('invoice.create')" :search-method="search"></CardHeader>
+                    <CardHeader :can="can" :create="route('invoice.create')" :search-method="search">
+                        <template #second>
+                            <Select2
+                                :options="academic_sessions.map(s => ({id: s.session, text: s.session}))"
+                                v-model="search_form.academic_session"
+                                id="academic_session"
+                                @select="localSearch"
+                            />
+                        </template>
+                    </CardHeader>
                 </div>
                 <div class="card-body table-responsive">
                     <table class="table table-secondary table-striped">
@@ -62,14 +71,21 @@ import Actions from "@/Shared/Actions";
 import Paginator from "@/Components/Paginator";
 export default {
     name: "Index",
-    props: ['can', 'invoices'],
+    props: ['can', 'invoices', 'academic_sessions'],
     components: {Paginator, Actions, PageHeader, CardHeader, Authenticated},
     data(){
-
+       return {
+           search_form: {
+               academic_session: ''
+           }
+       }
     },
     methods: {
         search(params){
             this.$inertia.replace(route('invoice.index', {'search': params}))
+        },
+        localSearch(){
+            this.$inertia.replace(route('invoice.index', {'search': this.search_form.academic_session}))
         },
         semester(semester){
             switch (semester) {
