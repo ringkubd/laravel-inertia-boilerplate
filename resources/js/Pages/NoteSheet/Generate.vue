@@ -117,7 +117,6 @@ export default {
             const invInfo = this.invoices.filter((inv) => {
                 return inv.invoice_id === this.invoice_id
             })
-            console.log(invInfo[0])
             this.invoice_info = invInfo[0]
         },
         async templateInfo(){
@@ -126,8 +125,7 @@ export default {
             const app = this;
             let invoice = {};
             let isMMA = 0;
-
-            if (content.search('[mma_table]') !== -1){
+            if (content.includes('[mma_table]')){
                 await axios.get(route('mma_table', this.invoice_id))
                     .then(function (d) {
                         app.mma_table = d.data['table']
@@ -135,7 +133,7 @@ export default {
                     })
                 isMMA = 1;
             }
-            if (content.search('[admission_table]') !== -1){
+            if (content.includes('[mma_table]')){
                 await axios.get(route('admission_table', this.invoice_id))
                     .then(function (d) {
                         app.ad_table = d.data
