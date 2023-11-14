@@ -19,11 +19,17 @@
                     </CardHeader>
                 </div>
                 <div class="card-body" id="printme">
+                    <div class="flex flex-row w-full justify-between mb-3">
+                        <div></div>
+                        <div class="text-center">
+                            <strong><h2>IsDB-BISEW 4-Year Diploma Scholarship Program</h2></strong>
+                        </div>
+                        <div></div>
+                    </div>
                     <table class="table table-secondary border-0 print:border-0">
                         <thead class="border-0 print:border-0">
                         <tr class="border-0 print:border-0">
-                            <th :colspan="7+ (feeTypes != null ? feeTypes.length : 0)" rowspan="4" class="border-0 print:border-0">
-                                <strong style="text-align: right!important;">Annex - A</strong>
+                            <th :colspan="5+ (feeTypes != null ? feeTypes.length : 0)" rowspan="4" class="border-0 print:border-0">
                                 <div class="text-left" style="text-align: left">
                                     <table class="">
                                         <tbody class="">
@@ -36,19 +42,22 @@
                                             <td class="text-left px-6">{{ ordinal_suffix_of(basicInfo.semester) }}</td>
                                         </tr>
                                         <tr class="">
-                                            <th class="text-left pr-6">Invoice Date:</th>
+                                            <th class="text-left pr-6">Raised Date:</th>
                                             <td class="text-left px-6">{{ moment(basicInfo.invoice_date).format('DD MMM Y') }}</td>
                                         </tr>
                                         <tr class="" v-if="last_mma != 0">
-                                            <th class="text-left pr-6">MMA No.:</th>
+                                            <th class="text-left pr-6">MMA Number.:</th>
                                             <td class="text-left px-6">
-                                                {{ ordinal_suffix_of(basicInfo.invoice_no * basicInfo.semester) }}
+                                                {{ordinal_suffix_of(basicInfo.invoice_no)}} of {{ordinal_suffix_of(basicInfo.semester)}}, {{ basicInfo.invoice_no * basicInfo.semester }}/48
                                             </td>
                                         </tr>
                                         </tbody>
                                     </table>
 
                                 </div>
+                            </th>
+                            <th colspan="2">
+                                <h4>Annex - A</h4>
                             </th>
                         </tr>
                         </thead>
