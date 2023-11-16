@@ -96,6 +96,10 @@
                             <th class="text-center">{{totalInvoiceAmount()}}</th>
                             <th class="text-center"></th>
                         </tr>
+                        <tr style="border: 1px solid rgb(0,0,0)!important; color: black!important; font-weight: 600">
+                            <th colspan="2">In Words</th>
+                            <th :colspan="6+ (feeTypes != null ? feeTypes.length : 0)" class="total" style="text-align: right!important; border: 1px solid rgb(0,0,0)!important;">{{ number2wordEnglish(totalInvoiceAmount())}}</th>
+                        </tr>
                         </tbody>
                         <tfoot>
                         <tr class="border-0">
@@ -173,6 +177,7 @@ import Back from "@/Shared/Back";
 import Button from "@/Shared/Button";
 import PageHeader from "@/Shared/PageHeader.vue";
 import moment from "moment";
+import number2wordEnglish from "number2english_word";
 export default {
     name: "Invoice",
     computed: {
@@ -183,6 +188,7 @@ export default {
     props: ['can', 'errors', 'data', 'feeTypes', 'basicInfo', 'last_mma'],
     components: {PageHeader, Button, Back, CardHeader, Authenticated},
     methods: {
+        number2wordEnglish,
         search(params){
 
         },

@@ -823,9 +823,6 @@ select {
 .mt-8 {
   margin-top: 2rem;
 }
-.mb-2\.5 {
-  margin-bottom: 0.625rem;
-}
 .block {
   display: block;
 }
@@ -2634,9 +2631,6 @@ ol li {
   }
   .print\:pt-0 {
     padding-top: 0px;
-  }
-  .print\:text-right {
-    text-align: right;
   }
   .print\:text-sm {
     font-size: 0.875rem;
