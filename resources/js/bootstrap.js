@@ -26,6 +26,8 @@ window.Echo = new Echo({
     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
     forceTLS: true,
     wsHost: 'diploma-scoket.isdb-bisew.org',
-    wsPort: 443,
+    wsPort: 80,
+    wssPort: 443,
     disableStats: true,
+    enabledTransports: ['ws', 'wss']
 });
