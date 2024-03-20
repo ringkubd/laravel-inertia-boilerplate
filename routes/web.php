@@ -215,6 +215,8 @@ Route::delete('delete_message/{message}', [\App\Http\Controllers\SupportControll
 Route::get('config', [\App\Http\Controllers\SettingsController::class, 'index'])->name('config.index');
 Route::get('config/create', [\App\Http\Controllers\SettingsController::class, 'create'])->name('config.create');
 
+// Placement Status
+Route::resource('placement', \App\Http\Controllers\PlacementStatusController::class);
 
 // Blog
 Route::resource('post', \App\Http\Controllers\Blog\PostController::class);

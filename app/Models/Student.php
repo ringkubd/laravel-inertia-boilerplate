@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Traits\RecordsActivity;
 use Awobaz\Compoships\Compoships;
+use Awobaz\Compoships\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -169,13 +170,15 @@ class Student extends Model
     /**
      * @return HasOne
      */
-    public function madrasahResult(){
+    public function madrasahResult()
+    {
         return $this->hasOne(MadrasahResult::class);
     }
     /**
-     * @return HasOne
+     * @return \Awobaz\Compoships\Database\Eloquent\Relations\HasMany
      */
-    public function polytechnicResult(){
+    public function polytechnicResult()
+    {
         return $this->hasMany(Result::class);
     }
 
@@ -192,6 +195,11 @@ class Student extends Model
 
     public function paymentSlip(){
         return $this->hasMany(PaymentSlip::class, 'student_id', 'student_id');
+    }
+
+    public function placements(): \Awobaz\Compoships\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Placement::class);
     }
 
 }

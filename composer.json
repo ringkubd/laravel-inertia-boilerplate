@@ -8,7 +8,6 @@
         "php": "^8.0",
         "ext-openssl": "*",
         "ext-zip": "*",
-        "alimranahmed/laraocr": "^1.2",
         "anwar/auto-login": "dev-main",
         "anwar/config-editor": "dev-main",
         "awobaz/compoships": "^2.1",
