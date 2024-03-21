@@ -55,9 +55,10 @@ import Label from "@/Components/Label.vue";
 import Input from "@/Components/Input.vue";
 import {useForm} from "@inertiajs/inertia-vue3";
 import Button from "@/Shared/Button.vue";
+import Select2 from "@/Components/Select2.vue";
 export default {
     name: "Index",
-    components: {Button, Input, Label, Form, Back, PageHeader, Paginator, Actions, CardHeader, Authenticated},
+    components: {Select2, Button, Input, Label, Form, Back, PageHeader, Paginator, Actions, CardHeader, Authenticated},
     props: ['can', 'teachers'],
     data(){
         return {

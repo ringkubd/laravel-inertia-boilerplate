@@ -1,16 +1,19 @@
 <template>
+    <Head>
+        <title>Add New Placement</title>
+    </Head>
     <app-layout>
         <template #header>
-            <page-header>Add New Madrasa</page-header>
+            <page-header>Add New Placement</page-header>
         </template>
 
         <div class="container-fluid">
             <Form
                 :dbValue="dbValue"
-                :errors="errors"
                 :submitForm="submit"
                 :createForm="true"
                 :academic_sessions="academic_sessions"
+                :errors="$page.props.errors"
             />
         </div>
     </app-layout>
@@ -31,10 +34,12 @@ export default {
     },
     methods: {
         submit(formData){
-            this.$inertia.post('/madrasa', formData)
+            this.$inertia.post('/placement', formData)
         }
     },
     mounted() {
+    },
+    updated() {
     }
 }
 </script>

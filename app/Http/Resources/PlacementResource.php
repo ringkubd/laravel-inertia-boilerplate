@@ -14,6 +14,9 @@ class PlacementResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'final_result' => $this->final_result,
+        ];
     }
 }

@@ -69,10 +69,11 @@ import CardHeader from "@/Shared/CardHeader";
 import PageHeader from "@/Shared/PageHeader";
 import Actions from "@/Shared/Actions";
 import Paginator from "@/Components/Paginator";
+import Select2 from "@/Components/Select2.vue";
 export default {
     name: "Index",
     props: ['can', 'invoices', 'academic_sessions'],
-    components: {Paginator, Actions, PageHeader, CardHeader, Authenticated},
+    components: {Select2, Paginator, Actions, PageHeader, CardHeader, Authenticated},
     data(){
        return {
            search_form: {

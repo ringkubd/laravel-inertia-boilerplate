@@ -198,7 +198,7 @@ class ResultController extends Controller
             ->when($request->academic_session, function ($q, $v) {
                 $q->where('polytechnic_session', 'like', "%$v%");
             })
-            ->select('name as label', 'id as value')
+            ->select('name as label', 'id as value', 'id')
             ->polytechnic();
         if (auth()->user()->hasRole('Student')) {
             $students->where('users_id', auth()->user()->id);

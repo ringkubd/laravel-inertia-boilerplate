@@ -19,7 +19,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 form-label" for="session">Session</label>
                                     <div class="col-sm-9">
-                                        <select2 class="w-full" id="session" name="session" :options="academicSession" v-model="academic_session" @select="filter" />
+                                        <Select2 class="w-full" id="session" name="session" :options="academicSession" v-model="academic_session" @select="filter" />
                                     </div>
                                 </div>
                             </template>
@@ -73,9 +73,10 @@ import PageHeader from "@/Shared/PageHeader";
 import CardHeader from "@/Shared/CardHeader";
 import Actions from "@/Shared/Actions";
 import Paginator from "@/Components/Paginator";
+import Select2 from "@/Components/Select2.vue";
 export default {
     name: "Index",
-    components: {Paginator, Actions, CardHeader, PageHeader, Authenticated},
+    components: {Select2, Paginator, Actions, CardHeader, PageHeader, Authenticated},
     props: ['admissions', 'can', 'academicSession'],
     data(){
         return {

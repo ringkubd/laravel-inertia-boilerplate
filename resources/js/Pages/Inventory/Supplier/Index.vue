@@ -143,11 +143,13 @@ import { DataTable, TableBodyCell, TableHead, TableBody } from "@jobinsjp/vue3-d
 import "@jobinsjp/vue3-datatable/dist/style.css"
 import {useForm} from "@inertiajs/inertia-vue3";
 import Paginator from "@/Components/Paginator.vue";
+import Select2 from "@/Components/Select2.vue";
 
 export default {
     name: 'InventorySupplier',
     props: ['can', 'data', 'categories'],
     components: {
+        Select2,
         Paginator,
         Input,
         Button,
