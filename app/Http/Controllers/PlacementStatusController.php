@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\PlacementResource;
 use App\Models\AcademicSession;
 use App\Models\Employment;
 use App\Models\FurtherEducation;
 use App\Models\OtherPlacementStatus;
 use App\Models\Placement;
-use App\Models\Student;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
@@ -19,18 +18,29 @@ class PlacementStatusController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return Response
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
         $placements = Placement::query()
             ->with('status', 'student')
+            ->whereHas('student', function ($q) use ($request){
+                $user_madrasah = auth()->user()?->madrasha_id;
+                if ($user_madrasah){
+                    $q->where('madrasha_id', $user_madrasah);
+                }
+                $q->when($request->search, function ($q, $v){
+                    $q->where('name', 'like', "%$v%");
+                });
+            })
             ->latest()
             ->paginate(20);
         return Inertia::render('Placement/Index', [
             'placements' => $placements,
             'can' => [
-                'create' => true
+                'create' => true,
+                'delete' => true
             ]
         ]);
     }
@@ -53,9 +63,9 @@ class PlacementStatusController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function store(Request $request): \Illuminate\Http\RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'student_id' => 'required|exists:students,id',
@@ -156,10 +166,11 @@ class PlacementStatusController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
-    public function destroy($id)
+    public function destroy($id): RedirectResponse
     {
-        //
+        Placement::find($id)->delete();
+        return redirect()->route('placement.index')->withFlash('success', 'Successfully deleted.');
     }
 }
