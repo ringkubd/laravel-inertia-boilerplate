@@ -332,6 +332,13 @@
                                             >
                                                 Results
                                             </breeze-dropdown-link>
+                                            <breeze-dropdown-link
+                                                :href="route('placement.index')"
+                                                :active="route().current('placement.*')"
+                                                v-if="$page.props.menu_permission.polytechnic_student"
+                                            >
+                                                Placement
+                                            </breeze-dropdown-link>
                                         </template>
                                     </breeze-dropdown>
                                 </div>

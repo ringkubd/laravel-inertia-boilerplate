@@ -25,8 +25,14 @@ class PlacementStatusController extends Controller
     {
         $placements = Placement::query()
             ->with('status', 'student')
+            ->latest()
             ->paginate(20);
-        return Inertia::render('Placement/Index', compact('placements'));
+        return Inertia::render('Placement/Index', [
+            'placements' => $placements,
+            'can' => [
+                'create' => true
+            ]
+        ]);
     }
 
     /**
@@ -108,7 +114,7 @@ class PlacementStatusController extends Controller
                 ]);
                 break;
         }
-        return redirect()->back();
+        return redirect()->route('placement.index');
 
     }
 
