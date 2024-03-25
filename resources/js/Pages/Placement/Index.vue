@@ -25,6 +25,7 @@
                             <th scope="col" class="px-6 py-3 border">Name</th>
                             <th scope="col" class="px-6 py-3 border">Session</th>
                             <th scope="col" class="px-6 py-3 border">Present Status</th>
+                            <th scope="col" class="px-6 py-3 border">Present Status</th>
                             <th scope="col" class="px-6 py-3 border">Actions</th>
                         </tr>
                         </thead>
@@ -34,6 +35,52 @@
                             <td class="border text-left px-2">{{place.student?.name}}</td>
                             <td class="text-center border">{{place.student?.polytechnic_session}}</td>
                             <td class="border text-left px-2">{{currentStatus(place.present_status_type)}}</td>
+                            <td class="border text-left px-2">
+                                <table v-if="currentStatus(place.present_status_type) === 'Job'">
+                                    <tbody>
+                                    <tr>
+                                        <th>Organization: </th>
+                                        <td>{{place.present_status?.organization}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Salary: </th>
+                                        <td>{{place.present_status?.salary}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Location: </th>
+                                        <td>{{place.present_status?.location}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Position: </th>
+                                        <td>{{place.present_status?.position}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <table v-else-if="currentStatus(place.present_status_type) === 'Other'">
+                                    <tbody>
+                                    <tr>
+                                        <th>Note: </th>
+                                        <td>{{place.present_status?.note}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <table v-else>
+                                    <tbody>
+                                    <tr>
+                                        <th>Institute Name: </th>
+                                        <td>{{place.present_status?.institute_name}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Degree: </th>
+                                        <td>{{place.present_status?.degree}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Semester: </th>
+                                        <td>{{place.present_status?.semester}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </td>
                             <td class="text-center border"><Actions :can="can" :delete-url="route('placement.destroy', place.id)" /></td>
                         </tr>
                         </tbody>

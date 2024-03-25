@@ -19,7 +19,7 @@ class StudentsManagementController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index(Request $request)
