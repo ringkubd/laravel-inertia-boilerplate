@@ -23,6 +23,8 @@
                         <tr>
                             <th scope="col" class="px-6 py-3 border">Sl#</th>
                             <th scope="col" class="px-6 py-3 border">Name</th>
+                            <th scope="col" class="px-6 py-3 border">Madrasah</th>
+                            <th scope="col" class="px-6 py-3 border">Polytechnic</th>
                             <th scope="col" class="px-6 py-3 border">Session</th>
                             <th scope="col" class="px-6 py-3 border">Present Status</th>
                             <th scope="col" class="px-6 py-3 border">Present Status</th>
@@ -33,6 +35,8 @@
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" v-for="(place, index) in placements.data">
                             <td class="border text-left px-2">{{index + 1}}</td>
                             <td class="border text-left px-2">{{place.student?.name}}</td>
+                            <td class="border text-left px-2">{{place.student?.madrasha?.name}}</td>
+                            <td class="border text-left px-2">{{place.student?.polytechnic_info?.name}}</td>
                             <td class="text-center border">{{place.student?.polytechnic_session}}</td>
                             <td class="border text-left px-2">{{currentStatus(place.present_status_type)}}</td>
                             <td class="border text-left px-2">
