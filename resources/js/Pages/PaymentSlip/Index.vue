@@ -105,7 +105,7 @@
                             </tr>
                             </tbody>
                         </table>
-<!--                        <Paginator :paginator="payment_slip.meta" />-->
+                        <Paginator :paginator="payment_slip" />
                     </div>
                 </div>
             </div>
