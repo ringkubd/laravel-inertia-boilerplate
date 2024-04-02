@@ -151,7 +151,7 @@ import Back from "@/Shared/Back.vue";
 import axios from "axios";
 import Select2 from "@/Components/Select2.vue";
 import Input from "@/Components/Input.vue";
-import {useForm} from "@inertiajs/inertia-vue3";
+import {useForm} from "@inertiajs/vue3";
 export default {
     name: "add",
     components: {Input, Select2, Back},

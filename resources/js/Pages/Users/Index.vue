@@ -17,7 +17,7 @@
                         :can="can"
                     >
                         <template #second>
-                            <inertia-link as="button" type="button" :href="route('user_role.index')">
+                            <Link as="button" type="button" :href="route('user_role.index')">
                                 <jet-button type="submit" class="btn-primary">
                                     <font-awesome-icon
                                         icon="bars"
@@ -28,7 +28,7 @@
                                     </font-awesome-icon>
                                     User Roles
                                 </jet-button>
-                            </inertia-link>
+                            </Link>
                         </template>
                     </card-header>
                 </div>
@@ -75,7 +75,7 @@
                                             route('users.destroy', user.id)
                                         "
                                 >
-                                    <inertia-link as="button" class="group" type="button" :href="route('users.direct_permission', user.id)">
+                                    <Link as="button" class="group" type="button" :href="route('users.direct_permission', user.id)">
                                         <jet-button type="submit" class="bg-gradient-to-r text-black from-[#36AFAD] via-black-700 to-[#36C57F] animate-gradient-xy hover:shadow-lg group-hover:animate-pulse">
                                             <font-awesome-icon
                                                 icon="bars"
@@ -86,7 +86,7 @@
                                             </font-awesome-icon>
                                             Permissions
                                         </jet-button>
-                                    </inertia-link>
+                                    </Link>
                                 </Actions>
                             </td>
                         </tr>

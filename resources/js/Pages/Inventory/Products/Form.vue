@@ -268,8 +268,8 @@
 </template>
 <script>
 import Input from "@/Components/Input.vue";
-import {useForm} from "@inertiajs/inertia-vue3";
-import { Inertia } from '@inertiajs/inertia'
+import { useForm } from '@inertiajs/vue3'
+import { router } from '@inertiajs/vue3'
 import Button from "@/Shared/Button.vue";
 
 export default {
@@ -311,14 +311,14 @@ export default {
         },
         storeNewBrand(params){
             if (params.newTag){
-                Inertia.post(route('brand.store'), {
+                router.post(route('brand.store'), {
                     name: params.text
                 })
             }
         },
         storeNewCategory(params){
             if (params.newTag){
-                Inertia.post(route('category.store'), {
+                router.post(route('category.store'), {
                     name: params.text
                 })
             }

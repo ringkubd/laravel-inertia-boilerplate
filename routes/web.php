@@ -129,7 +129,7 @@ Route::get('admission_update', [\App\Http\Controllers\AdmissionController::class
 
 // Teacher Attendance
 
-Route::resource('teacher_attendance', \App\Http\Controllers\TeacherAttendanceController::class);
+Route::resource('teacher_attendances', \App\Http\Controllers\TeacherAttendanceController::class);
 
 Route::get('attendance_verify/{uid}/teacher', [\App\Http\Controllers\TeacherAttendanceController::class, 'verify'])->name('teacher_attendance.verify');
 

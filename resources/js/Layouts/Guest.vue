@@ -7,12 +7,12 @@
             <header id="top" class="w-full flex flex-col sm:relative bg-white pin-t pin-r pin-l">
                 <nav id="site-menu" class="flex flex-col sm:flex-row w-full justify-between items-center px-4 sm:px-6 py-1 bg-[#002147] shadow-lg mb-2 sm:shadow-none border-t-4 border-red-900 sticky top-0 z-50">
                     <div class="w-full sm:w-auto self-start sm:self-center flex flex-row sm:flex-none flex-no-wrap justify-between items-center">
-                        <inertia-link href="/">
+                        <Link href="/">
                             <breeze-application-logo class="w-20 h-20 fill-current text-gray-500" />
-                        </inertia-link>
-                        <inertia-link v-if="$page.props.auth.user" href="/dashboard" class="text-sm text-gray-700 underline ml-4">
+                        </Link>
+                        <Link v-if="$page.props.auth.user" href="/dashboard" class="text-sm text-gray-700 underline ml-4">
                             Dashboard
-                        </inertia-link>
+                        </Link>
                         <button id="menuBtn" class="hamburger block sm:hidden focus:outline-none" type="button" @click="navToggle">
                             <span class="hamburger__top-bun"></span><span class="hamburger__bottom-bun"></span>
                         </button>
@@ -31,10 +31,12 @@
 
 <script>
 import BreezeApplicationLogo from '@/Components/ApplicationLogo'
+import {Link} from "@inertiajs/vue3";
 
 export default {
     components: {
         BreezeApplicationLogo,
+        Link
     },
     props: [],
     methods: {

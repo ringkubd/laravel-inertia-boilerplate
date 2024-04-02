@@ -38,9 +38,9 @@
                             <th class="text-left">{{ m.name }}</th>
                             <td>{{ today }}</td>
                             <td>
-                                <InertiaLink :href="route('teacher_attendance.create', { 'date': today, 'madrasah': m.id })" v-if="(current_date == today && validDownloadTime()) || (m?.teacher_attendance?.length > 0 && permission)">
+                                <Link :href="route('teacher_attendance.create', { 'date': today, 'madrasah': m.id })" v-if="(current_date == today && validDownloadTime()) || (m?.teacher_attendance?.length > 0 && permission)">
                                     Download
-                                </InertiaLink>
+                                </Link>
                             </td>
                             <td>
                                 {{ m?.teacher_attendance[0]?.creator?.name }}
@@ -94,7 +94,7 @@ export default {
             return moment(timeString).fromNow()
         },
         chanDate(){
-            this.$inertia.replace(route('teacher_attendance.index', { date: this.today }))
+            this.$inertia.replace(route('teacher_attendances.index', { date: this.today }))
         },
         validDownloadTime(){
             const startTime = moment(this.download_valid_time.start, 'hh:mm')

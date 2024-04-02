@@ -12,9 +12,9 @@
                         <div class="flex">
                             <!-- Logo -->
                             <div class="flex flex-auto items-center">
-                                <inertia-link :href="route('dashboard')">
+                                <Link :href="route('dashboard')">
                                     <img src="/isdb-bisew.png" width="55" class="object-fill thumbnail animate-tilt" alt="">
-                                </inertia-link>
+                                </Link>
                             </div>
 
                             <!-- Navigation Links -->
@@ -254,7 +254,7 @@
                                                 Result's
                                             </breeze-dropdown-link>
                                             <breeze-dropdown-link
-                                                :href="route('teacher_attendance.index')"
+                                                :href="route('teacher_attendances.index')"
                                                 :active="route().current('madrasa.teacher_attendance.*')"
                                                 v-if="$page.props.menu_permission.teacher_attendance"
                                             >
@@ -909,7 +909,7 @@
                                         Result's
                                     </breeze-dropdown-link>
                                     <breeze-dropdown-link
-                                        :href="route('teacher_attendance.index')"
+                                        :href="route('teacher_attendances.index')"
                                         :active="route().current('madrasa.teacher_attendance.*')"
                                         v-if="$page.props.menu_permission.teacher_attendance"
                                     >
@@ -1277,9 +1277,9 @@
 
                 <div class="w-full mx-auto flex flex-wrap items-center">
                     <div class="flex flex-col w-full md:w-1/2 justify-center md:justify-start text-white font-extrabold">
-                        <InertiaLink class="text-gray-900 no-underline hover:text-gray-900 hover:no-underline" :href="route('post.index')">
+                        <Link class="text-gray-900 no-underline hover:text-gray-900 hover:no-underline" :href="route('post.index')">
                             <span class="text-base">Blog</span>
-                        </InertiaLink>
+                        </Link>
                         <a class="text-gray-900 no-underline hover:text-gray-900 hover:no-underline w-20" href='https://play.google.com/store/apps/details?id=com.ringkubd.diploma_student&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'>
                             <img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/>
                         </a>
@@ -1287,7 +1287,7 @@
                     <div class="flex w-full pt-2 content-center justify-between md:w-1/2 md:justify-end">
                         <ul class="list-reset flex justify-center flex-col md:flex-1 md:flex-none items-center">
                             <li>
-                                <InertiaLink class="inline-block py-2 px-3 no-underline" :href="route('dashboard')">Home</InertiaLink>
+                                <Link class="inline-block py-2 px-3 no-underline" :href="route('dashboard')">Home</Link>
                             </li>
                             <li>
                                 <a class="inline-block text-gray-600 no-underline hover:text-gray-200 hover:underline py-2 px-3" target="_blank" href="https://isdb-bisew.org">IsDB-BISEW</a>

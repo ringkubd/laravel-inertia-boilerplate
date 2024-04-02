@@ -31,18 +31,18 @@
                                 <td>{{post.title}}</td>
                                 <td>{{post.slug}}</td>
                                 <td>
-                                    <inertia-link v-for="category in post.categories" type="button" :href="route('category.show', 1)">
+                                    <Link v-for="category in post.categories" type="button" :href="route('category.show', 1)">
                                         <jet-button type="submit" class="btn btn-sm btn-success mr-1 p-0 rounded">
                                             {{category.title}}
                                         </jet-button>
-                                    </inertia-link>
+                                    </Link>
                                 </td>
                                 <td>
-                                    <inertia-link v-for="tag in post.tags" type="button" :href="route('category.show', 1)">
+                                    <Link v-for="tag in post.tags" type="button" :href="route('category.show', 1)">
                                         <jet-button type="submit" class="btn btn-sm mr-1 p-0 btn-success rounded">
                                             {{tag.title}}
                                         </jet-button>
-                                    </inertia-link>
+                                    </Link>
                                 </td>
                                 <td>
                                     <img v-if="post.thumbnail" :src="post.thumbnail"  width="50" :alt="post.title">

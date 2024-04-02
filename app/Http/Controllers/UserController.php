@@ -18,11 +18,15 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $users = User::when($request->search, function ($q, $v){
-            $q->where('name', 'like', "%{$v}%");
-        })->with(['roles' => function($q){
-            $q->select('name');
-        }])->paginate();
+        $users = User::query()
+            ->when($request->search, function ($q, $v){
+                $q->where('name', 'like', "%{$v}%");
+            })
+            ->with(['roles' => function($q){
+                $q->select('name');
+            }])
+            ->with('madrasah', 'student_madrasah', 'roles')
+            ->paginate();
 
         $this->authorize('view_users');
         return Inertia::render('Users/Index', [

@@ -107,11 +107,11 @@
                                     <TableBody v-text="row.contact_number" />
                                     <TableBody v-text="row.address" />
                                     <TableBody>
-                                        <InertiaLink
+                                        <Link
                                             :href="route('supplier.destroy', row.id)"
                                             method="DELETE"
                                             class="p-2 rounded backdrop-blur-2xl bg-[#36AFAD] no-underline text-black"
-                                        >Delete</InertiaLink>
+                                        >Delete</Link>
                                     </TableBody>
                                 </template>
 
@@ -141,7 +141,7 @@ import Input from "@/Components/Input.vue";
 
 import { DataTable, TableBodyCell, TableHead, TableBody } from "@jobinsjp/vue3-datatable"
 import "@jobinsjp/vue3-datatable/dist/style.css"
-import {useForm} from "@inertiajs/inertia-vue3";
+import {useForm} from "@inertiajs/vue3";
 import Paginator from "@/Components/Paginator.vue";
 import Select2 from "@/Components/Select2.vue";
 

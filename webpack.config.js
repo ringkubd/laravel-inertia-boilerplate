@@ -15,6 +15,8 @@ module.exports = {
             },
         ],
     },
+    plugins: [
+    ],
     optimization: {
         minimizer: [
             "...",

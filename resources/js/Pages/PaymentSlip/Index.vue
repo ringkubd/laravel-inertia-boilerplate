@@ -68,14 +68,14 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="(slip, index) in payment_slip">
+                            <tr v-for="(slip, index) in payment_slip.data">
                                 <td>{{ index + 1 }}</td>
                                 <td>{{ slip.student?.name }}</td>
                                 <td>{{ slip.semester }} Semester</td>
                                 <td>{{ slip.fee_type }}</td>
                                 <td>{{ slip.amount }}</td>
                                 <td>
-                                    <vue-picture-swipe v-if="slip.attachments?.length !== 0" :items="imageItems(slip.attachments)" />
+                                    <vue-picture-swipe v-if="slip.attachments?.length" :items="imageItems(slip.attachments)" />
                                     <p class="p-0 m-0 text-red-700" v-else>N</p>
                                 </td>
                                 <td>
@@ -105,6 +105,7 @@
                             </tr>
                             </tbody>
                         </table>
+<!--                        <Paginator :paginator="payment_slip.meta" />-->
                     </div>
                 </div>
             </div>
@@ -118,10 +119,12 @@ import PageHeader from "@/Shared/PageHeader";
 import CardHeader from "@/Shared/CardHeader";
 import Actions from "@/Shared/Actions";
 import Button from "@/Shared/Button";
+import Paginator from "@/Components/Paginator.vue";
 export default {
     name: "Index",
     props: ['payment_slip', 'can', 'trades', 'academic_session'],
     components: {
+        Paginator,
         Button,
         Actions,
         CardHeader,
@@ -189,6 +192,9 @@ export default {
                     return "Rejected"
             }
         }
+    },
+    mounted() {
+        console.log(this.payment_slip)
     }
 }
 </script>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PaymentSlipBasicResource;
 use App\Models\AcademicSession;
 use App\Models\ClassRoom;
 use App\Models\PaymentSlip;
@@ -18,7 +19,7 @@ class PaymentSlipController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function index(Request $request)
     {
@@ -98,7 +99,7 @@ class PaymentSlipController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\PaymentSlip  $paymentSlip
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(PaymentSlip $paymentSlip)
     {
@@ -147,9 +148,9 @@ class PaymentSlipController extends Controller
 
     /**
      * @param Request $request
-     * @return array|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function getCollection(Request $request)
+    public function getCollection(Request $request): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
         return PaymentSlip::query()
             ->with(['student'])
@@ -171,6 +172,6 @@ class PaymentSlipController extends Controller
             ->has('student')
             ->with('attachments')
             ->orderBy('created_at')
-            ->get();
+            ->paginate();
     }
 }

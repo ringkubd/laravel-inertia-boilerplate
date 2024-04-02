@@ -9,7 +9,7 @@
         <template #default>
             <div class="flex justify-content-center">
                 <div>
-                    <InertiaLink :href="route('note_sheet.index')"><button class="btn btn-success">Back</button></InertiaLink>
+                    <Link :href="route('note_sheet.index')"><button class="btn btn-success">Back</button></Link>
                     <button v-print="printObj" class="btn btn-success">Print</button>
                     <div id="loading" v-show="printLoading"></div>
                 </div>

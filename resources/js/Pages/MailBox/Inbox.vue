@@ -13,7 +13,7 @@
                     <div class="card-body chat overflow-scroll" style="height: 58vh!important;">
                         <ul class="p-0.5 chat">
                             <li class="border-blue-100 border pl-1.5 mb-1.5 font-bold bg-blend-color hover:bg-green-200 shadow cursor-pointer" :key="index" v-for="(mail, index) in mails.data" @click="mailDetailsF(mail)">
-                                <InertiaLink class="no-underline text-black block" :href="route('mail.details', mail.id)">
+                                <Link class="no-underline text-black block" :href="route('mail.details', mail.id)">
                                 <span class="font-extralight text-green-800" v-if="mail.seen_at === null">
                                     <font-awesome-icon
                                         icon="dot-circle"
@@ -31,7 +31,7 @@
                                     <span class="rounded-full animate-pulse overflow-scroll w-5 font-thin font-extralight text-blue-700" style="font-size: .7em">
 
                                 </span>
-                                </InertiaLink>
+                                </Link>
                             </li>
                         </ul>
                     </div>

@@ -1,14 +1,14 @@
 <template>
     <div class="pt-0 flex flex-col md:flex-row">
         <div class="w-full md:w-1/12 flex-initial" v-if="create">
-            <inertia-link type="button" as="button" class="btn bg-gradient-to-r from-[#36AFAD] to-[#36C57F]" :href="create" v-if="can.create && create">
+            <Link type="button" as="button" class="btn bg-gradient-to-r from-[#36AFAD] to-[#36C57F]" :href="create" v-if="can.create && create">
                 <font-awesome-icon
                     icon="plus"
                     size="md"
                     rotation="rotate"
                 ></font-awesome-icon>
                 Add
-            </inertia-link>
+            </Link>
         </div>
         <div class="w-full md:w-3/12 flex-initial">
             <slot name="first"></slot>

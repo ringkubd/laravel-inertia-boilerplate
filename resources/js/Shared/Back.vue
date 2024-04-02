@@ -1,6 +1,6 @@
 <template>
     <div>
-        <inertia-link class="no-underline" :href="backUrl">
+        <Link class="no-underline" :href="backUrl">
             <jet-button class="text-black bg-gradient-to-r from-[#36AFAD] to-[#36C57F]">
                 <font-awesome-icon
                     icon="backward"
@@ -10,7 +10,7 @@
                 ></font-awesome-icon>
                 <span class="text-black"> Back</span>
             </jet-button>
-        </inertia-link>
+        </Link>
     </div>
 </template>
 

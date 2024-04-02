@@ -1,11 +1,15 @@
 <template>
-    <inertia-link :class="classes">
+    <Link :class="classes">
         <slot />
-    </inertia-link>
+    </Link>
 </template>
 <script>
+import { Link } from '@inertiajs/vue3'
 export default {
     props: ['active'],
+    components: {
+        Link
+    },
     computed: {
         classes() {
             return this.active

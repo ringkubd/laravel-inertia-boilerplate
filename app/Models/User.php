@@ -46,7 +46,7 @@ class User extends Authenticatable
     protected static function booted()
     {
         static::addGlobalScope("relation", function (Builder $builder){
-            $builder->with('madrasah', 'student','teacher', 'roles', 'student_madrasah');
+//            $builder->with('madrasah', 'student','teacher', 'roles', 'student_madrasah');
         });
     }
 

@@ -46,7 +46,7 @@
                                         "
                                         :can="can"
                                     >
-                                        <inertia-link as="button" type="button" :href="route('roles.permissions', role.id)">
+                                        <Link as="button" type="button" :href="route('roles.permissions', role.id)">
                                             <jet-button type="submit" class="btn-secondary">
                                                 <font-awesome-icon
                                                     icon="bars"
@@ -56,7 +56,7 @@
                                                 </font-awesome-icon>
                                                 Permissions
                                             </jet-button>
-                                        </inertia-link>
+                                        </Link>
                                     </Actions>
                                 </td>
                             </tr>

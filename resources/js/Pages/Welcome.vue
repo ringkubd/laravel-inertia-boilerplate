@@ -9,24 +9,24 @@
                 <div class="sm:hidden md:flex justify-between">
                     <div class="sm:hidden md:flex space-x-7">
                         <!--Website Logo-->
-                        <inertia-link :href="route('dashboard')" class="hidden md:flex text-sm text-white underline mb-2">
+                        <Link :href="route('dashboard')" class="hidden md:flex text-sm text-white underline mb-2">
                             <ApplicationLogo />
-                        </inertia-link>
+                        </Link>
                     </div>
                     <div class="hidden md:flex items-center space-x-7">
                         <div v-if="canLogin" class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
-                            <inertia-link v-if="$page.props.auth.user" href="/dashboard" class="text-sm text-white underline">
+                            <Link v-if="$page.props.auth.user" href="/dashboard" class="text-sm text-white underline">
                                 Dashboard
-                            </inertia-link>
+                            </Link>
 
                             <template v-else>
-                                <inertia-link :href="route('login')" class="text-sm text-white underline">
+                                <Link :href="route('login')" class="text-sm text-white underline">
                                     Log in
-                                </inertia-link>
+                                </Link>
 
-                                <inertia-link v-if="canRegister" :href="route('register')" class="ml-4 text-sm text-white underline">
+                                <Link v-if="canRegister" :href="route('register')" class="ml-4 text-sm text-white underline">
                                     Register
-                                </inertia-link>
+                                </Link>
                             </template>
                         </div>
                     </div>
@@ -87,14 +87,14 @@
                             </svg>
                             <span class="tab tab-whishlist block text-xs">Whishlist</span>
                         </a>
-                        <InertiaLink :href="route('login')" class="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1">
+                        <Link :href="route('login')" class="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1">
                             <svg xmlns="http://www.w3.org/2000/svg" class="inline-block mb-1 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
                             </svg>
                             <span class="tab tab-account block text-xs">
-                                <InertiaLink :href="route('login')">Login</InertiaLink>
+                                <Link :href="route('login')">Login</Link>
                             </span>
-                        </InertiaLink>
+                        </Link>
                     </div>
                 </section>
             </div>

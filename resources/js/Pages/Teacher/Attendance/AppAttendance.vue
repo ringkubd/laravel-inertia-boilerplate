@@ -19,9 +19,9 @@
                             </div>
                         </template>
                         <template #third>
-                            <InertiaLink :href="route('monthly_attendance')" class="no-underline justify-center items-end">
+                            <Link :href="route('monthly_attendance')" class="no-underline justify-center items-end">
                                 <Button class="bg-blend-color bg-primary">Monthly</Button>
-                            </InertiaLink>
+                            </Link>
                         </template>
                     </CardHeader>
                 </div>
@@ -77,8 +77,8 @@
                             </th>
                             <td>
                                 <div class="flex space-x-7">
-                                    <InertiaLink v-if="att.attendanceLogOneDay" :href="route('app_attendance.show', att.attendanceLogOneDay?.id)">Login Loc.</InertiaLink>
-                                    <InertiaLink v-if="att.attendanceLogOneDay && att.attendanceLogOneDay.logout" :href="route('logoutLocation', att.attendanceLogOneDay?.id)">Logout Loc.</InertiaLink>
+                                    <Link v-if="att.attendanceLogOneDay" :href="route('app_attendance.show', att.attendanceLogOneDay?.id)">Login Loc.</Link>
+                                    <Link v-if="att.attendanceLogOneDay && att.attendanceLogOneDay.logout" :href="route('logoutLocation', att.attendanceLogOneDay?.id)">Logout Loc.</Link>
                                 </div>
                             </td>
                         </tr>

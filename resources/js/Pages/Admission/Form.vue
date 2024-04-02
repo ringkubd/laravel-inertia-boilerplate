@@ -174,7 +174,7 @@
 <script>
 import Authenticated from "@/Layouts/Authenticated";
 import Multiselect from '@vueform/multiselect'
-import {useForm} from "@inertiajs/inertia-vue3";
+import {useForm} from "@inertiajs/vue3";
 export default {
     name: "Form",
     props: ['can', 'students', 'createForm', 'errors', 'createForm', 'trades', 'sessions', 'polytechnic', 'submitForm'],

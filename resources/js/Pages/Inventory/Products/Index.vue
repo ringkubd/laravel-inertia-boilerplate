@@ -11,9 +11,9 @@
                 <div class="card-header">
                     <CardHeader :can="can" :search-method="search">
                         <template #first>
-                            <InertiaLink :href="route('product.create')">
+                            <Link :href="route('product.create')">
                                 <Button>Create</Button>
-                            </InertiaLink>
+                            </Link>
                         </template>
                     </CardHeader>
                 </div>
@@ -57,15 +57,15 @@
                                     <TableBody v-text="row.status ? 'Active' : 'Inactive'" />
                                     <TableBody>
                                         <div class="flex flex-row space-x-0.5">
-                                            <InertiaLink :href="route('product.edit', row.id)">
+                                            <Link :href="route('product.edit', row.id)">
                                                 <Button class="backdrop-blur bg-amber-600">Edit</Button>
-                                            </InertiaLink>
-                                            <InertiaLink :href="route('product.destroy', row.id)" method="DELETE">
+                                            </Link>
+                                            <Link :href="route('product.destroy', row.id)" method="DELETE">
                                                 <Button class="backdrop-blur bg-red-600">Delete</Button>
-                                            </InertiaLink>
-                                            <InertiaLink :href="route('product.disable', row.id)" method="PUT">
+                                            </Link>
+                                            <Link :href="route('product.disable', row.id)" method="PUT">
                                                 <Button :class="row.status ? 'bg-amber-800' : 'bg-blue-600'">{{row.status ? 'Disable': 'Active'}}</Button>
-                                            </InertiaLink>
+                                            </Link>
                                         </div>
 
                                     </TableBody>

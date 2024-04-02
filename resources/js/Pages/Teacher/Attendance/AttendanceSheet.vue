@@ -11,7 +11,7 @@
                 <div class="card-header">
                     <CardHeader :can="can">
                         <template #first>
-                            <Back :back-url="route('teacher_attendance.index')"></Back>
+                            <Back :back-url="route('teacher_attendances.index')"></Back>
                         </template>
                         <template #second>
                             <Button class="btn btn-success" @click="print">Print</Button>

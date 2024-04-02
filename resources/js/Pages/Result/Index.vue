@@ -110,9 +110,9 @@
                                 {{index + 1}}
                             </td>
                             <td>
-                                <InertiaLink :href="route('madrasa.student.show', result.id)">
+                                <Link :href="route('madrasa.student.show', result.id)">
                                     {{result.name}}
-                                </InertiaLink>
+                                </Link>
                             </td>
                             <td>
                                 {{ result?.polytechnic?.name }}
@@ -162,7 +162,7 @@
                             <td>
                                 <ul class="list-group list-group-flush">
                                     <li class="list-item" v-for="failed_in_subject in result.results">
-                                        <inertia-link
+                                        <Link
                                             method="DELETE"
                                             as="button"
                                             type="button"
@@ -177,7 +177,7 @@
                                                 class="text-danger"
                                             ></font-awesome-icon>
                                             <!--                                        </jet-button>-->
-                                        </inertia-link>
+                                        </Link>
                                     </li>
                                 </ul>
                             </td>

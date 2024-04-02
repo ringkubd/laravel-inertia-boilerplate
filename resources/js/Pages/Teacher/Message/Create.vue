@@ -53,7 +53,7 @@ import Back from "@/Shared/Back.vue";
 import Form from "@/Pages/Blog/Admin/Post/Form.vue";
 import Label from "@/Components/Label.vue";
 import Input from "@/Components/Input.vue";
-import {useForm} from "@inertiajs/inertia-vue3";
+import {useForm} from "@inertiajs/vue3";
 import Button from "@/Shared/Button.vue";
 import Select2 from "@/Components/Select2.vue";
 export default {

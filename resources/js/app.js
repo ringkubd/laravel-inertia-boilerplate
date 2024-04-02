@@ -2,8 +2,7 @@ require("./bootstrap");
 
 // Import modules...
 import { createApp, h } from "vue";
-import { createInertiaApp } from "@inertiajs/inertia-vue3";
-import { InertiaProgress } from "@inertiajs/progress";
+import {createInertiaApp, Head, Link} from '@inertiajs/vue3';
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import VuePictureSwipe from 'vue-picture-swipe';
 import VueHtmlToPaper from './Plugins/Print/VueHtmlToPaper'
@@ -48,9 +47,9 @@ const appName = window.document.getElementsByTagName('title')[0]?.innerText || '
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) => require(`./Pages/${name}`),
-    setup({ el, app, props, plugin }) {
+    setup({ el, App, props, plugin }) {
         createApp({
-            render: () => h(app, props),
+            render: () => h(App, props),
         })
             .mixin({
                 methods: {
@@ -70,8 +69,11 @@ createInertiaApp({
             })
             .component("font-awesome-icon", FontAwesomeIcon)
             .component('vue-picture-swipe', VuePictureSwipe)
+            .component('Head', Head)
+            .component('Link', Link)
             .mount(el);
     },
+    progress: {
+        color: '#29d',
+    },
 });
-
-InertiaProgress.init({ color: "red" });

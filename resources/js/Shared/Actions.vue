@@ -1,6 +1,6 @@
 <template>
     <div class="flex justify-center">
-        <inertia-link
+        <Link
             as="button"
             type="button"
             :href="editUrl"
@@ -15,9 +15,9 @@
                     class="text-white"
                 ></font-awesome-icon>
             </jet-button>
-        </inertia-link>
+        </Link>
 
-        <inertia-link
+        <Link
             as="button"
             type="button"
             :href="detailUrl"
@@ -33,9 +33,9 @@
                     class="text-info"
                 ></font-awesome-icon>
             </jet-button>
-        </inertia-link>
+        </Link>
 
-        <inertia-link
+        <Link
             method="DELETE"
             as="button"
             type="button"
@@ -51,7 +51,7 @@
                     class="text-red-600"
                 ></font-awesome-icon>
             </jet-button>
-        </inertia-link>
+        </Link>
         <slot></slot>
     </div>
 </template>

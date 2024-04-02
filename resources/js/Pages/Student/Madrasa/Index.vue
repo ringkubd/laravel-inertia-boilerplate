@@ -83,9 +83,9 @@
                                 <img v-if="student.photo" :src="'/'+student.photo" width="50" :alt="student.name">
                             </td>
                             <td class="text-left">
-                                <InertiaLink :href="route('madrasa.student.show', student.id)">
+                                <Link :href="route('madrasa.student.show', student.id)">
                                     {{student.name}}
-                                </InertiaLink>
+                                </Link>
                             </td>
                             <td>
                                 {{ student.student_id }}

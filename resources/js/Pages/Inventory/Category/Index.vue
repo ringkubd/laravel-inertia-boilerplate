@@ -60,7 +60,7 @@
                                     <TableBody v-text="row.name" />
                                     <TableBody class="max-w-md" v-text="row.details" />
                                     <TableBody>
-                                        <InertiaLink :href="route('category.destroy', row.id)" method="DELETE">Delete</InertiaLink>
+                                        <Link :href="route('category.destroy', row.id)" method="DELETE">Delete</Link>
                                     </TableBody>
                                 </template>
 
@@ -90,7 +90,7 @@ import Input from "@/Components/Input.vue";
 
 import { DataTable, TableBodyCell, TableHead, TableBody } from "@jobinsjp/vue3-datatable"
 import "@jobinsjp/vue3-datatable/dist/style.css"
-import {useForm} from "@inertiajs/inertia-vue3";
+import {Head, useForm} from "@inertiajs/vue3";
 import Paginator from "@/Components/Paginator.vue";
 
 export default {
@@ -107,7 +107,8 @@ export default {
         DataTable,
         TableBodyCell,
         TableHead,
-        TableBody
+        TableBody,
+        Head
     },
     data(){
         return {

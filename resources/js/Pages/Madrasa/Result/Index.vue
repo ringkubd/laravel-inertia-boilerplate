@@ -36,9 +36,9 @@
                         <tr v-for="(result, index) in results.data" :key="result.id">
                             <td>{{ index + 1 }}</td>
                             <td class="text-left">
-                                <InertiaLink :href="route('madrasa.student.show', result.student_id)">
+                                <Link :href="route('madrasa.student.show', result.student_id)">
                                     {{ result.student?.name }}
-                                </InertiaLink>
+                                </Link>
                             </td>
                             <td>{{ result.student?.ssc_session }}</td>
                             <td class="text-left">{{ result?.student?.madrasa_trade_id }}</td>

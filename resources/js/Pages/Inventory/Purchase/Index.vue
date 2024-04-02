@@ -118,7 +118,7 @@
                                     <TableBody v-text="row.total_price" />
                                     <TableBody v-text="row.purchase_date" />
                                     <TableBody>
-                                        <InertiaLink :href="route('purchase.destroy', row.id)" method="DELETE">Delete</InertiaLink>
+                                        <Link :href="route('purchase.destroy', row.id)" method="DELETE">Delete</Link>
                                     </TableBody>
                                 </template>
 
@@ -148,7 +148,7 @@ import Input from "@/Components/Input.vue";
 
 import { DataTable, TableBodyCell, TableHead, TableBody } from "@jobinsjp/vue3-datatable"
 import "@jobinsjp/vue3-datatable/dist/style.css"
-import {useForm} from "@inertiajs/inertia-vue3";
+import {useForm} from "@inertiajs/vue3";
 import Paginator from "@/Components/Paginator.vue";
 import Select2 from "@/Components/Select2.vue";
 
