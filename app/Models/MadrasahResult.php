@@ -59,15 +59,18 @@ class MadrasahResult extends Model
     }
 
 
-    public function student(){
+    public function student(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
         return $this->belongsTo(Student::class);
     }
 
-    public function addedBy(){
+    public function addedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
         return $this->belongsTo(User::class, 'added_by');
     }
 
-    public function approvedBy(){
+    public function approvedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
         return $this->belongsTo(User::class, 'approved_by');
     }
 

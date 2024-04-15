@@ -170,16 +170,16 @@ class Student extends Model
     /**
      * @return HasOne
      */
-    public function madrasahResult()
+    public function madrasahResult(): HasOne
     {
-        return $this->hasOne(MadrasahResult::class);
+        return $this->hasOne(MadrasahResult::class)->with('addedBy.roles', 'approvedBy.roles');
     }
     /**
      * @return \Awobaz\Compoships\Database\Eloquent\Relations\HasMany
      */
     public function polytechnicResult()
     {
-        return $this->hasMany(Result::class);
+        return $this->hasMany(Result::class)->with('addedBy.roles', 'approvedBy.roles');
     }
 
     /**

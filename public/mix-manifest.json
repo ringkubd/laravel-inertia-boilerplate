@@ -1,7 +1,7 @@
 {
-    "/js/app.js": "/js/app.js?id=dee8d73aef0aa6f39a99417bfd98d557",
-    "/css/attendance_print.css": "/css/attendance_print.css?id=409caa3c6a3bf0dfed22e82d58dbbd3d",
-    "/css/custom_print.css": "/css/custom_print.css?id=d401a845fe07260ab0377b3cef67a1f4",
-    "/css/app.css": "/css/app.css?id=36f249a5cf1e2fee8947dcc7cf59f7c5",
-    "/css/chat.css": "/css/chat.css?id=43656010e4b79069e48151b5dff8612f"
+    "/js/app.js": "/js/app.js",
+    "/css/attendance_print.css": "/css/attendance_print.css",
+    "/css/custom_print.css": "/css/custom_print.css",
+    "/css/app.css": "/css/app.css",
+    "/css/chat.css": "/css/chat.css"
 }

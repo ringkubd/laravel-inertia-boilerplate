@@ -9,7 +9,7 @@
         "ext-openssl": "*",
         "ext-zip": "*",
         "anwar/auto-login": "dev-main",
-        "anwar/config-editor": "dev-master",
+        "anwar/config-editor": "dev-main",
         "awobaz/compoships": "^2.1",
         "barryvdh/laravel-dompdf": "^0.9.0",
         "beyondcode/laravel-websockets": "^1.13",

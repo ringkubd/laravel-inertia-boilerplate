@@ -233,12 +233,13 @@ class StudentsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return \Inertia\Response
      */
-    public function show($id)
+    public function show(int $id): \Inertia\Response
     {
         $student = Student::with('madrasahResult', 'polytechnicResult', 'classroom', 'madrasha', 'polytechnic', 'users')->find($id);
+//        dd($student);
         if(auth()->user()->hasRole('Student') && $student->users_id != auth()->user()->id){
             abort(403);
         }
