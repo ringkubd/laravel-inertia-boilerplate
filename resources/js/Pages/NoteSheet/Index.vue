@@ -61,6 +61,7 @@
                             </tr>
                             </tbody>
                         </table>
+                        <Paginator :paginator="note_sheet" />
                     </div>
                 </div>
             </div>
@@ -76,10 +77,11 @@ import Label from "@/Components/Label";
 import Button from "@/Shared/Button";
 import Actions from "@/Shared/Actions";
 import NavLink from "@/Components/NavLink";
+import Paginator from "@/Components/Paginator.vue";
 export default {
     name: "Index",
     props: ['note_sheet', 'can'],
-    components: {NavLink, Actions, Button, Label, CardHeader, PageHeader, Authenticated}
+    components: {Paginator, NavLink, Actions, Button, Label, CardHeader, PageHeader, Authenticated}
 }
 </script>
 
