@@ -121,7 +121,28 @@ class PaymentSlipController extends Controller
     }
 
     public function downloadAll(Request $request){
-        $slips = $this->getCollection($request)->where('status', 1);
+        $slips = PaymentSlip::query()
+            ->with(['student'])
+            ->when($request->current_session, function ($q, $v) use ($request) {
+                $q->whereHas('student', function ($q) use ($request) {
+                    $q->where('polytechnic_session', $request->current_session);
+                });
+            })
+            ->when($request->semester, function ($q, $v) {
+                $q->where('semester', $v);
+            })
+            ->when($request->search, function ($q, $v) {
+                $q->whereHas('student', function ($q) use ($v) {
+                    $q->where('name', 'like', "%$v%");
+                });
+                $q->orWhere('semester', $v);
+            })
+
+            ->has('student')
+            ->with('attachments')
+            ->orderBy('created_at')
+            ->where('status', 1)
+            ->get();
         if ($slips->count() > 0){
             $zip = new ZipArchive();
             $rand = rand(9999, 111111);
