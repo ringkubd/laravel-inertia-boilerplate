@@ -19,7 +19,7 @@ class SupportMessageResource extends JsonResource
             'message' => $this->message,
             'sender' => $this->whosend,
             'support_conversation_id' => $this->support_conversation_id,
-            'conversation' => $this->conversation,
+//            'conversation' => $this->conversation,
             'attachment' => $this->attachment,
             'attachment_type' => $this->attachment_type,
             'seen_at' => $this->seen_at,

@@ -1939,6 +1939,9 @@ select {
 .font-thin {
   font-weight: 100;
 }
+.font-light {
+  font-weight: 300;
+}
 .uppercase {
   text-transform: uppercase;
 }
@@ -1962,6 +1965,12 @@ select {
 }
 .leading-tight {
   line-height: 1.25;
+}
+.leading-3 {
+  line-height: .75rem;
+}
+.leading-6 {
+  line-height: 1.5rem;
 }
 .tracking-normal {
   letter-spacing: 0em;
@@ -2966,6 +2975,10 @@ ol li {
   }
   .print\:mt-10 {
     margin-top: 2.5rem;
+  }
+  .print\:break-after-all {
+    -moz-column-break-after: all;
+         break-after: all;
   }
   .print\:border-0 {
     border-width: 0px;

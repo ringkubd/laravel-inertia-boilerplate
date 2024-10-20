@@ -157,4 +157,8 @@ ul#note li:before {
 li{
     list-style-type: '*'!important;
 }
+.page-break{
+    -moz-column-break-after: page;
+         break-after: page;
+}
 

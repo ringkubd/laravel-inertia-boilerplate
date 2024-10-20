@@ -164,6 +164,58 @@
                         </tr>
                         </tbody>
                     </table>
+                    <div class="page-break mt-5 print:break-after-all"></div>
+                    <div class="flex flex-col leading-6">
+                        <div class="flex flex-row space-x-2">
+                            <div>Date:</div>
+                            <div>{{ moment().format('DD MMM Y') }}</div>
+                        </div>
+                        <div class="flex flex-row mb-2 space-x-2">
+                            <div>Ref:</div>
+                            <div></div>
+                        </div>
+                        <div>The Manager</div>
+                        <div>Islami Bank Bangladesh Ltd.</div>
+                        <div>Agargaon Branch</div>
+                        <div>Sher-e-Bangla Nagar</div>
+                        <div>Dhaka-1207</div>
+                        <div class="flex flex-col my-2">
+                            <div class="mb-3">Dear Sir,</div>
+                            <div>You are requested to kindly transfer the amount as mentioned below against the name of the student to his/her personal account with you from the current A/C no. 20502240100000115 of IsDB-BISEW.</div>
+                        </div>
+                    </div>
+                    <table class="table table-auto w-full">
+                        <thead class="border-1 print:border-1">
+                        <tr class="align-middle border-1 print:border-1" style="background-color: #e0d5d5!important;">
+                            <th>Sl.#</th>
+                            <th>Name</th>
+                            <th>IBBL Branch</th>
+                            <th>IBBL Account</th>
+                            <th>Amount</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="(invoice, index) in data.filter(i => i.amount > 0)" class="border-1">
+                            <td class="text-center">{{ index + 1 }}</td>
+                            <td>{{ invoice.student_name }}</td>
+                            <td>{{ invoice.bank_branch }}</td>
+                            <td>{{ invoice.bank_account }}</td>
+                            <td class="text-center">{{invoice.amount}}</td>
+                        </tr>
+                        <tr style="border: 1px solid rgb(0,0,0)!important; color: black!important; font-weight: 600">
+                            <th :colspan="4" class="total" style="text-align: center!important; border: 1px solid rgb(0,0,0)!important;">Total Amount</th>
+                            <th class="text-center">{{totalInvoiceAmount()}}</th>
+                        </tr>
+                        <tr style="border: 1px solid rgb(0,0,0)!important; color: black!important; font-weight: 600">
+                            <th :colspan="5" class="total" style="text-align: center!important; border: 1px solid rgb(0,0,0)!important;">In Words (Taka): {{ number2wordEnglish(totalInvoiceAmount())}}</th>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="flex flex-col leading-6">
+                        <div class="mt-2 mb-6">Thanking you,</div>
+                        <div class="font-bold mt-4">Neaz Khan</div>
+                        <div>Chief Executive Officer</div>
+                    </div>
                 </div>
             </div>
         </div>

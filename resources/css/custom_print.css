@@ -158,3 +158,6 @@ ul#note li:before {
 li{
     list-style-type: '*'!important;
 }
+.page-break{
+    break-after: page;
+}
