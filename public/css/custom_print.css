@@ -161,10 +161,14 @@ li{
     -moz-column-break-after: page;
          break-after: page;
 }
-/*.header{*/
-/*    height: 1.7in!important;*/
-/*}*/
+.header{
+    height: 1.7in; /* Set the header height */
+    background-color: lightgray; /* Optional: header background for clarity */
+    text-align: center;
+    padding-top: 10px; /* Optional: adjust padding as needed */
+    box-sizing: border-box;
+}
 .bank_paper{
-    margin-top: 1.7in!important;
+    margin-top: 1.8in; /* Adjust based on the header height */
 }
 
