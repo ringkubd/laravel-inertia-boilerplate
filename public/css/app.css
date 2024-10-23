@@ -1939,9 +1939,6 @@ select {
 .font-thin {
   font-weight: 100;
 }
-.font-light {
-  font-weight: 300;
-}
 .uppercase {
   text-transform: uppercase;
 }
@@ -1954,6 +1951,9 @@ select {
 .leading-5 {
   line-height: 1.25rem;
 }
+.leading-6 {
+  line-height: 1.5rem;
+}
 .leading-7 {
   line-height: 1.75rem;
 }
@@ -1965,12 +1965,6 @@ select {
 }
 .leading-tight {
   line-height: 1.25;
-}
-.leading-3 {
-  line-height: .75rem;
-}
-.leading-6 {
-  line-height: 1.5rem;
 }
 .tracking-normal {
   letter-spacing: 0em;

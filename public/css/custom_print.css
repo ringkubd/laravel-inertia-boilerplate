@@ -161,4 +161,10 @@ li{
     -moz-column-break-after: page;
          break-after: page;
 }
+/*.header{*/
+/*    height: 1.7in!important;*/
+/*}*/
+.bank_paper{
+    margin-top: 1.7in!important;
+}
 
