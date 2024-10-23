@@ -185,7 +185,8 @@
                             <div>You are requested to kindly transfer the amount as mentioned below against the name of the student to his/her personal account with you from the current A/C no. 20502240100000115 of IsDB-BISEW.</div>
                         </div>
                     </div>
-                    <table class="table table-auto w-full">
+                    <div class="flex flex-col justify-center justify-content-center" style="flex: auto; justify-content: center; align-items: center; width: 90%">
+                        <table class="table table-auto" style="width: 100%">
                         <thead class="border-1 print:border-1">
                         <tr class="align-middle border-1 print:border-1" style="background-color: #e0d5d5!important;">
                             <th>Sl.#</th>
@@ -212,6 +213,7 @@
                         </tr>
                         </tbody>
                     </table>
+                    </div>
                     <div class="flex flex-col leading-6">
                         <div class="mt-2 mb-6">Thanking you,</div>
                         <div class="font-bold mt-4">Neaz Khan</div>
