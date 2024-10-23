@@ -165,8 +165,8 @@
                         </tbody>
                     </table>
                     <div class="page-break mt-5 print:break-after-all"></div>
-                    <div class="header"></div>
-                    <div class="flex flex-col leading-5 bank_paper">
+                    <div style="height: 1.7in!important;"></div>
+                    <div class="flex flex-col leading-5" style="margin-top: 1.8in!important;">
                         <div class="flex flex-row space-x-2">
                             <div>Date:</div>
                             <div>{{ moment().format('DD MMM Y') }}</div>
