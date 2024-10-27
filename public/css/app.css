@@ -1047,10 +1047,6 @@ select {
 .w-full {
   width: 100%;
 }
-.w-fit {
-  width: -moz-fit-content;
-  width: fit-content;
-}
 .min-w-full {
   min-width: 100%;
 }

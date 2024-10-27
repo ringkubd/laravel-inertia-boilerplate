@@ -202,7 +202,9 @@
                             <td>{{ invoice.student_name }}</td>
                             <td>{{ invoice.bank_branch }}</td>
                             <td>{{ invoice.bank_account }}</td>
-                            <td class="text-center">{{invoice.amount}}</td>
+                            <td class="text-center">{{parseInt(invoice.amount).toLocaleString('en-BD', {
+    maximumFractionDigits: 2
+                            })}}</td>
                         </tr>
                         <tr style="border: 1px solid rgb(0,0,0)!important; color: black!important; font-weight: 600">
                             <th :colspan="4" class="total" style="text-align: center!important; border: 1px solid rgb(0,0,0)!important;">Total Amount</th>
@@ -253,7 +255,9 @@ export default {
             this.data.map(function (invoice){
                 total += invoice.amount
             })
-            return total;
+            return parseInt(total).toLocaleString('en-BD', {
+                maximumFractionDigits: 2
+            });
         },
         print: function() {
 
