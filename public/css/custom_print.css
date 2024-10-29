@@ -107,7 +107,7 @@ table thead tr {
     border-width: 1px;
     border-style: solid;
     border-color: black;
-    font-size: 12px;
+    font-size: 10px;
     text-align: justify;
 }
 tr th{
@@ -187,5 +187,11 @@ li{
 .table-page-break {
     page-break-before: always;
     padding-top: 1.7in !important;
+}
+.table.bank_sheet {
+    font-size: 12px!important;
+}
+.signature{
+    padding-top: 10px!important;
 }
 

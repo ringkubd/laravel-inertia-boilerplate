@@ -186,7 +186,7 @@
                         </div>
                     </div>
                     <div class="flex flex-col justify-center justify-content-center" style="flex: auto; justify-content: center; align-items: center; width: 100%">
-                        <table class="table table-auto" style="border: 1px solid rgb(0,0,0)!important; color: black!important;width: 100%">
+                        <table class="table table-auto bank_sheet" style="border: 1px solid rgb(0,0,0)!important; color: black!important;width: 100%">
                             <thead class="border-1 print:border-1 thead">
                             <tr class="align-middle border-1 print:border-1 thead" style="background-color: #e0d5d5!important;">
                                 <th>Sl.#</th>
@@ -218,7 +218,7 @@
                     </div>
                     <div class="flex flex-col leading-6">
                         <div class="mt-2 mb-6">Thanking you,</div>
-                        <div class="font-bold mt-4">Neaz Khan</div>
+                        <div class="font-bold mt-6 signature">Neaz Khan</div>
                         <div>Chief Executive Officer</div>
                     </div>
                 </div>
