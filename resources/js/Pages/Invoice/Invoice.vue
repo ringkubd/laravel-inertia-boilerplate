@@ -167,7 +167,7 @@
                     <div class="page-break mt-5 print:break-after-all"></div>
                     <div style="height: 1.7in!important;"></div>
                     <div class="flex flex-col leading-5">
-                        <div class="flex flex-row space-x-2">
+                        <div class="flex flex-row space-x-2" style="margin-bottom: 10px!important;">
                             <div>Date:</div>
                             <div>{{ moment().format('DD MMM Y') }}</div>
                         </div>
@@ -217,8 +217,8 @@
                         </table>
                     </div>
                     <div class="flex flex-col leading-6">
-                        <div class="mt-2 mb-6">Thanking you,</div>
-                        <div class="font-bold mt-6 signature">Neaz Khan</div>
+                        <div class="mt-2 mb-8">Thanking you,</div>
+                        <div class="font-bold mt-8 signature">Neaz Khan</div>
                         <div>Chief Executive Officer</div>
                     </div>
                 </div>
