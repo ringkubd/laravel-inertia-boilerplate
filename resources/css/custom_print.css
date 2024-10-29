@@ -108,7 +108,7 @@ table thead tr {
     border-width: 1px;
     border-style: solid;
     border-color: gray;
-    font-size: x-small;
+    font-size: 10px;
     text-align: justify;
 }
 tr th{
