@@ -185,36 +185,36 @@
                             <div>You are requested to kindly transfer the amount as mentioned below against the name of the student to his/her personal account with you from the current A/C no. 20502240100000115 of IsDB-BISEW.</div>
                         </div>
                     </div>
-                    <div class="flex flex-col justify-center justify-content-center" style="flex: auto; justify-content: center; align-items: center; width: 90%">
-                        <table class="table table-auto" style="width: 100%">
-                        <thead class="border-1 print:border-1">
-                        <tr class="align-middle border-1 print:border-1" style="background-color: #e0d5d5!important;">
-                            <th>Sl.#</th>
-                            <th>Name</th>
-                            <th>IBBL Branch</th>
-                            <th>IBBL Account</th>
-                            <th>Amount</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr v-for="(invoice, index) in data.filter(i => i.amount > 0)" class="border-1">
-                            <td class="text-center">{{ index + 1 }}</td>
-                            <td>{{ invoice.student_name }}</td>
-                            <td>{{ invoice.bank_branch }}</td>
-                            <td>{{ invoice.bank_account }}</td>
-                            <td class="text-center">{{parseInt(invoice.amount).toLocaleString('en-BD', {
-    maximumFractionDigits: 2
-                            })}}</td>
-                        </tr>
-                        <tr style="border: 1px solid rgb(0,0,0)!important; color: black!important; font-weight: 600">
-                            <th :colspan="4" class="total" style="text-align: center!important; border: 1px solid rgb(0,0,0)!important;">Total Amount</th>
-                            <th class="text-center">{{totalInvoiceAmount()}}</th>
-                        </tr>
-                        <tr style="border: 1px solid rgb(0,0,0)!important; color: black!important; font-weight: 600">
-                            <th :colspan="5" class="total" style="text-align: center!important; border: 1px solid rgb(0,0,0)!important;">In Words (Taka): {{ number2wordEnglish(totalInvoiceAmount())}}</th>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <div class="flex flex-col justify-center justify-content-center" style="flex: auto; justify-content: center; align-items: center; width: 100%">
+                        <table class="table table-auto" style="border: 1px solid rgb(0,0,0)!important; color: black!important;width: 100%">
+                            <thead class="border-1 print:border-1 thead">
+                            <tr class="align-middle border-1 print:border-1 thead" style="background-color: #e0d5d5!important;">
+                                <th>Sl.#</th>
+                                <th>Name</th>
+                                <th>IBBL Branch</th>
+                                <th>IBBL Account</th>
+                                <th>Amount</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="(invoice, index) in data.filter(i => i.amount > 0)" :class="'border-1' +(index % 25 === 0 ? ' table-page-break': ' table-row') ">
+                                <td class="text-center">{{ index + 1 }}</td>
+                                <td>{{ invoice.student_name }}</td>
+                                <td>{{ invoice.bank_branch }}</td>
+                                <td class="text-center">{{ invoice.bank_account }}</td>
+                                <td class="text-center">{{parseInt(invoice.amount).toLocaleString('en-BD', {
+                                    maximumFractionDigits: 2
+                                })}}</td>
+                            </tr>
+                            <tr style="border: 1px solid rgb(0,0,0)!important; color: black!important; font-weight: 600">
+                                <th :colspan="4" class="total" style="text-align: center!important; border: 1px solid rgb(0,0,0)!important;">Total Amount</th>
+                                <th class="text-center">{{totalInvoiceAmount()}}</th>
+                            </tr>
+                            <tr style="border: 1px solid rgb(0,0,0)!important; color: black!important; font-weight: 600">
+                                <th :colspan="5" class="total" style="text-align: center!important; border: 1px solid rgb(0,0,0)!important;">In Words (Taka): {{ number2wordEnglish(totalInvoiceAmount())}}</th>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                     <div class="flex flex-col leading-6">
                         <div class="mt-2 mb-6">Thanking you,</div>

@@ -16,7 +16,7 @@
 
 .modal-container {
     width: 50vw;
-    margin: 0px auto;
+    margin: 0 auto;
     padding: 1rem 2rem;
     background-color: #fff;
     border-radius: 2px;
@@ -107,13 +107,13 @@ table thead tr {
     padding: 2px!important;
     border-width: 1px;
     border-style: solid;
-    border-color: gray;
-    font-size: 10px;
+    border-color: black;
+    font-size: 12px;
     text-align: justify;
 }
 tr th{
     vertical-align: middle;
-    border-width: 0px!important;
+    border-width: 0 !important;
     border-style: solid!important;
     border-color: gray!important;
 }
@@ -132,7 +132,7 @@ thead{
     border: 0!important;
 }
 .table > :not(:first-child) {
-    border-top: 0!important;
+    /*border-top: 0!important;*/
 }
 .total{
     text-align: right!important;
@@ -170,4 +170,21 @@ li{
 }
 .bank_paper{
     margin-top: 1.8in; /* Adjust based on the header height */
+}
+.thead{
+    border-width: 1px!important;
+    border-style: solid;
+    border-color: black!important;
+}
+.thead th{
+    border-width: 1px!important;
+    border-style: solid;
+    border-color: black!important;
+}
+.table-row {
+    page-break-inside: avoid;
+}
+.table-page-break {
+    page-break-before: always;
+    padding-top: 1.7in !important;
 }
