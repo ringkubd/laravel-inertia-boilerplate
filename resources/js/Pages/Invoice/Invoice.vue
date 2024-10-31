@@ -218,7 +218,7 @@
                     </div>
                     <div class="flex flex-col leading-6">
                         <div class="mt-2 mb-8">Thanking you,</div>
-                        <div class="font-bold">Neaz Khan</div>
+                        <div class="font-bold signature">Neaz Khan</div>
                         <div>Chief Executive Officer</div>
                     </div>
                 </div>
