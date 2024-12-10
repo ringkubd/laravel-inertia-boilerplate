@@ -12,9 +12,19 @@ use Inertia\Inertia;
 use App\Models\InvoiceDetail;
 use Inertia\Response;
 use Ramsey\Uuid\Rfc4122\UuidV4;
+use App\Services\InvoiceService;
 
 class InvoiceController extends Controller
 {
+    private function getPermissions()
+    {
+        return [
+            'create' => auth()->user()->can('create_invoice'),
+            'update' => auth()->user()->can('update_invoice'),
+            'delete' => auth()->user()->can('delete_invoice'),
+            'view' => auth()->user()->can('view_invoice'),
+        ];
+    }
     /**
      * Display a listing of the resource.
      *
@@ -39,12 +49,7 @@ class InvoiceController extends Controller
             ->groupBy('invoice_id')
             ->paginate();
         return Inertia::render('Invoice/Index', [
-            'can' => [
-                'create' => auth()->user()->can('create_invoice'),
-                'update' => auth()->user()->can('update_invoice'),
-                'delete' => auth()->user()->can('delete_invoice'),
-                'view' => auth()->user()->can('view_invoice'),
-            ],
+            'can' => $this->getPermissions(),
             'invoices' => $invoices,
             'academic_sessions' => AcademicSession::latest()->get()
         ]);
@@ -62,53 +67,13 @@ class InvoiceController extends Controller
         $sessions = AcademicSession::all();
         $resultSemester  = $request->semester - 1;
 
-        $students = Student::query()
-            ->select('students.*', DB::raw("IF(d.status is not null, d.status, r.status) AS result_status"), 'r.gpa', 'r.created_at')
-            ->where('polytechnic_session', "$request->polytechnic_session")
-            ->with(['fees' => function($q) use ($request){
-                $q->where('fees.semester', $request->semester)
-                    ->where('fees.session', "$request->polytechnic_session");
-            }])
-            ->with(['paymentSlip' => function($q) use($request){
-                $q->where('payment_slips.semester', $request->semester);
-            }])
-            ->with(['results' => function($q)use($request){
-                $semester = $request->semester - 1;
-                $q->where(function ($q)use ($semester){
-                    if($semester > 0){
-                        $q->where('semester', $semester);
-                    }
-                })->orWhere('status', 'Dropout')->latest();
-            }])
-            ->leftJoin('results as r', function ($join) use ($resultSemester){
-                $join->on('r.student_id','students.id')->where('r.semester', $resultSemester);
-            })
-            ->leftJoin('results as d', function ($join){
-                $join->on('d.student_id','students.id')->where('d.status', 'Dropout');
-            })
-            ->with(['invoice' => function($q) use($request){
-                $q->where('session', $request->polytechnic_session)
-                    ->where('semester', $request->semester);
-            }])
-            ->with(['invoiceDetails' => function($q) use($request){
-                $q->whereHas('invoice', function ($q) use($request){
-                    $q->where('session', $request->polytechnic_session)
-                    ->where('semester', $request->semester);
-                });
-            }])
-            ->groupBy('student_id')
-            ->get();
-
-//        dd($students->where('id', 28));
-
+        $students = app(InvoiceService::class)->getStudentsForInvoice(
+            $request->polytechnic_session,
+            $request->semester
+        )->get();
         $feeTypes = $students->whereNotNull('fees')->unique('fee_type')->max('fees');
         return Inertia::render('Invoice/Create', [
-            'can' => [
-                'create' => auth()->user()->can('create_invoice'),
-                'update' => auth()->user()->can('update_invoice'),
-                'delete' => auth()->user()->can('delete_invoice'),
-                'view' => auth()->user()->can('view_invoice'),
-            ],
+            'can' => $this->getPermissions(),
             'students' => $students,
             'sessions' => $sessions,
             'feeTypes' => $feeTypes
@@ -281,12 +246,7 @@ class InvoiceController extends Controller
         }
 
         return Inertia::render('Invoice/Invoice', [
-            'can' => [
-                'create' => auth()->user()->can('create_invoice'),
-                'update' => auth()->user()->can('update_invoice'),
-                'delete' => auth()->user()->can('delete_invoice'),
-                'view' => auth()->user()->can('view_invoice'),
-            ],
+            'can' => $this->getPermissions(),
             'data' => $invoice->sortBy('polytechnic_roll')->values(),
             'feeTypes' => $feeTypes,
             'basicInfo' => $basicInfo,
@@ -315,12 +275,7 @@ class InvoiceController extends Controller
         $basicInfo = $invoice->first();
         $feeTypes = $invoice->whereNotNull('details')->first()->details->pluck('fee_type');
         return Inertia::render('Invoice/Edit', [
-            'can' => [
-                'create' => auth()->user()->can('create_invoice'),
-                'update' => auth()->user()->can('update_invoice'),
-                'delete' => auth()->user()->can('delete_invoice'),
-                'view' => auth()->user()->can('view_invoice'),
-            ],
+            'can' => $this->getPermissions(),
             'data' => $invoice,
             'feeTypes' => $feeTypes,
             'basicInfo' => $basicInfo
