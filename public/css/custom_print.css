@@ -185,13 +185,27 @@ li{
     page-break-inside: avoid;
 }
 .table-page-break {
-    page-break-before: always;
-    padding-top: 1.7in !important;
+    page-break-before: always !important;
+    margin-top: 1.7in !important; /* Add 1.7in blank space for letterhead */
+    padding-top: 1.7in !important; /* Add 1.7in blank space for letterhead */
 }
 .table.bank_sheet {
     font-size: 12px!important;
 }
 .signature{
     padding-top: 2rem!important;
+}
+.letter-head-wrapper {
+    height: 1.7in;
+    margin-top: 1.7in;
+    display: block;
+    page-break-before: always;
+}
+.data-row {
+    page-break-inside: avoid;
+}
+
+#bank_page{
+    margin-top: 1.7in !important;
 }
 

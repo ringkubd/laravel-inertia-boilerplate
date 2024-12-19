@@ -11,8 +11,8 @@ use App\Models\SupportConversationMessage;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
-use function Sodium\randombytes_random16;
 
 class SupportController extends Controller
 {
@@ -53,9 +53,11 @@ class SupportController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'conversation_id' => 'required'
+            'conversation_id' => 'required',
+            'message' => 'required|string',
+            'attachment' => 'nullable|file|mimes:jpg,jpeg,png,pdf,docx|max:2048'
         ]);
-        $support = SupportConversation::find($request->conversation_id);
+        $support = SupportConversation::findOrFail($request->conversation_id);
 
         $chat = [
             'sender' => auth()->user()->id,
@@ -66,10 +68,9 @@ class SupportController extends Controller
         if ($request->hasFile('attachment')) {
             $attachment = $request->file('attachment');
             $chat['attachment_type'] = $attachment->getClientMimeType();
-            $fileName = randombytes_random16().".".$attachment->getClientOriginalExtension();
-            $filePath = "conversation/".$fileName;
-            $chat['attachment'] = url($filePath);
-            $attachment->move(public_path("conversation/"), $fileName);
+            $fileName = $attachment->hashName();
+            $filePath = $attachment->storeAs('conversations', $fileName, 'public');
+            $chat['attachment'] = Storage::url($filePath);
         }
 
         $user = User::query()
@@ -90,7 +91,7 @@ class SupportController extends Controller
 //        dispatch(new SupportNotificationJob($recipient));
         broadcast(new SupportEvent(new SupportMessageResource($conversation)));
         return response()->json([
-            'successs' => true,
+            'success' => true,
             'conversation' => new SupportMessageResource($conversation)
         ]);
     }

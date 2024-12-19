@@ -19,17 +19,30 @@ class ConversationController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Conversation/chat');
-    }
+        $conversations = auth()->user()->conversations()
+            ->with(['lastMessage', 'conversationUsers'])
+            ->latest()
+            ->get()
+            ->map(function ($conversation) {
+                return [
+                    'id' => $conversation->id,
+                    'name' => $conversation->name,
+                    'type' => $conversation->type,
+                    'last_message' => $conversation->lastMessage,
+                    'unread_count' => $conversation->getUnreadCount(auth()->id()),
+                    'participants' => $conversation->conversationUsers->map(function ($user) {
+                        return [
+                            'id' => $user->id,
+                            'name' => $user->name,
+                            'email' => $user->email,
+                        ];
+                    })
+                ];
+            });
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return Inertia::render('Conversation/chat', [
+            'conversations' => $conversations
+        ]);
     }
 
     /**
@@ -45,12 +58,24 @@ class ConversationController extends Controller
             'sender' => 'required',
             'body' => 'required',
         ]);
-        $conversation = Conversation::find($request->conversation_id);
-        $messages = new Message($request->only('sender', 'body'));
-        $abc = $conversation->messages()->save($messages);
-        //$sender = User::find($abc->sender);
-        broadcast(new MessageEvent($conversation, $messages));
-        return response()->json($abc);
+
+        $conversation = Conversation::findOrFail($request->conversation_id);
+        
+        // Check if user is participant
+        abort_if(!$conversation->conversationUsers->contains('id', auth()->id()), 403);
+
+        $message = new Message($request->only('sender', 'body'));
+        $message = $conversation->messages()->save($message);
+
+        // Mark as delivered for sender
+        $message->markAsDelivered();
+
+        broadcast(new MessageEvent($conversation, $message))->toOthers();
+
+        return response()->json([
+            'message' => $message,
+            'sender' => auth()->user()
+        ]);
     }
 
     /**
@@ -61,10 +86,157 @@ class ConversationController extends Controller
      */
     public function show($id)
     {
-        $conversation = \conversation($id);
+        $conversation = Conversation::with(['messages.sender', 'conversationUsers'])
+            ->findOrFail($id);
+
+        // Check if user is participant
+        abort_if(!$conversation->conversationUsers->contains('id', auth()->id()), 403);
+
+        // Mark all messages as read
+        $conversation->messages()
+            ->whereNotIn('sender', [auth()->id()])
+            ->get()
+            ->each(function ($message) {
+                $message->markAsRead(auth()->id());
+            });
+
         return Inertia::render('Conversation/chat', [
-            'conversation' => $conversation
+            'conversation' => [
+                'id' => $conversation->id,
+                'name' => $conversation->name,
+                'type' => $conversation->type,
+                'messages' => $conversation->messages->map(function ($message) {
+                    return [
+                        'id' => $message->id,
+                        'body' => $message->body,
+                        'sender' => $message->sender,
+                        'status' => $message->status,
+                        'created_at' => $message->created_at
+                    ];
+                }),
+                'participants' => $conversation->conversationUsers->map(function ($user) {
+                    return [
+                        'id' => $user->id,
+                        'name' => $user->name,
+                        'email' => $user->email,
+                    ];
+                })
+            ]
         ]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Create a new conversation
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function createConversation(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string',
+            'type' => 'required|in:personal,group,support',
+            'participants' => 'required|array|min:1',
+            'participants.*' => 'exists:users,id'
+        ]);
+
+        $conversation = Conversation::create([
+            'name' => $request->name,
+            'type' => $request->type,
+            'creator' => auth()->id()
+        ]);
+
+        // Add participants including the creator
+        $participants = collect($request->participants)
+            ->push(auth()->id())
+            ->unique()
+            ->toArray();
+        
+        $conversation->conversationUsers()->attach($participants);
+
+        return response()->json($conversation->load('conversationUsers'));
+    }
+
+    /**
+     * Mark conversation as read
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function markAsRead($id)
+    {
+        $conversation = Conversation::findOrFail($id);
+        
+        // Check if user is participant
+        abort_if(!$conversation->conversationUsers->contains('id', auth()->id()), 403);
+
+        $conversation->messages()
+            ->whereNotIn('sender', [auth()->id()])
+            ->get()
+            ->each(function ($message) {
+                $message->markAsRead(auth()->id());
+            });
+
+        return response()->json(['success' => true]);
+    }
+
+    /**
+     * Add participants to a conversation
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function addParticipants(Request $request, $id)
+    {
+        $request->validate([
+            'participants' => 'required|array|min:1',
+            'participants.*' => 'exists:users,id'
+        ]);
+
+        $conversation = Conversation::findOrFail($id);
+        
+        // Only group conversations can add participants
+        abort_if($conversation->type !== 'group', 403);
+        
+        // Only creator can add participants
+        abort_if($conversation->creator !== auth()->id(), 403);
+
+        $conversation->conversationUsers()->attach($request->participants);
+
+        return response()->json($conversation->load('conversationUsers'));
+    }
+
+    /**
+     * Remove participant from a conversation
+     *
+     * @param  int  $conversationId
+     * @param  int  $userId
+     * @return \Illuminate\Http\Response
+     */
+    public function removeParticipant($conversationId, $userId)
+    {
+        $conversation = Conversation::findOrFail($conversationId);
+        
+        // Only group conversations can remove participants
+        abort_if($conversation->type !== 'group', 403);
+        
+        // Only creator can remove participants
+        abort_if($conversation->creator !== auth()->id(), 403);
+
+        $conversation->removeParticipant($userId);
+
+        return response()->json(['success' => true]);
     }
 
     /**

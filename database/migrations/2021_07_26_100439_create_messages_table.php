@@ -18,9 +18,12 @@ class CreateMessagesTable extends Migration
             $table->unsignedBigInteger('sender');
             $table->text('body');
             $table->unsignedBigInteger('conversation_id');
+            $table->enum('status', ['sent', 'delivered', 'read'])->default('sent');
+            $table->json('read_by')->nullable();
             $table->foreign('sender')->on('users')->references('id');
             $table->foreign('conversation_id')->on('conversations')->references('id');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

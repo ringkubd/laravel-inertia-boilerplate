@@ -17,6 +17,7 @@ class CreateConverationsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('description', 500)->nullable();
+            $table->enum('type', ['personal', 'group', 'support'])->default('personal');
             $table->unsignedBigInteger('creator');
             $table->foreign('creator')->references('id')->on('users');
             $table->timestamps();

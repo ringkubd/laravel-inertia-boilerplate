@@ -1,173 +1,130 @@
 <template>
     <Head>
-        <title>Private Conversation</title>
+        <title>Chat - {{ conversationName }}</title>
     </Head>
     <breeze-authenticated-layout>
         <template #header>
-            <div class="row">
-                <div class="col-6">
-                    <PageHeader>Conversation</PageHeader>
-                </div>
-                <div class="col-6">
-                    <PageHeader>
-                        {{secondPerson}}
-                    </PageHeader>
+            <div class="flex justify-between items-center">
+                <PageHeader>{{ conversationName }}</PageHeader>
+                <div v-if="conversation && conversation.type === 'group'" class="flex items-center">
+                    <button @click="showParticipants = true" class="flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <span class="mr-2">{{ conversation.participants.length }} Participants</span>
+                        <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+                        </svg>
+                    </button>
                 </div>
             </div>
         </template>
-        <template v-slot:default="slotProps">
-            <div class="flex h-screen antialiased text-gray-800">
-                <div class="flex flex-row h-full w-full overflow-x-hidden">
-                    <div class="flex flex-col py-8 pl-6 pr-2 w-64 bg-white flex-shrink-0">
-                        <div class="flex flex-row items-center justify-center h-12 w-full">
-                            <div
-                                class="flex items-center justify-center rounded-2xl text-indigo-700 bg-indigo-100 h-10 w-10"
-                            >
-                                <svg
-                                    class="w-6 h-6"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
-                                    ></path>
-                                </svg>
-                            </div>
-                            <div class="ml-2 font-bold text-2xl">QuickChat</div>
+
+        <div class="flex h-screen antialiased text-gray-800">
+            <div class="flex flex-row h-full w-full overflow-x-hidden">
+                <!-- Sidebar with conversations list -->
+                <div class="flex flex-col py-8 pl-6 pr-2 w-64 bg-white flex-shrink-0">
+                    <div class="flex flex-row items-center justify-center h-12 w-full">
+                        <div class="flex items-center justify-center rounded-2xl text-indigo-700 bg-indigo-100 h-10 w-10">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
+                            </svg>
                         </div>
-                        <div
-                            class="flex flex-col items-center bg-indigo-100 border border-gray-200 mt-4 w-full py-6 px-4 rounded-lg"
-                        >
-                            <div class="h-20 w-20 rounded-full border overflow-hidden">
-                                <img
-                                    src="https://avatars3.githubusercontent.com/u/2763884?s=128"
-                                    alt="Avatar"
-                                    class="h-full w-full"
-                                />
-                            </div>
-                            <div class="text-sm font-semibold mt-2">{{user.name}}.</div>
-                            <div class="text-xs text-gray-500">{{user.title}}</div>
-                            <div class="flex flex-row items-center mt-3">
-                                <div
-                                    class="flex flex-col justify-center h-4 w-8 bg-indigo-500 rounded-full"
-                                >
-                                    <div class="h-3 w-3 bg-white rounded-full self-end mr-1"></div>
+                        <div class="ml-2 font-bold text-2xl">QuickChat</div>
+                    </div>
+
+                    <!-- New Chat Button -->
+                    <button @click="showNewChat = true" class="flex items-center justify-center h-12 w-full mt-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                        </svg>
+                        New Chat
+                    </button>
+
+                    <!-- Conversations List -->
+                    <div class="flex flex-col mt-8">
+                        <div class="flex flex-row items-center justify-between text-xs">
+                            <span class="font-bold">Conversations</span>
+                            <span class="flex items-center justify-center bg-gray-300 h-4 w-4 rounded-full">{{ conversations.length }}</span>
+                        </div>
+                        <div class="flex flex-col space-y-1 mt-4 -mx-2 overflow-y-auto">
+                            <button v-for="chat in conversations" 
+                                    :key="chat.id"
+                                    @click="selectConversation(chat.id)"
+                                    class="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2"
+                                    :class="{ 'bg-gray-100': chat.id === conversation?.id }">
+                                <div class="flex items-center justify-center h-8 w-8 bg-indigo-200 rounded-full">
+                                    {{ firstLetter(chat.name) }}
                                 </div>
-                                <div class="leading-none ml-1 text-xs">Active</div>
-                            </div>
-                        </div>
-                        <div class="flex flex-col mt-8">
-                            <div class="flex flex-row items-center justify-between text-xs">
-                                <span class="font-bold">Online</span>
-                                <span
-                                    class="flex items-center justify-center bg-gray-300 h-4 w-4 rounded-full"
-                                >{{slotProps.onlineFriends.length}}</span
-                                >
-                            </div>
-                            <div class="flex flex-col space-y-1 mt-4 -mx-2 h-48 overflow-y-auto" v-if="slotProps.onlineFriends.length > 0">
-                                <button
-                                    :class="onl.id === $store.state.activeChatTarget ? activeUserClass : inActiveClass"   v-for="onl in online"
-                                    @click="activeUserMessage(onl.id)"
-                                >
-                                    <div
-                                        class="flex items-center justify-center h-8 w-8 bg-gray-200 rounded-full"
-                                    >
-                                        {{firstLetter(onl.name)}}
+                                <div class="ml-2 text-sm font-semibold">
+                                    {{ isOneToOne(chat) ? getOtherParticipantName(chat) : chat.name }}
+                                    <div class="text-xs text-gray-500">
+                                        {{ chat.last_message?.body || 'No messages yet' }}
                                     </div>
-                                    <div class="ml-2 text-sm font-semibold">{{onl.name}}</div>
-                                    <div class="flex items-center justify-center ml-auto text-xs text-white bg-red-500 h-4 w-4 rounded leading-none" v-if="onl.conversation.length > 0">
-                                        {{onl.conversation[0].messages.length}}
-                                    </div>
-                                </button>
-                            </div>
-
-
-                            <div class="flex flex-row items-center justify-between text-xs mt-6">
-                                <span class="font-bold">Offline</span>
-                                <span
-                                    class="flex items-center justify-center bg-gray-300 h-4 w-4 rounded-full"
-                                >{{slotProps.offlineFriends.length}}</span
-                                >
-                            </div>
-                            <div class="flex flex-col space-y-1 mt-4 -mx-2" v-if="slotProps.offlineFriends.length > 0">
-                                <button
-                                    :class="off.id === $store.state.activeChatTarget ? activeUserClass : inActiveClass"  v-for="off in $page.props.offline"
-                                    @click="activeUserMessage(off.id)"
-                                >
-                                    <div
-                                        class="flex items-center justify-center h-8 w-8 bg-gray-200 rounded-full"
-                                    >
-                                        {{firstLetter(off.name)}}
-                                    </div>
-                                    <div class="ml-2 text-sm font-semibold">{{off.name}}</div>
-                                    <div class="flex items-center justify-center ml-auto text-xs text-white bg-red-500 h-4 w-4 rounded leading-none" v-if="off.conversation.length > 0">
-                                        {{off.conversation[0].messages.length}}
-                                    </div>
-                                </button>
-                            </div>
+                                </div>
+                                <div v-if="chat.unread_count > 0" 
+                                     class="flex items-center justify-center ml-auto text-xs text-white bg-red-500 h-4 w-4 rounded-full">
+                                    {{ chat.unread_count }}
+                                </div>
+                            </button>
                         </div>
                     </div>
-                    <div class="flex flex-col flex-auto h-full p-6">
-                        <div
-                            class="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 h-full p-4"
-                        >
-                            <div class="flex flex-col h-full overflow-x-auto mb-4">
-                                <div class="flex flex-col h-full">
-                                    <div class="grid grid-cols-12 gap-y-2" v-for="message in $store.state.messages">
-                                        <div class="col-start-1 col-end-8 p-3 rounded-lg"  v-if="message.sender === $page.props.user.id">
-                                            <div class="flex flex-row items-center">
-                                                <div
-                                                    class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0"
-                                                >
-                                                    {{$page.props.user.name}}
-                                                </div>
-                                                <div
-                                                    class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl"
-                                                >
-                                                    <div> {{message.body}}</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-start-6 col-end-13 p-3 rounded-lg" v-else>
-                                            <div class="flex items-center justify-start flex-row-reverse">
-                                                <div
-                                                    class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0"
-                                                >
-                                                    {{secondPerson}}
-                                                </div>
-                                                <div
-                                                    class="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl"
-                                                >
-                                                    <div v-contextmenu:contextmenu>{{message.body}}</div>
-                                                    <v-contextmenu ref="contextmenu">
-                                                        <v-contextmenu-item>Menu Item 1</v-contextmenu-item>
-                                                        <v-contextmenu-item>Menu Item 2</v-contextmenu-item>
-                                                        <v-contextmenu-item>Menu Item 3</v-contextmenu-item>
-                                                    </v-contextmenu>
+                </div>
+
+                <!-- Chat Area -->
+                <div class="flex flex-col flex-auto h-full p-6">
+                    <div class="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 h-full p-4">
+                        <!-- Messages -->
+                        <div class="flex flex-col h-full overflow-x-auto mb-4" ref="messagesContainer">
+                            <div class="flex flex-col h-full">
+                                <div class="grid grid-cols-12 gap-y-2">
+                                    <div v-for="message in messages" :key="message.id"
+                                         :class="[message.sender.id === $page.props.user.id ? 'col-start-6 col-end-13' : 'col-start-1 col-end-8']">
+                                        <div class="flex flex-row items-center" 
+                                             :class="[message.sender.id === $page.props.user.id ? 'justify-end' : '']">
+                                            <div class="relative mr-3" :class="[message.sender.id === $page.props.user.id ? 'order-1' : 'order-2']">
+                                                <div class="relative text-sm py-2 px-4 shadow rounded-xl" 
+                                                     :class="[message.sender.id === $page.props.user.id ? 'bg-indigo-100' : 'bg-white']">
+                                                    <div>{{ message.body }}</div>
+                                                    <div class="absolute bottom-0" 
+                                                         :class="[message.sender.id === $page.props.user.id ? 'right-0 -mb-5' : 'left-0 -mb-5']">
+                                                        <span class="text-xs text-gray-500">
+                                                            {{ formatTime(message.created_at) }}
+                                                            <span v-if="message.sender.id === $page.props.user.id" class="ml-1">
+                                                                <span v-if="message.status === 'sent'" class="text-gray-400">✓</span>
+                                                                <span v-else-if="message.status === 'delivered'" class="text-blue-400">✓✓</span>
+                                                                <span v-else-if="message.status === 'read'" class="text-green-400">✓✓</span>
+                                                            </span>
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <span v-show="typing" class="help-block" style="font-style: italic;">
-                                    @{{ typingUser }} is typing... {{typingText}} .....
-                                </span>
-                            <div
-                                class="flex flex-row items-center h-16 rounded-xl bg-white w-full px-4"
-                            >
+                        </div>
 
-                                <div>
-                                    <button
-                                        class="flex items-center justify-center text-gray-400 hover:text-gray-600"
-                                    >
+                        <!-- Message Input -->
+                        <div class="flex flex-row items-center h-16 rounded-xl bg-white w-full px-4">
+                            <div class="flex-grow">
+                                <div class="relative w-full">
+                                    <input
+                                        v-model="newMessage"
+                                        type="text"
+                                        class="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10"
+                                        placeholder="Type your message..."
+                                        @keyup.enter="sendMessage"
+                                        @input="isTyping"
+                                    />
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <button
+                                    class="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0"
+                                    @click="sendMessage"
+                                >
+                                    <span>Send</span>
+                                    <span class="ml-2">
                                         <svg
-                                            class="w-5 h-5"
+                                            class="w-4 h-4 transform rotate-45 -mt-px"
                                             fill="none"
                                             stroke="currentColor"
                                             viewBox="0 0 24 24"
@@ -177,252 +134,290 @@
                                                 stroke-linecap="round"
                                                 stroke-linejoin="round"
                                                 stroke-width="2"
-                                                d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
+                                                d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
                                             ></path>
                                         </svg>
-                                    </button>
-                                </div>
-                                <div class="flex-grow ml-4">
-                                    <div class="relative w-full">
-                                        <input
-                                            type="text"
-                                            class="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10"
-                                            v-model="sendForm.body"
-                                            @keydown="isTyping"
-                                            id="sendMessage"
-                                        />
-                                        <input-error :message="errors.body"></input-error>
-                                        <button
-                                            class="absolute flex items-center justify-center h-full w-12 right-0 top-0 text-gray-400 hover:text-gray-600"
-                                        >
-                                            <svg
-                                                class="w-6 h-6"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                viewBox="0 0 24 24"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                            >
-                                                <path
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    stroke-width="2"
-                                                    d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                                ></path>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="ml-4">
-                                    <button
-                                        class="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0"
-                                        type="submit"
-                                        @click="sendMessage"
-                                    >
-                                        <span>Send</span>
-                                        <span class="ml-2">
-                  <svg
-                      class="w-4 h-4 transform rotate-45 -mt-px"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-                    ></path>
-                  </svg>
-                </span>
-                                    </button>
-                                </div>
+                                    </span>
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </template>
+        </div>
+
+        <!-- New Chat Modal -->
+        <Modal :show="showNewChat" @close="showNewChat = false">
+            <div class="p-6">
+                <h2 class="text-lg font-medium text-gray-900">Start New Conversation</h2>
+                <div class="mt-6">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Type</label>
+                            <select v-model="newChatData.type" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                <option value="personal">Personal</option>
+                                <option value="group">Group</option>
+                                <option value="support">Support</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Name</label>
+                            <input type="text" v-model="newChatData.name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Participants</label>
+                            <select v-model="newChatData.participants" multiple class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                <option v-for="user in users" :key="user.id" :value="user.id">{{ user.name }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex justify-end space-x-3">
+                        <button @click="showNewChat = false" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            Cancel
+                        </button>
+                        <button @click="createNewChat" class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            Create
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </Modal>
+
+        <!-- Participants Modal -->
+        <Modal :show="showParticipants" @close="showParticipants = false">
+            <div class="p-6">
+                <h2 class="text-lg font-medium text-gray-900">Conversation Participants</h2>
+                <div class="mt-6">
+                    <ul class="divide-y divide-gray-200">
+                        <li v-for="participant in conversation?.participants" :key="participant.id" class="py-4 flex justify-between items-center">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <div class="h-10 w-10 rounded-full bg-indigo-200 flex items-center justify-center">
+                                        {{ firstLetter(participant.name) }}
+                                    </div>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium text-gray-900">{{ participant.name }}</p>
+                                    <p class="text-sm text-gray-500">{{ participant.email }}</p>
+                                </div>
+                            </div>
+                            <button v-if="conversation.creator === $page.props.user.id && participant.id !== $page.props.user.id"
+                                    @click="removeParticipant(participant.id)"
+                                    class="ml-4 text-red-600 hover:text-red-900">
+                                Remove
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </Modal>
     </breeze-authenticated-layout>
 </template>
 
 <script>
-import BreezeAuthenticatedLayout from "@/Layouts/Authenticated";
-import PageHeader from "@/Shared/PageHeader";
-import InputError from "@/Components/InputError";
-import "v-contextmenu/dist/themes/default.css";
-import { directive, Contextmenu, ContextmenuItem  } from "v-contextmenu"
+import { ref, onMounted, nextTick } from 'vue'
+import BreezeAuthenticatedLayout from "@/Layouts/Authenticated"
+import PageHeader from "@/Shared/PageHeader"
+import Modal from "@/Shared/Modal"
+import axios from 'axios'
+import moment from 'moment'
+
 export default {
-    name: "chat",
-    props: ['online', 'offline', 'user', 'errors', 'conversation'],
-    directives: {
-        contextmenu: directive,
-    },
     components: {
-        InputError,
-        PageHeader,
         BreezeAuthenticatedLayout,
-        [Contextmenu.name]: Contextmenu,
-        [ContextmenuItem.name]: ContextmenuItem,
+        PageHeader,
+        Modal
     },
-    data() {
+
+    props: {
+        conversations: {
+            type: Array,
+            default: () => []
+        },
+        conversation: {
+            type: Object,
+            default: null
+        }
+    },
+
+    setup(props) {
+        const newMessage = ref('')
+        const messages = ref(props.conversation?.messages || [])
+        const showNewChat = ref(false)
+        const showParticipants = ref(false)
+        const messagesContainer = ref(null)
+        const typingTimeout = ref(null)
+        const newChatData = ref({
+            type: 'personal',
+            name: '',
+            participants: []
+        })
+
+        const scrollToBottom = async () => {
+            await nextTick()
+            if (messagesContainer.value) {
+                messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight
+            }
+        }
+
+        onMounted(() => {
+            scrollToBottom()
+            Echo.private(`conversation.${props.conversation?.id}`)
+                .listen('MessageEvent', (e) => {
+                    messages.value.push(e.message)
+                    scrollToBottom()
+                })
+                .listenForWhisper('typing', (e) => {
+                    // Handle typing indicator
+                })
+        })
+
         return {
-            activeUserClass: "flex flex-row items-center hover:bg-gray-100 rounded-xl p-2 outline-none ring-2 ring-purple-600 border-transparent",
-            inActiveClass: "flex flex-row items-center hover:bg-gray-100 rounded-xl p-2",
-            sendForm: {
-                conversation_id : "",
-                sender: this.user.id,
-                body: ""
-            },
-            secondPerson: localStorage.getItem('second_person'),
-            typing: false,
-            typingUser: "",
-            typingText: "",
-            otherTyping: false,
-            otherTypingUser: "",
-            otherTypingText: ""
+            newMessage,
+            messages,
+            showNewChat,
+            showParticipants,
+            messagesContainer,
+            typingTimeout,
+            newChatData,
+            scrollToBottom
         }
     },
-    mounted(){
-        if(window.location.pathname === "/conversation"){
-            let firstUser = this.online.length > 0 ? this.online[0].id : this.offline[0].id;
-            this.$inertia.replace(route('conversation.show', firstUser))
-        }
-        if (this.$store.state.activeChatTarget === null){
-            let activeUserFromLocal = localStorage.getItem('activeChatTarget')
-            if (activeUserFromLocal === undefined || activeUserFromLocal === null){
-                if(this.online.length > 0){
-                    this.$store.dispatch('setActiveChatTarget',  this.online[0].id)
-                    this.activeUserMessage(this.$store.state.activeChatTarget)
-                } else if(this.offline.length > 0){
-                    this.$store.dispatch('setActiveChatTarget',  this.offline[0].id)
-                    this.activeUserMessage(this.$store.state.activeChatTarget)
-                }
-            }else{
-                this.$store.dispatch('setActiveChatTarget',  activeUserFromLocal)
-                this.activeUserMessage(this.$store.state.activeChatTarget)
-            }
 
-        }else{
-            this.activeUserMessage(this.$store.state.activeChatTarget)
-        }
-        let __this = this;
-        document.querySelector('#sendMessage').addEventListener('keypress', function(e){
-            if(e.key === 'Enter'){
-                __this.sendMessage()
-            }
-        });
-    },
     methods: {
-        firstLetter(str){
-            if (str == "") return;
-            return str.charAt(0).toUpperCase()
+        firstLetter(str) {
+            return str ? str.charAt(0).toUpperCase() : ''
         },
-        messageLength(){
 
+        formatTime(time) {
+            return moment(time).format('HH:mm')
         },
-        conversationLength(){
-            const offline = this.offline;
-            const online = this.online;
-        },
-        activeUserMessage(user){
-            window.Echo.leave('messages.'+this.conversation.id)
-            this.$inertia.replace(route('conversation.show', user))
 
-            localStorage.setItem('activeChatTarget', user)
-            this.$store.dispatch('setActiveChatTarget', user)
-            axios.get(route('get_active_conversation', user))
-                .then(response => {
-                    let second = response.data.conversation_users.filter((user) => {
-                        return user.id !== this.$page.props.user.id
-                    })
-                    localStorage.setItem('second_person', second[0].name)
-                    this.secondPerson = second[0].name
-                    this.$store.dispatch('messagesInit', response.data.messages)
-                    this.$store.dispatch('setActiveConversation', response.data.id)
-                    localStorage.setItem('active_conversation', response.data.id)
-                    this.sendForm.conversation_id = response.data.id;
-                })
-                .catch(error => {
-                    console.log(error)
-                })
+        isOneToOne(conversation) {
+            return conversation.type === 'personal';
         },
-        sendMessage(){
-            axios
-                .post(route('conversation.store'), this.sendForm)
-                .then(response => {
-                    this.$store.dispatch('sendMessage', response.data)
-                    this.sendForm.body = ""
-                })
-        },
-        receiveMessage(){
 
+        getOtherParticipantName(conversation) {
+            const currentUserId = this.$page.props.user.id;
+            return conversation.participants.find(p => p.id !== currentUserId).name;
         },
-        isTyping(){
-            let channel = this.channel;
-            let _this = this;
-            setTimeout(function(){
-                channel.whisper('typing', {
-                    user: _this.user.name,
-                    typing: true,
-                    typingText: _this.sendForm.body,
-                    conversation_id: _this.conversation.id
+
+        async sendMessage() {
+            if (!this.newMessage.trim()) return
+
+            try {
+                const response = await axios.post('/conversations', {
+                    conversation_id: this.conversation.id,
+                    sender: this.$page.props.user.id,
+                    body: this.newMessage
                 })
-            }, 300)
+
+                this.messages.push(response.data.message)
+                this.newMessage = ''
+                this.scrollToBottom()
+            } catch (error) {
+                console.error('Error sending message:', error)
+            }
+        },
+
+        async selectConversation(id) {
+            window.location.href = `/conversations/${id}`
+        },
+
+        isTyping() {
+            if (this.typingTimeout) {
+                clearTimeout(this.typingTimeout)
+            }
+
+            Echo.private(`conversation.${this.conversation.id}`)
+                .whisper('typing', {
+                    user: this.$page.props.user.name
+                })
+
+            this.typingTimeout = setTimeout(() => {
+                this.typingTimeout = null
+            }, 3000)
+        },
+
+        async createNewChat() {
+            try {
+                const response = await axios.post('/conversations/create', this.newChatData)
+                this.showNewChat = false
+                window.location.href = `/conversations/${response.data.id}`
+            } catch (error) {
+                console.error('Error creating conversation:', error)
+            }
+        },
+
+        async removeParticipant(userId) {
+            try {
+                await axios.delete(`/conversations/${this.conversation.id}/participants/${userId}`)
+                this.conversation.participants = this.conversation.participants.filter(p => p.id !== userId)
+            } catch (error) {
+                console.error('Error removing participant:', error)
+            }
         }
     },
-    created() {
-        let app = this.channel;
-        let _this = this;
-        app
-            .listen('MessageEvent', (e) => {
-                if (this.conversation.id === e.conversation_id){
-                    this.$store.dispatch('sendMessage', e.message)
-                }
-            })
-            .listenForWhisper('typing', (e) => {
-                if (e.conversation_id == _this.conversation.id){
-                    this.typingUser = e.user;
-                    this.typing = e.typing;
-                    this.typingText = e.typingText;
 
-                    setTimeout(function() {
-                        _this.typing = false
-                    }, 6000);
-                }else{
-                    this.otherTypingUser = e.user;
-                    this.otherTyping = e.typing;
-                    this.otherTypingText = e.typingText;
-
-                    setTimeout(function() {
-                        _this.otherTyping = false
-                    }, 6000);
-                    console.log(e)
-                }
-            })
-    },
     computed: {
-        conversionId(){
-            return this.sendForm.conversation_id
-        },
-        channel () {
-            if(this.conversation !== undefined){
-                return window.Echo.private(`messages.${this.conversation.id}`);
-            }
-            if(window.location.pathname === "/conversation"){
-                let firstUser = this.online.length > 0 ? this.online[0].id : this.offline[0].id;
-                this.$inertia.replace(route('conversation.show', firstUser))
-            }
-        },
-        secondPerson(){
-            this.secondPerson = localStorage.getItem('second_person')
-            return this.secondPerson;
+        conversationName() {
+            if (!this.conversation) return 'Chat'
+            return this.isOneToOne(this.conversation) ? this.getOtherParticipantName(this.conversation) : this.conversation.name
         }
     }
-
 }
 </script>
-
 <style scoped>
+.message {
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 15px;
+    background-color: #f0f0f0;
+    max-width: 80%;
+}
 
+.message.sent {
+    background-color: #d1e7dd;
+    align-self: flex-end;
+}
+
+.message.received {
+    background-color: #f8d7da;
+    align-self: flex-start;
+}
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.input-container {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+}
+
+input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #6f42c1;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #5a3791;
+}
 </style>

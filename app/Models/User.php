@@ -129,4 +129,13 @@ class User extends Authenticatable
             ->latest();
     }
 
+    public function conversations() {
+        return $this->belongsToMany(Conversation::class, 'conversation_user')
+                    ->whereHas('conversationUsers', function ($q) {
+                        $q->where('user_id', auth()->user()->id ?? null);
+                    })
+                    ->with('conversationUsers')
+                    ->with('messages');
+    }
+
 }

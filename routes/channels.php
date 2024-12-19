@@ -47,3 +47,6 @@ Broadcast::channel('post.{post}', function($user, \App\Models\Post $post){
 Broadcast::channel('activity.{id}', function ($user, $id) {
     return true;
 });
+Broadcast::channel('conversation.{id}', function ($user, $id) {
+    return true;
+});
