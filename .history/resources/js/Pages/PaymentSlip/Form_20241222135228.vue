@@ -53,11 +53,10 @@
                             <label for="fee_type">Fee Type<span class="text-danger">*</span></label>
                             <select name="fee_type" id="fee_type" class="form-control" v-model="form.fee_type">
                                 <option value="">Select Fee Type</option>
-                                <option value="Admi. Fee">Admission Fee</option>
-                                <option value="Sem. Fee">Semester Fee</option>
-                                <option value="Exam Fee">Exam Fee</option>
-                                <option value="MMA">MMA</option>
-                                <option value="Reg. Fee">Reg. Fee</option>
+                                <option value="admission">Admission Fee</option>
+                                <option value="semester">Semester Fee</option>
+                                <option value="exam">Exam Fee</option>
+                                <option value="other">Other</option>
                             </select>
                             <div v-if="errors.fee_type" class="text-danger">
                                 {{ errors.fee_type }}

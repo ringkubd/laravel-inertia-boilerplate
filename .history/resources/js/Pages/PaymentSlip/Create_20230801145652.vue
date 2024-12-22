@@ -1,11 +1,11 @@
 <template>
     <Head>
-        <title>Add New Payment Slip</title>
+        <title>Add New Application</title>
     </Head>
     <Authenticated>
         <template #header>
             <PageHeader>
-                <h2>Add New Payment Slip</h2>
+                <h2>Add New Application</h2>
             </PageHeader>
         </template>
         <template #default>
@@ -16,7 +16,6 @@
                         :submit-form="submitForm"
                         :create-form="true"
                         :errors="$page.props.errors"
-                        :academic_sessions="$page.props.academic_sessions"
                     />
                 </div>
             </div>
@@ -27,17 +26,13 @@
 <script>
 import Authenticated from "@/Layouts/Authenticated";
 import PageHeader from "@/Shared/PageHeader";
-import Form from "@/Pages/PaymentSlip/Form";
+import Form from "@/Pages/Mobile/Form";
 export default {
     name: "Create",
     components: {Form, PageHeader, Authenticated},
-    props: {
-        errors: Object,
-        academic_sessions: Array,
-    },
     methods:{
         submitForm(formData){
-            formData.post(route('payment-slip.store'))
+            formData.post(route('mobile.store'))
         }
     }
 }

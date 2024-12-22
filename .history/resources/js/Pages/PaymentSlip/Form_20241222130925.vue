@@ -2,9 +2,9 @@
     <div class="flex justify-center h-screen">
         <form action="" enctype="multipart/form-data" @submit.prevent="submitData">
             <fieldset class="row form-group mb-5 mx-2 pb-5 shadow-2xl">
-                <legend class="hover:text-green-900 bg-gradient-to-r from-gray-300 to-blue-100 shadow-lg border-b-2 border-gray-500">Payment Slip Details</legend>
+                <legend class="hover:text-green-900 bg-gradient-to-l bg-gradient-to-r from-gray-300 to-blue-100 shadow-lg border-b-2 border-gray-500">Payment Slip Details</legend>
                 <div class="col">
-                    <div class="sm:grid-cols-1 grid md:grid-cols-2 flex-grow mb-2">
+                    <div class="flex sm:grid-cols-1 grid md:grid-cols-2 flex-grow mb-2">
                         <div class="flex-1 group mr-2">
                             <label for="academic_session">Academic Session<span class="text-danger">*</span></label>
                             <select name="academic_session" id="academic_session" v-model="form.academic_session" required class="form-control">
@@ -53,11 +53,10 @@
                             <label for="fee_type">Fee Type<span class="text-danger">*</span></label>
                             <select name="fee_type" id="fee_type" class="form-control" v-model="form.fee_type">
                                 <option value="">Select Fee Type</option>
-                                <option value="Admi. Fee">Admission Fee</option>
-                                <option value="Sem. Fee">Semester Fee</option>
-                                <option value="Exam Fee">Exam Fee</option>
-                                <option value="MMA">MMA</option>
-                                <option value="Reg. Fee">Reg. Fee</option>
+                                <option value="admission">Admission Fee</option>
+                                <option value="semester">Semester Fee</option>
+                                <option value="exam">Exam Fee</option>
+                                <option value="other">Other</option>
                             </select>
                             <div v-if="errors.fee_type" class="text-danger">
                                 {{ errors.fee_type }}
@@ -155,8 +154,7 @@ export default {
             preview: null,
             fileName: null,
             isImage: false,
-            isPDF: false,
-            students: []
+            isPDF: false
         }
     },
     methods:{
@@ -184,15 +182,6 @@ export default {
 
             this.form.attachment = file;
         },
-        fetchStudents() {
-            axios.get(route('payment-slip.students'), {
-                params: { academic_session: this.form.academic_session }
-            }).then(response => {
-                this.students = response.data;
-            }).catch(error => {
-                console.error("There was an error fetching the students:", error);
-            });
-        },
         submitData(){
             this.form.post(this.createForm ? route('payment-slip.store') : route('payment-slip.update', this.paymentSlip.id), {
                 preserveScroll: true,
@@ -201,13 +190,6 @@ export default {
                     this.fileName = null;
                 }
             });
-        }
-    },
-    watch: {
-        'form.academic_session': function(newVal, oldVal) {
-            if (newVal) {
-                this.fetchStudents();
-            }
         }
     },
     beforeUnmount() {

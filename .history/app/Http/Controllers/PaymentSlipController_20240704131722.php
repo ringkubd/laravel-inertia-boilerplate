@@ -6,19 +6,12 @@ use App\Http\Resources\PaymentSlipBasicResource;
 use App\Models\AcademicSession;
 use App\Models\ClassRoom;
 use App\Models\PaymentSlip;
-use App\Models\Student;
 use App\Models\Trade;
 use App\Notifications\PaymentSlipNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\DB; // Add this import
-use Illuminate\Support\Facades\Storage; // Add this import
-use Illuminate\Support\Str; // Add this import
-use Illuminate\Support\Facades\Validator; // Add this import
-use Illuminate\Validation\Rule; // Add this import
 use Inertia\Inertia;
-use Inertia\Response;
 use ZipArchive;
 
 class PaymentSlipController extends Controller
@@ -50,75 +43,22 @@ class PaymentSlipController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Inertia\Response
+     * @return \Illuminate\Http\Response
      */
-    public function create(): Response
+    public function create()
     {
-        $academic_sessions = AcademicSession::all();
-        return Inertia::render('PaymentSlip/Create', [
-            'academic_sessions' => $academic_sessions,
-        ]);
+        //
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        // Validate the request data
-        $validated = $request->validate([
-            'student_id' => ['required', 'exists:students,id'],
-            'semester' => ['required', Rule::unique('payment_slips')->where(function ($query) use ($request) {
-                return $query->where('student_id', $request->student_id)
-                    ->where('fee_type', $request->fee_type)
-                    ->where('status', '!=', 2)
-                    ->where('semester', $request->semester);
-            })],
-            'amount' => 'required',
-            'fee_type' => 'required',
-            'attachment' => 'required|file',
-        ]);
-        // dd($validated);
-        try {
-            DB::beginTransaction();
-
-            $result_request = $validated;
-            $result_request['added_by'] = auth()->user()->id;
-
-            $slip = PaymentSlip::create($result_request);
-
-            $image = $request->file('attachment');
-            $extension = pathinfo($image->getClientOriginalName(), PATHINFO_EXTENSION);
-            $safeName = Str::random(50) . '.' . $extension;
-
-            if (!Storage::disk('public_path')->put("payment_slip/" . $safeName, file_get_contents($image))) {
-                throw new \Exception('File upload failed');
-            }
-
-            $slip->attachments()->create([
-                'path' => 'payment_slip/' . $safeName,
-                'extention' => $extension,
-                'payment_slip_id' => $slip->id,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ]);
-
-            DB::commit();
-
-            return redirect()
-                ->route('payment-slip.index')
-                ->with('success', 'Payment slip created successfully');
-        } catch (\Exception $e) {
-            DB::rollBack();
-
-            return redirect()
-                ->back()
-                ->withInput()
-                ->withErrors(['error' => 'Failed to create payment slip: ' . $e->getMessage()]);
-        }
+        //
     }
 
     /**
@@ -168,8 +108,7 @@ class PaymentSlipController extends Controller
     }
 
 
-    public function changeStatus(PaymentSlip $slip, $status)
-    {
+    public function changeStatus(PaymentSlip $slip, $status){
         $slip->updateOrFail(['status' => $status]);
 
         $paymentSlip = PaymentSlip::with('student')->find($slip->id);
@@ -177,13 +116,11 @@ class PaymentSlipController extends Controller
         return redirect()->back()->with('Status successfully updated');
     }
 
-    public function download()
-    {
+    public function download(){
         dd(123);
     }
 
-    public function downloadAll(Request $request)
-    {
+    public function downloadAll(Request $request){
         $slips = PaymentSlip::query()
             ->with(['student'])
             ->when($request->current_session, function ($q, $v) use ($request) {
@@ -206,18 +143,18 @@ class PaymentSlipController extends Controller
             ->orderBy('created_at')
             ->where('status', 1)
             ->get();
-        if ($slips->count() > 0) {
+        if ($slips->count() > 0){
             $zip = new ZipArchive();
             $rand = rand(9999, 111111);
             $archiveName = "payment_slip/zip/{$rand}.zip";
-            if ($zip->open(public_path($archiveName), ZipArchive::CREATE) === true) {
-                foreach ($slips as $slip) {
+            if ($zip->open(public_path($archiveName), ZipArchive::CREATE) === true){
+                foreach ($slips as $slip){
                     $fee_type = $slip->fee_type;
                     $student_name = $slip->student->name;
-                    foreach ($slip->attachments as $attach) {
+                    foreach ($slip->attachments as $attach){
                         $file = public_path($attach->path);
-                        $fileName = str_replace(" ", "_", $fee_type) . "_" . str_replace(" ", "_", $student_name) . "_" . $attach->id . "." . $attach->extention;
-                        if (File::exists($file)) {
+                        $fileName = str_replace(" ","_" ,$fee_type)."_".str_replace(" ", "_", $student_name)."_".$attach->id.".".$attach->extention;
+                        if (File::exists($file)){
                             $zip->addFile($file, $fileName);
                         }
                     }
@@ -225,6 +162,7 @@ class PaymentSlipController extends Controller
                 $zip->close();
                 return response()->download(public_path($archiveName));
             }
+
         }
         return back();
     }
@@ -256,19 +194,5 @@ class PaymentSlipController extends Controller
             ->with('attachments')
             ->orderBy('created_at')
             ->paginate();
-    }
-
-    /**
-     * Summary of getSetudents
-     * @param \Illuminate\Http\Request $request
-     * @return mixed|\Illuminate\Http\JsonResponse
-     */
-    public function getSetudents(Request $request)
-    {
-        $students =  Student::query()
-            ->whereNotNull('polytechnic_id')
-            ->where('polytechnic_session', $request->academic_session)
-            ->get();
-        return response()->json($students);
     }
 }

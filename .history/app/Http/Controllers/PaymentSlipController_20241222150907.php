@@ -78,10 +78,9 @@ class PaymentSlipController extends Controller
                     ->where('semester', $request->semester);
             })],
             'amount' => 'required',
-            'fee_type' => 'required',
             'attachment' => 'required|file',
         ]);
-        // dd($validated);
+
         try {
             DB::beginTransaction();
 

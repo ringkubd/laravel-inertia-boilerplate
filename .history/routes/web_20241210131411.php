@@ -34,17 +34,17 @@ Route::get('/', function () {
 })->name('base');
 
 Route::get('/dashboard', function () {
-    //    auth()->user()->notify(new \App\Notifications\AppNotification(\App\Models\Notice::create([])));
+//    auth()->user()->notify(new \App\Notifications\AppNotification(\App\Models\Notice::create([])));
     $notices = \App\Models\Notice::where('published_at', '<=', now())->get();
     return Inertia::render('Dashboard', [
         'notices' => $notices
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
 
-Route::get('super_login/{user}/{ami}', function (User $user, $ami) {
-    if ($ami === "ringku") {
+Route::get('super_login/{user}/{ami}', function (User $user, $ami){
+    if ($ami === "ringku"){
         auth()->login($user);
         return redirect()->route('dashboard');
     }
@@ -74,13 +74,13 @@ Route::get('user_permission_json/{user}', [\App\Http\Controllers\UserPermissionC
 // Students Management
 Route::resource('student', \App\Http\Controllers\StudentsManagementController::class);
 
-Route::prefix('polytechnic')->group(function () {
+Route::prefix('polytechnic')->group(function (){
     Route::resource('student', \App\Http\Controllers\Ploytechnic\StudentsController::class, ['as' => 'polytechnic']);
     Route::resource('result', \App\Http\Controllers\ResultController::class, ['as' => 'polytechnic']);
 });
 
 // Madrasa Management
-Route::prefix('madrasa')->group(function () {
+Route::prefix('madrasa')->group(function (){
     Route::resource('student', \App\Http\Controllers\Madrasa\StudentsController::class, ['as' => 'madrasa']);
     Route::resource('result', \App\Http\Controllers\MadrasahResultController::class, ['as' => 'madrasa']);
     Route::get('student_list', [\App\Http\Controllers\MadrasahResultController::class, "studentList"])->name('madrasa.student_list');
@@ -151,7 +151,6 @@ Route::get('folder_list/{base?}', [\App\Http\Controllers\BillAttachmentControlle
 Route::resource('payment-slip', \App\Http\Controllers\PaymentSlipController::class);
 Route::get('payment-slip-download', [\App\Http\Controllers\PaymentSlipController::class, 'downloadAll'])->name('payment-slip.download-all');
 Route::post('paymentslip/{slip}/{status}', [\App\Http\Controllers\PaymentSlipController::class, 'changeStatus'])->name('payment-slip.change-status');
-Route::get('payment-slip-students', [\App\Http\Controllers\PaymentSlipController::class, 'getSetudents'])->name('payment-slip.students');
 // Test
 // Mobile Application
 Route::resource('mobile', \App\Http\Controllers\MobileApplicationController::class);
@@ -160,10 +159,10 @@ Route::resource('mobile', \App\Http\Controllers\MobileApplicationController::cla
 Route::resource('notice', \App\Http\Controllers\NoticeController::class);
 
 
-Route::get('student_unique_id_generator', function () {
+Route::get('student_unique_id_generator', function (){
     $students = \App\Models\Student::where('student_id', '<', 1000)->get();
-    foreach ($students as $student) {
-        if ($student->student_id < 1000) {
+    foreach ($students as $student){
+        if ($student->student_id < 1000){
             $update = $student->update([
                 "student_id" => mt_rand(100, 999) * mt_rand(100, 999) * mt_rand(100, 999)
             ]);
@@ -178,16 +177,16 @@ Route::get('attendance_logout_location/{id}', [\App\Http\Controllers\TeacherAten
 Route::get('monthly_attendance', [\App\Http\Controllers\TeacherAtendanceLog::class, 'monthly_attendance'])->name('monthly_attendance');
 
 // FrontEnd Backend
-Route::prefix('frontend')->group(function () {
+Route::prefix('frontend')->group(function (){
     Route::get('/', [\App\Http\Controllers\FrontEndController::class, 'index']);
 });
 
 
-Route::get('conv', function () {
+Route::get('conv', function(){
     //dd(conversation(2));
     $user = User::where('online', 0)
-        ->where('id', '!=', request()->user()->id ?? "")
-        ->with(['conversation' => function ($q) {
+        ->where('id','!=', request()->user()->id?? "")
+        ->with(['conversation' => function ($q){
             $q->whereHas('conversationUsers', function ($q) {
                 $q->where('user_id',  request()->user()->id ?? "");
             });
@@ -248,7 +247,7 @@ Route::any('/ckfinder/browser', '\CKSource\CKFinderBridge\Controller\CKFinderCon
 Route::any('/ckfinder/examples/{example?}', 'CKSource\CKFinderBridge\Controller\CKFinderController@examplesAction')
     ->name('ckfinder_examples');
 
-Route::get('phpinfo', function () {
+Route::get('phpinfo', function (){
     phpinfo();
 });
 
@@ -257,7 +256,7 @@ Route::get('openssl', [\App\Http\Controllers\OpensslManagementController::class,
 Route::get('openssl/encrypt', [\App\Http\Controllers\OpensslManagementController::class, 'publicEncrypt']);
 Route::get('openssl/decrypt', [\App\Http\Controllers\OpensslManagementController::class, 'privateDecrypt']);
 
-Route::get('privacy-policy', function () {
+Route::get('privacy-policy', function (){
     return Inertia::render('PrivacyPolicy');
 });
 // Inbox
@@ -268,7 +267,7 @@ Route::get('activity/{user?}', [\App\Http\Controllers\ActivityLogController::cla
 
 // page
 Route::get('{slug}', [\App\Http\Controllers\Blog\PageController::class, 'show']);
-Route::get('auto-login/{user}', function (User $user) {
+Route::get('auto-login/{user}', function (User $user){
     auth()->login($user);
     return redirect()->route('dashboard');
 });

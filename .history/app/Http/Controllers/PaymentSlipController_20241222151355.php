@@ -78,14 +78,13 @@ class PaymentSlipController extends Controller
                     ->where('semester', $request->semester);
             })],
             'amount' => 'required',
-            'fee_type' => 'required',
             'attachment' => 'required|file',
         ]);
-        // dd($validated);
+
         try {
             DB::beginTransaction();
 
-            $result_request = $validated;
+            $result_request = $request->only('student_id', 'semester', 'amount', 'fee_type');
             $result_request['added_by'] = auth()->user()->id;
 
             $slip = PaymentSlip::create($result_request);

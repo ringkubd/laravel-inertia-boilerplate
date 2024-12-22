@@ -16,7 +16,7 @@
                         :submit-form="submitForm"
                         :create-form="true"
                         :errors="$page.props.errors"
-                        :academic_sessions="$page.props.academic_sessions"
+                        :accademic_sessions="$page.props.accademic_sessions"
                     />
                 </div>
             </div>
@@ -33,7 +33,7 @@ export default {
     components: {Form, PageHeader, Authenticated},
     props: {
         errors: Object,
-        academic_sessions: Array,
+        accademic_sessions: Array,
     },
     methods:{
         submitForm(formData){

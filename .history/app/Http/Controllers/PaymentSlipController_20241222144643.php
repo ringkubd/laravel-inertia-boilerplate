@@ -68,57 +68,42 @@ class PaymentSlipController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate the request data
-        $validated = $request->validate([
-            'student_id' => ['required', 'exists:students,id'],
-            'semester' => ['required', Rule::unique('payment_slips')->where(function ($query) use ($request) {
-                return $query->where('student_id', $request->student_id)
+        dd($request->all());
+        $validator = Validator::make($request->all(), [
+            'semester' => 'required',
+            'fee_type' => ['required', Rule::unique('payment_slips')->using(function ($q) use ($request) {
+                $q
+                    ->where('student_id', $request->student_id)
                     ->where('fee_type', $request->fee_type)
                     ->where('status', '!=', 2)
                     ->where('semester', $request->semester);
             })],
             'amount' => 'required',
-            'fee_type' => 'required',
-            'attachment' => 'required|file',
+            'attachment' => 'required',
         ]);
-        // dd($validated);
+        $validator->validate();
+
         try {
             DB::beginTransaction();
-
-            $result_request = $validated;
+            $result_request = $request->only('student_id', 'semester', 'amount', 'fee_type');
             $result_request['added_by'] = auth()->user()->id;
-
+            $result_request['student_id'] =  $request->student_id;
             $slip = PaymentSlip::create($result_request);
 
-            $image = $request->file('attachment');
-            $extension = pathinfo($image->getClientOriginalName(), PATHINFO_EXTENSION);
+            $image = base64_decode($request->attachment);
+            $extension = getImageMimeType($image);
             $safeName = Str::random(50) . '.' . $extension;
-
-            if (!Storage::disk('public_path')->put("payment_slip/" . $safeName, file_get_contents($image))) {
-                throw new \Exception('File upload failed');
-            }
-
-            $slip->attachments()->create([
+            $store = Storage::disk('public_path')->put("payment_slip/" . $safeName, $image);
+            $slip->attachments()->insert([
                 'path' => 'payment_slip/' . $safeName,
                 'extention' => $extension,
-                'payment_slip_id' => $slip->id,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'payment_slip_id' => $slip->id
             ]);
-
             DB::commit();
-
-            return redirect()
-                ->route('payment-slip.index')
-                ->with('success', 'Payment slip created successfully');
         } catch (\Exception $e) {
             DB::rollBack();
-
-            return redirect()
-                ->back()
-                ->withInput()
-                ->withErrors(['error' => 'Failed to create payment slip: ' . $e->getMessage()]);
         }
+        return redirect()->route('payment-slip.index')->with('Status successfully created');
     }
 
     /**

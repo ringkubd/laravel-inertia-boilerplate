@@ -81,7 +81,6 @@ class PaymentSlipController extends Controller
             'fee_type' => 'required',
             'attachment' => 'required|file',
         ]);
-        // dd($validated);
         try {
             DB::beginTransaction();
 

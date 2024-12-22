@@ -16,7 +16,6 @@
                         :submit-form="submitForm"
                         :create-form="true"
                         :errors="$page.props.errors"
-                        :academic_sessions="$page.props.academic_sessions"
                     />
                 </div>
             </div>
@@ -31,10 +30,6 @@ import Form from "@/Pages/PaymentSlip/Form";
 export default {
     name: "Create",
     components: {Form, PageHeader, Authenticated},
-    props: {
-        errors: Object,
-        academic_sessions: Array,
-    },
     methods:{
         submitForm(formData){
             formData.post(route('payment-slip.store'))
