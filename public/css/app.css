@@ -925,6 +925,12 @@ select {
 .h-16 {
   height: 4rem;
 }
+.h-2 {
+  height: 0.5rem;
+}
+.h-2\.5 {
+  height: 0.625rem;
+}
 .h-20 {
   height: 5rem;
 }
@@ -967,12 +973,6 @@ select {
 }
 .h-screen {
   height: 100vh;
-}
-.h-2 {
-  height: 0.5rem;
-}
-.h-2\.5 {
-  height: 0.625rem;
 }
 .max-h-\[1\.5rem\] {
   max-height: 1.5rem;

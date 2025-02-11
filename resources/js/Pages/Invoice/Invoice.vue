@@ -1,4 +1,5 @@
 <template>
+
     <Head>
         <title>Invoice</title>
     </Head>
@@ -28,140 +29,155 @@
                     </div>
                     <table class="table table-secondary border-0 print:border-0">
                         <thead class="border-0 print:border-0">
-                        <tr class="border-0 print:border-0">
-                            <th :colspan="5+ (feeTypes != null ? feeTypes.length : 0)" rowspan="4" class="border-0 print:border-0">
-                                <div class="text-left" style="text-align: left">
-                                    <table class="">
-                                        <tbody class="">
-                                        <tr class="">
-                                            <th class="text-left pr-6">Academic Year:</th>
-                                            <td class="text-left px-6"> {{ basicInfo.session }}</td>
-                                        </tr>
-                                        <tr class="">
-                                            <th class="text-left pr-6">Semester Continuing:</th>
-                                            <td class="text-left px-6">{{ ordinal_suffix_of(basicInfo.semester) }}</td>
-                                        </tr>
-                                        <tr class="">
-                                            <th class="text-left pr-6">Raised Date:</th>
-                                            <td class="text-left px-6">{{ moment(basicInfo.invoice_date).format('DD MMM Y') }}</td>
-                                        </tr>
-                                        <tr class="" v-if="last_mma != 0">
-                                            <th class="text-left pr-6">MMA Number.:</th>
-                                            <td class="text-left px-6">
-                                                {{ordinal_suffix_of(basicInfo.invoice_no)}} of {{ordinal_suffix_of(basicInfo.semester)}}, {{ basicInfo.invoice_no * basicInfo.semester }}/48
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
+                            <tr class="border-0 print:border-0">
+                                <th :colspan="5+ (feeTypes != null ? feeTypes.length : 0)" rowspan="4"
+                                    class="border-0 print:border-0">
+                                    <div class="text-left" style="text-align: left">
+                                        <table class="">
+                                            <tbody class="">
+                                                <tr class="">
+                                                    <th class="text-left pr-6">Academic Year:</th>
+                                                    <td class="text-left px-6"> {{ basicInfo.session }}</td>
+                                                </tr>
+                                                <tr class="">
+                                                    <th class="text-left pr-6">Semester Continuing:</th>
+                                                    <td class="text-left px-6">{{ ordinal_suffix_of(basicInfo.semester)
+                                                        }}</td>
+                                                </tr>
+                                                <tr class="">
+                                                    <th class="text-left pr-6">Raised Date:</th>
+                                                    <td class="text-left px-6">{{
+                                                        moment(basicInfo.invoice_date).format('DD MMM Y') }}</td>
+                                                </tr>
+                                                <tr class="" v-if="last_mma != 0">
+                                                    <th class="text-left pr-6">MMA Number.:</th>
+                                                    <td class="text-left px-6">
+                                                        {{ordinal_suffix_of(basicInfo.invoice_no)}} of
+                                                        {{ordinal_suffix_of(basicInfo.semester)}}, {{
+                                                        basicInfo.invoice_no * basicInfo.semester }}/48
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
 
-                                </div>
-                            </th>
-                            <th colspan="2">
-                                <h4>Annex - A</h4>
-                            </th>
-                        </tr>
+                                    </div>
+                                </th>
+                                <th colspan="2">
+                                    <h4>Annex - A</h4>
+                                </th>
+                            </tr>
                         </thead>
                         <thead class="border-1 print:border-1">
-                        <tr class="align-middle border-1 print:border-1" style="background-color: #e0d5d5!important;">
-                            <th rowspan="2">Sl.#</th>
-                            <th rowspan="2">Roll</th>
-                            <th rowspan="2">Name</th>
-                            <th rowspan="2">Trade</th>
-                            <th rowspan="2">IBBL Branch</th>
-                            <th rowspan="2">IBBL Account</th>
-                            <th :colspan="feeTypes != null ? feeTypes.length : 0">Tuition Fees</th>
-                            <th rowspan="2">Total</th>
-                            <th rowspan="2">Remarks</th>
-                        </tr>
-                        <tr class="border-1" style="background-color: #e0d5d5!important;">
-                            <th v-for="feeType in feeTypes" :key="feeType">
-                                {{feeType}}
-                            </th>
-                        </tr>
+                            <tr class="align-middle border-1 print:border-1"
+                                style="background-color: #e0d5d5!important;">
+                                <th rowspan="2">Sl.#</th>
+                                <th rowspan="2">Roll</th>
+                                <th rowspan="2">Name</th>
+                                <th rowspan="2">Trade</th>
+                                <th rowspan="2">IBBL Branch</th>
+                                <th rowspan="2">IBBL Account</th>
+                                <th :colspan="feeTypes != null ? feeTypes.length : 0">Tuition Fees</th>
+                                <th rowspan="2">Total</th>
+                                <th rowspan="2">Remarks</th>
+                            </tr>
+                            <tr class="border-1" style="background-color: #e0d5d5!important;">
+                                <th v-for="feeType in feeTypes" :key="feeType">
+                                    {{feeType}}
+                                </th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <tr v-for="(invoice, index) in data" :key="invoice.id" class="border-1">
-                            <td class="text-center">{{ index + 1 }}</td>
-                            <td class="text-center">{{ invoice.student?.polytechnic_roll }}</td>
-                            <td style="width: 20%!important;">{{ invoice.student_name }}</td>
-                            <td style="width: 15%!important;">{{ getFirstWord(invoice.student.polytechnic_trade_id) }}</td>
-                            <td style="width: 25%!important;">{{ invoice.bank_branch }}</td>
-                            <td>{{ invoice.bank_account }}</td>
-                            <td class="text-center" v-for="(ty, index) in feeTypes" :key="index">{{tuition_fees(invoice.details, ty)}}</td>
-                            <td class="text-center">{{invoice.amount}}</td>
-                            <td class="text-right">{{remarks(invoice.result_status, invoice.payment_slip, basicInfo)}}</td>
-                        </tr>
-                        <tr rowspan="2" style="border: 1px solid rgb(0,0,0)!important; color: black!important; font-weight: 600">
-                            <th :colspan="6+ (feeTypes != null ? feeTypes.length : 0)" class="total" style="text-align: right!important; border: 1px solid rgb(0,0,0)!important;">Total Amount</th>
-                            <th class="text-center">{{totalInvoiceAmount()}}</th>
-                            <th class="text-center"></th>
-                        </tr>
-                        <tr style="border: 1px solid rgb(0,0,0)!important; color: black!important; font-weight: 600">
-                            <th colspan="2">In Words</th>
-                            <th :colspan="6+ (feeTypes != null ? feeTypes.length : 0)" class="total" style="text-align: right!important; border: 1px solid rgb(0,0,0)!important;">{{ number2wordEnglish(totalInvoiceAmount())}}</th>
-                        </tr>
+                            <tr v-for="(invoice, index) in data" :key="invoice.id" class="border-1">
+                                <td class="text-center">{{ index + 1 }}</td>
+                                <td class="text-center">{{ invoice.student?.polytechnic_roll }}</td>
+                                <td style="width: 20%!important;">{{ invoice.student_name }}</td>
+                                <td style="width: 15%!important;">{{ getFirstWord(invoice.student.polytechnic_trade_id)
+                                    }}</td>
+                                <td style="width: 25%!important;">{{ invoice.bank_branch }}</td>
+                                <td>{{ invoice.bank_account }}</td>
+                                <td class="text-center" v-for="(ty, index) in feeTypes" :key="index">
+                                    {{tuition_fees(invoice.details, ty)}}</td>
+                                <td class="text-center">{{invoice.amount}}</td>
+                                <td class="text-right">{{remarks(invoice.result_status, invoice.payment_slip,
+                                    basicInfo)}}</td>
+                            </tr>
+                            <tr rowspan="2"
+                                style="border: 1px solid rgb(0,0,0)!important; color: black!important; font-weight: 600">
+                                <th :colspan="6+ (feeTypes != null ? feeTypes.length : 0)" class="total"
+                                    style="text-align: right!important; border: 1px solid rgb(0,0,0)!important;">Total
+                                    Amount</th>
+                                <th class="text-center">{{totalInvoiceAmount()}}</th>
+                                <th class="text-center"></th>
+                            </tr>
+                            <tr
+                                style="border: 1px solid rgb(0,0,0)!important; color: black!important; font-weight: 600">
+                                <th colspan="2">In Words</th>
+                                <th :colspan="6+ (feeTypes != null ? feeTypes.length : 0)" class="total"
+                                    style="text-align: right!important; border: 1px solid rgb(0,0,0)!important;">{{
+                                    number2wordEnglish(totalInvoiceAmount())}}</th>
+                            </tr>
                         </tbody>
                         <tfoot>
-                        <tr class="border-0">
-                            <td colspan="10" style="padding-left: 2.5em!important; border: 0!important;">
-                                <strong>Note: </strong>
-                                <ul id="note">
-                                    <li>DS- Document submitted.</li>
-                                    <li>DNS- Document Not submitted.</li>
-                                </ul>
-                            </td>
-                        </tr>
+                            <tr class="border-0">
+                                <td colspan="10" style="padding-left: 2.5em!important; border: 0!important;">
+                                    <strong>Note: </strong>
+                                    <ul id="note">
+                                        <li>DS- Document submitted.</li>
+                                        <li>DNS- Document Not submitted.</li>
+                                    </ul>
+                                </td>
+                            </tr>
                         </tfoot>
                     </table>
                     <table class="table-auto w-full mt-10">
                         <tbody>
-                        <tr style="border-bottom: 0!important;">
-                            <td class="text-center" style="padding-top: 50px!important;">
-                                <div class="text-center flex flex-col justify-center items-center">
-                                    <hr style="color: black!important;" class="w-1/2">
-                                    <span>Program Officer</span>
-                                    <span>IsDB-BISEW</span>
-                                </div>
-                            </td>
-                            <td class="text-center" style="padding-top: 50px!important;">
-                                <div class="text-center flex flex-col justify-center items-center">
-                                    <hr style="color: black!important;" class="w-1/2">
-                                    <span>Program Coordinator</span>
-                                    <span>IsDB-BISEW</span>
-                                </div>
-                            </td>
-                            <td class="text-center" style="padding-top: 50px!important;">
-                                <div class="text-center flex flex-col justify-center items-center">
-                                    <hr style="color: black!important;" class="w-1/2"/>
-                                    <span>Sr. Program Coordinator</span>
-                                    <span>IsDB-BISEW</span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr></tr>
-                        <tr>
-                            <td class="text-center" style="padding-top: 50px!important;">
-                                <div class="text-center flex flex-col justify-center items-center">
-                                    <hr style="color: black!important;" class="w-1/2">
-                                    <span>Accounts Officer</span>
-                                    <span>IsDB-BISEW</span>
-                                </div>
-                            </td>
-                            <td class="text-center"  style="padding-top: 50px!important;">
-                                <div class="text-center flex flex-col justify-center items-center">
-                                    <hr style="color: black!important;" class="w-1/2">
-                                    <span>Sr. Accounts Officer</span>
-                                    <span>IsDB-BISEW</span>
-                                </div>
-                            </td>
-                            <td class="text-center" style="padding-top: 50px!important;">
-                                <div class="text-center flex flex-col justify-center items-center">
-                                    <hr style="color: black!important;" class="w-1/2">
-                                    <span>Chief Executive Officer</span>
-                                    <span>IsDB-BISEW</span>
-                                </div>
-                            </td>
-                        </tr>
+                            <tr style="border-bottom: 0!important;">
+                                <td class="text-center" style="padding-top: 50px!important;">
+                                    <div class="text-center flex flex-col justify-center items-center">
+                                        <hr style="color: black!important;" class="w-1/2">
+                                        <span>Program Officer</span>
+                                        <span>IsDB-BISEW</span>
+                                    </div>
+                                </td>
+                                <td class="text-center" style="padding-top: 50px!important;">
+                                    <div class="text-center flex flex-col justify-center items-center">
+                                        <hr style="color: black!important;" class="w-1/2">
+                                        <span>Program Coordinator</span>
+                                        <span>IsDB-BISEW</span>
+                                    </div>
+                                </td>
+                                <td class="text-center" style="padding-top: 50px!important;">
+                                    <div class="text-center flex flex-col justify-center items-center">
+                                        <hr style="color: black!important;" class="w-1/2" />
+                                        <span>Sr. Program Coordinator</span>
+                                        <span>IsDB-BISEW</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr></tr>
+                            <tr>
+                                <td class="text-center" style="padding-top: 50px!important;">
+                                    <div class="text-center flex flex-col justify-center items-center">
+                                        <hr style="color: black!important;" class="w-1/2">
+                                        <span>Accounts Officer</span>
+                                        <span>IsDB-BISEW</span>
+                                    </div>
+                                </td>
+                                <td class="text-center" style="padding-top: 50px!important;">
+                                    <div class="text-center flex flex-col justify-center items-center">
+                                        <hr style="color: black!important;" class="w-1/2">
+                                        <span>Sr. Accounts Officer</span>
+                                        <span>IsDB-BISEW</span>
+                                    </div>
+                                </td>
+                                <td class="text-center" style="padding-top: 50px!important;">
+                                    <div class="text-center flex flex-col justify-center items-center">
+                                        <hr style="color: black!important;" class="w-1/2">
+                                        <span>Chief Executive Officer</span>
+                                        <span>IsDB-BISEW</span>
+                                    </div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <div class="page-break mt-5 print:break-after-all"></div>
@@ -182,44 +198,65 @@
                         <div>Dhaka-1207</div>
                         <div class="flex flex-col my-2">
                             <div class="mb-3">Dear Sir,</div>
-                            <div>You are requested to kindly transfer the amount as mentioned below against the name of the student to his/her personal account with you from the current A/C no. 20502240100000115 of IsDB-BISEW.</div>
+                            <div>You are requested to kindly transfer the amount as mentioned below against the name of
+                                the student to his/her personal account with you from the current A/C no.
+                                20502240100000115 of IsDB-BISEW.</div>
                         </div>
                     </div>
-                    <div class="flex flex-col justify-center justify-content-center" style="flex: auto; justify-content: center; align-items: center; width: 100%">
-                        <table class="table table-auto bank_sheet" style="border: 1px solid rgb(0,0,0)!important; color: black!important;width: 100%">
+                    <div class="flex flex-col justify-center justify-content-center"
+                        style="flex: auto; justify-content: center; align-items: center; width: 100%">
+                        <table class="table table-auto bank_sheet"
+                            style="border: 1px solid rgb(0,0,0)!important; color: black!important;width: 100%">
                             <thead class="border-1 print:border-1 thead">
-                            <tr class="align-middle border-1 print:border-1 thead" style="background-color: #e0d5d5!important;">
-                                <th>Sl.#</th>
-                                <th>Name</th>
-                                <th>IBBL Branch</th>
-                                <th>IBBL Account</th>
-                                <th>Amount</th>
-                            </tr>
+                                <tr class="align-middle border-1 print:border-1 thead"
+                                    style="background-color: #e0d5d5!important;">
+                                    <th>Sl.#</th>
+                                    <th>Name</th>
+                                    <th>IBBL Branch</th>
+                                    <th>IBBL Account</th>
+                                    <th>Amount</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="(invoice, index) in data.filter(i => i.amount > 0)" :key="invoice.id" :class="'border-1'" :style="(index % 25 === 0 ? ' margin-top: 1.7in !important': ' table-row')">
-                                <td class="text-center">{{ index + 1 }}</td>
-                                <td>{{ invoice.student_name }}</td>
-                                <td>{{ invoice.bank_branch }}</td>
-                                <td class="text-center">{{ invoice.bank_account }}</td>
-                                <td class="text-center">{{parseInt(invoice.amount).toLocaleString('en-BD', {
-                                    maximumFractionDigits: 2
-                                })}}</td>
-                            </tr>
-                            <tr style="border: 1px solid rgb(0,0,0)!important; color: black!important; font-weight: 600">
-                                <th :colspan="4" class="total" style="text-align: center!important; border: 1px solid rgb(0,0,0)!important;">Total Amount</th>
-                                <th class="text-center">{{totalInvoiceAmount()}}</th>
-                            </tr>
-                            <tr style="border: 1px solid rgb(0,0,0)!important; color: black!important; font-weight: 600">
-                                <th :colspan="5" class="total" style="text-align: center!important; border: 1px solid rgb(0,0,0)!important;">In Words (Taka): {{ number2wordEnglish(totalInvoiceAmount())}}</th>
-                            </tr>
+                                <tr v-for="(invoice, index) in data.filter(i => i.amount > 0)" :key="invoice.id"
+                                    :class="'border-1'"
+                                    :style="(index % 25 === 0 ? ' margin-top: 1.7in !important': ' table-row')">
+                                    <td class="text-center">{{ index + 1 }}</td>
+                                    <td>{{ invoice.student_name }}</td>
+                                    <td>{{ invoice.bank_branch }}</td>
+                                    <td class="text-center">{{ invoice.bank_account }}</td>
+                                    <td class="text-center">{{parseInt(invoice.amount).toLocaleString('en-BD', {
+                                        maximumFractionDigits: 2
+                                        })}}</td>
+                                </tr>
+                                <tr
+                                    style="border: 1px solid rgb(0,0,0)!important; color: black!important; font-weight: 600">
+                                    <th :colspan="4" class="total"
+                                        style="text-align: center!important; border: 1px solid rgb(0,0,0)!important;">
+                                        Total Amount</th>
+                                    <th class="text-center">{{totalInvoiceAmount()}}</th>
+                                </tr>
+                                <tr
+                                    style="border: 1px solid rgb(0,0,0)!important; color: black!important; font-weight: 600">
+                                    <th :colspan="5" class="total"
+                                        style="text-align: center!important; border: 1px solid rgb(0,0,0)!important;">In
+                                        Words (Taka): {{ number2wordEnglish(totalInvoiceAmount())}}</th>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
                     <div class="flex flex-col leading-6">
                         <div class="mt-2 mb-8">Thanking you,</div>
-                        <div class="font-bold signature">Neaz Khan</div>
-                        <div>Chief Executive Officer</div>
+                        <div class="flex flex-row justify-between">
+                            <div class="flex flex-col">
+                                <div class="font-bold signature">Neaz Khan</div>
+                                <div>Chief Executive Officer</div>
+                            </div>
+                            <div class="flex flex-col">
+                                <div class="font-bold signature">Zahid Al Mahadi</div>
+                                <div>Sr. Program Coordinator</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
