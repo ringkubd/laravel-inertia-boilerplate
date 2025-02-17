@@ -166,7 +166,7 @@
                                 <td class="text-center" style="padding-top: 50px!important;">
                                     <div class="text-center flex flex-col justify-center items-center">
                                         <hr style="color: black!important;" class="w-1/2">
-                                        <span>Sr. Accounts Officer</span>
+                                        <span>Accounts Officer</span>
                                         <span>IsDB-BISEW</span>
                                     </div>
                                 </td>
@@ -251,10 +251,6 @@
                             <div class="flex flex-col">
                                 <div class="font-bold signature">Neaz Khan</div>
                                 <div>Chief Executive Officer</div>
-                            </div>
-                            <div class="flex flex-col">
-                                <div class="font-bold signature">Zahid Al Mahadi</div>
-                                <div>Sr. Program Coordinator</div>
                             </div>
                         </div>
                     </div>
