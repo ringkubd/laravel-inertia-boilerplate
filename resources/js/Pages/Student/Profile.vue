@@ -151,8 +151,15 @@
                                             <td>{{ student.polytechnic_session }}</td>
                                         </tr>
                                         <tr>
-                                            <th>Semester</th>
-                                            <td>{{ student.polytechnic_result?.reduce((max, result) => Math.max(max, result.semester), 0) + 1  }}</td>
+                                            <th>Semester Continuing</th>
+                                            <td>
+                                                <span v-if="student.polytechnic_result?.some(result => result.status === 'Dropout')">
+                                                    Dropped out in Semester {{ student.polytechnic_result.find(result => result.status === 'Dropout').semester }}
+                                                </span>
+                                                <span v-else>
+                                                    {{ student.polytechnic_completed == 1 ? "Passed" : student.polytechnic_result?.reduce((max, result) => Math.max(max, result.semester), 0) + 1 }}
+                                                </span>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th>Registration</th>
