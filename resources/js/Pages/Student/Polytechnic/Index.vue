@@ -62,15 +62,12 @@
                         <thead>
                         <tr>
                             <th>Sl#</th>
-                            <th>Photo</th>
                             <th>Name</th>
-                            <th>S.ID</th>
-                            <th>C. Roll</th>
+                            <th>Father</th>
+                            <th>Roll</th>
                             <th>Session</th>
                             <th>Mobile</th>
-                            <th>Father</th>
                             <th>Trade</th>
-                            <th>Madrasa</th>
                             <th>Polytechnic</th>
                             <th>Semester</th>
                             <th>Action</th>
@@ -80,18 +77,15 @@
                         <tr v-for="(student,index) in students.data">
                             <td>{{index + 1}}</td>
                             <td>
-                                <img v-if="student.photo" :src="'/'+student.photo" width="50" :alt="student.name">
-                            </td>
-                            <td>
                                 <Link :href="route('madrasa.student.show', student.id)">
                                     {{student.name}}
                                 </Link>
                             </td>
-                            <td>
-                                {{ student.student_id }}
+                             <td>
+                                {{ student.father_name }}
                             </td>
                             <td>
-                                {{ student.class_roll }}
+                                {{ student.polytechnic_roll }}
                             </td>
                             <td>
                                 {{ student.polytechnic_session }}
@@ -100,13 +94,7 @@
                                 {{ student.mobile }}
                             </td>
                             <td>
-                                {{ student.father_name }}
-                            </td>
-                            <td>
                                 {{ student.polytechnic_trade_id }}
-                            </td>
-                            <td>
-                                {{student.madrasha ? student.madrasha.name : ""}}
                             </td>
                             <td>
                                 {{student.polytechnic ? student.polytechnic.name : ""}}
