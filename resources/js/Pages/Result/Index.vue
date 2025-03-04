@@ -24,10 +24,10 @@
                 </div>
                 <div class="card-body overflow-x-auto w-full table-responsive">
                     <div class="my-4">
-                        <form action="" class="form-inline bg-gradient-to-tr from-green-500 via-green-200 to-green-400 bg-blend-color-dodge" @submit.prevent="submitForm">
-                            <div class="row pl-2 py-4">
-                                <div class="col form-group">
-                                    <label for="student">Student</label>
+                        <form action="" class="form-inline bg-gradient-to-tr from-green-500 via-green-200 to-green-400 bg-blend-color-dodge p-4 rounded" @submit.prevent="submitForm">
+                            <div class="row g-3">
+                                <div class="col-md-4 form-group">
+                                    <label for="student" class="form-label">Student</label>
                                     <Multiselect v-model="newResult.student_id"
                                                  :filterResults="true"
                                                  :minChars="1"
@@ -41,8 +41,8 @@
                                     </Multiselect>
                                     <InputError :message="errors.student_id"/>
                                 </div>
-                                <div class="col form-group">
-                                    <label for="semester">Semester</label>
+                                <div class="col-md-4 form-group">
+                                    <label for="semester" class="form-label">Semester</label>
                                     <select id="semester" v-model="newResult.semester" class="form-control">
                                         <option value="1">1</option>
                                         <option value="2">2</option>
@@ -55,13 +55,13 @@
                                     </select>
                                     <InputError :message="errors.semester"/>
                                 </div>
-                                <div class="col form-group">
-                                    <label for="gpa">GPA</label>
+                                <div class="col-md-4 form-group">
+                                    <label for="gpa" class="form-label">GPA</label>
                                     <input type="number" step="0.01" v-model="newResult.gpa" id="gpa" class="form-control">
                                     <InputError :message="errors.gpa"/>
                                 </div>
-                                <div class="col">
-                                    <label for="status">Status</label>
+                                <div class="col-md-4 form-group">
+                                    <label for="status" class="form-label">Status</label>
                                     <select id="status" class="form-control" v-model="newResult.status">
                                         <option value="Passed">Passed</option>
                                         <option value="Referred">Referred</option>
@@ -69,24 +69,24 @@
                                     </select>
                                     <InputError :message="errors.status"/>
                                 </div>
-                                <div class="col">
-                                    <label for="failed_in_subject">Failed in Subject</label>
+                                <div class="col-md-4 form-group">
+                                    <label for="failed_in_subject" class="form-label">Failed in Subject</label>
                                     <input type="number" step="0.1" v-model="newResult.failed_in_subject" id="failed_in_subject" class="form-control">
                                     <InputError :message="errors.failed_in_subject"/>
                                 </div>
-                                <div class="col">
-                                    <label for="supporting_document">Supporting Document</label>
+                                <div class="col-md-4 form-group">
+                                    <label for="supporting_document" class="form-label">Supporting Document</label>
                                     <input type="file" id="supporting_document" ref="supporting_document" accept="image/*" class="form-control" @input="newResult.supporting_document = $event.target.files" multiple="true">
                                     <InputError :message="errors.supporting_document"/>
                                 </div>
-                                <div class="col mt-4">
+                                <div class="col-md-12 mt-4 text-center">
                                     <input type="submit" class="btn btn-success" value="Add">
                                 </div>
                             </div>
                         </form>
                     </div>
-                    <table class="table table-secondary">
-                        <thead>
+                    <table class="table table-hover table-bordered">
+                        <thead class="thead-dark">
                         <tr class="text-center">
                             <th rowspan="2" style="vertical-align : middle;text-align:center;">SL#</th>
                             <th rowspan="2" style="vertical-align : middle;text-align:center;">Name</th>
@@ -169,14 +169,12 @@
                                             :href="route('polytechnic.result.destroy', failed_in_subject.id)"
                                             v-if="can.delete"
                                         >
-                                            <!--                                        <jet-button type="submit" class="btn-sm btn-danger px-0 py-0">-->
                                             <font-awesome-icon
                                                 icon="trash"
                                                 size="xs"
                                                 rotation="rotate"
                                                 class="text-danger"
                                             ></font-awesome-icon>
-                                            <!--                                        </jet-button>-->
                                         </Link>
                                     </li>
                                 </ul>
@@ -206,8 +204,10 @@ library.add(faPen, faTrash, faInfo);
 function GET() {
     var data = [];
     for(let x = 0; x < arguments.length; ++x){
-        if(location.href.match(new RegExp("/\?".concat(arguments[x],"=","([^\n&]*)"))) !== null){
-            data.push(location.href.match(new RegExp("/\?".concat(arguments[x],"=","([^\n&]*)")))[1])
+        const regex = new RegExp("[?&]" + arguments[x] + "=([^&#]*)", "i");
+        const match = location.href.match(regex);
+        if(match !== null){
+            data.push(match[1]);
         }
     }
     return data;
