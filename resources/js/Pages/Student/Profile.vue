@@ -232,7 +232,7 @@
                                     <th>Semester</th>
                                     <th>Fee Type</th>
                                     <th>Amount</th>
-                                    <th>Payment Date</th>
+                                    <th>Invoice Raising Date</th>
                                     <th>Payment Method</th>
                                 </tr>
                                 </thead>

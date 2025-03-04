@@ -94,7 +94,7 @@
                                 {{ student.class_roll }}
                             </td>
                             <td>
-                                {{ student.current_session }}
+                                {{ student.polytechnic_session }}
                             </td>
                             <td>
                                 {{ student.mobile }}
