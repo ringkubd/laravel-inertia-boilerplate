@@ -62,19 +62,19 @@
                         <thead>
                         <tr>
                             <th>Sl#</th>
-                            <th>Name</th>
-                            <th>Father</th>
-                            <th>Roll</th>
-                            <th>Session</th>
-                            <th>Mobile</th>
-                            <th>Trade</th>
-                            <th>Polytechnic</th>
-                            <th>Semester</th>
+                            <th class="text-left">Student Name</th>
+                            <th class="text-left">Father's Name</th>
+                            <th class="text-left">Diploma Roll #</th>
+                            <th class="text-left">Admission Session</th>
+                            <!-- <th>Mobile</th> -->
+                            <th class="text-left">Trade Course</th>
+                            <th class="text-left">Polytechnic Institute</th>
+                            <th class="text-left">Semester Continuing</th>
                             <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr v-for="(student,index) in students.data">
+                        <tr v-for="(student,index) in students.data" :key="student.id">
                             <td>{{index + 1}}</td>
                             <td>
                                 <Link :href="route('madrasa.student.show', student.id)">
@@ -90,16 +90,16 @@
                             <td>
                                 {{ student.polytechnic_session }}
                             </td>
-                            <td>
+                            <!-- <td>
                                 {{ student.mobile }}
-                            </td>
+                            </td> -->
                             <td>
                                 {{ student.polytechnic_trade_id }}
                             </td>
                             <td>
                                 {{student.polytechnic ? student.polytechnic.name : ""}}
                             </td>
-                            <td>
+                            <td class="text-center">
                                 {{ student.polytechnic_completed == 1 ? "Passed" : student.semester }}
                             </td>
                             <td>
