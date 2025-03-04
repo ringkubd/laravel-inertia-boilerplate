@@ -7,7 +7,7 @@
             v-if="can.update"
             class="group"
         >
-            <jet-button type="submit" class="hover:shadow-lg">
+            <jet-button type="submit" class="hover:shadow-lg bg-blue-500">
                 <font-awesome-icon
                     icon="pen"
                     size="md"
@@ -25,12 +25,12 @@
             class="group"
             target="_blank"
         >
-            <jet-button type="submit" class="hover:shadow-lg bg-indigo-500">
+            <jet-button type="submit" class="hover:shadow-lg bg-green-500">
                 <font-awesome-icon
                     icon="info"
                     size="md"
                     rotation="rotate"
-                    class="text-info"
+                    class="text-white"
                 ></font-awesome-icon>
             </jet-button>
         </Link>
@@ -43,12 +43,12 @@
             :href="deleteUrl"
             v-if="can.delete"
         >
-            <jet-button type="submit" class="bg-cyan-500 hover:shadow-lg">
+            <jet-button type="submit" class="bg-red-500 hover:shadow-lg">
                 <font-awesome-icon
                     icon="trash"
                     size="md"
                     rotation="rotate"
-                    class="text-red-600"
+                    class="text-white"
                 ></font-awesome-icon>
             </jet-button>
         </Link>
