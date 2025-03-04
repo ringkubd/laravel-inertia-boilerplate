@@ -100,11 +100,11 @@
                                 {{student.polytechnic ? student.polytechnic.name : ""}}
                             </td>
                             <td class="text-center">
-                                <span v-if="student.results.some(result => result.status === 'Dropout')">
+                                <span v-if="student.results?.some(result => result.status === 'Dropout')">
                                     Dropped out in Semester {{ student.results.find(result => result.status === 'Dropout').semester }}
                                 </span>
                                 <span v-else>
-                                    {{ student.polytechnic_completed == 1 ? "Passed" : student.results.reduce((max, result) => Math.max(max, result.semester), 0) + 1 }}
+                                    {{ student.polytechnic_completed == 1 ? "Passed" : student.results?.reduce((max, result) => Math.max(max, result.semester), 0) + 1 }}
                                 </span>
                             </td>
                             <td>

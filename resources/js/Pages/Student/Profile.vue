@@ -152,7 +152,7 @@
                                         </tr>
                                         <tr>
                                             <th>Semester</th>
-                                            <td>{{ student.semester }}</td>
+                                            <td>{{ student.polytechnic_result?.reduce((max, result) => Math.max(max, result.semester), 0) + 1  }}</td>
                                         </tr>
                                         <tr>
                                             <th>Registration</th>
