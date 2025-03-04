@@ -77,19 +77,26 @@ class SupportController extends Controller
             ->with('roles')
             ->where('email', 'mahadi@isdb-bisew.org')->get();
 
-//        $onlineUsers = onlineUsers() ? onlineUsers()->pluck('id')->toArray() : [];
+        //        $onlineUsers = onlineUsers() ? onlineUsers()->pluck('id')->toArray() : [];
         $userArray = $user->pluck('id')->toArray();
 
         if (auth()->user()->id !== $support->creator) {
             $userArray[] = $support->creator;
         }
-//        $recipient = User::whereIn('id',array_diff($userArray, $onlineUsers))->get();
+        //        $recipient = User::whereIn('id',array_diff($userArray, $onlineUsers))->get();
 
 
         $conversation = $support->message()->create($chat);
 
-//        dispatch(new SupportNotificationJob($recipient));
+        // Debug log
+        \Log::info('Message created', ['conversation' => $conversation]);
+
+        //        dispatch(new SupportNotificationJob($recipient));
         broadcast(new SupportEvent(new SupportMessageResource($conversation)));
+
+        // Debug log
+        \Log::info('Event broadcasted', ['conversation' => $conversation]);
+
         return response()->json([
             'success' => true,
             'conversation' => new SupportMessageResource($conversation)
@@ -161,7 +168,8 @@ class SupportController extends Controller
         return response()->json($conversation);
     }
 
-    public function deleteMessage(SupportConversationMessage $message){
+    public function deleteMessage(SupportConversationMessage $message)
+    {
         return $message;
     }
 }

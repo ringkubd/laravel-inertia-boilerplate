@@ -104,12 +104,14 @@ class ResultController extends Controller
             return redirect()->back()->withErrors($validate->errors());
         }
         $existingResult =  Result::where('student_id', $request->student_id)
-            ->where('semester', $request->semester)
-            ->where('status', '=', 'Referred')->count();
+            ->where('semester', $request->semester);
 
-        if ($request->status !== "Dropout" && $request->semester != 8 && $existingResult == 0) {
-            $classRoom = ClassRoom::where('class_name_number', $request->semester + 1)->first();
+        if (
+            $request->status !== "Dropout" && $request->semester != 8 && $existingResult->where('status', '=', 'Referred')
+            ->count() == 0 && $existingResult->max('semester') < $request->semester
+        ) {
             $student = Student::find($student_id);
+            $classRoom = ClassRoom::where('class_name_number', $request->semester + 1)->first();
             $student->classroom()->sync($classRoom->id);
         }
         if ($request->semester == 8 && $request->status == "Passed") {

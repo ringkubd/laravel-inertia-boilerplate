@@ -100,7 +100,12 @@
                                 {{student.polytechnic ? student.polytechnic.name : ""}}
                             </td>
                             <td class="text-center">
-                                {{ student.polytechnic_completed == 1 ? "Passed" : student.semester }}
+                                <span v-if="student.results.some(result => result.status === 'Dropout')">
+                                    Dropped out in Semester {{ student.results.find(result => result.status === 'Dropout').semester }}
+                                </span>
+                                <span v-else>
+                                    {{ student.polytechnic_completed == 1 ? "Passed" : student.results.reduce((max, result) => Math.max(max, result.semester), 0) + 1 }}
+                                </span>
                             </td>
                             <td>
                                 <Actions :can="can" :deleteUrl="route('polytechnic.student.destroy', student.id)" :editUrl="route('polytechnic.student.edit', student.id)" :isDetails="true" :detailUrl="route('madrasa.student.show', student.id)"></Actions>
