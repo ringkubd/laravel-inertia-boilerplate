@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Traits\HasRoles;
 
 class ResultController extends Controller
 {
@@ -28,14 +30,14 @@ class ResultController extends Controller
                 $q->where('polytechnic_session', $v);
             })
             ->when($request->search, function ($q, $v) {
-                $q->where(function ($q) use ($v){
+                $q->where(function ($q) use ($v) {
                     $q->where('polytechnic_session', 'like', "%$v%")
                         ->orWhere('name', 'like', "%$v%")
                         ->orWhere('name', 'like', "%$v%");
                 });
             })
-            ->when(auth()->user()->hasRole('Student'), function ($q){
-                $q->where('users_id', auth()->user()->id);
+            ->when(Auth::user()->hasRole('Student'), function ($q) {
+                $q->where('users_id', Auth::user()->id);
             })
             ->paginate(10);
         $sessions = AcademicSession::query()
@@ -44,10 +46,10 @@ class ResultController extends Controller
         return Inertia::render('Result/Index', [
             'data' => $result,
             'can' => [
-                'create' => auth()->user()->can('create_result'),
-                'update' => auth()->user()->can('update_result'),
-                'delete' => auth()->user()->can('delete_result'),
-                'view' => auth()->user()->can('view_result'),
+                'create' => Auth::user()->can('create_result'),
+                'update' => Auth::user()->can('update_result'),
+                'delete' => Auth::user()->can('delete_result'),
+                'view' => Auth::user()->can('view_result'),
             ],
             'sessions' => $sessions
         ]);
@@ -78,21 +80,24 @@ class ResultController extends Controller
         ];
         $semester = $request->semester;
         $student_id = $request->student_id;
-        $validate = Validator::make($request->all(), [
-            'semester' => [
-                'required', Rule::unique('results')->using(function ($query) use($student_id) {
-                    return $query->where('student_id', $student_id)
-                        ->whereNull('deleted_at')
-                        ->where('status', '!=',"Referred");
-                }),
-                'max:8',
-                'min:1',
+        $validate = Validator::make(
+            $request->all(),
+            [
+                'semester' => [
+                    'required',
+                    Rule::unique('results')->using(function ($query) use ($student_id) {
+                        return $query->where('student_id', $student_id)
+                            ->whereNull('deleted_at')
+                            ->where('status', '!=', "Referred");
+                    }),
+                    'max:8',
+                    'min:1',
+                ],
+                'student_id' => ['required'],
+                'status' => ['required'],
+                'failed_in_subject' => 'required',
+                'supporting_document' => 'required'
             ],
-            'student_id' => ['required'],
-            'status' => ['required'],
-            'failed_in_subject' => 'required',
-            'supporting_document' => 'required'
-        ],
             $messages
         );
         if ($validate->fails()) {
@@ -118,8 +123,8 @@ class ResultController extends Controller
         $result = Result::create($result_request);
         if ($request->hasFile('supporting_document')) {
             $documents = $request->file('supporting_document');
-            foreach ($documents as $doc){
-                $file = now().'.'.$doc->getClientOriginalExtension();
+            foreach ($documents as $doc) {
+                $file = now() . '.' . $doc->getClientOriginalExtension();
                 $doc->move(public_path("result_document"), $file);
                 $fileName[] = [
                     'attachment' => "result_document/{$file}",
@@ -129,7 +134,6 @@ class ResultController extends Controller
         }
         $result->attachments()->insert($fileName);
         return redirect()->back()->withSuccess("Result Successfully Added.");
-
     }
 
     /**
@@ -175,22 +179,32 @@ class ResultController extends Controller
     public function destroy(Result $result)
     {
         $this->authorize('delete_polytechnic_result');
+
+        // Revert the changes of student and classroom
+        $student = Student::find($result->student_id);
+        if ($result->semester != 8 && $result->status != 'Dropout') {
+            $previousClassRoom = ClassRoom::where('class_name_number', $result->semester)->first();
+            $student->classroom()->sync($previousClassRoom->id);
+        }
+        if ($result->semester == 8 && $result->status == 'Passed') {
+            $student->update(['polytechnic_completed' => 0]);
+        }
+
         $result->delete();
-        return redirect()->back()->withSuccess("Successfully deleted.");
+        return redirect()->back()->withSuccess("Successfully deleted and changes reverted.");
     }
 
     /**
      *
      */
-    public function individualResult(){
-
-    }
+    public function individualResult() {}
 
     /**
      * Student List
      */
 
-    public function studentList(Request $request){
+    public function studentList(Request $request)
+    {
         $students = Student::query()
             ->when($request->name, function ($q, $v) {
                 $q->where('name', 'like', "%$v%");
@@ -200,10 +214,9 @@ class ResultController extends Controller
             })
             ->select('name as label', 'id as value', 'id')
             ->polytechnic();
-        if (auth()->user()->hasRole('Student')) {
-            $students->where('users_id', auth()->user()->id);
+        if (Auth::user()->hasRole('Student')) {
+            $students->where('users_id', Auth::user()->id);
         }
         return $students->get();
-
     }
 }

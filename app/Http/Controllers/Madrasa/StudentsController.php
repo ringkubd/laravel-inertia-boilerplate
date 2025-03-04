@@ -29,33 +29,33 @@ class StudentsController extends Controller
     public function index(Request $request)
     {
         $this->authorize('view_madrasa_student');
-        $madrasah_id = $request->has('madrasah') ? currentMadrasah($request->madrasah): currentMadrasah();
+        $madrasah_id = $request->has('madrasah') ? currentMadrasah($request->madrasah) : currentMadrasah();
 
         if ($request->pdf) {
             if (($request->has('search') && $request->search != "") || ($request->has('query') && $request->input('query') != "")) {
                 $search = $request->search ?? $request->input('query');
                 $students = Student::search($search)->get();
-            }else{
+            } else {
                 $students = Student::query()
                     ->with('users')
                     ->with('classroom')
                     ->with('madrasha')
                     ->with('polytechnic')
                     ->where('status', true)
-                    ->when($madrasah_id, function ($q, $v){
+                    ->when($madrasah_id, function ($q, $v) {
                         $q->where('madrasha_id', $v);
                     })
-                    ->when($request->current_session, function ($q, $v){
+                    ->when($request->current_session, function ($q, $v) {
                         $q->where('ssc_session', 'like', "%$v%");
-                    },function ($q){
+                    }, function ($q) {
                         $q->where('madrasa_completed', false);
                     })
-                    ->when($request->trade, function ($q, $v){
+                    ->when($request->trade, function ($q, $v) {
                         $q->where('madrasa_trade_id', 'like', "%$v%");
                     })
-                    ->when($request->classroom, function ($q, $v){
-                        $q->whereHas('classroom', function ($q) use ($v){
-                            $q->where('class_room_students.class_room_id',$v);
+                    ->when($request->classroom, function ($q, $v) {
+                        $q->whereHas('classroom', function ($q) use ($v) {
+                            $q->where('class_room_students.class_room_id', $v);
                         });
                     })
                     ->get();
@@ -69,34 +69,34 @@ class StudentsController extends Controller
         if (($request->has('search') && $request->search != "") || ($request->has('query') && $request->input('query') != "")) {
             $search = $request->search ?? $request->input('query');
             $students = Student::search($search)->paginate();
-        }else{
+        } else {
             $students = Student::query()
                 ->with('users')
                 ->with('classroom')
-                ->when($request->search, function ($q, $v){
+                ->when($request->search, function ($q, $v) {
                     $q
                         ->where('name', 'like', "%$v%")
                         ->orWhere('mobile', 'like', "%$v%")
-                        ->orWhereHas('madrasha', function ($q) use($v){
+                        ->orWhereHas('madrasha', function ($q) use ($v) {
                             $q->where('madrashas.name', 'like', "%$v%");
                         })
-                        ->orWhereHas('classroom', function ($q) use($v){
+                        ->orWhereHas('classroom', function ($q) use ($v) {
                             $q->where('class_rooms.name', 'like', "%$v%");
                         });
-                })->when($request->current_session, function ($q, $v){
+                })->when($request->current_session, function ($q, $v) {
                     $q->where('ssc_session', 'like', "%$v%");
-                },function ($q){
+                }, function ($q) {
                     $q->where('madrasa_completed', false);
                 })
-                ->when($request->trade, function ($q, $v){
+                ->when($request->trade, function ($q, $v) {
                     $q->where('madrasa_trade_id', 'like', "%$v%");
                 })
-                ->when($request->classroom, function ($q, $v){
-                    $q->whereHas('classroom', function ($q) use ($v){
-                        $q->where('class_room_students.class_room_id',$v);
+                ->when($request->classroom, function ($q, $v) {
+                    $q->whereHas('classroom', function ($q) use ($v) {
+                        $q->where('class_room_students.class_room_id', $v);
                     });
                 })
-                ->when($madrasah_id, function ($q, $v){
+                ->when($madrasah_id, function ($q, $v) {
                     $q->where('madrasha_id', $v);
                 })
                 ->with('madrasha')
@@ -110,7 +110,7 @@ class StudentsController extends Controller
         $trade = Trade::where('is_madrasa', 1)->get();
         $madrasah = Madrasha::all();
 
-        return Inertia::render($this->root_component.'Index', [
+        return Inertia::render($this->root_component . 'Index', [
             'students' => $students,
             'can' => [
                 'create' => auth()->user()->can('create_student'),
@@ -150,7 +150,7 @@ class StudentsController extends Controller
         $selected_bank = null;
         $user = new User();
 
-        return Inertia::render($this->root_component.'Create', [
+        return Inertia::render($this->root_component . 'Create', [
             'student' => $student,
             'selected_trade' => $selected_trade,
             'selected_session' => $selected_session,
@@ -198,15 +198,15 @@ class StudentsController extends Controller
         $student_id = mt_rand(100, 999) * mt_rand(100, 999) * mt_rand(100, 999);
         if ($request->hasFile('photo')) {
             $image = $request->file('photo');
-            $fileName = $request->madrashas_id.'_'.$request->class_roll.'_'.$request->trade.'_'.$student_id.'_'.rand(99,999);
-            $path = $image->move(public_path('photos/students'), $fileName.'.'.$image->getClientOriginalExtension());
-            $data['photo'] ='photos/students'.'/'.$fileName.'.'.$image->getClientOriginalExtension();
+            $fileName = $request->madrashas_id . '_' . $request->class_roll . '_' . $request->trade . '_' . $student_id . '_' . rand(99, 999);
+            $path = $image->move(public_path('photos/students'), $fileName . '.' . $image->getClientOriginalExtension());
+            $data['photo'] = 'photos/students' . '/' . $fileName . '.' . $image->getClientOriginalExtension();
         }
         if ($request->hasFile('id_card')) {
             $image = $request->file('id_card');
-            $fileName = $request->madrashas_id.'_'.$request->class_roll.'_'.$request->trade.'_'.$student_id.'_idcard'.'_'.rand(99,999);
-            $path = $image->move(public_path('photos/students'), $fileName.'.'.$image->getClientOriginalExtension());
-            $data['id_card'] ='photos/students'.'/'.$fileName.'.'.$image->getClientOriginalExtension();
+            $fileName = $request->madrashas_id . '_' . $request->class_roll . '_' . $request->trade . '_' . $student_id . '_idcard' . '_' . rand(99, 999);
+            $path = $image->move(public_path('photos/students'), $fileName . '.' . $image->getClientOriginalExtension());
+            $data['id_card'] = 'photos/students' . '/' . $fileName . '.' . $image->getClientOriginalExtension();
         }
         $user = null;
         $data['student_id'] = $student_id;
@@ -238,9 +238,15 @@ class StudentsController extends Controller
      */
     public function show(int $id): \Inertia\Response
     {
-        $student = Student::with('madrasahResult', 'polytechnicResult', 'classroom', 'madrasha', 'polytechnic', 'users')->find($id);
-//        dd($student);
-        if(auth()->user()->hasRole('Student') && $student->users_id != auth()->user()->id){
+        $student = Student::query()
+            ->with('madrasahResult', 'polytechnicResult', 'classroom', 'madrasha', 'polytechnic', 'users', 'invoiceDetails')
+            ->find($id);
+
+        if (!$student) {
+            abort(404);
+        }
+
+        if (auth()->user()->hasRole('Student') && $student->users_id != auth()->user()->id) {
             abort(403);
         }
         return Inertia::render('Student/Profile', [
@@ -278,11 +284,11 @@ class StudentsController extends Controller
             if (!$user) {
                 $user = new User();
             }
-        }else{
+        } else {
             $user = new User();
         }
 
-        return Inertia::render($this->root_component.'Edit', [
+        return Inertia::render($this->root_component . 'Edit', [
             'student' => $student,
             'selected_trade' => $selected_trade,
             'selected_session' => $selected_session,
@@ -328,20 +334,20 @@ class StudentsController extends Controller
                 unlink(public_path($studentsInformation->photo));
             }
             $image = $request->file('photo');
-            $fileName = $request->madrashas_id.'_'.$request->class_roll.'_'.$request->trade.'_'.$student_id.'_'.rand(99,999);
-            $path = $image->move(public_path('photos/students'), $fileName.'.'.$image->getClientOriginalExtension());
+            $fileName = $request->madrashas_id . '_' . $request->class_roll . '_' . $request->trade . '_' . $student_id . '_' . rand(99, 999);
+            $path = $image->move(public_path('photos/students'), $fileName . '.' . $image->getClientOriginalExtension());
             unset($data['photo']);
-            $data['photo'] ='photos/students'.'/'.$fileName.'.'.$image->getClientOriginalExtension();
+            $data['photo'] = 'photos/students' . '/' . $fileName . '.' . $image->getClientOriginalExtension();
         }
         if ($request->hasFile('id_card')) {
             if ($studentsInformation->id_card != null && file_exists(public_path($studentsInformation->id_card))) {
                 unlink(public_path($studentsInformation->id_card));
             }
             $image = $request->file('id_card');
-            $fileName = $request->madrashas_id.'_'.$request->class_roll.'_'.$request->trade.'_'.$student_id.'_'.rand(99,999);
-            $path = $image->move(public_path('photos/students/id_card'), $fileName.'.'.$image->getClientOriginalExtension());
+            $fileName = $request->madrashas_id . '_' . $request->class_roll . '_' . $request->trade . '_' . $student_id . '_' . rand(99, 999);
+            $path = $image->move(public_path('photos/students/id_card'), $fileName . '.' . $image->getClientOriginalExtension());
             unset($data['id_card']);
-            $data['id_card'] ='photos/students/id_card/'.$fileName.'.'.$image->getClientOriginalExtension();
+            $data['id_card'] = 'photos/students/id_card/' . $fileName . '.' . $image->getClientOriginalExtension();
         }
         $user = null;
         $data['student_id'] = $student_id;
@@ -352,7 +358,7 @@ class StudentsController extends Controller
                     $userData['password'] = Hash::make($request->password);
                 }
                 $user->update($userData);
-            }else{
+            } else {
                 $request->validate([
                     'email' => 'unique:users'
                 ]);
@@ -384,7 +390,7 @@ class StudentsController extends Controller
     public function destroy($id)
     {
         $this->authorize('delete_madrasa_student');
-        $student= Student::findOrFail($id);
+        $student = Student::findOrFail($id);
         $student->delete();
         return redirect()->route('madrasa.student.index')->withMessage('Student Deleted.');
     }
@@ -396,8 +402,9 @@ class StudentsController extends Controller
      * @return Collection
      */
 
-    public function search(Request $request){
-        $students =  Student::search($request->search, function ($meilisearch, $query, $options) use($request){
+    public function search(Request $request)
+    {
+        $students =  Student::search($request->search, function ($meilisearch, $query, $options) use ($request) {
             $filter = "";
             if ($request->only_polytechnic) {
                 if (auth()->user()->hasRole('Student')) {
@@ -405,13 +412,13 @@ class StudentsController extends Controller
                     $filter = ["madrasah_name='$madrasahName'"];
                 }
                 $options['filter'] = [['polytechnic_name!=null'], ['madrasa_completed=1'], $filter];;
-            }elseif ($request->only_madrasa) {
+            } elseif ($request->only_madrasa) {
                 if (auth()->user()->hasRole('Student')) {
                     $madrasahName = auth()->user()?->student_madrasah->first()?->name;
                     $filter = ["madrasah_name='$madrasahName'"];
                 }
                 $options['filter'] = [['madrasa_completed=0'], ['madrasah_name!=null'], $filter];
-            }else{
+            } else {
                 if (auth()->user()->hasRole('Student')) {
                     $madrasahName = auth()->user()?->student_madrasah->first()?->name;
                     $options['filter'] = [["madrasah_name='$madrasahName'"]];
