@@ -38,7 +38,14 @@ class StudentsController extends Controller
                         ->orWhere('mobile', 'like', "%$v%")
                         ->orWhereHas('classroom', function ($q) use ($v) {
                             $q->where('class_rooms.name', 'like', "%$v%");
-                        });
+                        })
+                        ->orWhereHas('madrasha', function ($q) use ($v) {
+                            $q->where('madrashas.name', 'like', "%$v%");
+                        })
+                        ->orWhereHas('polytechnic', function ($q) use ($v) {
+                            $q->where('polytechnics.name', 'like', "%$v%");
+                        })
+                    ;
                 })->when($request->current_session, function ($q, $v) {
                     $q->where('polytechnic_session', 'like', "%$v%");
                 })
