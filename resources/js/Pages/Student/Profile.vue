@@ -231,6 +231,45 @@
                             <button @click="printSection('invoice-details')" class="btn btn-light">Print</button>
                         </div>
                         <div class="card-body" id="invoice-details">
+                            <!-- Payment Status Summary -->
+                            <div class="row mb-4">
+                                <div class="col-md-4">
+                                    <div class="card bg-light">
+                                        <div class="card-header">
+                                            <h5>Total Payment Status</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <p><strong>Total Paid:</strong> {{ totalPaidAmount }} BDT</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card bg-light">
+                                        <div class="card-header">
+                                            <h5>Payment by Fee Type</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div v-for="(amount, feeType) in paymentsByFeeType" :key="feeType">
+                                                <strong>{{ feeType }}:</strong> {{ amount }} BDT
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card bg-light">
+                                        <div class="card-header">
+                                            <h5>Payment by Semester</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div v-for="(amount, semester) in paymentsBySemester" :key="semester">
+                                                <strong>Semester {{ semester }}:</strong> {{ amount }} BDT
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Invoice Details Table -->
                             <table class="table">
                                 <thead>
                                 <tr>
@@ -270,6 +309,44 @@ export default {
     name: "Profile",
     props: ['student'],
     components: {Back, Authenticated},
+    computed: {
+        totalPaidAmount() {
+            if (!this.student.invoice_details || this.student.invoice_details.length === 0) {
+                return 0;
+            }
+            return this.student.invoice_details.reduce((total, invoice) => {
+                return total + (parseFloat(invoice.amount) || 0);
+            }, 0);
+        },
+        paymentsByFeeType() {
+            if (!this.student.invoice_details || this.student.invoice_details.length === 0) {
+                return {};
+            }
+
+            return this.student.invoice_details.reduce((acc, invoice) => {
+                const feeType = invoice.fee_type || 'Unknown';
+                if (!acc[feeType]) {
+                    acc[feeType] = 0;
+                }
+                acc[feeType] += (parseFloat(invoice.amount) || 0);
+                return acc;
+            }, {});
+        },
+        paymentsBySemester() {
+            if (!this.student.invoice_details || this.student.invoice_details.length === 0) {
+                return {};
+            }
+
+            return this.student.invoice_details.reduce((acc, invoice) => {
+                const semester = invoice.invoice.semester || 'Unknown';
+                if (!acc[semester]) {
+                    acc[semester] = 0;
+                }
+                acc[semester] += (parseFloat(invoice.amount) || 0);
+                return acc;
+            }, {});
+        }
+    },
     methods: {
         photoExists(photo) {
             const http = new XMLHttpRequest();
@@ -278,10 +355,44 @@ export default {
             return http.status !== 404;
         },
         printSection(sectionId) {
-            const printContents = document.getElementById(sectionId).innerHTML;
+            // Get section title from the corresponding card header
+            const cardHeader = document.getElementById(sectionId).closest('.card').querySelector('.card-header h2').innerText;
+
+            // Get the section content
+            const sectionContent = document.getElementById(sectionId).innerHTML;
+
+            // Create print container with header
+            const printContent = `
+                <div class="print-header" style="text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #333;">
+                    <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+                        <img style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-right: 15px;"
+                            src="${this.photoExists(this.student.photo) ? '/' + this.student.photo : 'https://picsum.photos/200/300'}"
+                            alt="${this.student.name}">
+                        <div>
+                            <h1 style="margin: 0; font-size: 24px;">${this.student.name}</h1>
+                            <p style="margin: 5px 0 0 0; font-size: 14px;">IsDB-BISEW Student Profile</p>
+                        </div>
+                    </div>
+                    <h2 style="margin: 10px 0 0 0; font-size: 20px; color: #333;">${cardHeader}</h2>
+                </div>
+                <div class="print-content">
+                    ${sectionContent}
+                </div>
+                <div class="print-footer" style="margin-top: 20px; text-align: center; font-size: 12px; color: #666;">
+                    <p>Printed on: ${new Date().toLocaleString()}</p>
+                </div>
+            `;
+
+            // Store original content
             const originalContents = document.body.innerHTML;
-            document.body.innerHTML = printContents;
+
+            // Replace content with our print content
+            document.body.innerHTML = printContent;
+
+            // Print
             window.print();
+
+            // Restore original content
             document.body.innerHTML = originalContents;
         }
     },
@@ -301,5 +412,18 @@ export default {
 }
 .table th, .table td {
     vertical-align: middle;
+}
+@media print {
+    .print-header {
+        display: block !important;
+    }
+    .print-content table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .print-content th, .print-content td {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
 }
 </style>
