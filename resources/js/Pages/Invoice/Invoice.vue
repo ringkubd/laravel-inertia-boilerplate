@@ -249,6 +249,10 @@
                         <div class="mt-2 mb-8">Thanking you,</div>
                         <div class="flex flex-row justify-between">
                             <div class="flex flex-col">
+                                <div class="font-bold signature">Md Faijul Islam</div>
+                                <div>Accounts Officer</div>
+                            </div>
+                            <div class="flex flex-col">
                                 <div class="font-bold signature">Neaz Khan</div>
                                 <div>Chief Executive Officer</div>
                             </div>

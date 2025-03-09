@@ -11,7 +11,7 @@
                             <h4>Active Request List</h4>
                         </div>
                         <div class="card-body chat overflow-scroll" style="height: 58vh!important;">
-                            <ChatUserList 
+                            <ChatUserList
                                 :support="support"
                                 :active-conversation="activeConversation"
                                 :online-user="onlineUser"
@@ -28,14 +28,14 @@
                             <h2>{{ activeConversation?.creator?.name }}</h2>
                         </div>
                         <div class="card-body overflow-scroll" ref="messageContainer" style="height: 58vh!important;">
-                            <ChatMessages 
+                            <ChatMessages
                                 :messages="messageData"
                                 :conversation-creator-id="activeConversation?.creator?.id"
                                 @message-seen="seenMessage"
                                 @context-menu="handleContextMenu"
                             />
                         </div>
-                        <MessageInput 
+                        <MessageInput
                             :typing="typing"
                             :typing-user="typingUser"
                             :typing-text="typingText"
@@ -80,9 +80,9 @@ import ChatMessages from "@/Components/Support/ChatMessages";
 import MessageInput from "@/Components/Support/MessageInput";
 import { useConfirm } from 'v3confirm';
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { 
-    faPen, faTrash, faCopy, faPaperclip, 
-    faThumbsUp, faCheck, faDotCircle 
+import {
+    faPen, faTrash, faCopy, faPaperclip,
+    faThumbsUp, faCheck, faDotCircle
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faPen, faTrash, faCopy, faPaperclip, faThumbsUp, faCheck, faDotCircle);
@@ -124,8 +124,9 @@ export default {
         setupWebSocketListeners() {
             Echo.private(`support.${this.activeConversation?.id}`)
                 .listen('SupportEvent', (e) => {
-                    console.log(e.message);
-                    this.messageData.push(e.message);
+                    console.log('Event received', e);
+                    // Change from e.message to e.conversation
+                    this.messageData.push(e.conversation);
                     this.scrollToBottom();
                 })
                 .listenForWhisper('typing', this.handleTypingWhisper);

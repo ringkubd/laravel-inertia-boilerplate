@@ -1,45 +1,135 @@
 @extends('layouts.pdf_layout')
+
+@section('header')
+<div class="header-section">
+    <h3 style="padding: 0; color: #000;">{{ config('app.name') }}</h3>
+    <h4 style="margin: 5px 0; color: #000;">Polytechnic Student List</h4>
+    <hr style="border: 1px solid #000; margin: 10px 0;">
+</div>
+@endsection
+
 @section('content')
-    <div>
-        <table class="table">
-            <thead>
+<div class="content-wrapper">
+    <div class="filter-info" style="margin-bottom: 15px; font-size: 13px; color: #000;">
+        @if(isset($filterInfo))
+            <p><strong>Filters:</strong> {{ $filterInfo }}</p>
+        @endif
+        <p><strong>Total Students:</strong> {{ $students->count() }} | <strong>Report Generated:</strong> {{ date('d M Y H:i') }}</p>
+    </div>
+
+    @php
+        $semesterCounts = [1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0, 6 => 0, 7 => 0, 8 => 0];
+        $dropoutCount = 0;
+        $completedCount = 0;
+
+        foreach($students as $student) {
+            if($student->results->contains('status', 'Dropout')) {
+                $dropoutCount++;
+            } elseif($student->polytechnic_completed == 1 || ($student->results->max('semester') == 8 && $student->results->where('semester', 8)->contains('status', 'Passed'))) {
+                $completedCount++;
+            } else {
+                $currentSemester = $student->results->max('semester') + 1;
+                if(isset($semesterCounts[$currentSemester])) {
+                    $semesterCounts[$currentSemester]++;
+                }
+            }
+        }
+    @endphp
+
+    <!-- Status-wise Summary Section -->
+    <div style="margin-bottom: 20px; border: 1px solid #000; padding: 10px; background-color: #f9f9f9;">
+        <h4 style="margin: 0 0 10px 0; color: #000; text-decoration: underline;">Status-wise Student Summary</h4>
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 10px;">
             <tr>
-                <th>SL#</th>
-                <th>Name</th>
-                <th>Semester</th>
-                <th>Session</th>
-                <th>Mobile</th>
-                <th>Trade</th>
-                <th>Madrasah</th>
-                <th>Polytechnic</th>
+                <td style="width: 50%; vertical-align: top; padding-right: 15px;">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr style="background-color: #e0e0e0;">
+                            <th style="padding: 5px; border: 1px solid #000; text-align: center; width: 70%;">Status</th>
+                            <th style="padding: 5px; border: 1px solid #000; text-align: center; width: 30%;">Count</th>
+                        </tr>
+                        @foreach($semesterCounts as $semester => $count)
+                            <tr>
+                                <td style="padding: 5px; border: 1px solid #000;">Semester {{ $semester }} continuing</td>
+                                <td style="padding: 5px; border: 1px solid #000; text-align: center;">{{ $count }}</td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </td>
+                <td style="width: 50%; vertical-align: top;">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr style="background-color: #e0e0e0;">
+                            <th style="padding: 5px; border: 1px solid #000; text-align: center; width: 70%;">Status</th>
+                            <th style="padding: 5px; border: 1px solid #000; text-align: center; width: 30%;">Count</th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 5px; border: 1px solid #000;">Dropped out</td>
+                            <td style="padding: 5px; border: 1px solid #000; text-align: center;">{{ $dropoutCount }}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 5px; border: 1px solid #000;">Completed</td>
+                            <td style="padding: 5px; border: 1px solid #000; text-align: center;">{{ $completedCount }}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 5px; border: 1px solid #000; font-weight: bold;">Total</td>
+                            <td style="padding: 5px; border: 1px solid #000; text-align: center; font-weight: bold;">{{ $students->count() }}</td>
+                        </tr>
+                    </table>
+                </td>
             </tr>
-            </thead>
-            <tbody>
-            @forelse($students as $student)
-                <tr>
-                    <td>{{ $loop->iteration  }}</td>
-                    <td>{{ $student->name  }}</td>
-                    <td>{{ $student?->classroom[0]?->class_name_number }}</td>
-                    <td>{{ $student->polytechnic_session }}</td>
-                    <td>{{ $student->mobile  }}</td>
-                    <td>{{ $student->polytechnic_trade_id  }}</td>
-                    <td>{{ $student?->madrasha?->name }}</td>
-                    <td>{{ $student?->polytechnic?->name }}</td>
-                </tr>
-            @empty
-            @endforelse
-            </tbody>
         </table>
     </div>
+
+    <table style="width: 100%; border-collapse: collapse; page-break-inside: auto;">
+        <thead style="display: table-header-group;">
+            <tr style="background-color: #e0e0e0; color: #000;">
+                <th style="padding: 8px; border: 1px solid #000; text-align: center; font-weight: bold;">SL#</th>
+                <th style="padding: 8px; border: 1px solid #000; text-align: left; font-weight: bold;">Name</th>
+                <th style="padding: 8px; border: 1px solid #000; text-align: left; font-weight: bold;">Father's Name</th>
+                <th style="padding: 8px; border: 1px solid #000; text-align: left; font-weight: bold;">Diploma Roll #</th>
+                <th style="padding: 8px; border: 1px solid #000; text-align: left; font-weight: bold;">Session</th>
+                <th style="padding: 8px; border: 1px solid #000; text-align: left; font-weight: bold;">Mobile</th>
+                <th style="padding: 8px; border: 1px solid #000; text-align: left; font-weight: bold;">Trade Course</th>
+                <th style="padding: 8px; border: 1px solid #000; text-align: left; font-weight: bold;">Institute</th>
+                <th style="padding: 8px; border: 1px solid #000; text-align: center; font-weight: bold;">Semester</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($students as $student)
+            <tr style="{{ $loop->even ? 'background-color: #f5f5f5;' : 'background-color: #fff;' }}">
+                <td style="padding: 8px; border: 1px solid #000; text-align: center">{{ $loop->iteration }}</td>
+                <td style="padding: 8px; border: 1px solid #000; font-weight: 500">{{ $student->name }}</td>
+                <td style="padding: 8px; border: 1px solid #000;">{{ $student->father_name }}</td>
+                <td style="padding: 8px; border: 1px solid #000;">{{ $student->polytechnic_roll }}</td>
+                <td style="padding: 8px; border: 1px solid #000;">{{ $student->polytechnic_session ?? 'N/A' }}</td>
+                <td style="padding: 8px; border: 1px solid #000;">{{ $student->mobile ?: 'N/A' }}</td>
+                <td style="padding: 8px; border: 1px solid #000;">{{ $student->polytechnic_trade_id }}</td>
+                <td style="padding: 8px; border: 1px solid #000;">{{ $student->polytechnic ? $student->polytechnic->name : "Not assigned" }}</td>
+                <td style="padding: 8px; border: 1px solid #000; text-align: center; font-weight: 600;">
+                    @if($student->results->contains('status', 'Dropout'))
+                        Dropped out in Semester {{ $student->results->firstWhere('status', 'Dropout')->semester }}
+                    @elseif($student->polytechnic_completed == 1 || ($student->results->max('semester') == 8 && $student->results->where('semester', 8)->contains('status', 'Passed')))
+                        Completed
+                    @else
+                        {{ $student->results->max('semester') + 1 }}
+                    @endif
+                </td>
+            </tr>
+            @empty
+                <tr>
+                    <td colspan="9" style="padding: 20px; text-align: center; border: 1px solid #000;">No students available</td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+
+    <div class="summary" style="margin-top: 20px; font-size: 14px; color: #000;">
+        <p><strong>Note:</strong> This report includes all active polytechnic students with their current semester status.</p>
+    </div>
+</div>
 @endsection
-@section('header')
-    <h4 style="margin: 0px; padding: 0px">{{ config('app.name')  }}</h4>
-    <p>Student List</p>
-@endsection
-@section('style')
-    <style>
-        table{
-            font-size: 10px!important;
-        }
-    </style>
+
+@section('footer')
+<div class="footer" style="margin-top: 20px; font-size: 12px; text-align: center; color: #000; position: fixed; bottom: 0; width: 100%;">
+    <p>Generated on {{ date('d M Y') }} at {{ date('h:i A') }} | Page @{{ $PAGE_NUM }} of @{{ $PAGE_COUNT }}</p>
+</div>
 @endsection

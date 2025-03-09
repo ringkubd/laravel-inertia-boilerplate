@@ -55,6 +55,11 @@
                                 </div>
                             </div>
                         </template>
+                        <template #extra>
+                            <button @click="printData" class="btn btn-primary">
+                                <i class="fas fa-print"></i> Print
+                            </button>
+                        </template>
                     </CardHeader>
                 </div>
                 <div class="card-body table-responsive">
@@ -145,6 +150,21 @@ export default {
         },
         filterData(){
             this.$inertia.replace(route('polytechnic.student.index', { 'madrasah' : this.filterParam.madrasah, 'current_session': this.filterParam.session, 'trade': this.filterParam.trade, 'classroom': this.filterParam.classroom}))
+        },
+        printData(){
+            const params = {
+                pdf: true,
+                madrasah: this.filterParam.madrasah,
+                current_session: this.filterParam.session,
+                trade: this.filterParam.trade,
+                classroom: this.filterParam.classroom
+            };
+
+            // Generate PDF URL with current filters
+            const url = route('polytechnic.student.index', params);
+
+            // Open in new window/tab
+            window.open(url, '_blank');
         }
     },
     mounted() {
