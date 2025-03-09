@@ -246,7 +246,6 @@
                         </table>
                     </div>
                     <div class="flex flex-col leading-6">
-                        <div class="mt-2 mb-8">Thanking you,</div>
                         <div class="flex flex-row justify-between">
                             <div class="flex flex-col">
                                 <div class="font-bold signature">Md Faijul Islam</div>
