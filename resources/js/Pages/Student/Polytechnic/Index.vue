@@ -157,7 +157,8 @@ export default {
                 madrasah: this.filterParam.madrasah,
                 current_session: this.filterParam.session,
                 trade: this.filterParam.trade,
-                classroom: this.filterParam.classroom
+                classroom: this.filterParam.classroom,
+                search: GET('search')[0]
             };
 
             // Generate PDF URL with current filters

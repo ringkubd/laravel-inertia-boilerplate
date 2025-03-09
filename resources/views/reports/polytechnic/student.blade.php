@@ -10,7 +10,7 @@
 
 @section('content')
 <div class="content-wrapper">
-    <div class="filter-info" style="margin-bottom: 15px; font-size: 13px; color: #000;">
+    <div class="filter-info" style="margin: 5px 0; font-size: 13px; color: #000;">
         @if(isset($filterInfo))
             <p><strong>Filters:</strong> {{ $filterInfo }}</p>
         @endif
@@ -18,7 +18,7 @@
     </div>
 
     @php
-        $semesterCounts = [1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0, 6 => 0, 7 => 0, 8 => 0];
+        $continuingCount = 0;
         $dropoutCount = 0;
         $completedCount = 0;
 
@@ -28,53 +28,45 @@
             } elseif($student->polytechnic_completed == 1 || ($student->results->max('semester') == 8 && $student->results->where('semester', 8)->contains('status', 'Passed'))) {
                 $completedCount++;
             } else {
-                $currentSemester = $student->results->max('semester') + 1;
-                if(isset($semesterCounts[$currentSemester])) {
-                    $semesterCounts[$currentSemester]++;
-                }
+                $continuingCount++;
             }
         }
     @endphp
 
     <!-- Status-wise Summary Section -->
     <div style="margin-bottom: 20px; border: 1px solid #000; padding: 10px; background-color: #f9f9f9;">
-        <h4 style="margin: 0 0 10px 0; color: #000; text-decoration: underline;">Status-wise Student Summary</h4>
-        <table style="width: 100%; border-collapse: collapse; margin-bottom: 10px;">
+        <h4 style="margin: 0 0 10px 0; color: #000; text-decoration: underline;">Student Status Summary</h4>
+        <table style="width: 60%; border-collapse: collapse; margin: 0 auto;">
+            <tr style="background-color: #e0e0e0;">
+                <th style="padding: 6px; border: 1px solid #000; text-align: center;">Status</th>
+                <th style="padding: 6px; border: 1px solid #000; text-align: center;">Count</th>
+                <th style="padding: 6px; border: 1px solid #000; text-align: center;">Percentage</th>
+            </tr>
             <tr>
-                <td style="width: 50%; vertical-align: top; padding-right: 15px;">
-                    <table style="width: 100%; border-collapse: collapse;">
-                        <tr style="background-color: #e0e0e0;">
-                            <th style="padding: 5px; border: 1px solid #000; text-align: center; width: 70%;">Status</th>
-                            <th style="padding: 5px; border: 1px solid #000; text-align: center; width: 30%;">Count</th>
-                        </tr>
-                        @foreach($semesterCounts as $semester => $count)
-                            <tr>
-                                <td style="padding: 5px; border: 1px solid #000;">Semester {{ $semester }} continuing</td>
-                                <td style="padding: 5px; border: 1px solid #000; text-align: center;">{{ $count }}</td>
-                            </tr>
-                        @endforeach
-                    </table>
+                <td style="padding: 6px; border: 1px solid #000;">Continuing</td>
+                <td style="padding: 6px; border: 1px solid #000; text-align: center;">{{ $continuingCount }}</td>
+                <td style="padding: 6px; border: 1px solid #000; text-align: center;">
+                    {{ $students->count() > 0 ? round(($continuingCount / $students->count()) * 100, 1) : 0 }}%
                 </td>
-                <td style="width: 50%; vertical-align: top;">
-                    <table style="width: 100%; border-collapse: collapse;">
-                        <tr style="background-color: #e0e0e0;">
-                            <th style="padding: 5px; border: 1px solid #000; text-align: center; width: 70%;">Status</th>
-                            <th style="padding: 5px; border: 1px solid #000; text-align: center; width: 30%;">Count</th>
-                        </tr>
-                        <tr>
-                            <td style="padding: 5px; border: 1px solid #000;">Dropped out</td>
-                            <td style="padding: 5px; border: 1px solid #000; text-align: center;">{{ $dropoutCount }}</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 5px; border: 1px solid #000;">Completed</td>
-                            <td style="padding: 5px; border: 1px solid #000; text-align: center;">{{ $completedCount }}</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 5px; border: 1px solid #000; font-weight: bold;">Total</td>
-                            <td style="padding: 5px; border: 1px solid #000; text-align: center; font-weight: bold;">{{ $students->count() }}</td>
-                        </tr>
-                    </table>
+            </tr>
+            <tr>
+                <td style="padding: 6px; border: 1px solid #000;">Dropped out</td>
+                <td style="padding: 6px; border: 1px solid #000; text-align: center;">{{ $dropoutCount }}</td>
+                <td style="padding: 6px; border: 1px solid #000; text-align: center;">
+                    {{ $students->count() > 0 ? round(($dropoutCount / $students->count()) * 100, 1) : 0 }}%
                 </td>
+            </tr>
+            <tr>
+                <td style="padding: 6px; border: 1px solid #000;">Completed</td>
+                <td style="padding: 6px; border: 1px solid #000; text-align: center;">{{ $completedCount }}</td>
+                <td style="padding: 6px; border: 1px solid #000; text-align: center;">
+                    {{ $students->count() > 0 ? round(($completedCount / $students->count()) * 100, 1) : 0 }}%
+                </td>
+            </tr>
+            <tr style="background-color: #e0e0e0; font-weight: bold;">
+                <td style="padding: 6px; border: 1px solid #000;">Total</td>
+                <td style="padding: 6px; border: 1px solid #000; text-align: center;">{{ $students->count() }}</td>
+                <td style="padding: 6px; border: 1px solid #000; text-align: center;">100%</td>
             </tr>
         </table>
     </div>
