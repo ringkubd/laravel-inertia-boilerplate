@@ -54,7 +54,7 @@
                                                     <td class="text-left px-6">
                                                         {{ordinal_suffix_of(basicInfo.invoice_no)}} of
                                                         {{ordinal_suffix_of(basicInfo.semester)}}, {{
-                                                        basicInfo.invoice_no * basicInfo.semester }}/48
+                                                        basicInfo.invoice_no + number_of_mma_till_last_semester }}/48
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -278,7 +278,7 @@ export default {
             return moment
         }
     },
-    props: ['can', 'errors', 'data', 'feeTypes', 'basicInfo', 'last_mma'],
+    props: ['can', 'errors', 'data', 'feeTypes', 'basicInfo', 'last_mma', 'number_of_mma_till_last_semester'],
     components: {PageHeader, Button, Back, CardHeader, Authenticated},
     methods: {
         number2wordEnglish,
