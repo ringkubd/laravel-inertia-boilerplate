@@ -41,7 +41,7 @@
                                 <div style="text-align: center!important;">IsDB-BISEW</div>
                             </div>
                             <div class="flex flex-column text-center border-t border-black px-3" style="text-align: center!important;">
-                                <div style="text-align: center!important;">Sr. Accounts Officer</div>
+                                <div style="text-align: center!important;">Accounts Officer</div>
                                 <div style="text-align: center!important;">IsDB-BISEW</div>
                             </div>
                             <div class="flex flex-column text-center border-t border-black px-3" style="text-align: center!important;">
