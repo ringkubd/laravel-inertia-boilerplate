@@ -38,6 +38,16 @@ class SupportEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('support.'.$this->conversation->support_conversation_id);
+        return new PrivateChannel('support.' . $this->conversation->support_conversation_id);
+    }
+
+    /**
+     * The event's broadcast name.
+     *
+     * @return string
+     */
+    public function broadcastAs()
+    {
+        return 'SupportEvent';
     }
 }

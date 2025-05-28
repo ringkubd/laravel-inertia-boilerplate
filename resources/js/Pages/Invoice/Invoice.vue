@@ -50,11 +50,11 @@
                                                         moment(basicInfo.invoice_date).format('DD MMM Y') }}</td>
                                                 </tr>
                                                 <tr class="" v-if="last_mma != 0">
-                                                    <th class="text-left pr-6">MMA Number.:</th>
+                                                    <th class="text-left pr-6">MMA Month & Number.:</th>
                                                     <td class="text-left px-6">
-                                                        {{ordinal_suffix_of(basicInfo.invoice_no)}} of
-                                                        {{ordinal_suffix_of(basicInfo.semester)}}, {{
-                                                        basicInfo.invoice_no + number_of_mma_till_last_semester }}/48
+                                                        <!-- {{ordinal_suffix_of(basicInfo.invoice_no)}} of
+                                                        {{ordinal_suffix_of(basicInfo.semester)}},  -->
+                                                        {{moment(basicInfo.invoice_month).format('MMM y')}}, {{basicInfo.invoice_no + number_of_mma_till_last_semester }}/48
                                                     </td>
                                                 </tr>
                                             </tbody>

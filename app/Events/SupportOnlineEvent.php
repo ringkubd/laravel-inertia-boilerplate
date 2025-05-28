@@ -35,4 +35,14 @@ class SupportOnlineEvent implements ShouldBroadcast
     {
         return new PresenceChannel('support');
     }
+
+    /**
+     * The event's broadcast name.
+     *
+     * @return string
+     */
+    public function broadcastAs()
+    {
+        return 'SupportOnlineEvent';
+    }
 }

@@ -1309,7 +1309,7 @@ import BreezeDropdown from "@/Components/Dropdown";
 import BreezeDropdownLink from "@/Components/DropdownLink";
 import BreezeNavLink from "@/Components/NavLink";
 import BreezeResponsiveNavLink from "@/Components/ResponsiveNavLink";
-import Chat from "@/Pages/Support/chat";
+import Chat from "@/Pages/Support/Chat";
 
 export default {
     props: ['user', 'auth', 'online', 'offline', 'menu_permission'],
