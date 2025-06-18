@@ -50,7 +50,7 @@
                                                         moment(basicInfo.invoice_date).format('DD MMM Y') }}</td>
                                                 </tr>
                                                 <tr class="" v-if="last_mma != 0">
-                                                    <th class="text-left pr-6">MMA Month & Number.:</th>
+                                                    <th class="text-left pr-6">MMA Month & Number:</th>
                                                     <td class="text-left px-6">
                                                         <!-- {{ordinal_suffix_of(basicInfo.invoice_no)}} of
                                                         {{ordinal_suffix_of(basicInfo.semester)}},  -->
@@ -113,8 +113,8 @@
                                 style="border: 1px solid rgb(0,0,0)!important; color: black!important; font-weight: 600">
                                 <th colspan="2">In Words</th>
                                 <th :colspan="6+ (feeTypes != null ? feeTypes.length : 0)" class="total"
-                                    style="text-align: right!important; border: 1px solid rgb(0,0,0)!important;">{{
-                                    number2wordEnglish(totalInvoiceAmount())}}</th>
+                                    style="text-align: left!important; border: 1px solid rgb(0,0,0)!important;">{{
+                                    number2wordEnglish(totalInvoiceAmount())}} Taka Only</th>
                             </tr>
                         </tbody>
                         <tfoot>
@@ -240,7 +240,7 @@
                                     style="border: 1px solid rgb(0,0,0)!important; color: black!important; font-weight: 600">
                                     <th :colspan="5" class="total"
                                         style="text-align: center!important; border: 1px solid rgb(0,0,0)!important;">In
-                                        Words (Taka): {{ number2wordEnglish(totalInvoiceAmount())}}</th>
+                                        Words (Taka): {{ number2wordEnglish(totalInvoiceAmount())}} Only</th>
                                 </tr>
                             </tbody>
                         </table>
