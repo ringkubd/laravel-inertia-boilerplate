@@ -133,7 +133,7 @@ export default {
                     })
                 isMMA = 1;
             }
-            if (content.includes('[mma_table]')){
+            if (content.includes('[admission_table]')){
                 await axios.get(route('admission_table', this.invoice_id))
                     .then(function (d) {
                         app.ad_table = d.data

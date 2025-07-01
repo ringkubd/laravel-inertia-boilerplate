@@ -22,7 +22,7 @@ class NotesheetController extends Controller
     public function index()
     {
         $note_sheet = Notesheet::query()
-            ->with(['invoice' => function($q){
+            ->with(['invoice' => function ($q) {
                 $q->selectRaw('invoice_id,invoice_no,session, sum(amount) as total_amount, invoice_month,invoice_date, semester, count(student_id) as number_of_student,page_no,serial_no, fee_type')->groupBy('invoice_id');
             }])
             ->whereHas('invoice')
@@ -66,7 +66,7 @@ class NotesheetController extends Controller
             ->whereNull('notesheet_id')
             ->whereNull('page_no')
             ->whereNull('serial_no')
-            ->leftJoin('results', function ($join){
+            ->leftJoin('results', function ($join) {
                 $join->on('results.student_id', 'invoices.student_id')->where('status', 'Dropout');
             })
             ->groupBy('invoice_id')
@@ -78,6 +78,8 @@ class NotesheetController extends Controller
         $pageNo = newPageNo();
 
         $serialNo = newPageNo('serial_no');
+
+        // \dd($invoice, $notesheetTemplate, $noteSheetText, $pageNo, $serialNo);
 
         return Inertia::render('NoteSheet/Generate', [
             'invoices' => $invoice,
@@ -104,7 +106,7 @@ class NotesheetController extends Controller
         ]);
         $data = $request->all();
         $data['user_id'] = auth()->user()->id;
-        if($note = Notesheet::create($data)){
+        if ($note = Notesheet::create($data)) {
             Invoice::where('invoice_id', $request->invoice_id)->update([
                 'page_no' => $request->page_no,
                 'serial_no' => $request->serial_no,
@@ -170,13 +172,14 @@ class NotesheetController extends Controller
         return redirect()->route('note_sheet.index')->withSuccess("Note sheet deleted successfully");
     }
 
-    public function getInvoiceInfo($invoiceId = ""){
+    public function getInvoiceInfo($invoiceId = "")
+    {
         $invoice = Invoice::query()
             ->selectRaw('count(student_id) as number_of_student, SUM(IF(amount > 0, 1, 0 )) as total_student, sum(amount) as total_amount, invoice_month, session, invoice_id, invoice_no, invoice_date, semester,page_no,serial_no, fee_type')
             ->whereNull('notesheet_id')
             ->whereNull('page_no')
             ->whereNull('serial_no')
-            ->where('invoice_id',$invoiceId)
+            ->where('invoice_id', $invoiceId)
             ->groupBy('invoice_id')
             ->first();
 
@@ -186,9 +189,11 @@ class NotesheetController extends Controller
         return response()->json([]);
     }
 
-    public function mmaTable($invoiceId){
+    public function mmaTable($invoiceId)
+    {
         $invoice = InvoiceDetail::query()
-            ->selectRaw('
+            ->selectRaw(
+                '
             SUM(IF(student_amount > 0, 1, 0)) as mma_student,
             SUM(IF(board_amount > 0, 1, 0)) as book_student,
             sum(student_amount) as total_student_amount,
@@ -249,7 +254,8 @@ TEMPLATE;
         ];
     }
 
-    public function admissionTable($invoiceId){
+    public function admissionTable($invoiceId)
+    {
         $invoices = InvoiceDetail::query()
             ->selectRaw('invoice_details.*, students.polytechnic_trade_id')
             ->where('invoice', $invoiceId)
@@ -275,7 +281,7 @@ TEMPLATE;
         <tbody class="text-center align-middle">
 TEMPLATE;
         $i = 0;
-        foreach ($invoice as $technology => $inv){
+        foreach ($invoice as $technology => $inv) {
             $numberOfStudent = number_format($inv->groupBy('student_id')->count(), 0, '.', ',');
             $board_amount = number_format($inv->sum('board_amount'), 0, '.', ',');
             $institute_amount = number_format($inv->sum('institute_amount'), 0, '.', ',');
@@ -308,6 +314,5 @@ TEMPLATE;
         $template .= "</tbody>
     </table>";
         return $template;
-
     }
 }
