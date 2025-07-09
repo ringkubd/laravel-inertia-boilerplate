@@ -48,19 +48,19 @@
                                     <input type="number" min="2010" max="2050" id="dakhil_exam_year" name="dakhil_exam_year" v-model="dakhil_exam_year" class="form-control">
                                 </div>
                                 <div class="mx-auto w-1/2" v-if="template_id === 'admission'">
-                                    <label for="dakhil_exam_student">How many students took the Dakhil exam?</label>
+                                    <label for="dakhil_exam_student">Number of Students Passed Dakhil Exam?</label>
                                     <input type="number" id="dakhil_exam_student" name="dakhil_exam_student" v-model="dakhil_exam_student" class="form-control">
                                 </div>
                                 <div class="mx-auto w-1/2" v-if="template_id === 'admission'">
-                                    <label for="dakhil_exam_passed_student">How many students passed the Dakhil exam?</label>
+                                    <label for="dakhil_exam_passed_student">Number of Students Applied for 4-YDP?</label>
                                     <input type="number" id="dakhil_exam_passed_student" name="dakhil_exam_passed_student" v-model="dakhil_exam_passed_student" class="form-control">
                                 </div>
                                 <div class="mx-auto w-1/2" v-if="template_id === 'admission'">
-                                    <label for="admission_selected_student">Apply Student</label>
+                                    <label for="admission_selected_student">Number of Students Got Merit Position for 4-YDP?</label>
                                     <input type="number" id="admission_selected_student" name="admission_selected_student" v-model="admission_selected_student" class="form-control">
                                 </div>
                                 <div class="mx-auto w-1/2" v-if="template_id === 'admission'">
-                                    <label for="admission_enrolled_student">Admitted Student</label>
+                                    <label for="admission_enrolled_student">Number of Students Finally Enrolled</label>
                                     <input type="number" id="admission_enrolled_student" name="admission_enrolled_student" v-model="admission_enrolled_student" class="form-control">
                                 </div>
                                 <div class="mx-auto w-1/2" v-if="template_id === 'semester' || template_id === 'admission'">
