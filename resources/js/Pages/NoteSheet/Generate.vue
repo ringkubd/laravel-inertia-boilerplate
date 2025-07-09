@@ -60,7 +60,7 @@
                                     <input type="number" id="admission_selected_student" name="admission_selected_student" v-model="admission_selected_student" class="form-control">
                                 </div>
                                 <div class="mx-auto w-1/2" v-if="template_id === 'admission'">
-                                    <label for="admission_enrolled_student">Number of Students Finally Enrolled</label>
+                                    <label for="admission_enrolled_student">Number of Students Finally Enrolled?</label>
                                     <input type="number" id="admission_enrolled_student" name="admission_enrolled_student" v-model="admission_enrolled_student" class="form-control">
                                 </div>
                                 <div class="mx-auto w-1/2" v-if="template_id === 'semester' || template_id === 'admission'">
