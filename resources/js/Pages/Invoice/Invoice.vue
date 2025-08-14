@@ -148,14 +148,15 @@
                                 </td>
                                 <td class="text-center" style="padding-top: 50px!important;">
                                     <div class="text-center flex flex-col justify-center items-center">
-                                        <hr style="color: black!important;" class="w-1/2" />
-                                        <span>Sr. Program Coordinator</span>
+                                        <hr style="color: black!important;" class="w-1/2">
+                                        <span>Accounts Officer</span>
                                         <span>IsDB-BISEW</span>
                                     </div>
                                 </td>
                             </tr>
                             <tr></tr>
                             <tr>
+
                                 <td class="text-center" style="padding-top: 50px!important;">
                                     <div class="text-center flex flex-col justify-center items-center">
                                         <hr style="color: black!important;" class="w-1/2">
@@ -163,10 +164,10 @@
                                         <span>IsDB-BISEW</span>
                                     </div>
                                 </td>
-                                <td class="text-center" style="padding-top: 50px!important;">
+                                 <td class="text-center" style="padding-top: 50px!important;">
                                     <div class="text-center flex flex-col justify-center items-center">
-                                        <hr style="color: black!important;" class="w-1/2">
-                                        <span>Accounts Officer</span>
+                                        <hr style="color: black!important;" class="w-1/2" />
+                                        <span>Sr. Program Coordinator</span>
                                         <span>IsDB-BISEW</span>
                                     </div>
                                 </td>
