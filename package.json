@@ -78,6 +78,8 @@
         "update": "^0.7.4",
         "vue": "^3.4.31",
         "vue-cli-plugin-vuetify": "~2.5.8",
-        "vue-loader": "^17.4.2"
+        "vue-loader": "^17.4.2",
+        "webpack": "^5",
+        "webpack-cli": "^4"
     }
 }

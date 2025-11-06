@@ -41,19 +41,15 @@
                                                 </tr>
                                                 <tr class="">
                                                     <th class="text-left pr-6">Semester Continuing:</th>
-                                                    <td class="text-left px-6">{{ ordinal_suffix_of(basicInfo.semester)
-                                                        }}</td>
+                                                    <td class="text-left px-6">{{ ordinal_suffix_of(basicInfo.semester) }}</td>
                                                 </tr>
                                                 <tr class="">
                                                     <th class="text-left pr-6">Raised Date:</th>
-                                                    <td class="text-left px-6">{{
-                                                        moment(basicInfo.invoice_date).format('DD MMM Y') }}</td>
+                                                    <td class="text-left px-6">{{ moment(basicInfo.invoice_date).format('DD MMM Y') }}</td>
                                                 </tr>
                                                 <tr class="" v-if="last_mma != 0">
                                                     <th class="text-left pr-6">MMA Month & Number:</th>
                                                     <td class="text-left px-6">
-                                                        <!-- {{ordinal_suffix_of(basicInfo.invoice_no)}} of
-                                                        {{ordinal_suffix_of(basicInfo.semester)}},  -->
                                                         {{moment(basicInfo.invoice_month).format('MMM y')}}, {{basicInfo.invoice_no + number_of_mma_till_last_semester }}/48
                                                     </td>
                                                 </tr>
@@ -182,8 +178,10 @@
                         </tbody>
                     </table>
                     <div class="page-break mt-5 print:break-after-all"></div>
+                    <div style="margin: 0 50px;">
                     <div style="margin-top: 1.7in"></div>
-                    <div class="flex flex-col leading-5" id="bank_page">
+
+                    <div class="flex flex-col leading-5" id="bank_page" style="margin-right: 30%;">
                         <div class="flex flex-row space-x-2" style="margin-bottom: 10px!important;">
                             <div>Date:</div>
                             <div>{{ moment().format('DD MMM Y') }}</div>
@@ -199,7 +197,7 @@
                         <div>Dhaka-1207</div>
                         <div class="flex flex-col my-2">
                             <div class="mb-3">Dear Sir,</div>
-                            <div>You are requested to kindly transfer the amount as mentioned below against the name of
+                            <div style="text-align: justify; width: 100%;">You are requested to kindly transfer the amount as mentioned below against the name of
                                 the student to his/her personal account with you from the current A/C no.
                                 20502240100000115 of IsDB-BISEW.</div>
                         </div>
@@ -258,6 +256,7 @@
                             </div>
                         </div>
                     </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -303,21 +302,27 @@ export default {
             //     element.offsetHeight;
             // }
             console.log(this.$el)
+            const origin = window.location.origin;
             const printOptions = {
                 name: '_blank',
                 specs: [
-                'fullscreen=yes',
-                'titlebar=yes',
-                'scrollbars=yes'
+                    'fullscreen=yes',
+                    'titlebar=yes',
+                    'scrollbars=yes'
                 ],
                 styles: [
-                '/css/custom_print.css',
-                '/css/app.css'
+                    `${origin}/css/custom_print.css`,
+                    `${origin}/css/app.css`
                 ]
             };
 
+            // Sometimes the print window prints before linked styles load.
+            // Use the plugin but wait briefly to allow stylesheet fetch.
             this.$htmlToPaper('printme', printOptions, (e) => {
-                console.log(this);
+                // plugin callback may fire before styles applied; add a small delay
+                setTimeout(() => {
+                    console.log('printed', this);
+                }, 250);
             });
         },
         getFirstWord(str, delimter = " ") {
@@ -355,5 +360,69 @@ li{
 }
 .table-page-break {
     page-break-before: always;margin-top: 1.7in; /* Add 1.7in blank space for letterhead */
+}
+
+/* Print / A4 layout tweaks */
+@page {
+    size: A4;
+    margin: 25mm 25mm 15mm 25mm; /* top right bottom left - increased side margins */
+}
+
+@media print {
+    html, body {
+        /* let @page margins control the printable area; avoid forcing full-page width */
+        width: auto;
+        height: auto;
+        margin: 0;
+        padding: 0;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    /* Container that will be printed */
+    #printme {
+        box-sizing: border-box;
+        /* subtract left+right page margins (25mm + 25mm = 50mm) from full A4 width */
+        max-width: calc(210mm - 50mm);
+        width: 100%;
+        margin: 0 auto;
+        padding-top: 25mm; /* space for standard pad letterhead */
+        padding-bottom: 15mm;
+        padding-left: 0;
+        padding-right: 0;
+        background: transparent !important;
+        color: #000 !important;
+    }
+
+    /* Remove shadows and unnecessary spacing on print */
+    .container-fluid, .card, .card-body {
+        padding: 0 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        background: transparent !important;
+    }
+
+    /* Tables should fit the page and avoid breaking rows across pages */
+    table, .table, .bank_sheet {
+        width: 100% !important;
+        table-layout: fixed;
+        border-collapse: collapse;
+        color: #000 !important;
+    }
+
+    thead { display: table-header-group; }
+    tfoot { display: table-footer-group; }
+
+    tr, td, th {
+        page-break-inside: avoid;
+        -webkit-hyphens: none;
+        hyphens: none;
+    }
+
+    /* Ensure our manual page-break helper still works */
+    .page-break, .page-break-after-all { page-break-after: always; }
+
+    /* Reduce non-printable UI */
+    .btn, .mma, .no-print { display: none !important; }
 }
 </style>

@@ -11,7 +11,7 @@ class InvoiceService
     public function getStudentsForInvoice($session, $semester)
     {
         $resultSemester = $semester - 1;
-        
+
         return Student::query()
             ->select('students.*', DB::raw("IF(d.status is not null, d.status, r.status) AS result_status"), 'r.gpa', 'r.created_at')
             ->where('polytechnic_session', $session)
@@ -48,6 +48,8 @@ class InvoiceService
             if ($previousSemester > 0) {
                 $q->where('semester', $previousSemester);
             }
-        })->orWhere('status', 'Dropout')->latest();
+            $q->orWhere('status', 'Dropout');
+        })->where('deleted_at', null)
+            ->latest();
     }
 }

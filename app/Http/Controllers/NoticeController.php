@@ -7,6 +7,7 @@ use App\Models\ClassRoom;
 use App\Models\Notice;
 use App\Models\Student;
 use App\Notifications\AppNotification;
+use Exception;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use function Clue\StreamFilter\fun;
@@ -39,7 +40,8 @@ class NoticeController extends Controller
      * @return void
      */
 
-    public function create(){
+    public function create()
+    {
         $sessions = AcademicSession::all();
         $classRoom = ClassRoom::all();
         return Inertia::render('Notice/Create', [
@@ -64,24 +66,23 @@ class NoticeController extends Controller
         $notice = Notice::create($request->all());
         $students = Student::query()
             ->with('classroom')
-            ->when($request->class_room_id, function ($q)use($request){
-                $q->whereHas('classroom', function ($q) use ($request){
+            ->when($request->class_room_id, function ($q) use ($request) {
+                $q->whereHas('classroom', function ($q) use ($request) {
                     $q->where('class_rooms.id', $request->class_room_id);
                 });
             })
-            ->when($request->academic_session, function ($q)use($request){
+            ->when($request->academic_session, function ($q) use ($request) {
                 $q->where('polytechnic_session', $request->academic_session);
             })
             ->with('users')
             ->get();
-        foreach ($students as $student){
-            try{
+        foreach ($students as $student) {
+            try {
                 if ($student->users)
                     $student->users->notify(new AppNotification($notice));
-            }catch(Execption $e){
+            } catch (Exception $e) {
                 dd($e->getMessage());
             }
-
         }
         return redirect()->route('notice.index')->withSuccess("Successfully added.");
     }
