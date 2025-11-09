@@ -197,9 +197,11 @@
                         <div>Dhaka-1207</div>
                         <div class="flex flex-col my-2">
                             <div class="mb-3">Dear Sir,</div>
-                            <div style="text-align: justify; width: 100%;">You are requested to kindly transfer the amount as mentioned below against the name of
+                            <div class="text-justify w-full leading-relaxed">
+                                You are requested to kindly transfer the amount as mentioned below against the name of
                                 the student to his/her personal account with you from the current A/C no.
-                                20502240100000115 of IsDB-BISEW.</div>
+                                20502240100000115 of IsDB-BISEW.
+                            </div>
                         </div>
                     </div>
                     <div class="flex flex-col justify-center justify-content-center"
@@ -424,5 +426,10 @@ li{
 
     /* Reduce non-printable UI */
     .btn, .mma, .no-print { display: none !important; }
+
+    /* Fix bank page width during print */
+    #bank_page {
+        margin-right: 0 !important;
+    }
 }
 </style>
