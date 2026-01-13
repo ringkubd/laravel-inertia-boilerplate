@@ -191,7 +191,7 @@
                             <div></div>
                         </div>
                         <div>The Manager</div>
-                        <div>Islami Bank Bangladesh Ltd.</div>
+                        <div>Islami Bank Bangladesh PLC.</div>
                         <div>Agargaon Branch</div>
                         <div>Sher-e-Bangla Nagar</div>
                         <div>Dhaka-1207</div>
