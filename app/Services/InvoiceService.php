@@ -17,7 +17,7 @@ class InvoiceService
             ->where('polytechnic_session', $session)
             ->with([
                 'fees' => fn($q) => $q->where('semester', $semester)->where('session', $session),
-                'paymentSlip' => fn($q) => $q->where('semester', $semester),
+                'paymentSlip' => fn($q) => $q->where('semester', $semester)->where('deleted_at', null),
                 'results' => fn($q) => $this->getResultsQuery($q, $semester),
                 'invoice' => fn($q) => $q->where('session', $session)->where('semester', $semester),
                 'invoiceDetails.invoice' => fn($q) => $q->where('session', $session)->where('semester', $semester)

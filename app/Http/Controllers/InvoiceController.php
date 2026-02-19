@@ -122,10 +122,11 @@ class InvoiceController extends Controller
             ->select('students.*', DB::raw("IF(d.status is not null, d.status, r.status) AS result_status"), 'r.gpa', 'r.created_at')
             ->with(['fees' => function ($q) use ($request, $billableFee) {
                 $q->where('semester', $request->semester)
-                    ->whereIn('fee_type', array_keys($billableFee));
+                    ->whereIn('fee_type', array_keys($billableFee))
+                    ->where('deleted_at', null);
             }])
             ->whereHas('fees', function ($q) use ($request) {
-                $q->where('semester', $request->semester);
+                $q->where('semester', $request->semester)->where('deleted_at', null);
             })
             ->with(['results' => function ($q) use ($request) {
                 $semester = $request->semester - 1;
@@ -133,16 +134,16 @@ class InvoiceController extends Controller
                     if ($semester > 0) {
                         $q->where('semester', $semester);
                     }
-                })->orWhere('status', 'Dropout')->latest();
+                })->orWhere('status', 'Dropout')->where('deleted_at', null)->latest();
             }])
             ->leftJoin('results as r', function ($join) use ($resultSemester) {
-                $join->on('r.student_id', 'students.id')->where('r.semester', $resultSemester);
+                $join->on('r.student_id', 'students.id')->where('r.semester', $resultSemester)->where('r.deleted_at', null);
             })
             ->leftJoin('results as d', function ($join) {
-                $join->on('d.student_id', 'students.id')->where('d.status', 'Dropout');
+                $join->on('d.student_id', 'students.id')->where('d.status', 'Dropout')->where('d.deleted_at', null);
             })
             ->with(['paymentSlip' => function ($q) use ($request) {
-                $q->where('payment_slips.semester', $request->semester)->where('status', 1);
+                $q->where('payment_slips.semester', $request->semester)->where('status', 1)->where('deleted_at', null);
             }])
             ->where('polytechnic_session', "$request->academic_session")
             ->whereIn('students.id', array_keys($selected_student))
