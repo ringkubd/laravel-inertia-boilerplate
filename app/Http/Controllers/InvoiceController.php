@@ -134,7 +134,10 @@ class InvoiceController extends Controller
                     if ($semester > 0) {
                         $q->where('semester', $semester);
                     }
-                })->orWhere('status', 'Dropout')->where('deleted_at', null)->latest();
+                })
+                    ->orWhere('status', 'Dropout')
+                    ->where('deleted_at', null)
+                    ->latest();
             }])
             ->leftJoin('results as r', function ($join) use ($resultSemester) {
                 $join->on('r.student_id', 'students.id')->where('r.semester', $resultSemester)->where('r.deleted_at', null);
@@ -225,14 +228,14 @@ class InvoiceController extends Controller
             ->where('invoice_id', $invoice_id)
             ->with('details', 'student')
             ->with(['paymentSlip' => function ($q) use ($basicInfo) {
-                $q->where('payment_slips.semester', $basicInfo->semester)->latest();
+                $q->where('payment_slips.semester', $basicInfo->semester)->where('payment_slips.deleted_at', null)->latest();
             }])
             ->whereHas('details')
             ->leftJoin('results as r', function ($join) use ($resultSemester) {
-                $join->on('r.student_id', 'invoices.student_id')->where('r.semester', $resultSemester);
+                $join->on('r.student_id', 'invoices.student_id')->where('r.semester', $resultSemester)->where('r.deleted_at', null);
             })
             ->leftJoin('results as d', function ($join) {
-                $join->on('d.student_id', 'invoices.student_id')->where('d.status', 'Dropout');
+                $join->on('d.student_id', 'invoices.student_id')->where('d.status', 'Dropout')->where('d.deleted_at', null);
             })
             ->leftJoin('students as s', 's.id', 'invoices.student_id')
             ->groupBy('student_id')
