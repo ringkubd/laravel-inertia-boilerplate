@@ -97,7 +97,7 @@
                             <td class="text-center">
                                 {{ individualTotal(student.fees, student.invoice_details, student.result_status, student.payment_slip) }}
                             </td>
-                            <td class="text-center">{{remarks(student.result_status, student.payment_slip)}}</td>
+                            <td class="text-center">{{remarks(student.result_status, student.payment_slip, student.fees)}}</td>
                         </tr>
                         </tbody>
                         <tfoot>
@@ -231,7 +231,10 @@ export default {
             }
             this.selected_student = selected_student
         },
-        remarks(status, paymentSlip){
+        remarks(status, paymentSlip, fees){
+            if (fees.length === 0) return 'No Fee'
+            // if fee type Admi. Fee or Reg. Fee then remarks New Admission irrespective of the result status and payment slip
+            if (fees.some(fee => fee.fee_type == 'Admi. Fee') || fees.some(fee => fee.fee_type == 'Reg. Fee')) return 'New Admission'
             if (!status) return 'No Result'
             return  status === "Dropout" || !status ? status : this.billableFee.MMA && Object.keys(this.billableFee).length === 1 ? status :  paymentSlip.length ? status : 'DNS'
         }
