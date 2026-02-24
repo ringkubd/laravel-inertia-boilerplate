@@ -71,6 +71,7 @@ class InvoiceController extends Controller
             $request->polytechnic_session,
             $request->semester
         )->get();
+        //
         $feeTypes = $students->whereNotNull('fees')->unique('fee_type')->max('fees');
         return Inertia::render('Invoice/Create', [
             'can' => $this->getPermissions(),

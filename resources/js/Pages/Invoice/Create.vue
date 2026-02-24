@@ -63,14 +63,14 @@
                             <th rowspan="2">Remarks</th>
                         </tr>
                         <tr>
-                            <th v-for="feeType in feeTypes">
+                            <th :key="index" v-for="(feeType, index) in feeTypes">
                                 {{feeType.fee_type}}
                                 <input type="checkbox" v-model="billableFee[feeType.fee_type]" class="form-check-input">
                             </th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr v-for="(student, index) in students">
+                        <tr :key="index+1" v-for="(student, index) in students">
                             <td>{{ index + 1 }}</td>
                             <td class="text-center">
                                 <input type="checkbox" ref="selectedStudent" :checked="allSelectedStudents" v-model="selected_student[student.id]" class="rounded-full">
@@ -78,10 +78,18 @@
                             <td>{{ student.name }}</td>
                             <td>{{ student.bank_branch }}</td>
                             <td class="text-center">{{ student.bank_account }}</td>
-                            <td class="text-center" v-for="fee in student.fees">
+                            <td class="text-center" :key="index" v-for="(fee, index) in student.fees">
                                 <span v-if="student.result_status === 'Dropout'">0</span>
-                                <span v-else-if="(fee.fee_type === 'MMA' && student.result_status !== 'Passed') || semester == 1">0</span>
-                                <span v-else-if="(fee.fee_type === 'Sem. Fee' || fee.fee_type ===  'Exam Fee')">{{student.payment_slip.length > 0 ? isPaid(student.invoice_details, fee.fee_type).length === 0 ?  fee.amount : 0 : 'DNS'}}</span>
+                                <span v-else-if="(fee.fee_type === 'MMA' && student.result_status !== 'Passed') || (fee.fee_type === 'MMA' && student.semester == 1)">0</span>
+                                <span v-else-if="(fee.fee_type === 'Sem. Fee' || fee.fee_type ===  'Exam Fee')">
+                                    {{student.payment_slip.length > 0 ? isPaid(student.invoice_details, fee.fee_type).length === 0 ?  fee.amount : 0 : 'DNS'}}
+                                </span>
+                                <span v-else-if="fee.fee_type == 'Admi. Fee'">
+                                    {{student.payment_slip.length > 0 ? isPaid(student.invoice_details, fee.fee_type).length === 0 ?  fee.amount : 0 : 'DNS'}}
+                                </span>
+                                <span v-else-if="fee.fee_type == 'Reg. Fee'">
+                                    {{student.payment_slip.length > 0 ? isPaid(student.invoice_details, fee.fee_type).length === 0 ?  fee.amount : 0 : 'DNS'}}
+                                </span>
                                 <span v-else>
                                      {{ isPaid(student.invoice_details, fee.fee_type).length === 0 ?  fee.amount : 0}}
                                 </span>
