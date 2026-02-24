@@ -91,9 +91,10 @@
                         <input
                             type="file"
                             id="attachment"
+                            name="attachment"
                             class="form-control"
                             ref="attachment"
-                            @input="handleFileUpload"
+                            @change="handleFileUpload"
                             accept="image/*,.pdf"
                         >
                         <div v-if="errors.attachment" class="text-danger">
@@ -162,12 +163,16 @@ export default {
     methods:{
         handleFileUpload(event) {
             const file = event.target.files[0];
-            if (!file) return;
+            if (!file) {
+                this.form.attachment = null;
+                return;
+            }
 
             // Validate file type
             if (!file.type.match('image.*') && file.type !== 'application/pdf') {
                 alert('Please upload only images or PDF files');
                 event.target.value = '';
+                this.form.attachment = null;
                 return;
             }
 
@@ -195,6 +200,7 @@ export default {
         },
         submitData(){
             this.form.post(this.createForm ? route('payment-slip.store') : route('payment-slip.update', this.paymentSlip.id), {
+                forceFormData: true,
                 preserveScroll: true,
                 onSuccess: () => {
                     this.preview = null;

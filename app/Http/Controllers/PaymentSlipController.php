@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB; // Add this import
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage; // Add this import
 use Illuminate\Support\Str; // Add this import
 use Illuminate\Support\Facades\Validator; // Add this import
@@ -68,8 +69,55 @@ class PaymentSlipController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate the request data
-        $validated = $request->validate([
+        $attachment = $request->file('attachment');
+        $uploadDebug = [
+            'has_attachment_key' => $request->has('attachment'),
+            'has_file_attachment' => $request->hasFile('attachment'),
+            'php_upload_max_filesize' => ini_get('upload_max_filesize'),
+            'php_post_max_size' => ini_get('post_max_size'),
+            'php_memory_limit' => ini_get('memory_limit'),
+            'content_length' => $request->server('CONTENT_LENGTH'),
+            'content_type' => $request->server('CONTENT_TYPE'),
+        ];
+
+        if ($attachment) {
+            $uploadDebug = array_merge($uploadDebug, [
+                'original_name' => $attachment->getClientOriginalName(),
+                'client_mime' => $attachment->getClientMimeType(),
+                'file_size_bytes' => $attachment->getSize(),
+                'error_code' => $attachment->getError(),
+                'error_message' => $attachment->getErrorMessage(),
+                'is_valid' => $attachment->isValid(),
+            ]);
+        }
+
+        if ($attachment && !$attachment->isValid()) {
+            $uploadErrors = [
+                UPLOAD_ERR_INI_SIZE => 'Attachment is too large for server upload limit (upload_max_filesize).',
+                UPLOAD_ERR_FORM_SIZE => 'Attachment is too large for form upload limit.',
+                UPLOAD_ERR_PARTIAL => 'Attachment was only partially uploaded. Please try again.',
+                UPLOAD_ERR_NO_TMP_DIR => 'Server temporary upload directory is missing.',
+                UPLOAD_ERR_CANT_WRITE => 'Server failed to write uploaded file.',
+                UPLOAD_ERR_EXTENSION => 'Upload blocked by a PHP extension.',
+            ];
+
+            Log::warning('Payment slip attachment upload is invalid before validation', $uploadDebug);
+
+            $errors = [
+                'attachment' => $uploadErrors[$attachment->getError()] ?? 'Attachment upload failed. Please try again.',
+            ];
+
+            if (app()->environment('local')) {
+                $errors['attachment_debug'] = 'Debug: ' . json_encode($uploadDebug);
+            }
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->withErrors($errors);
+        }
+
+        $validator = Validator::make(array_merge($request->all(), $request->allFiles()), [
             'student_id' => ['required', 'exists:students,id'],
             'semester' => ['required', Rule::unique('payment_slips')->where(function ($query) use ($request) {
                 return $query->where('student_id', $request->student_id)
@@ -79,13 +127,26 @@ class PaymentSlipController extends Controller
             })],
             'amount' => 'required',
             'fee_type' => 'required',
-            'attachment' => 'required|file',
+            'attachment' => 'required|file|mimes:jpg,jpeg,png,pdf|max:5120',
         ]);
-        // dd($validated);
+
+        if ($validator->fails()) {
+            if ($validator->errors()->has('attachment')) {
+                Log::warning('Payment slip attachment validation failed', array_merge($uploadDebug, [
+                    'validation_errors' => $validator->errors()->get('attachment'),
+                ]));
+            }
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->withErrors($validator);
+        }
+
         try {
             DB::beginTransaction();
 
-            $result_request = $validated;
+            $result_request = $validator->validated();
             $result_request['added_by'] = auth()->user()->id;
 
             $slip = PaymentSlip::create($result_request);
@@ -113,6 +174,10 @@ class PaymentSlipController extends Controller
                 ->with('success', 'Payment slip created successfully');
         } catch (\Exception $e) {
             DB::rollBack();
+
+            Log::error('Payment slip store failed', array_merge($uploadDebug, [
+                'exception_message' => $e->getMessage(),
+            ]));
 
             return redirect()
                 ->back()
