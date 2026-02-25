@@ -289,24 +289,24 @@ TEMPLATE;
             $i++;
             $template .= <<<TEMPLATE
         <tr class="m-0">
-            <td>
+            <td style="text-align: center;">
                 $i
             </td>
             <td style="text-align: left">$technology</td>
-            <td>$numberOfStudent</td>
-            <td>$board_amount</td>
-            <td>$institute_amount</td>
-            <td>$total_amount</td>
+            <td style="text-align: center;">$numberOfStudent</td>
+            <td style="text-align: right;">$board_amount</td>
+            <td style="text-align: right;">$institute_amount</td>
+            <td style="text-align: right;">$total_amount</td>
         </tr>
 TEMPLATE;
         }
         $template .= <<<TEMPLATE
 <tr>
 <th colspan="2" class="text-right">Total</th>
-<td>$totalStudent</td>
-<td>$totalBoardFee</td>
-<td>$totalInstituteFee</td>
-<td>$totalAmount</td>
+<td style="text-align: center;">$totalStudent</td>
+<td style="text-align: right;">$totalBoardFee</td>
+<td style="text-align: right;">$totalInstituteFee</td>
+<td style="text-align: right;">$totalAmount</td>
 </tr>
 TEMPLATE;
 
