@@ -34,6 +34,78 @@
                                     Dashboard
                                 </breeze-nav-link>
 
+                                <!-- Support Tickets Link -->
+                                <div class="hidden sm:flex sm:items-center" >
+                                    <breeze-dropdown align="right" width="56">
+                                        <template #trigger>
+                                        <span class="inline-flex items-center rounded-md">
+                                            <button
+                                                type="button"
+                                                class="
+                                                    inline-flex
+                                                    items-center
+                                                    px-3
+                                                    py-2
+                                                    text-sm
+                                                    leading-4
+                                                    font-medium
+                                                    rounded-md
+                                                    text-white
+                                                    bg-transparent
+                                                    hover:bg-[#003366]
+                                                    focus:outline-none
+                                                    transition
+                                                    ease-in-out
+                                                    duration-150
+                                                "
+                                            >
+                                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                                                </svg>
+                                                Support
+
+                                                <svg
+                                                    class="ml-2 -mr-0.5 h-4 w-4"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 20 20"
+                                                    fill="currentColor"
+                                                >
+                                                    <path
+                                                        fill-rule="evenodd"
+                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                        clip-rule="evenodd"
+                                                    />
+                                                </svg>
+                                            </button>
+                                        </span>
+                                        </template>
+
+                                        <template #content>
+                                            <breeze-dropdown-link
+                                                :href="route('support-tickets.index')"
+                                                :active="route().current('support-tickets.index')"
+                                                class="flex items-center"
+                                            >
+                                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"></path>
+                                                </svg>
+                                                My Tickets
+                                            </breeze-dropdown-link>
+                                            <breeze-dropdown-link
+                                                v-if="hasRole('Admin') || hasRole('Super Admin') || hasRole('Account')"
+                                                :href="route('support-tickets.admin')"
+                                                :active="route().current('support-tickets.admin')"
+                                                class="flex items-center"
+                                            >
+                                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                                </svg>
+                                                Admin Dashboard
+                                            </breeze-dropdown-link>
+                                        </template>
+                                    </breeze-dropdown>
+                                </div>
+
                                 <div class="hidden sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.user_management">
                                     <breeze-dropdown align="right" width="48">
                                         <template #trigger>
@@ -503,7 +575,7 @@
                                         Admission
                                     </breeze-nav-link>
                                 </div>
-                                <div class="hidden sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.support">
+                                <!-- <div class="hidden sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.support">
                                     <breeze-nav-link
                                         :href="route('support.index')"
                                         :active="route().current('support.index')"
@@ -512,7 +584,7 @@
                                     >
                                         Support
                                     </breeze-nav-link>
-                                </div>
+                                </div> -->
                                 <div class="sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.paymentSlip">
                                     <breeze-nav-link
                                         :href="route('payment-slip.index')"
@@ -686,6 +758,80 @@
                             Dashboard
                         </breeze-responsive-nav-link>
                     </div>
+
+                    <!-- Support Tickets Mobile Menu -->
+                    <div class="space-y-1 pl-3" v-if="!$page.props.menu_permission.support">
+                        <div class="sm:flex sm:items-center sm:ml-6">
+                            <breeze-dropdown align="right" width="48">
+                                <template #trigger>
+                                    <span class="inline-flex items-center rounded-sm">
+                                        <button
+                                            type="button"
+                                            class="
+                                                inline-flex
+                                                items-center
+                                                px-1
+                                                py-2
+                                                text-sm
+                                                leading-4
+                                                font-medium
+                                                rounded-md
+                                                text-white
+                                                bg-transparent
+                                                hover:bg-[#003366]
+                                                focus:outline-none
+                                                transition
+                                                ease-in-out
+                                                duration-150
+                                            "
+                                        >
+                                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                                            </svg>\n                                            Support
+
+                                            <svg
+                                                class="ml-2 -mr-0.5 h-4 w-4"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                            >
+                                                <path
+                                                    fill-rule="evenodd"
+                                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                    clip-rule="evenodd"
+                                                />
+                                            </svg>
+                                        </button>
+                                    </span>
+                                </template>
+
+                                <template #content>
+                                    <breeze-dropdown-link
+                                        :href="route('support-tickets.index')"
+                                        :active="route().current('support-tickets.index')"
+                                        class="flex items-center"
+                                    >
+                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"></path>
+                                        </svg>
+                                        My Tickets
+                                    </breeze-dropdown-link>
+                                    <breeze-dropdown-link
+                                        v-if="hasRole('Admin') || hasRole('Super Admin') || hasRole('Account')"
+                                        :href="route('support-tickets.admin')"
+                                        :active="route().current('support-tickets.admin')"
+                                        class="flex items-center"
+                                    >
+                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                        </svg>
+                                        Admin Dashboard
+                                    </breeze-dropdown-link>
+                                </template>
+                            </breeze-dropdown>
+                        </div>
+                    </div>
+
                     <div class="space-y-1 pl-3">
                         <div class="sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.user_management">
                             <breeze-dropdown align="right" width="48">
@@ -1159,7 +1305,7 @@
                             </breeze-nav-link>
                         </div>
                     </div>
-                    <div class="space-y-1 pl-3">
+                    <!-- <div class="space-y-1 pl-3">
                         <div class="sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.support">
                             <breeze-nav-link
                                 :href="route('support.index')"
@@ -1170,7 +1316,7 @@
                                 Support
                             </breeze-nav-link>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="space-y-1 pl-3">
                         <div class="sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.paymentSlip">
                             <breeze-nav-link
@@ -1330,6 +1476,9 @@ export default {
     },
     methods: {
         refreshClient(){
+        },
+        hasRole(roleName) {
+            return this.$page.props.user?.roles?.some(role => role.name === roleName) || false;
         },
         addOnlineFriend(user){
             let app = this.$page.props

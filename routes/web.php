@@ -3,6 +3,8 @@
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RolesController;
+use App\Http\Controllers\SupportTicketController;
+use App\Http\Controllers\TicketMessageController;
 use App\Http\Controllers\UserOfflineController;
 use App\Http\Controllers\UserOnlineController;
 use App\Http\Controllers\UserRoleController;
@@ -203,6 +205,43 @@ Route::put('offline/{user}', UserOfflineController::class)->name('offline');
 // conversation
 
 Route::resource('conversation', ConversationController::class);
+
+// Support Tickets Routes
+Route::prefix('support-tickets')->middleware(['auth'])->group(function () {
+    // Route::resource('/', SupportTicketController::class)->except(['edit'])->names([
+    //     'index' => 'support-tickets.index',
+    //     'create' => 'support-tickets.create',
+    //     'store' => 'support-tickets.store',
+    //     'show' => 'support-tickets.show',
+    //     'update' => 'support-tickets.update',
+    //     'destroy' => 'support-tickets.destroy',
+    // ]);
+
+    Route::get('/', [SupportTicketController::class, 'index'])
+        ->name('support-tickets.index');
+        Route::get('/create', [SupportTicketController::class, 'create'])
+        ->name('support-tickets.create');
+    Route::post('/', [SupportTicketController::class, 'store'])
+        ->name('support-tickets.store');
+    Route::get('/{supportTicket}', [SupportTicketController::class, 'show'])
+        ->name('support-tickets.show');
+    Route::patch('/{supportTicket}', [SupportTicketController::class, 'update'])
+        ->name('support-tickets.update');
+    Route::delete('/{supportTicket}', [SupportTicketController::class, 'destroy'])
+        ->name('support-tickets.destroy');
+
+
+
+    // Admin dashboard
+    Route::get('/admin/dashboard', [SupportTicketController::class, 'adminDashboard'])
+        ->name('support-tickets.admin');
+
+    // Ticket messages
+    Route::post('/{ticket}/messages', [TicketMessageController::class, 'store'])
+        ->name('ticket-messages.store');
+    Route::delete('/messages/{message}', [TicketMessageController::class, 'destroy'])
+        ->name('ticket-messages.destroy');
+});
 Route::get('get_active_conversation/{target}', [ConversationController::class, 'get_active_conversation'])->name('get_active_conversation');
 Route::resource('support', \App\Http\Controllers\SupportController::class);
 Route::get('get_support_active_conversation', [\App\Http\Controllers\SupportController::class, 'get_active_conversation'])->name('get_support_active_conversation');

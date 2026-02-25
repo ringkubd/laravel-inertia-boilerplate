@@ -247,7 +247,7 @@ export default {
 
             let _this = this;
             let channelObj = window.Echo.private(`support.${this.conversationId}`);
-            let audio = new Audio('beep-2.mp3')
+            let audio = new Audio('/beep-2.mp3')
 
             // Listen for new messages
             channelObj.listen('.SupportEvent', (e) => {

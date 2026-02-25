@@ -29,5 +29,12 @@ window.Echo = new Echo({
     wsPort: 80,
     wssPort: 443,
     disableStats: true,
-    enabledTransports: ['ws', 'wss']
+    enabledTransports: ['ws', 'wss'],
+    authEndpoint: '/broadcasting/auth',
+    auth: {
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content'),
+            'Accept': 'application/json',
+        }
+    }
 });

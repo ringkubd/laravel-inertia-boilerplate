@@ -50,3 +50,20 @@ Broadcast::channel('activity.{id}', function ($user, $id) {
 Broadcast::channel('conversation.{id}', function ($user, $id) {
     return true;
 });
+
+// Support Tickets Channels
+Broadcast::channel('support-tickets', function($user) {
+    return $user;
+});
+
+Broadcast::channel('ticket.{ticketId}', function($user, $ticketId) {
+    $ticket = \App\Models\SupportTicket::find($ticketId);
+    if (!$ticket) {
+        return false;
+    }
+
+    $isAdmin = $user->hasAnyRole(['Admin', 'Super Admin', 'Account']);
+    $isOwner = $ticket->user_id === $user->id;
+
+    return $isAdmin || $isOwner;
+});
