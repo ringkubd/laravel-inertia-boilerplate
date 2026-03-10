@@ -265,6 +265,7 @@ Route::get('config/create', [\App\Http\Controllers\SettingsController::class, 'c
 
 // Placement Status
 Route::resource('placement', \App\Http\Controllers\PlacementStatusController::class);
+Route::get('placement-report', [\App\Http\Controllers\PlacementStatusController::class, 'report'])->name('placement.report');
 
 // Blog
 Route::resource('post', \App\Http\Controllers\Blog\PostController::class);

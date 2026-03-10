@@ -10,12 +10,15 @@
         </template>
         <div class="container-fluid">
             <div class="card flex h-screen justify-center mt-1">
-                <div class="card-header">
+                <div class="card-header flex justify-between items-center">
                     <card-header
                         :create="route('placement.create')"
                         :searchMethod="search"
                         :can="can"
                     ></card-header>
+                    <Link :href="route('placement.report')" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-chart-bar mr-2"></i>View Report
+                    </Link>
                 </div>
                 <div class="card-body table-responsive relative overflow-x-auto">
                     <table  class="w-full text-sm text-left rtl:text-right text-gray-800 dark:text-gray-400">
@@ -36,7 +39,7 @@
                             <td class="border text-left px-2">{{index + 1}}</td>
                             <td class="border text-left px-2">{{place.student?.name}}</td>
                             <td class="border text-left px-2">{{place.student?.madrasha?.name}}</td>
-                            <td class="border text-left px-2">{{place.student?.polytechnic_info?.name}}</td>
+                            <td class="border text-left px-2">{{place.student?.polytechnicInfo?.name}}</td>
                             <td class="text-center border">{{place.student?.polytechnic_session}}</td>
                             <td class="border text-left px-2">{{currentStatus(place.present_status_type)}}</td>
                             <td class="border text-left px-2">
@@ -101,6 +104,7 @@ import BreezeAuthenticatedLayout from "@/Layouts/Authenticated";
 import CardHeader from "@/Shared/CardHeader";
 import Actions from "@/Shared/Actions";
 import Paginator from "@/Components/Paginator";
+import { Link } from "@inertiajs/vue3";
 
 export default {
     name: "index",
@@ -110,6 +114,7 @@ export default {
         CardHeader,
         Actions,
         Paginator,
+        Link,
     },
     methods: {
         search(param) {
