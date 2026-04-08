@@ -117,7 +117,8 @@ export default {
             const invInfo = this.invoices.filter((inv) => {
                 return inv.invoice_id === this.invoice_id
             })
-            this.invoice_info = invInfo[0]
+            this.invoice_info = invInfo[ 0 ]
+            console.log(this.invoice_info)
         },
         async templateInfo(){
             const noteST = this.noteSheetText[this.template_id]
@@ -139,6 +140,7 @@ export default {
                         app.ad_table = d.data
                     })
             }
+            console.log(this.invoice_info)
             let didNotSubmitDocument = parseInt(this.invoice_info?.number_of_student) - parseInt(this.invoice_info?.total_student);
             let faildStudent =  parseInt(this.invoice_info?.number_of_student) - parseInt(invoice.eligible_student);
             let rest_student = didNotSubmitDocument > 0 ? `Rest ${didNotSubmitDocument} students did not submit payment slips of the respective Polytechnic Institute confirming payments and excluded from the list.` : "";

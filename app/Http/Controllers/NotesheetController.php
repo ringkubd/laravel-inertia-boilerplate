@@ -67,12 +67,15 @@ class NotesheetController extends Controller
             ->whereNull('page_no')
             ->whereNull('serial_no')
             ->leftJoin('results', function ($join) {
-                $join->on('results.student_id', 'invoices.student_id')->where('status', 'Dropout');
+                $join->on('results.student_id', 'invoices.student_id')
+                ->where('status', 'Dropout')
+                ->where('results.deleted_at', null);
             })
             ->groupBy('invoice_id')
             ->whereRaw('date(invoices.created_at) > "2023-07-01"')
             ->latest('invoices.created_at')
             ->get();
+
         $notesheetTemplate = NotesheetTemplate::all();
         $noteSheetText = NotesheetText::query()->get()->groupBy('note_type');
         $pageNo = newPageNo();

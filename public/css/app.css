@@ -1003,6 +1003,9 @@ select {
 .max-h-48 {
   max-height: 12rem;
 }
+.max-h-60 {
+  max-height: 15rem;
+}
 .max-h-\[1\.5rem\] {
   max-height: 1.5rem;
 }
@@ -1015,9 +1018,6 @@ select {
 .max-h-fit {
   max-height: -moz-fit-content;
   max-height: fit-content;
-}
-.max-h-60 {
-  max-height: 15rem;
 }
 .min-h-\[100\%\] {
   min-height: 100%;
