@@ -83,7 +83,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <template v-if="!hasAdmiFee">
+                            <template v-if="!hasAdmiFee && !hasNullRemarks">
                                 <template v-for="group in groupedInvoicesByRemarks" :key="group.key">
                                     <tr class="border-1" style="background-color: #efefef !important; font-weight: 700;">
                                         <th :colspan="8 + (feeTypes != null ? feeTypes.length : 0)" style="text-align: center!important; border: 1px solid rgb(0,0,0)!important">
@@ -311,8 +311,14 @@ export default {
             const feeTypeListHasAdmi = this.feeTypes?.includes('Admi. Fee');
             return invoiceHasAdmi || feeTypeListHasAdmi;
         },
+        hasNullRemarks() {
+            return this.data.some((invoice) => {
+                const remark = this.remarks(invoice.result_status, invoice.payment_slip, this.basicInfo);
+                return remark === null || remark === undefined || remark === '';
+            });
+        },
         groupedInvoicesByRemarks() {
-            if (this.hasAdmiFee) {
+            if (this.hasAdmiFee || this.hasNullRemarks) {
                 return [];
             }
 
