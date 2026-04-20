@@ -83,13 +83,31 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <template v-for="group in groupedInvoicesByRemarks" :key="group.key">
-                                <tr class="border-1" style="background-color: #efefef !important; font-weight: 700;">
-                                    <th :colspan="8 + (feeTypes != null ? feeTypes.length : 0)" style="text-align: center!important; border: 1px solid rgb(0,0,0)!important">
-                                        {{ group.heading }}
-                                    </th>
-                                </tr>
-                                <tr v-for="(invoice, index) in group.rows" :key="`${group.key}-${invoice.id}`" class="border-1">
+                            <template v-if="!hasAdmiFee">
+                                <template v-for="group in groupedInvoicesByRemarks" :key="group.key">
+                                    <tr class="border-1" style="background-color: #efefef !important; font-weight: 700;">
+                                        <th :colspan="8 + (feeTypes != null ? feeTypes.length : 0)" style="text-align: center!important; border: 1px solid rgb(0,0,0)!important">
+                                            {{ group.heading }}
+                                        </th>
+                                    </tr>
+                                    <tr v-for="(invoice, index) in group.rows" :key="`${group.key}-${invoice.id}`" class="border-1">
+                                        <td class="text-center">{{ index + 1 }}</td>
+                                        <td class="text-center">{{ invoice.student?.polytechnic_roll }}</td>
+                                        <td style="width: 20%!important;">{{ invoice.student_name }}</td>
+                                        <td style="width: 15%!important;">{{ getFirstWord(invoice.student.polytechnic_trade_id)
+                                            }}</td>
+                                        <td style="width: 25%!important;">{{ invoice.bank_branch }}</td>
+                                        <td>{{ invoice.bank_account }}</td>
+                                        <td class="text-center" v-for="(ty, feeIndex) in feeTypes" :key="`${group.key}-${invoice.id}-${feeIndex}`">
+                                            {{tuition_fees(invoice.details, ty)}}
+                                        </td>
+                                        <td class="text-center">{{invoice.amount}}</td>
+                                        <td class="text-right">{{ group.key }}</td>
+                                    </tr>
+                                </template>
+                            </template>
+                            <template v-else>
+                                <tr v-for="(invoice, index) in data" :key="invoice.id" class="border-1">
                                     <td class="text-center">{{ index + 1 }}</td>
                                     <td class="text-center">{{ invoice.student?.polytechnic_roll }}</td>
                                     <td style="width: 20%!important;">{{ invoice.student_name }}</td>
@@ -97,11 +115,11 @@
                                         }}</td>
                                     <td style="width: 25%!important;">{{ invoice.bank_branch }}</td>
                                     <td>{{ invoice.bank_account }}</td>
-                                    <td class="text-center" v-for="(ty, feeIndex) in feeTypes" :key="`${group.key}-${invoice.id}-${feeIndex}`">
+                                    <td class="text-center" v-for="(ty, feeIndex) in feeTypes" :key="`${invoice.id}-${feeIndex}`">
                                         {{tuition_fees(invoice.details, ty)}}
                                     </td>
                                     <td class="text-center">{{invoice.amount}}</td>
-                                    <td class="text-right">{{ group.key }}</td>
+                                    <td class="text-right">{{remarks(invoice.result_status, invoice.payment_slip, basicInfo)}}</td>
                                 </tr>
                             </template>
                             <tr rowspan="2"
