@@ -2260,6 +2260,9 @@ select {
 .text-justify {
   text-align: justify;
 }
+.text-end {
+  text-align: end;
+}
 .align-middle {
   vertical-align: middle;
 }

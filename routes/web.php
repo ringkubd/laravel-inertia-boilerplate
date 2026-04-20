@@ -117,6 +117,10 @@ Route::get('fee_type', [\App\Http\Controllers\Api\PaymentSlipControllerApi::clas
 Route::resource('invoice', \App\Http\Controllers\InvoiceController::class);
 Route::resource('note_sheet_template', \App\Http\Controllers\NoteSheetTemplateController::class);
 Route::resource('note_sheet', \App\Http\Controllers\NotesheetController::class);
+Route::get('madrasah-notesheet', [\App\Http\Controllers\MadrasahNotesheetController::class, 'index'])->name('madrasah_notesheet.index');
+Route::get('madrasah-notesheet/create', [\App\Http\Controllers\MadrasahNotesheetController::class, 'create'])->name('madrasah_notesheet.create');
+Route::post('madrasah-notesheet/preview', [\App\Http\Controllers\MadrasahNotesheetController::class, 'preview'])->name('madrasah_notesheet.preview');
+Route::post('madrasah-notesheet', [\App\Http\Controllers\MadrasahNotesheetController::class, 'store'])->name('madrasah_notesheet.store');
 Route::get('note_sheet_info/invoice/{invoice_id?}', [\App\Http\Controllers\NotesheetController::class, 'getInvoiceInfo'])->name('note_sheet_invoice_info');
 
 Route::get('notesheet/{invoice_id}/mma_table', [\App\Http\Controllers\NotesheetController::class, 'mmaTable'])->name('mma_table');
@@ -219,7 +223,7 @@ Route::prefix('support-tickets')->middleware(['auth'])->group(function () {
 
     Route::get('/', [SupportTicketController::class, 'index'])
         ->name('support-tickets.index');
-        Route::get('/create', [SupportTicketController::class, 'create'])
+    Route::get('/create', [SupportTicketController::class, 'create'])
         ->name('support-tickets.create');
     Route::post('/', [SupportTicketController::class, 'store'])
         ->name('support-tickets.store');

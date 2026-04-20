@@ -1,7 +1,8 @@
 <?php
 
 if (!function_exists('lastMmaNo')) {
-    function lastMmaNo($session, $semester){
+    function lastMmaNo($session, $semester)
+    {
         return \App\Models\Invoice::where('semester', $semester)
             ->where('session', $session)
             ->whereJsonContains('fee_type', 'MMA')
@@ -11,8 +12,24 @@ if (!function_exists('lastMmaNo')) {
     }
 }
 
+if (!function_exists('newMadrasahPageNo')) {
+    function newMadrasahPageNo($type = 'page_no')
+    {
+        $notesheet = \App\Models\Notesheet::query()
+            ->madrasah()
+            ->selectRaw('max(page_no) as page_no, max(serial_no) as serial_no')
+            ->first();
+
+        if ($type === 'page_no') {
+            return ($notesheet?->page_no !== null) ? (int)$notesheet->page_no + 1 : 1;
+        }
+        return ($notesheet?->serial_no !== null) ? (int)$notesheet->serial_no + 1 : 146;
+    }
+}
+
 if (!function_exists('newPageNo')) {
-    function newPageNo($type='page_no') {
+    function newPageNo($type = 'page_no')
+    {
         $invoice = \App\Models\Invoice::query()
             ->selectRaw('max(page_no) as page_no, max(serial_no) as serial_no')
             ->groupBy('invoice_id')
@@ -22,21 +39,20 @@ if (!function_exists('newPageNo')) {
         if ($invoice && $invoice->page_no != null) {
             if ($type == 'page_no') {
                 return (int)$invoice->page_no + 1;
-            }else{
+            } else {
                 return (int)$invoice->serial_no + 2;
             }
-
         }
-        if ($type == 'page_no'){
+        if ($type == 'page_no') {
             return 178;
-        }else{
+        } else {
             return 471;
         }
     }
 }
 function getBytesFromHexString($hexdata)
 {
-    for($count = 0; $count < strlen($hexdata); $count+=2)
+    for ($count = 0; $count < strlen($hexdata); $count += 2)
         $bytes[] = chr(hexdec(substr($hexdata, $count, 2)));
 
     return implode($bytes);
@@ -53,8 +69,7 @@ function getImageMimeType($imagedata)
         "tiff" => "4D4D"
     );
 
-    foreach ($imagemimetypes as $mime => $hexbytes)
-    {
+    foreach ($imagemimetypes as $mime => $hexbytes) {
         $bytes = getBytesFromHexString($hexbytes);
         if (substr($imagedata, 0, strlen($bytes)) == $bytes)
             return $mime;
@@ -63,8 +78,9 @@ function getImageMimeType($imagedata)
     return NULL;
 }
 
-if (!function_exists('uiidv5')){
-    function uiidv5($name) {
+if (!function_exists('uiidv5')) {
+    function uiidv5($name)
+    {
         $hash = sha1($name, false);
         return sprintf(
             '%s-%s-5%s-%s-%s',
