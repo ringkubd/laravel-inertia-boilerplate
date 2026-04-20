@@ -325,7 +325,7 @@ export default {
                 return acc;
             }, {});
 
-            const orderedRemarks = ['Passed', 'Referred', 'Dropout', 'DS', 'DNS'];
+            const orderedRemarks = ['Passed', 'DS', 'Referred', 'Dropout', 'DNS'];
             const knownGroups = orderedRemarks
                 .filter((remark) => grouped[remark]?.length)
                 .map((remark) => ({
