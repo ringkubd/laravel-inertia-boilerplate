@@ -286,7 +286,18 @@ export default {
         moment() {
             return moment
         },
+        hasAdmiFee() {
+            const invoiceHasAdmi = this.data.some((invoice) => {
+                return invoice.details?.some((detail) => detail.fee_type === 'Admi. Fee');
+            });
+            const feeTypeListHasAdmi = this.feeTypes?.includes('Admi. Fee');
+            return invoiceHasAdmi || feeTypeListHasAdmi;
+        },
         groupedInvoicesByRemarks() {
+            if (this.hasAdmiFee) {
+                return [];
+            }
+
             const grouped = this.data.reduce((acc, invoice) => {
                 const remark = this.remarks(invoice.result_status, invoice.payment_slip, this.basicInfo);
                 if (!acc[remark]) {
