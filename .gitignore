@@ -1,7 +1,6 @@
 /node_modules
 /public/hot
 /public/storage
-/public/attendance
 /storage/*.key
 /vendor
 .env
@@ -14,14 +13,9 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
-/public/photos
-/public/payment_slip
-/public/result_document
+/.history
+/public/recovered_by_type
 /public/attendance
-/public/admission_attach
 /public/js/app.js
 /public/diploma_student.apk
 /public/isdbbisew-6098d57666ae.json
-/.history
-.htaccess
-public/recovered_by_type

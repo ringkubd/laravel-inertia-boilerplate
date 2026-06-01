@@ -202,12 +202,12 @@
             </div>
             <div class="flex flex-col md:flex-row  min-w-full md:space-x-8 mb:mb-0 mb-4">
                 <div class="md:w-1/3 block mb-2 text-sm font-medium text-gray-900 dark:text-white"></div>
-                <input type="submit" value="Submit" class="p-2 bg-[#36AFAD] rounded" @click.prevent="storeProduct">
+                <input type="submit" value="Submit" class="p-2 bg-brand-600 rounded" @click.prevent="storeProduct">
             </div>
             <!-- Product Meta -->
             <div v-if="product.id">
                 <h2 class="block underline">Product Meta</h2>
-                <div class="flex flex-col md:flex-row  min-w-full md:space-x-8 mb:mb-0 mb-4 bg-[#002147] bg-opacity-10 p-2 text-center align-middle" v-for="m in product.meta">
+                <div class="flex flex-col md:flex-row  min-w-full md:space-x-8 mb:mb-0 mb-4 bg-brand-800 bg-opacity-10 p-2 text-center align-middle" v-for="m in product.meta">
                     <div class="flex flex-col md:flex-row md:w-2/3 md:space-x-2">
                         <div class="flex flex-col md:flex-row md:w-1/2">
                             {{m.key}}
@@ -218,7 +218,7 @@
 
                     </div>
                     <div>
-                        <button type="button" class="p-2 bg-[#36AFAD] rounded" @click="() => deleteMeta(m.id)">Delete</button>
+                        <button type="button" class="p-2 bg-brand-600 rounded" @click="() => deleteMeta(m.id)">Delete</button>
                     </div>
                 </div>
                 <div class="flex flex-col md:flex-row  min-w-full md:space-x-8 mb:mb-0 mb-4">
@@ -259,7 +259,7 @@
 
                     </div>
                     <div>
-                        <button type="button" class="p-2 bg-[#36AFAD] rounded" @click="storeMeta">Add</button>
+                        <button type="button" class="p-2 bg-brand-600 rounded" @click="storeMeta">Add</button>
                     </div>
                 </div>
             </div>

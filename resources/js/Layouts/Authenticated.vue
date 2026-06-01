@@ -1,11 +1,9 @@
 <template>
     <Head title="Dashboard"></Head>
-    <div class="bg-indigo-100">
+    <div class="bg-gray-50">
         <chat  v-if="!$page.props.menu_permission.support"/>
-        <!--         bg-[#36AFAD]-->
         <div class="min-h-screen">
-            <!--     from-[#7AE5F5] via-[#97EBF4] to-[#C9F6FF] to-green-600     via-yellow-50 animate-gradient-x -->
-            <nav class="bg-[#002147] shadow-lg text-black border-b-4 opacity-100 border-gray-600 sticky top-0 z-50">
+            <nav class="bg-brand-800 shadow sticky top-0 z-50">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-10xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
@@ -52,7 +50,7 @@
                                                     rounded-md
                                                     text-white
                                                     bg-transparent
-                                                    hover:bg-[#003366]
+                                                    hover:bg-brand-700
                                                     focus:outline-none
                                                     transition
                                                     ease-in-out
@@ -760,7 +758,7 @@
                     </div>
 
                     <!-- Support Tickets Mobile Menu -->
-                    <div class="space-y-1 pl-3" v-if="!$page.props.menu_permission.support">
+                    <div class="space-y-1 px-2" v-if="!$page.props.menu_permission.support">
                         <div class="sm:flex sm:items-center sm:ml-6">
                             <breeze-dropdown align="right" width="48">
                                 <template #trigger>
@@ -770,15 +768,15 @@
                                             class="
                                                 inline-flex
                                                 items-center
-                                                px-1
-                                                py-2
+                                                px-3
+                                                py-3
                                                 text-sm
                                                 leading-4
                                                 font-medium
                                                 rounded-md
                                                 text-white
                                                 bg-transparent
-                                                hover:bg-[#003366]
+                                                hover:bg-brand-700
                                                 focus:outline-none
                                                 transition
                                                 ease-in-out
@@ -832,7 +830,7 @@
                         </div>
                     </div>
 
-                    <div class="space-y-1 pl-3">
+                    <div class="space-y-1 px-2">
                         <div class="sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.user_management">
                             <breeze-dropdown align="right" width="48">
                                 <template #trigger>
@@ -908,7 +906,7 @@
                             </breeze-dropdown>
                         </div>
                     </div>
-                    <div class="space-y-1 pl-3">
+                    <div class="space-y-1 px-2">
                         <div class="sm:flex sm:items-center sm:ml-6"  v-if="$page.props.menu_permission.blog_management">
                             <breeze-dropdown align="right" width="48">
                                 <template #trigger>
@@ -978,7 +976,7 @@
                             </breeze-dropdown>
                         </div>
                     </div>
-                    <div class="space-y-1 pl-3">
+                    <div class="space-y-1 px-2">
                         <div class="sm:flex sm:items-center sm:ml-6"  v-if="$page.props.menu_permission.madrasah || $page.props.menu_permission.teacher || $page.props.menu_permission.madrasah_student || $page.props.menu_permission.madrasah_result">
                             <breeze-dropdown align="right" width="48">
                                 <template #trigger>
@@ -1065,7 +1063,7 @@
                             </breeze-dropdown>
                         </div>
                     </div>
-                    <div class="space-y-1 pl-3">
+                    <div class="space-y-1 px-2">
                         <div class="sm:flex sm:items-center sm:ml-6"  v-if="$page.props.menu_permission.polytechnic || $page.props.menu_permission.polytechnic_student || $page.props.menu_permission.polytechnic_result">
                             <breeze-dropdown align="right" width="48">
                                 <template #trigger>
@@ -1138,7 +1136,7 @@
                             </breeze-dropdown>
                         </div>
                     </div>
-                    <div class="space-y-1 pl-3">
+                    <div class="space-y-1 px-2">
                         <div class="sm:flex sm:items-center sm:ml-6"  v-if="$page.props.menu_permission.invoice || $page.props.menu_permission.fee">
                             <breeze-dropdown align="right" width="48">
                                 <template #trigger>
@@ -1218,7 +1216,7 @@
                             </breeze-dropdown>
                         </div>
                     </div>
-                    <div class="space-y-1 pl-3">
+                    <div class="space-y-1 px-2">
                         <div class="sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.academic_session || $page.props.menu_permission.trade">
                             <breeze-dropdown align="right" width="48">
                                 <template #trigger>
@@ -1284,7 +1282,7 @@
                             </breeze-dropdown>
                         </div>
                     </div>
-                    <div class="space-y-1 pl-3" v-if="$page.props.menu_permission.polytechnic_result && $page.props.menu_permission.student">
+                    <div class="space-y-1 px-2" v-if="$page.props.menu_permission.polytechnic_result && $page.props.menu_permission.student">
                         <breeze-nav-link
                             :href="route('polytechnic.result.index')"
                             :active="route().current('polytechnic.result.*')"
@@ -1294,7 +1292,7 @@
                             Results
                         </breeze-nav-link>
                     </div>
-                    <div class="space-y-1 pl-3">
+                    <div class="space-y-1 px-2">
                         <div class="sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.admission">
                             <breeze-nav-link
                                 :href="route('admission.index')"
@@ -1305,7 +1303,7 @@
                             </breeze-nav-link>
                         </div>
                     </div>
-                    <!-- <div class="space-y-1 pl-3">
+                    <!-- <div class="space-y-1 px-2">
                         <div class="sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.support">
                             <breeze-nav-link
                                 :href="route('support.index')"
@@ -1317,7 +1315,7 @@
                             </breeze-nav-link>
                         </div>
                     </div> -->
-                    <div class="space-y-1 pl-3">
+                    <div class="space-y-1 px-2">
                         <div class="sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.paymentSlip">
                             <breeze-nav-link
                                 :href="route('payment-slip.index')"
@@ -1329,7 +1327,7 @@
                             </breeze-nav-link>
                         </div>
                     </div>
-                    <div class="space-y-1 pl-3">
+                    <div class="space-y-1 px-2">
                         <div class="sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.app_notice">
                             <breeze-nav-link
                                 :href="route('notice.index')"
@@ -1341,7 +1339,7 @@
                             </breeze-nav-link>
                         </div>
                     </div>
-                    <div class="space-y-1 pl-3">
+                    <div class="space-y-1 px-2">
                         <div class="sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.app_attendance">
                             <breeze-nav-link
                                 :href="route('app_attendance.index')"
@@ -1353,7 +1351,7 @@
                             </breeze-nav-link>
                         </div>
                     </div>
-                    <div class="space-y-1 pl-3">
+                    <div class="space-y-1 px-2">
                         <div class="sm:flex sm:items-center sm:ml-6" v-if="$page.props.menu_permission.super_admin">
                             <breeze-nav-link
                                 :href="route('mail.inbox')"
@@ -1393,20 +1391,20 @@
             </nav>
 
             <!-- Page Heading -->
-            <header class="container-fluid bg-gradient-to-r  via-yellow-100 to-[#36C57F]" v-if="$slots.header">
+            <header class="bg-white border-b border-gray-200" v-if="$slots.header">
                 <div class="max-w-8xl mx-auto py-2 px-4 sm:px-6 lg:px-8">
-                    <div v-if="$page.props.flash.message" class="alert">
+                    <div v-if="$page.props.flash.message" class="bg-blue-50 border border-blue-200 text-blue-800 rounded-md px-4 py-3 mb-2 text-sm">
                         {{ $page.props.flash.message }}
                     </div>
                     <div
                         v-if="$page.props.flash.error"
-                        class="alert alert-error"
+                        class="bg-red-50 border border-red-200 text-red-800 rounded-md px-4 py-3 mb-2 text-sm"
                     >
                         {{ $page.props.flash.error }}
                     </div>
                     <div
                         v-if="$page.props.flash.success"
-                        class="alert alert-success"
+                        class="bg-green-50 border border-green-200 text-green-800 rounded-md px-4 py-3 mb-2 text-sm"
                     >
                         {{ $page.props.flash.success }}
                     </div>
@@ -1418,31 +1416,29 @@
                 <slot :onlineFriends="onlineFriends" :offlineFriends="offlineFriends" />
             </main>
         </div>
-        <footer class="animate-gradient-x shadow-lg text-black border-b-4 opacity-100 border-gray-600">
-            <div class="container max-w-6xl mx-auto flex items-center px-2 py-8">
+        <footer class="bg-white border-t border-gray-200">
+            <div class="container max-w-6xl mx-auto flex items-center px-4 sm:px-2 py-8">
 
-                <div class="w-full mx-auto flex flex-wrap items-center">
-                    <div class="flex flex-col w-full md:w-1/2 justify-center md:justify-start text-white font-extrabold">
+                <div class="w-full mx-auto flex flex-wrap items-center gap-4 sm:gap-0">
+                    <div class="flex flex-col w-full md:w-1/2 justify-center items-center md:items-start text-white font-extrabold">
                         <Link class="text-gray-900 no-underline hover:text-gray-900 hover:no-underline" :href="route('post.index')">
                             <span class="text-base">Blog</span>
                         </Link>
-                        <a class="text-gray-900 no-underline hover:text-gray-900 hover:no-underline w-20" href='https://play.google.com/store/apps/details?id=com.ringkubd.diploma_student&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'>
+                        <a class="text-gray-900 no-underline hover:text-gray-900 hover:no-underline w-20 flex justify-center md:justify-start" href='https://play.google.com/store/apps/details?id=com.ringkubd.diploma_student&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'>
                             <img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/>
                         </a>
                     </div>
-                    <div class="flex w-full pt-2 content-center justify-between md:w-1/2 md:justify-end">
+                    <div class="flex w-full pt-2 content-center justify-center md:w-1/2 md:justify-end">
                         <ul class="list-reset flex justify-center flex-col md:flex-1 md:flex-none items-center">
                             <li>
-                                <Link class="inline-block py-2 px-3 no-underline" :href="route('dashboard')">Home</Link>
+                                <Link class="inline-block py-3 px-3 no-underline" :href="route('dashboard')">Home</Link>
                             </li>
                             <li>
-                                <a class="inline-block text-gray-600 no-underline hover:text-gray-200 hover:underline py-2 px-3" target="_blank" href="https://isdb-bisew.org">IsDB-BISEW</a>
+                                <a class="inline-block text-gray-600 no-underline hover:text-gray-200 hover:underline py-3 px-3" target="_blank" href="https://isdb-bisew.org">IsDB-BISEW</a>
                             </li>
                         </ul>
                     </div>
                 </div>
-
-
 
             </div>
         </footer>

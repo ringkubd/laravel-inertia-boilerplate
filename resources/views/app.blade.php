@@ -7,22 +7,15 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="author" content="Anwar Jahid">
 
-{{--        <title>{{ config('app.name', 'Laravel') }}</title>--}}
-
-<!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-          rel="stylesheet">
     <link rel="manifest" href="{{url('manifest.json')}}">
-    <!-- Styles -->
+
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     <link rel="stylesheet" href="{{ mix('css/chat.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
-    <!-- Scripts -->
     @routes
     <script>
-
         function GET() {
             var data = [];
             for(let x = 0; x < arguments.length; ++x){
@@ -37,23 +30,9 @@
     <script type="text/javascript" src="/js/ckfinder/ckfinder.js"></script>
     <script>
         CKFinder.config( { connectorPath: route('ckfinder_connector') } );
-        function ordinal_suffix_of(i) {
-            const j = i % 10,
-                k = i % 100;
-            if (j === 1 && k !== 11) {
-                return i + "st";
-            }
-            if (j === 2 && k !== 12) {
-                return i + "nd";
-            }
-            if (j === 3 && k !== 13) {
-                return i + "rd";
-            }
-            return i + "th";
-        }
     </script>
 </head>
-<body class="font-sans antialiased">
+<body class="font-sans antialiased bg-gray-50">
 @include('ckfinder::setup')
 <div id="confirm"></div>
 @inertia

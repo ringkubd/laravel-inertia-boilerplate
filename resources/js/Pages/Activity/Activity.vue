@@ -5,14 +5,14 @@
                 User's Activities
             </page-header>
         </template>
-        <div class="container-fluid">
-            <div class="row mt-1">
-                <div class="col-md-3">
-                    <div class="card" style="height: 80vh">
+        <div class="container-fluid px-2 sm:px-3">
+            <div class="flex flex-col md:flex-row mt-1 gap-3">
+                <div class="w-full md:w-1/4">
+                    <div class="card min-h-[50vh] md:min-h-[80vh]">
                         <div class="card-header">
                             <h2>User List</h2>
                         </div>
-                        <div class="card-body overflow-scroll">
+                        <div class="card-body max-h-[40vh] md:max-h-[70vh] overflow-y-auto">
                             <ol>
                                 <li v-for="user in users.data">
                                     <NavLink :active="route().current(`activity.${user.id}`)" :href="route('activity', user.id)">{{user.name}}</NavLink>
@@ -24,11 +24,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-9">
-                    <div class="card" style="height: 80vh">
+                <div class="w-full md:w-3/4">
+                    <div class="card min-h-[50vh] md:min-h-[80vh]">
                         <div class="card-header"></div>
-                        <div class="card-body overflow-scroll">
-                            <table class="table">
+                        <div class="card-body overflow-x-auto">
+                            <table class="table table-responsive">
                                 <thead>
                                 <tr>
                                     <th>SL#</th>

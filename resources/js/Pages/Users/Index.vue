@@ -76,7 +76,7 @@
                                         "
                                 >
                                     <Link as="button" class="group" type="button" :href="route('users.direct_permission', user.id)">
-                                        <jet-button type="submit" class="bg-gradient-to-r text-black from-[#36AFAD] via-black-700 to-[#36C57F] animate-gradient-xy hover:shadow-lg group-hover:animate-pulse">
+                                        <jet-button type="submit" class="bg-brand-600 hover:bg-brand-700">
                                             <font-awesome-icon
                                                 icon="bars"
                                                 size="md"

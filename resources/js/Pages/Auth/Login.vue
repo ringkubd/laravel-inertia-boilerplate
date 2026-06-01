@@ -6,38 +6,37 @@
     </Head>
     <breeze-validation-errors class="mb-4" />
 
-    <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
+    <div v-if="status" class="mb-4 font-medium text-sm text-accent-600">
         {{ status }}
     </div>
-    <div class="card w-full h-screen">
-        <div class="card-body flex justify-center">
+    <div class="min-h-[70vh] flex items-center justify-center px-4">
+        <div class="w-full max-w-md bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Sign in</h2>
             <form @submit.prevent="submit">
-                <div>
+                <div class="mb-4">
                     <breeze-label for="email" value="Email" />
                     <breeze-input id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autofocus autocomplete="username" />
                 </div>
 
-                <div class="mt-4">
+                <div class="mb-4">
                     <breeze-label for="password" value="Password" />
                     <breeze-input id="password" type="password" class="mt-1 block w-full" v-model="form.password" required autocomplete="current-password" />
                 </div>
 
-                <div class="block mt-4">
+                <div class="flex items-center justify-between mb-6">
                     <label class="flex items-center">
                         <breeze-checkbox name="remember" v-model:checked="form.remember" />
                         <span class="ml-2 text-sm text-gray-600">Remember me</span>
                     </label>
-                </div>
 
-                <div class="flex items-center justify-end mt-4">
-                    <Link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm text-gray-600 hover:text-gray-900">
-                        Forgot your password?
+                    <Link v-if="canResetPassword" :href="route('password.request')" class="text-sm text-brand-600 hover:text-brand-800">
+                        Forgot password?
                     </Link>
-
-                    <breeze-button class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                        Log in
-                    </breeze-button>
                 </div>
+
+                <breeze-button class="w-full justify-center" :class="{ 'opacity-50': form.processing }" :disabled="form.processing">
+                    Log in
+                </breeze-button>
             </form>
         </div>
     </div>

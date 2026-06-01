@@ -71,7 +71,7 @@
                                         >
                                     </div>
                                     <div class="space-x-2 mt-6">
-                                        <input type="submit" class="p-2 bg-[#36AFAD] rounded" value="Submit" />
+                                        <input type="submit" class="p-2 bg-brand-600 rounded" value="Submit" />
                                     </div>
                                 </div>
                             </form>
@@ -110,7 +110,7 @@
                                         <Link
                                             :href="route('supplier.destroy', row.id)"
                                             method="DELETE"
-                                            class="p-2 rounded backdrop-blur-2xl bg-[#36AFAD] no-underline text-black"
+                                            class="p-2 rounded backdrop-blur-2xl bg-brand-600 no-underline text-black"
                                         >Delete</Link>
                                     </TableBody>
                                 </template>

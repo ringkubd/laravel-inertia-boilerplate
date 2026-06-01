@@ -13,8 +13,8 @@ export default {
     computed: {
         classes() {
             return this.active
-                ? 'block w-full shadow-lg no-underline px-4 rounded py-2 text-left text-sm bg-green-200 border-indigo-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out no-underline'
-                : 'block w-full no-underline px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out'
+                ? 'block w-full no-underline px-4 py-3 text-left text-sm font-medium leading-5 text-brand-700 bg-brand-50 focus:outline-none focus:bg-brand-100 transition duration-150 ease-in-out'
+                : 'block w-full no-underline px-4 py-3 text-left text-sm leading-5 text-gray-700 hover:bg-brand-50 focus:outline-none focus:bg-brand-50 transition duration-150 ease-in-out'
         }
     }
 }

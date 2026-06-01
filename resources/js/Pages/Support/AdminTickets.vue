@@ -136,7 +136,7 @@
                 </div>
 
                 <!-- Tickets Table -->
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-white rounded-xl shadow-lg overflow-x-auto">
                     <div v-if="loading" class="flex items-center justify-center py-12">
                         <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
                     </div>

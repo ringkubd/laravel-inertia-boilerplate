@@ -1,123 +1,251 @@
-/*@import "bootstrap";*/
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
-*{
+
+:root {
+    --color-brand-50: #f0f9ff;
+    --color-brand-100: #e0f2fe;
+    --color-brand-200: #bae6fd;
+    --color-brand-300: #7dd3fc;
+    --color-brand-400: #38bdf8;
+    --color-brand-500: #0ea5e9;
+    --color-brand-600: #0284c7;
+    --color-brand-700: #0369a1;
+    --color-brand-800: #075985;
+    --color-brand-900: #0c4a6e;
+
+    --color-accent-50: #f0fdf4;
+    --color-accent-100: #dcfce7;
+    --color-accent-200: #bbf7d0;
+    --color-accent-300: #86efac;
+    --color-accent-400: #4ade80;
+    --color-accent-500: #22c55e;
+    --color-accent-600: #16a34a;
+    --color-accent-700: #15803d;
+
+    --radius-sm: 0.375rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+}
+
+* {
     text-align: justify;
 }
-sup{
-    color: red!important;
+
+html {
+    scroll-behavior: smooth;
 }
-td{
-    /*white-space: -o-pre-wrap;*/
-    /*white-space: pre-wrap;*/
-    /*white-space: -moz-pre-wrap;*/
+
+body {
+    @apply bg-gray-50 text-gray-800 antialiased;
+}
+
+sup {
+    color: #dc2626 !important;
+}
+
+td {
     word-wrap: break-word;
     text-align: justify;
 }
-.modal-mask {
-    position: fixed;
-    z-index: 9998;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: table;
+
+ol li {
+    @apply list-decimal;
 }
 
-.modal-wrapper {
-    display: table-cell;
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.table-responsive table {
+    min-width: 700px;
+}
+
+.table-responsive td,
+.table-responsive th {
     vertical-align: middle;
 }
 
-.modal-container {
-    width: 50vw;
-    margin: 0px auto;
-    padding: 1rem 2rem;
-    background-color: #fff;
-    border-radius: 2px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-    font-family: Helvetica, Arial, sans-serif;
+@media (max-width: 640px) {
+    .table-responsive td,
+    .table-responsive th {
+        padding: 0.375rem 0.4rem;
+        font-size: 0.8125rem;
+    }
 }
 
-.modal-header h3 {
-    margin-top: 0;
-    color: #42b983;
+.table thead {
+    background-color: #0c4a6e;
+    color: white;
 }
 
-.modal-body {
-    margin: 1rem 0;
-}
-
-.modal-default-button {
-    display: block;
-    margin-top: 1rem;
-}
-
-/*
- * The following styles are auto-applied to elements with
- * transition="modal" when their visibility is toggled
- * by Vue.js.
- *
- * You can easily play with the modal transition by editing
- * these styles.
- */
-
-.modal-enter-active,
-.modal-leave-active {
-    transition: opacity 0.5s ease;
-}
-
-.modal-enter-from,
-.modal-leave-to {
-    opacity: 0;
-}
-/*.table tr th {*/
-/*    vertical-align : middle;*/
-/*    text-align:center;*/
-/*}*/
-
-.card{
-    /*background-image: linear-gradient(to bottom,#36AFAD, #27a11142);*/
-    background-size:200% 200%;
-    background-position: left center;
-    /*animation: gradient-x 15s ease infinite;*/
-}
-
-.table-secondary{
-    --bs-table-bg: current!important;
-    --bs-table-striped-bg:  current!important;;
-    --bs-table-striped-color: #000;
-    --bs-table-active-bg: #cbccce;
-    --bs-table-active-color: #000;
-    --bs-table-hover-bg: #d1d2d4;
-    --bs-table-hover-color: #000;
-}
-.table-striped{
-    /*background-image: linear-gradient(to left,#ffffff, #56D38D)!important;*/
-    /*background-size:150% 200%!important;*/
-    /*background-position: left center!important;*/
-    /*animation: gradient-x 15s ease infinite!important;*/
-}
-table thead tr {
-    /*background-image: linear-gradient(to bottom right,#36AFAD, #27a11142, #56d598)!important;*/
-    background-size:200% 200%!important;
-    background-position: left center!important;
-    animation: gradient-x 15s ease infinite!important;
+.table thead th {
+    padding: 0.75rem;
+    font-weight: 600;
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    border: 0 !important;
     text-align: center;
-    justify-content: center;
-    align-items: center;
-    place-content: center;
-    border: 0!important;
+    vertical-align: middle;
 }
-/*th{*/
-/*    text-align: center!important;*/
-/*    background-image: linear-gradient(to bottom right,rgb(54, 175, 173), rgba(103, 172, 133, 1.26), rgb(345, 210, 9))!important;*/
-/*    background-size:200% 200%!important;*/
-/*    background-position: left center!important;*/
-/*    animation: gradient-x 15s ease infinite!important;*/
-/*}*/
-ol li {
-    @apply list-decimal
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: #f8fafc;
+}
+
+.table-striped > tbody > tr:hover {
+    background-color: #e0f2fe;
+}
+
+.table td {
+    padding: 0.625rem 0.75rem;
+    vertical-align: middle;
+    border-color: #e2e8f0;
+}
+
+.table-secondary {
+    --bs-table-bg: transparent !important;
+    --bs-table-striped-bg: transparent !important;
+}
+
+.card-body.table-responsive {
+    padding: 0;
+}
+
+.card-header + .card-body.table-responsive table {
+    border-top: 0;
+}
+
+.card {
+    border: none;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
+
+.card-header {
+    background-color: transparent;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 1rem 1.25rem;
+}
+
+.card-body {
+    padding: 1.25rem;
+}
+
+.card-footer {
+    background-color: transparent;
+    border-top: 1px solid #e2e8f0;
+    padding: 1rem 1.25rem;
+}
+
+.form-control {
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.form-control:focus {
+    border-color: #7dd3fc;
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15);
+    outline: none;
+}
+
+select.form-control {
+    min-height: 2.5rem;
+}
+
+.btn-success {
+    background-color: #16a34a !important;
+    border-color: #16a34a !important;
+    color: white !important;
+    padding: 0.5rem 1.25rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+    transition: background-color 0.15s ease;
+}
+
+.btn-success:hover {
+    background-color: #15803d !important;
+}
+
+.btn-warning {
+    background-color: #d97706 !important;
+    border-color: #d97706 !important;
+    color: white !important;
+    padding: 0.5rem 1.25rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+    transition: background-color 0.15s ease;
+}
+
+.btn-warning:hover {
+    background-color: #b45309 !important;
+}
+
+.text-danger {
+    color: #dc2626 !important;
+    font-size: 0.8125rem;
+    margin-top: 0.25rem;
+}
+
+fieldset {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    padding: 1rem 1.5rem 2rem !important;
+    margin-bottom: 1.5rem;
+}
+
+legend {
+    background-color: #e0f2fe;
+    color: #075985;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.375rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    width: auto;
+    float: none;
+    margin-bottom: 1rem;
+    border: none;
+}
+
+label {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 0.25rem;
+    display: block;
+}
+
+.container-fluid {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+    .container-fluid {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+}
+
+.row {
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+}
+
+.row > [class*="col-"] {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.col-form-label {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
 }
