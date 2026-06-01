@@ -33,6 +33,11 @@ if (file_exists(__DIR__.'/../storage/framework/maintenance.php')) {
 
 require __DIR__.'/../vendor/autoload.php';
 
+// Face images are now compressed client-side to ~30-50KB per image
+// Small safety margin in case of multiple images
+ini_set('post_max_size', '10M');
+ini_set('upload_max_filesize', '10M');
+
 /*
 |--------------------------------------------------------------------------
 | Run The Application

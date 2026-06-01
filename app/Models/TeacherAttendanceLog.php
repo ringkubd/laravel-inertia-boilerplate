@@ -12,6 +12,14 @@ class TeacherAttendanceLog extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'face_match_score' => 'decimal:2',
+        'face_verified' => 'boolean',
+        'location_verified' => 'boolean',
+        'location_distance' => 'decimal:2',
+        'device_info' => 'array',
+    ];
+
     public function user(){
         return $this->belongsTo(User::class);
     }

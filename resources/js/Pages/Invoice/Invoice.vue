@@ -410,6 +410,12 @@ export default {
             return amount ? amount : 0
         },
         remarkHeading(remark) {
+            if (remark === 'Passed') {
+                return 'Payable';
+            }
+            if (remark === 'Referred') {
+                return 'Not Payable';
+            }
             if (remark === 'DS') {
                 return 'Document Submitted (DS)';
             }

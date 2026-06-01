@@ -52,7 +52,19 @@ class UserController extends Controller
    }
 
 
-   public function instructor_login(Request $request){
+    public function logout(Request $request){
+        $request->user()->currentAccessToken()->delete();
+        return response()->json(['message' => 'Logged out successfully']);
+    }
+
+    public function refreshToken(Request $request){
+        $user = $request->user();
+        $user->currentAccessToken()->delete();
+        $token = $user->createToken($request->device_name ?? 'mobile')->plainTextToken;
+        return response()->json(['token' => $token, 'user' => $user]);
+    }
+
+    public function instructor_login(Request $request){
        $validator = Validator::make($request->all(), [
            'email' => 'required|email',
            'password' => 'required',

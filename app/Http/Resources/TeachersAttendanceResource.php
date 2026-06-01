@@ -30,7 +30,11 @@ class TeachersAttendanceResource extends JsonResource
             'logout_photo' => $this->logout_photo,
             'logout_location_latitude' => json_decode($this->logout_location)?->latitude ?? null,
             'logout_location_longitude' => json_decode($this->logout_location)?->longitude ?? null,
-            'status' => $this->attnStatus($this->login, $this->logout)
+            'status' => $this->attnStatus($this->login, $this->logout),
+            'face_verified' => (bool) $this->face_verified,
+            'face_match_score' => (float) ($this->face_match_score ?? 0),
+            'location_verified' => (bool) $this->location_verified,
+            'location_distance' => (float) ($this->location_distance ?? 0),
         ];
     }
 
