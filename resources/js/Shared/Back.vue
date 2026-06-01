@@ -1,14 +1,14 @@
 <template>
     <div>
         <Link class="no-underline" :href="backUrl">
-            <jet-button class="bg-white border border-gray-300 text-gray-700 hover:bg-gray-50">
+            <jet-button class="text-black bg-gradient-to-r from-[#36AFAD] to-[#36C57F]">
                 <font-awesome-icon
                     icon="backward"
                     size="md"
                     rotation="rotate"
-                    class="text-gray-500"
+                    class="text-black"
                 ></font-awesome-icon>
-                <span> Back</span>
+                <span class="text-black"> Back</span>
             </jet-button>
         </Link>
     </div>

@@ -7,7 +7,7 @@
                 <Link
                     type="button"
                     as="button"
-                    class="btn bg-brand-600 text-white hover:bg-brand-700 transition flex items-center gap-2 w-full sm:w-auto justify-center border-0"
+                    class="btn bg-gradient-to-r from-[#36AFAD] to-[#36C57F] hover:opacity-90 transition-opacity flex items-center gap-2 w-full sm:w-auto justify-center"
                     :href="create"
                     v-if="can.create && create"
                 >

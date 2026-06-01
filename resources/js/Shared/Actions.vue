@@ -1,5 +1,5 @@
 <template>
-    <div class="flex justify-center flex-wrap gap-1">
+    <div class="flex justify-center">
         <Link
             as="button"
             type="button"
@@ -7,10 +7,10 @@
             v-if="can.update"
             class="group"
         >
-            <jet-button type="submit" class="!bg-brand-500 hover:!bg-brand-600 !px-2 !py-1">
+            <jet-button type="submit" class="hover:shadow-lg bg-blue-500">
                 <font-awesome-icon
                     icon="pen"
-                    size="sm"
+                    size="md"
                     rotation="rotate"
                     class="text-white"
                 ></font-awesome-icon>
@@ -25,10 +25,10 @@
             class="group"
             target="_blank"
         >
-            <jet-button type="submit" class="!bg-accent-500 hover:!bg-accent-600 !px-2 !py-1">
+            <jet-button type="submit" class="hover:shadow-lg bg-green-500">
                 <font-awesome-icon
                     icon="info"
-                    size="sm"
+                    size="md"
                     rotation="rotate"
                     class="text-white"
                 ></font-awesome-icon>
@@ -43,7 +43,7 @@
             :href="deleteUrl"
             v-if="can.delete"
         >
-            <jet-button type="submit" class="!bg-red-500 hover:!bg-red-600 !px-2 !py-1">
+            <jet-button type="submit" class="bg-red-500 hover:shadow-lg">
                 <font-awesome-icon
                     icon="trash"
                     size="md"

@@ -6,18 +6,20 @@
             items-center
             px-4
             py-2
-            bg-brand-600
+            bg-gray-800
             border border-transparent
             rounded-md
             font-semibold
             text-xs
-            text-white
-            hover:bg-brand-700
-            active:bg-brand-800
-            focus:outline-none focus:ring-2 focus:ring-brand-300 focus:ring-offset-2
+            uppercase
+            tracking-widest
+            hover:bg-gray-700
+            active:bg-gray-900
+            focus:outline-none focus:border-gray-900 focus:shadow-outline-gray
             transition
             ease-in-out
             duration-150
+            text-white
         "
     >
         <slot></slot>
