@@ -27,13 +27,13 @@
                         </div>
                         <div></div>
                     </div>
-                    <table class="table table-secondary border-0 print:border-0">
-                        <thead>
+                    <table class="table table-secondary border-0 print:border-0" style="width: 100%;">
+                        <thead class="border-0 print:border-0">
                             <tr class="border-0 print:border-0">
                                 <th :colspan="6+ (feeTypes != null ? feeTypes.length : 0)" rowspan="3"
-                                    class="border-0 print:border-0">
+                                    class="border-0 print:border-0" style="width: 70%;">
                                     <div class="text-left" style="text-align: left">
-                                        <table class="">
+                                        <table class="w-100">
                                             <tbody class="">
                                                 <tr class="">
                                                     <th class="text-left pr-6">Academic Year:</th>
@@ -58,10 +58,12 @@
 
                                     </div>
                                 </th>
-                                <th colspan="2">
+                                <th colspan="2" style="width: 30%;">
                                     <h4>Annex - A</h4>
                                 </th>
                             </tr>
+                        </thead>
+                        <thead class="border-1 print:border-1">
                             <tr class="align-middle border-1 print:border-1"
                                 style="background-color: #e0d5d5!important;">
                                 <th rowspan="2">Sl.#</th>
