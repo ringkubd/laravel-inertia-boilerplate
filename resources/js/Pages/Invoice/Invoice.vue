@@ -30,7 +30,7 @@
                     <table class="table table-secondary border-0 print:border-0">
                         <thead class="border-0 print:border-0">
                             <tr class="border-0 print:border-0">
-                                <th :colspan="5+ (feeTypes != null ? feeTypes.length : 0)" rowspan="4"
+                                <th :colspan="6+ (feeTypes != null ? feeTypes.length : 0)" rowspan="4"
                                     class="border-0 print:border-0">
                                     <div class="text-left" style="text-align: left">
                                         <table class="">
