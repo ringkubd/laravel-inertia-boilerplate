@@ -25,7 +25,7 @@ window.Echo = new Echo({
     key: process.env.MIX_PUSHER_APP_KEY,
     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
     forceTLS: true,
-    wsHost: 'soketi.isdb-bisew.org',
+    wsHost: process.env.MIX_PUSHER_HOST || 'ws.isdb-bisew.org',
     wsPort: 80,
     wssPort: 443,
     disableStats: true,
