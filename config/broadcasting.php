@@ -38,7 +38,7 @@ return [
             'options' => [
                 'cluster' => env('PUSHER_APP_CLUSTER'),
                 'useTLS' => true,
-                'host' => 'soketi.isdb-bisew.org',
+                'host' => env('PUSHER_HOST', 'ws.isdb-bisew.org'),
                 'port' => 443,
                 'scheme' => 'https',
                 'encrypted' => true,

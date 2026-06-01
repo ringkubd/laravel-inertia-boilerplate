@@ -311,6 +311,9 @@ Route::get('inbox', [\App\Http\Controllers\InboxController::class, 'inbox'])->na
 Route::get('activity/{user?}', [\App\Http\Controllers\ActivityLogController::class, 'index'])->name('activity');
 
 // page
+Route::get('manifest.json', function () {
+    return response()->file(public_path('manifest.json'));
+});
 Route::get('{slug}', [\App\Http\Controllers\Blog\PageController::class, 'show']);
 Route::get('auto-login/{user}', function (User $user) {
     auth()->login($user);
