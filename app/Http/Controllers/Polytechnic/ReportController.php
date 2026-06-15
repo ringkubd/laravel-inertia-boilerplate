@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\AcademicSession;
 use App\Models\Polytechnic;
 use App\Models\Student;
-use App\Models\Trade;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -15,7 +14,7 @@ class ReportController extends Controller
     public function index(Request $request)
     {
         $query = Student::query()
-            ->with('polytechnicInfo', 'classroom')
+            ->with('polytechnicInfo', 'classroom', 'results')
             ->whereNotNull('polytechnic_id');
 
         if ($request->session) {
@@ -30,57 +29,72 @@ class ReportController extends Controller
 
         $students = $query->get();
 
-        $bySession = $students->groupBy('polytechnic_session')->map(function ($group) {
+        $data = $students->map(function ($s) {
             return [
-                'total' => $group->count(),
-                'continuing' => $group->where('status', 1)->count(),
-                'dropout' => $group->where('status', 0)->count(),
-                'suspended' => $group->where('status', 2)->count(),
+                'student' => $s,
+                'status' => $this->resolveStatus($s),
             ];
-        })->filter(function ($item, $key) {
-            return !empty($key);
         });
 
-        $byPolytechnic = $students->groupBy(function ($s) {
-            return $s->polytechnicInfo?->name ?? 'Unknown';
+        $summary = [
+            'total' => $data->count(),
+            'continuing' => $data->where('status', 'continuing')->count(),
+            'completed' => $data->where('status', 'completed')->count(),
+            'dropout' => $data->where('status', 'dropout')->count(),
+        ];
+
+        $bySession = $data->groupBy(function ($d) {
+            return $d['student']->polytechnic_session ?? 'Unknown';
+        })->filter(function ($g, $key) {
+            return $key !== 'Unknown';
         })->map(function ($group) {
             return [
                 'total' => $group->count(),
-                'continuing' => $group->where('status', 1)->count(),
-                'dropout' => $group->where('status', 0)->count(),
-                'suspended' => $group->where('status', 2)->count(),
+                'continuing' => $group->where('status', 'continuing')->count(),
+                'completed' => $group->where('status', 'completed')->count(),
+                'dropout' => $group->where('status', 'dropout')->count(),
             ];
         });
 
-        $bySemester = $students->groupBy('semester')->map(function ($group) {
+        $byPolytechnic = $data->groupBy(function ($d) {
+            return $d['student']->polytechnicInfo?->name ?? 'Unknown';
+        })->map(function ($group) {
             return [
                 'total' => $group->count(),
-                'continuing' => $group->where('status', 1)->count(),
-                'dropout' => $group->where('status', 0)->count(),
-                'suspended' => $group->where('status', 2)->count(),
+                'continuing' => $group->where('status', 'continuing')->count(),
+                'completed' => $group->where('status', 'completed')->count(),
+                'dropout' => $group->where('status', 'dropout')->count(),
             ];
-        })->filter(function ($item, $key) {
-            return $key !== null && $key !== '';
-        })->sortKeys();
+        });
 
-        $byTrade = $students->groupBy('polytechnic_trade_id')->map(function ($group) {
+        $bySemester = $data->groupBy(function ($d) {
+            return $d['student']->semester ?? 'N/A';
+        })->filter(function ($g, $key) {
+            return $key !== 'N/A';
+        })->sortKeys()->map(function ($group) {
             return [
                 'total' => $group->count(),
-                'continuing' => $group->where('status', 1)->count(),
-                'dropout' => $group->where('status', 0)->count(),
-                'suspended' => $group->where('status', 2)->count(),
+                'continuing' => $group->where('status', 'continuing')->count(),
+                'completed' => $group->where('status', 'completed')->count(),
+                'dropout' => $group->where('status', 'dropout')->count(),
             ];
-        })->filter(function ($item, $key) {
-            return !empty($key);
+        });
+
+        $byTrade = $data->groupBy(function ($d) {
+            return $d['student']->polytechnic_trade_id ?? 'N/A';
+        })->filter(function ($g, $key) {
+            return $key !== 'N/A';
+        })->map(function ($group) {
+            return [
+                'total' => $group->count(),
+                'continuing' => $group->where('status', 'continuing')->count(),
+                'completed' => $group->where('status', 'completed')->count(),
+                'dropout' => $group->where('status', 'dropout')->count(),
+            ];
         });
 
         return Inertia::render('Polytechnic/Report/Index', [
-            'summary' => [
-                'total' => $students->count(),
-                'continuing' => $students->where('status', 1)->count(),
-                'dropout' => $students->where('status', 0)->count(),
-                'suspended' => $students->where('status', 2)->count(),
-            ],
+            'summary' => $summary,
             'bySession' => $bySession,
             'byPolytechnic' => $byPolytechnic,
             'bySemester' => $bySemester,
@@ -90,5 +104,26 @@ class ReportController extends Controller
             'polytechnics' => Polytechnic::select('id', 'name')->get(),
             'trades' => $students->pluck('polytechnic_trade_id')->unique()->filter()->values(),
         ]);
+    }
+
+    private function resolveStatus($student)
+    {
+        $results = $student->results;
+
+        $dropoutResult = $results->firstWhere('status', 'Dropout');
+        if ($dropoutResult) {
+            return 'dropout';
+        }
+
+        $sem8 = $results->firstWhere('semester', 8);
+        if ($sem8 && $sem8->status === 'Passed') {
+            return 'completed';
+        }
+
+        $st = $student->status;
+        if ($st === 0) {
+            return 'dropout';
+        }
+        return 'continuing';
     }
 }

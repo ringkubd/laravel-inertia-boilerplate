@@ -4,10 +4,8 @@ namespace App\Http\Controllers\Madrasa;
 
 use App\Http\Controllers\Controller;
 use App\Models\AcademicSession;
-use App\Models\ClassRoom;
 use App\Models\Madrasha;
 use App\Models\Student;
-use App\Models\Trade;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -16,7 +14,7 @@ class ReportController extends Controller
     public function index(Request $request)
     {
         $query = Student::query()
-            ->with('madrasha', 'classroom')
+            ->with('madrasha', 'classroom', 'madrasahResult')
             ->whereNull('polytechnic_id');
 
         if ($request->session) {
@@ -31,53 +29,69 @@ class ReportController extends Controller
 
         $students = $query->get();
 
-        $bySession = $students->groupBy('current_session')->map(function ($group) {
+        $data = $students->map(function ($s) {
             return [
-                'total' => $group->count(),
-                'continuing' => $group->where('status', 1)->count(),
-                'dropout' => $group->where('status', 0)->count(),
-                'suspended' => $group->where('status', 2)->count(),
+                'student' => $s,
+                'status' => $this->resolveStatus($s),
             ];
         });
 
-        $byMadrasah = $students->groupBy(function ($s) {
-            return $s->madrasha?->name ?? 'Unknown';
+        $summary = [
+            'total' => $data->count(),
+            'continuing' => $data->where('status', 'continuing')->count(),
+            'completed' => $data->where('status', 'completed')->count(),
+            'dropout' => $data->where('status', 'dropout')->count(),
+        ];
+
+        $bySession = $data->groupBy(function ($d) {
+            return $d['student']->current_session ?? 'Unknown';
         })->map(function ($group) {
             return [
                 'total' => $group->count(),
-                'continuing' => $group->where('status', 1)->count(),
-                'dropout' => $group->where('status', 0)->count(),
-                'suspended' => $group->where('status', 2)->count(),
+                'continuing' => $group->where('status', 'continuing')->count(),
+                'completed' => $group->where('status', 'completed')->count(),
+                'dropout' => $group->where('status', 'dropout')->count(),
             ];
         });
 
-        $byClass = $students->flatMap->classroom->groupBy('name')->map(function ($group) {
+        $byMadrasah = $data->groupBy(function ($d) {
+            return $d['student']->madrasha?->name ?? 'Unknown';
+        })->map(function ($group) {
             return [
                 'total' => $group->count(),
-                'continuing' => $group->where('status', 1)->count(),
-                'dropout' => $group->where('status', 0)->count(),
-                'suspended' => $group->where('status', 2)->count(),
+                'continuing' => $group->where('status', 'continuing')->count(),
+                'completed' => $group->where('status', 'completed')->count(),
+                'dropout' => $group->where('status', 'dropout')->count(),
             ];
         });
 
-        $byTrade = $students->groupBy('madrasa_trade_id')->map(function ($group) {
+        $byClass = $data->groupBy(function ($d) {
+            $class = $d['student']->classroom->first();
+            return $class?->name ?? 'N/A';
+        })->map(function ($group) {
             return [
                 'total' => $group->count(),
-                'continuing' => $group->where('status', 1)->count(),
-                'dropout' => $group->where('status', 0)->count(),
-                'suspended' => $group->where('status', 2)->count(),
+                'continuing' => $group->where('status', 'continuing')->count(),
+                'completed' => $group->where('status', 'completed')->count(),
+                'dropout' => $group->where('status', 'dropout')->count(),
             ];
-        })->filter(function ($item, $key) {
-            return !empty($key);
+        });
+
+        $byTrade = $data->groupBy(function ($d) {
+            return $d['student']->madrasa_trade_id ?? 'N/A';
+        })->filter(function ($g, $key) {
+            return $key !== 'N/A';
+        })->map(function ($group) {
+            return [
+                'total' => $group->count(),
+                'continuing' => $group->where('status', 'continuing')->count(),
+                'completed' => $group->where('status', 'completed')->count(),
+                'dropout' => $group->where('status', 'dropout')->count(),
+            ];
         });
 
         return Inertia::render('Madrasa/Report/Index', [
-            'summary' => [
-                'total' => $students->count(),
-                'continuing' => $students->where('status', 1)->count(),
-                'dropout' => $students->where('status', 0)->count(),
-                'suspended' => $students->where('status', 2)->count(),
-            ],
+            'summary' => $summary,
             'bySession' => $bySession,
             'byMadrasah' => $byMadrasah,
             'byClass' => $byClass,
@@ -87,5 +101,18 @@ class ReportController extends Controller
             'madrasahs' => Madrasha::select('id', 'name')->get(),
             'trades' => $students->pluck('madrasa_trade_id')->unique()->filter()->values(),
         ]);
+    }
+
+    private function resolveStatus($student)
+    {
+        $result = $student->madrasahResult;
+        if ($result && $result->status === 'Pass') {
+            return 'completed';
+        }
+        $st = $student->status;
+        if ($st === 0) {
+            return 'dropout';
+        }
+        return 'continuing';
     }
 }

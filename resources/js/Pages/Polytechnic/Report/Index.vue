@@ -23,8 +23,8 @@
                             <div class="text-sm text-gray-500 mt-1">Dropout</div>
                         </div>
                         <div class="bg-white rounded-xl border border-gray-200 p-4 text-center">
-                            <div class="text-3xl font-bold text-yellow-600">{{ summary.suspended }}</div>
-                            <div class="text-sm text-gray-500 mt-1">Suspended</div>
+                            <div class="text-3xl font-bold text-blue-600">{{ summary.completed }}</div>
+                            <div class="text-sm text-gray-500 mt-1">Completed</div>
                         </div>
                     </div>
 
@@ -75,85 +75,85 @@
                                     <th>Total</th>
                                     <th>Continuing</th>
                                     <th>Dropout</th>
-                                    <th>Suspended</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="(data, session) in bySession" :key="session">
-                                    <td>{{ session }}</td>
-                                    <td class="text-center">{{ data.total }}</td>
-                                    <td class="text-center text-accent-600 font-medium">{{ data.continuing }}</td>
-                                    <td class="text-center text-red-600 font-medium">{{ data.dropout }}</td>
-                                    <td class="text-center text-yellow-600 font-medium">{{ data.suspended }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                                            <th>Completed</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(data, session) in bySession" :key="session">
+                                            <td>{{ session }}</td>
+                                            <td class="text-center">{{ data.total }}</td>
+                                            <td class="text-center text-accent-600 font-medium">{{ data.continuing }}</td>
+                                            <td class="text-center text-red-600 font-medium">{{ data.dropout }}</td>
+                                            <td class="text-center text-blue-600 font-medium">{{ data.completed }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
 
-                    <div v-if="activeTab === 'polytechnic'" class="table-responsive">
-                        <table class="table table-striped table-secondary">
-                            <thead>
-                                <tr>
-                                    <th>Polytechnic</th>
-                                    <th>Total</th>
-                                    <th>Continuing</th>
-                                    <th>Dropout</th>
-                                    <th>Suspended</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="(data, polytechnic) in byPolytechnic" :key="polytechnic">
-                                    <td>{{ polytechnic }}</td>
-                                    <td class="text-center">{{ data.total }}</td>
-                                    <td class="text-center text-accent-600 font-medium">{{ data.continuing }}</td>
-                                    <td class="text-center text-red-600 font-medium">{{ data.dropout }}</td>
-                                    <td class="text-center text-yellow-600 font-medium">{{ data.suspended }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                            <div v-if="activeTab === 'polytechnic'" class="table-responsive">
+                                <table class="table table-striped table-secondary">
+                                    <thead>
+                                        <tr>
+                                            <th>Polytechnic</th>
+                                            <th>Total</th>
+                                            <th>Continuing</th>
+                                            <th>Dropout</th>
+                                            <th>Completed</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(data, polytechnic) in byPolytechnic" :key="polytechnic">
+                                            <td>{{ polytechnic }}</td>
+                                            <td class="text-center">{{ data.total }}</td>
+                                            <td class="text-center text-accent-600 font-medium">{{ data.continuing }}</td>
+                                            <td class="text-center text-red-600 font-medium">{{ data.dropout }}</td>
+                                            <td class="text-center text-blue-600 font-medium">{{ data.completed }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
 
-                    <div v-if="activeTab === 'semester'" class="table-responsive">
-                        <table class="table table-striped table-secondary">
-                            <thead>
-                                <tr>
-                                    <th>Semester</th>
-                                    <th>Total</th>
-                                    <th>Continuing</th>
-                                    <th>Dropout</th>
-                                    <th>Suspended</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="(data, semester) in bySemester" :key="semester">
-                                    <td>{{ ordinal_suffix_of(semester) }}</td>
-                                    <td class="text-center">{{ data.total }}</td>
-                                    <td class="text-center text-accent-600 font-medium">{{ data.continuing }}</td>
-                                    <td class="text-center text-red-600 font-medium">{{ data.dropout }}</td>
-                                    <td class="text-center text-yellow-600 font-medium">{{ data.suspended }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                            <div v-if="activeTab === 'semester'" class="table-responsive">
+                                <table class="table table-striped table-secondary">
+                                    <thead>
+                                        <tr>
+                                            <th>Semester</th>
+                                            <th>Total</th>
+                                            <th>Continuing</th>
+                                            <th>Dropout</th>
+                                            <th>Completed</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(data, semester) in bySemester" :key="semester">
+                                            <td>{{ ordinal_suffix_of(semester) }}</td>
+                                            <td class="text-center">{{ data.total }}</td>
+                                            <td class="text-center text-accent-600 font-medium">{{ data.continuing }}</td>
+                                            <td class="text-center text-red-600 font-medium">{{ data.dropout }}</td>
+                                            <td class="text-center text-blue-600 font-medium">{{ data.completed }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
 
-                    <div v-if="activeTab === 'trade'" class="table-responsive">
-                        <table class="table table-striped table-secondary">
-                            <thead>
-                                <tr>
-                                    <th>Trade</th>
-                                    <th>Total</th>
-                                    <th>Continuing</th>
-                                    <th>Dropout</th>
-                                    <th>Suspended</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="(data, trade) in byTrade" :key="trade">
-                                    <td>{{ trade }}</td>
-                                    <td class="text-center">{{ data.total }}</td>
-                                    <td class="text-center text-accent-600 font-medium">{{ data.continuing }}</td>
-                                    <td class="text-center text-red-600 font-medium">{{ data.dropout }}</td>
-                                    <td class="text-center text-yellow-600 font-medium">{{ data.suspended }}</td>
+                            <div v-if="activeTab === 'trade'" class="table-responsive">
+                                <table class="table table-striped table-secondary">
+                                    <thead>
+                                        <tr>
+                                            <th>Trade</th>
+                                            <th>Total</th>
+                                            <th>Continuing</th>
+                                            <th>Dropout</th>
+                                            <th>Completed</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(data, trade) in byTrade" :key="trade">
+                                            <td>{{ trade }}</td>
+                                            <td class="text-center">{{ data.total }}</td>
+                                            <td class="text-center text-accent-600 font-medium">{{ data.continuing }}</td>
+                                            <td class="text-center text-red-600 font-medium">{{ data.dropout }}</td>
+                                            <td class="text-center text-blue-600 font-medium">{{ data.completed }}</td>
                                 </tr>
                             </tbody>
                         </table>
