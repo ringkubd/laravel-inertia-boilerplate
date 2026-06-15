@@ -79,6 +79,7 @@ Route::resource('student', \App\Http\Controllers\StudentsManagementController::c
 Route::prefix('polytechnic')->group(function () {
     Route::resource('student', \App\Http\Controllers\Ploytechnic\StudentsController::class, ['as' => 'polytechnic']);
     Route::resource('result', \App\Http\Controllers\ResultController::class, ['as' => 'polytechnic']);
+    Route::get('report', [\App\Http\Controllers\Polytechnic\ReportController::class, 'index'])->name('polytechnic.report');
 });
 
 // Madrasa Management
@@ -88,6 +89,7 @@ Route::prefix('madrasa')->group(function () {
     Route::get('student_list', [\App\Http\Controllers\MadrasahResultController::class, "studentList"])->name('madrasa.student_list');
     Route::get('indiv_student/{student}', [\App\Http\Controllers\MadrasahResultController::class, "student"])->name('madrasa.indiv_student');
     Route::get('student_search', [\App\Http\Controllers\Madrasa\StudentsController::class, "search"])->name('madrasah.student.search');
+    Route::get('report', [\App\Http\Controllers\Madrasa\ReportController::class, 'index'])->name('madrasa.report');
 });
 Route::resource('madrasa', \App\Http\Controllers\MadrasaController::class);
 

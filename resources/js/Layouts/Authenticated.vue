@@ -324,6 +324,13 @@
                                                 Result's
                                             </breeze-dropdown-link>
                                             <breeze-dropdown-link
+                                                :href="route('madrasa.report')"
+                                                :active="route().current('madrasa.report')"
+                                                v-if="$page.props.menu_permission.madrasah || $page.props.menu_permission.madrasah_student"
+                                            >
+                                                Report
+                                            </breeze-dropdown-link>
+                                            <breeze-dropdown-link
                                                 :href="route('teacher_attendances.index')"
                                                 :active="route().current('madrasa.teacher_attendance.*')"
                                                 v-if="$page.props.menu_permission.teacher_attendance"
@@ -401,6 +408,13 @@
                                                 v-if="$page.props.menu_permission.polytechnic_result"
                                             >
                                                 Results
+                                            </breeze-dropdown-link>
+                                            <breeze-dropdown-link
+                                                :href="route('polytechnic.report')"
+                                                :active="route().current('polytechnic.report')"
+                                                v-if="$page.props.menu_permission.polytechnic || $page.props.menu_permission.polytechnic_student"
+                                            >
+                                                Report
                                             </breeze-dropdown-link>
                                             <breeze-dropdown-link
                                                 :href="route('placement.index')"
@@ -1053,6 +1067,13 @@
                                         Result's
                                     </breeze-dropdown-link>
                                     <breeze-dropdown-link
+                                        :href="route('madrasa.report')"
+                                        :active="route().current('madrasa.report')"
+                                        v-if="$page.props.menu_permission.madrasah || $page.props.menu_permission.madrasah_student"
+                                    >
+                                        Report
+                                    </breeze-dropdown-link>
+                                    <breeze-dropdown-link
                                         :href="route('teacher_attendances.index')"
                                         :active="route().current('madrasa.teacher_attendance.*')"
                                         v-if="$page.props.menu_permission.teacher_attendance"
@@ -1131,6 +1152,13 @@
                                         v-if="$page.props.menu_permission.polytechnic_result"
                                     >
                                         Results
+                                    </breeze-dropdown-link>
+                                    <breeze-dropdown-link
+                                        :href="route('polytechnic.report')"
+                                        :active="route().current('polytechnic.report')"
+                                        v-if="$page.props.menu_permission.polytechnic || $page.props.menu_permission.polytechnic_student"
+                                    >
+                                        Report
                                     </breeze-dropdown-link>
                                 </template>
                             </breeze-dropdown>
