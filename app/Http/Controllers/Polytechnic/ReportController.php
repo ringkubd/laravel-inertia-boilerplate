@@ -88,9 +88,7 @@ class ReportController extends Controller
             'filters' => $request->only(['session', 'polytechnic', 'trade']),
             'sessions' => AcademicSession::all(['session'])->pluck('session'),
             'polytechnics' => Polytechnic::select('id', 'name')->get(),
-            'trades' => Trade::select('name')->whereHas('students', function ($q) {
-                $q->whereNotNull('polytechnic_id');
-            })->get()->pluck('name'),
+            'trades' => $students->pluck('polytechnic_trade_id')->unique()->filter()->values(),
         ]);
     }
 }
