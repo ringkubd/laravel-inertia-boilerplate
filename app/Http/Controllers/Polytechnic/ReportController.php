@@ -41,6 +41,7 @@ class ReportController extends Controller
             'continuing' => $data->where('status', 'continuing')->count(),
             'completed' => $data->where('status', 'completed')->count(),
             'dropout' => $data->where('status', 'dropout')->count(),
+            'no_result' => $data->where('status', 'no_result')->count(),
         ];
 
         $bySession = $data->groupBy(function ($d) {
@@ -53,6 +54,7 @@ class ReportController extends Controller
                 'continuing' => $group->where('status', 'continuing')->count(),
                 'completed' => $group->where('status', 'completed')->count(),
                 'dropout' => $group->where('status', 'dropout')->count(),
+                'no_result' => $group->where('status', 'no_result')->count(),
             ];
         });
 
@@ -64,6 +66,7 @@ class ReportController extends Controller
                 'continuing' => $group->where('status', 'continuing')->count(),
                 'completed' => $group->where('status', 'completed')->count(),
                 'dropout' => $group->where('status', 'dropout')->count(),
+                'no_result' => $group->where('status', 'no_result')->count(),
             ];
         });
 
@@ -77,6 +80,7 @@ class ReportController extends Controller
                 'continuing' => $group->where('status', 'continuing')->count(),
                 'completed' => $group->where('status', 'completed')->count(),
                 'dropout' => $group->where('status', 'dropout')->count(),
+                'no_result' => $group->where('status', 'no_result')->count(),
             ];
         });
 
@@ -90,6 +94,7 @@ class ReportController extends Controller
                 'continuing' => $group->where('status', 'continuing')->count(),
                 'completed' => $group->where('status', 'completed')->count(),
                 'dropout' => $group->where('status', 'dropout')->count(),
+                'no_result' => $group->where('status', 'no_result')->count(),
             ];
         });
 
@@ -118,6 +123,11 @@ class ReportController extends Controller
         $sem8 = $results->firstWhere('semester', 8);
         if ($sem8 && $sem8->status === 'Passed') {
             return 'completed';
+        }
+
+        $hasAnyResult = $results->isNotEmpty();
+        if (!$hasAnyResult) {
+            return 'no_result';
         }
 
         $st = $student->status;

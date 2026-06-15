@@ -26,6 +26,10 @@
                             <div class="text-3xl font-bold text-blue-600">{{ summary.completed }}</div>
                             <div class="text-sm text-gray-500 mt-1">Completed</div>
                         </div>
+                        <div class="bg-white rounded-xl border border-gray-200 p-4 text-center">
+                            <div class="text-3xl font-bold text-gray-400">{{ summary.no_result }}</div>
+                            <div class="text-sm text-gray-500 mt-1">No Result</div>
+                        </div>
                     </div>
 
                     <div class="flex flex-wrap gap-3 mb-6 p-4 bg-gray-50 rounded-lg">
@@ -76,6 +80,7 @@
                                     <th>Continuing</th>
                                     <th>Dropout</th>
                                             <th>Completed</th>
+                                            <th>No Result</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -85,6 +90,7 @@
                                             <td class="text-center text-accent-600 font-medium">{{ data.continuing }}</td>
                                             <td class="text-center text-red-600 font-medium">{{ data.dropout }}</td>
                                             <td class="text-center text-blue-600 font-medium">{{ data.completed }}</td>
+                                            <td class="text-center text-gray-400 font-medium">{{ data.no_result }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -99,6 +105,7 @@
                                             <th>Continuing</th>
                                             <th>Dropout</th>
                                             <th>Completed</th>
+                                            <th>No Result</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -108,6 +115,7 @@
                                             <td class="text-center text-accent-600 font-medium">{{ data.continuing }}</td>
                                             <td class="text-center text-red-600 font-medium">{{ data.dropout }}</td>
                                             <td class="text-center text-blue-600 font-medium">{{ data.completed }}</td>
+                                            <td class="text-center text-gray-400 font-medium">{{ data.no_result }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -122,6 +130,7 @@
                                             <th>Continuing</th>
                                             <th>Dropout</th>
                                             <th>Completed</th>
+                                            <th>No Result</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -131,6 +140,7 @@
                                             <td class="text-center text-accent-600 font-medium">{{ data.continuing }}</td>
                                             <td class="text-center text-red-600 font-medium">{{ data.dropout }}</td>
                                             <td class="text-center text-blue-600 font-medium">{{ data.completed }}</td>
+                                            <td class="text-center text-gray-400 font-medium">{{ data.no_result }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -145,6 +155,7 @@
                                             <th>Continuing</th>
                                             <th>Dropout</th>
                                             <th>Completed</th>
+                                            <th>No Result</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -154,6 +165,7 @@
                                             <td class="text-center text-accent-600 font-medium">{{ data.continuing }}</td>
                                             <td class="text-center text-red-600 font-medium">{{ data.dropout }}</td>
                                             <td class="text-center text-blue-600 font-medium">{{ data.completed }}</td>
+                                            <td class="text-center text-gray-400 font-medium">{{ data.no_result }}</td>
                                 </tr>
                             </tbody>
                         </table>

@@ -41,6 +41,7 @@ class ReportController extends Controller
             'continuing' => $data->where('status', 'continuing')->count(),
             'completed' => $data->where('status', 'completed')->count(),
             'dropout' => $data->where('status', 'dropout')->count(),
+            'no_result' => $data->where('status', 'no_result')->count(),
         ];
 
         $bySession = $data->groupBy(function ($d) {
@@ -51,6 +52,7 @@ class ReportController extends Controller
                 'continuing' => $group->where('status', 'continuing')->count(),
                 'completed' => $group->where('status', 'completed')->count(),
                 'dropout' => $group->where('status', 'dropout')->count(),
+                'no_result' => $group->where('status', 'no_result')->count(),
             ];
         });
 
@@ -62,6 +64,7 @@ class ReportController extends Controller
                 'continuing' => $group->where('status', 'continuing')->count(),
                 'completed' => $group->where('status', 'completed')->count(),
                 'dropout' => $group->where('status', 'dropout')->count(),
+                'no_result' => $group->where('status', 'no_result')->count(),
             ];
         });
 
@@ -74,6 +77,7 @@ class ReportController extends Controller
                 'continuing' => $group->where('status', 'continuing')->count(),
                 'completed' => $group->where('status', 'completed')->count(),
                 'dropout' => $group->where('status', 'dropout')->count(),
+                'no_result' => $group->where('status', 'no_result')->count(),
             ];
         });
 
@@ -87,6 +91,7 @@ class ReportController extends Controller
                 'continuing' => $group->where('status', 'continuing')->count(),
                 'completed' => $group->where('status', 'completed')->count(),
                 'dropout' => $group->where('status', 'dropout')->count(),
+                'no_result' => $group->where('status', 'no_result')->count(),
             ];
         });
 
@@ -112,6 +117,9 @@ class ReportController extends Controller
         $st = $student->status;
         if ($st === 0) {
             return 'dropout';
+        }
+        if (!$result) {
+            return 'no_result';
         }
         return 'continuing';
     }
