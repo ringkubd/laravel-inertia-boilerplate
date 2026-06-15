@@ -55,110 +55,108 @@
                         </div>
                     </div>
 
-                    <div class="space-y-6">
-                        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
-                            <div class="px-4 py-3 bg-gray-50 border-b border-gray-200 font-semibold text-gray-700">Session-wise Report</div>
-                            <div class="table-responsive">
-                                <table class="table table-striped table-secondary">
-                                    <thead>
-                                        <tr>
-                                            <th>Session</th>
-                                            <th>Total</th>
-                                            <th>Continuing</th>
-                                            <th>Dropout</th>
-                                            <th>Suspended</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(data, session) in bySession" :key="session">
-                                            <td>{{ session }}</td>
-                                            <td class="text-center">{{ data.total }}</td>
-                                            <td class="text-center text-accent-600 font-medium">{{ data.continuing }}</td>
-                                            <td class="text-center text-red-600 font-medium">{{ data.dropout }}</td>
-                                            <td class="text-center text-yellow-600 font-medium">{{ data.suspended }}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                    <div class="border-b border-gray-200 mb-4">
+                        <nav class="flex flex-wrap -mb-px gap-1">
+                            <button v-for="tab in tabs" :key="tab.key" @click="activeTab = tab.key"
+                                :class="activeTab === tab.key
+                                    ? 'inline-block px-4 py-2 border-b-2 border-brand-600 text-brand-700 font-medium text-sm'
+                                    : 'inline-block px-4 py-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 text-sm'"
+                            >
+                                {{ tab.label }}
+                            </button>
+                        </nav>
+                    </div>
 
-                        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
-                            <div class="px-4 py-3 bg-gray-50 border-b border-gray-200 font-semibold text-gray-700">Madrasah-wise Report</div>
-                            <div class="table-responsive">
-                                <table class="table table-striped table-secondary">
-                                    <thead>
-                                        <tr>
-                                            <th>Madrasah</th>
-                                            <th>Total</th>
-                                            <th>Continuing</th>
-                                            <th>Dropout</th>
-                                            <th>Suspended</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(data, madrasah) in byMadrasah" :key="madrasah">
-                                            <td>{{ madrasah }}</td>
-                                            <td class="text-center">{{ data.total }}</td>
-                                            <td class="text-center text-accent-600 font-medium">{{ data.continuing }}</td>
-                                            <td class="text-center text-red-600 font-medium">{{ data.dropout }}</td>
-                                            <td class="text-center text-yellow-600 font-medium">{{ data.suspended }}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                    <div v-if="activeTab === 'session'" class="table-responsive">
+                        <table class="table table-striped table-secondary">
+                            <thead>
+                                <tr>
+                                    <th>Session</th>
+                                    <th>Total</th>
+                                    <th>Continuing</th>
+                                    <th>Dropout</th>
+                                    <th>Suspended</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(data, session) in bySession" :key="session">
+                                    <td>{{ session }}</td>
+                                    <td class="text-center">{{ data.total }}</td>
+                                    <td class="text-center text-accent-600 font-medium">{{ data.continuing }}</td>
+                                    <td class="text-center text-red-600 font-medium">{{ data.dropout }}</td>
+                                    <td class="text-center text-yellow-600 font-medium">{{ data.suspended }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
-                        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
-                            <div class="px-4 py-3 bg-gray-50 border-b border-gray-200 font-semibold text-gray-700">Class/Semester-wise Report</div>
-                            <div class="table-responsive">
-                                <table class="table table-striped table-secondary">
-                                    <thead>
-                                        <tr>
-                                            <th>Class</th>
-                                            <th>Total</th>
-                                            <th>Continuing</th>
-                                            <th>Dropout</th>
-                                            <th>Suspended</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(data, cls) in byClass" :key="cls">
-                                            <td>{{ cls }}</td>
-                                            <td class="text-center">{{ data.total }}</td>
-                                            <td class="text-center text-accent-600 font-medium">{{ data.continuing }}</td>
-                                            <td class="text-center text-red-600 font-medium">{{ data.dropout }}</td>
-                                            <td class="text-center text-yellow-600 font-medium">{{ data.suspended }}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                    <div v-if="activeTab === 'madrasah'" class="table-responsive">
+                        <table class="table table-striped table-secondary">
+                            <thead>
+                                <tr>
+                                    <th>Madrasah</th>
+                                    <th>Total</th>
+                                    <th>Continuing</th>
+                                    <th>Dropout</th>
+                                    <th>Suspended</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(data, madrasah) in byMadrasah" :key="madrasah">
+                                    <td>{{ madrasah }}</td>
+                                    <td class="text-center">{{ data.total }}</td>
+                                    <td class="text-center text-accent-600 font-medium">{{ data.continuing }}</td>
+                                    <td class="text-center text-red-600 font-medium">{{ data.dropout }}</td>
+                                    <td class="text-center text-yellow-600 font-medium">{{ data.suspended }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
-                        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
-                            <div class="px-4 py-3 bg-gray-50 border-b border-gray-200 font-semibold text-gray-700">Trade-wise Report</div>
-                            <div class="table-responsive">
-                                <table class="table table-striped table-secondary">
-                                    <thead>
-                                        <tr>
-                                            <th>Trade</th>
-                                            <th>Total</th>
-                                            <th>Continuing</th>
-                                            <th>Dropout</th>
-                                            <th>Suspended</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(data, trade) in byTrade" :key="trade">
-                                            <td>{{ trade }}</td>
-                                            <td class="text-center">{{ data.total }}</td>
-                                            <td class="text-center text-accent-600 font-medium">{{ data.continuing }}</td>
-                                            <td class="text-center text-red-600 font-medium">{{ data.dropout }}</td>
-                                            <td class="text-center text-yellow-600 font-medium">{{ data.suspended }}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                    <div v-if="activeTab === 'class'" class="table-responsive">
+                        <table class="table table-striped table-secondary">
+                            <thead>
+                                <tr>
+                                    <th>Class</th>
+                                    <th>Total</th>
+                                    <th>Continuing</th>
+                                    <th>Dropout</th>
+                                    <th>Suspended</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(data, cls) in byClass" :key="cls">
+                                    <td>{{ cls }}</td>
+                                    <td class="text-center">{{ data.total }}</td>
+                                    <td class="text-center text-accent-600 font-medium">{{ data.continuing }}</td>
+                                    <td class="text-center text-red-600 font-medium">{{ data.dropout }}</td>
+                                    <td class="text-center text-yellow-600 font-medium">{{ data.suspended }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div v-if="activeTab === 'trade'" class="table-responsive">
+                        <table class="table table-striped table-secondary">
+                            <thead>
+                                <tr>
+                                    <th>Trade</th>
+                                    <th>Total</th>
+                                    <th>Continuing</th>
+                                    <th>Dropout</th>
+                                    <th>Suspended</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(data, trade) in byTrade" :key="trade">
+                                    <td>{{ trade }}</td>
+                                    <td class="text-center">{{ data.total }}</td>
+                                    <td class="text-center text-accent-600 font-medium">{{ data.continuing }}</td>
+                                    <td class="text-center text-red-600 font-medium">{{ data.dropout }}</td>
+                                    <td class="text-center text-yellow-600 font-medium">{{ data.suspended }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -186,6 +184,13 @@ export default {
     data() {
         return {
             filters: { ...this.filters },
+            activeTab: 'session',
+            tabs: [
+                { key: 'session', label: 'Session-wise' },
+                { key: 'madrasah', label: 'Madrasah-wise' },
+                { key: 'class', label: 'Class-wise' },
+                { key: 'trade', label: 'Trade-wise' },
+            ],
         };
     },
     methods: {
