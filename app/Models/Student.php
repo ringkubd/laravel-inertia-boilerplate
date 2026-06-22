@@ -194,7 +194,7 @@ class Student extends Model
     }
 
     public function paymentSlip(){
-        return $this->hasMany(PaymentSlip::class, 'student_id', 'student_id');
+        return $this->hasMany(PaymentSlip::class, 'student_id', 'id');
     }
 
     public function placements(): \Awobaz\Compoships\Database\Eloquent\Relations\HasMany
