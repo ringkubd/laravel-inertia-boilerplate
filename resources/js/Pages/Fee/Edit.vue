@@ -4,7 +4,7 @@
     </Head>
     <app-layout>
         <template #header>
-            <page-header>Add New Fee</page-header>
+            <page-header>Edit Fee</page-header>
         </template>
 
         <div class="container-fluid">
