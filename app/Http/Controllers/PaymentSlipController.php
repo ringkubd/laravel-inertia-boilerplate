@@ -118,7 +118,7 @@ class PaymentSlipController extends Controller
         }
 
         $validator = Validator::make(array_merge($request->all(), $request->allFiles()), [
-            'student_id' => ['required', 'exists:students,student_id'],
+            'student_id' => ['required', 'exists:students,id'],
             'semester' => ['required', Rule::unique('payment_slips')->where(function ($query) use ($request) {
                 return $query->where('student_id', $request->student_id)
                     ->where('fee_type', $request->fee_type)

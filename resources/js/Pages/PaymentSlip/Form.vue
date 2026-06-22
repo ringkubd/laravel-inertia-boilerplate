@@ -41,7 +41,7 @@
                             <label for="student_id">Student<span class="text-danger">*</span></label>
                             <select name="student_id" id="student_id" v-model="form.student_id" required class="form-control">
                                 <option value="">Select Student</option>
-                                <option v-for="student in students" :key="student.student_id" :value="student.student_id">
+                                <option v-for="student in students" :key="student.id" :value="student.id">
                                     {{ student.name }}
                                 </option>
                             </select>
