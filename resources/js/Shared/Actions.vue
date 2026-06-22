@@ -35,13 +35,11 @@
             </jet-button>
         </Link>
 
-        <Link
-            method="DELETE"
-            as="button"
+        <button
             type="button"
-            class="group"
-            :href="deleteUrl"
-            v-if="can.delete"
+            class="group bg-transparent border-0 p-0"
+            @click="confirmDelete"
+            v-if="can.delete && deleteUrl"
         >
             <jet-button type="submit" class="bg-red-500 hover:shadow-lg">
                 <font-awesome-icon
@@ -51,7 +49,7 @@
                     class="text-white"
                 ></font-awesome-icon>
             </jet-button>
-        </Link>
+        </button>
         <slot></slot>
     </div>
 </template>
@@ -80,10 +78,15 @@ export default {
             isDetails: this.isDetails ?? false,
         };
     },
-    mounted() {
-        console.log();
+    methods: {
+        confirmDelete() {
+            this.$confirm.show('Are you sure you want to delete this item? This action cannot be undone.')
+                .then((confirmed) => {
+                    if (confirmed) {
+                        this.$inertia.delete(this.deleteUrl);
+                    }
+                });
+        },
     },
 };
 </script>
-
-<style scoped></style>
