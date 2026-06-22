@@ -73,6 +73,12 @@ export default {
         }
     },
     components: { JetButton },
+    inject: {
+        confirm: {
+            from: 'confirm',
+            default: null,
+        },
+    },
     data() {
         return {
             isDetails: this.isDetails ?? false,
@@ -80,7 +86,13 @@ export default {
     },
     methods: {
         confirmDelete() {
-            this.$confirm.show('Are you sure you want to delete this item? This action cannot be undone.')
+            if (!this.confirm) {
+                if (confirm('Are you sure you want to delete this item? This action cannot be undone.')) {
+                    this.$inertia.delete(this.deleteUrl);
+                }
+                return;
+            }
+            this.confirm.show('Are you sure you want to delete this item? This action cannot be undone.')
                 .then((confirmed) => {
                     if (confirmed) {
                         this.$inertia.delete(this.deleteUrl);
