@@ -20,15 +20,34 @@ class FeeController extends Controller
     public function index(Request $request)
     {
         $this->authorize('view_fee');
-        $fees =  Fee::query()
+        $fees = Fee::query()
             ->when($request->search, function($q, $v){
                 $q->where('session', 'like', "%$v%")
                     ->orWhere('trade', 'like', "%$v%")
                     ->orWhere('fee_type', 'like', "%$v%");
             })
+            ->when($request->session, function($q, $v){
+                $q->where('session', $v);
+            })
+            ->when($request->trade, function($q, $v){
+                $q->where('trade', $v);
+            })
+            ->when($request->semester, function($q, $v){
+                $q->where('semester', $v);
+            })
+            ->when($request->fee_type, function($q, $v){
+                $q->where('fee_type', $v);
+            })
+            ->orderBy('created_at', 'desc')
             ->paginate();
+
         return Inertia::render('Fee/Index', [
             'data' => $fees,
+            'filters' => $request->only(['search', 'session', 'trade', 'semester', 'fee_type']),
+            'sessions' => Fee::distinct()->orderBy('session', 'desc')->pluck('session'),
+            'trades' => Fee::distinct()->orderBy('trade')->pluck('trade'),
+            'semesters' => Fee::distinct()->orderBy('semester')->pluck('semester'),
+            'fee_types' => FeeType::pluck('name'),
             'can' => [
                 'create' => auth()->user()->can('create_fee'),
                 'update' => auth()->user()->can('update_fee'),
