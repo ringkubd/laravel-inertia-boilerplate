@@ -286,7 +286,7 @@ class InvoiceController extends Controller
             ->orderBy('s.polytechnic_roll')
             ->get();
         $basicInfo = $invoice->first();
-        $feeTypes = $invoice->whereNotNull('details')->first()->details->pluck('fee_type');
+        $feeTypes = $invoice->flatMap(fn($inv) => $inv->details)->pluck('fee_type')->unique()->values()->filter();
         return Inertia::render('Invoice/Edit', [
             'can' => $this->getPermissions(),
             'data' => $invoice,

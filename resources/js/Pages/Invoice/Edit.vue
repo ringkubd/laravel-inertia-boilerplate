@@ -4,76 +4,62 @@
     </Head>
     <Authenticated>
         <template #header>
-            <page-header>Generate New Invoice</page-header>
+            <page-header>Edit Invoice</page-header>
         </template>
-        <div class="container-fluid">
-            <div class="card mt-1 min-vh-100">
-                <div class="card-header">
-                    <CardHeader :can="can" :search-method="search">
-                        <template #first>
-                            <Back :back-url="route('invoice.index')"></Back>
-                        </template>
-                        <template #second>
-<!--                            <Button class="btn btn-success" @click="print">Print</Button>-->
-                        </template>
-                    </CardHeader>
+        <div class="container-fluid py-3">
+            <div class="bg-white rounded-xl border border-gray-200 shadow-sm">
+                <div class="border-b border-gray-200 px-4 py-3 flex flex-wrap items-center gap-3">
+                    <Back :back-url="route('invoice.index')"></Back>
+                    <span class="text-sm text-gray-500 ml-auto">Invoice: <strong>{{ basicInfo.invoice_id }}</strong> | Date: {{ basicInfo.invoice_date }}</span>
                 </div>
-                <div class="card-body table-responsive overflow-x-scroll" id="printme">
-                    <table class="table table-secondary table-bordered text-center align-middle">
+                <div class="overflow-x-auto p-4" id="printme">
+                    <table class="w-full text-sm">
                         <thead>
-                        <tr style="border-left: solid white 2px; border-right: solid white 2px; border-top: solid white 2px;">
-                            <th :colspan="8+ (feeTypes != null ? feeTypes.length : 0)" rowspan="4">
-                                Invoice
-                                <br>
-                                <div class="text-left">
-                                    Invoice: <span class="font-normal ml-5">{{ basicInfo.invoice_id }}</span>
-                                    <br>
-                                    Date: <span class="font-normal ml-5">{{ basicInfo.invoice_date }}</span>
-                                </div>
-                            </th>
-                        </tr>
+                            <tr class="bg-gray-50 border-b border-gray-200">
+                                <th class="px-3 py-2 text-left text-xs font-semibold text-gray-500 uppercase">Sl.#</th>
+                                <th class="px-3 py-2 text-left text-xs font-semibold text-gray-500 uppercase">Name</th>
+                                <th class="px-3 py-2 text-left text-xs font-semibold text-gray-500 uppercase">Trade</th>
+                                <th class="px-3 py-2 text-left text-xs font-semibold text-gray-500 uppercase">Branch</th>
+                                <th class="px-3 py-2 text-left text-xs font-semibold text-gray-500 uppercase">Account</th>
+                                <th :colspan="feeTypes != null ? feeTypes.length * 2 : 0"
+                                    class="px-3 py-2 text-center text-xs font-semibold text-gray-500 uppercase border-x border-gray-200">
+                                    Tuition Fees
+                                </th>
+                                <th class="px-3 py-2 text-right text-xs font-semibold text-gray-500 uppercase">Amount</th>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <th :colspan="5" class="p-0"></th>
+                                <th v-for="feeType in feeTypes" :key="feeType" colspan="2"
+                                    class="px-2 py-1 text-center text-xs font-medium text-gray-500 uppercase border-x border-gray-200">
+                                    {{ feeType }}
+                                </th>
+                                <th class="p-0"></th>
+                            </tr>
                         </thead>
-                        <thead>
-                        <tr>
-                            <th rowspan="2">Sl.#</th>
-                            <th rowspan="2">Name</th>
-                            <th rowspan="2">Trade</th>
-                            <th rowspan="2">IBBL Branch</th>
-                            <th rowspan="2">IBBL Account</th>
-                            <th :colspan="feeTypes != null ? feeTypes.length * 2 : 0">Tuition Fees</th>
-                            <th rowspan="2">Amount</th>
-                        </tr>
-                        <tr>
-                            <th colspan="2" v-for="feeType in feeTypes">
-                                {{feeType}}
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr v-for="(invoice, index) in data">
-                            <td>{{ index + 1 }}</td>
-                            <td>{{ invoice.student_name }}</td>
-                            <td>{{ invoice.student.polytechnic_trade_id }}</td>
-                            <td>{{ invoice.bank_branch }}</td>
-                            <td>{{ invoice.bank_account }}</td>
-                            <td class="border-2 border-blue-400 " v-for="fee in invoice.details" :name="fee.fee_type" :invoiceDetalsId="fee.id" colspan="2">
-                                <div class="h-32 w-full text-left">
+                        <tbody class="divide-y divide-gray-100">
+                            <tr v-for="(invoice, index) in data" :key="invoice.id" class="hover:bg-gray-50 transition">
+                                <td class="px-3 py-2 text-sm text-gray-500">{{ index + 1 }}</td>
+                                <td class="px-3 py-2 text-sm text-gray-900">{{ invoice.student_name }}</td>
+                                <td class="px-3 py-2 text-sm text-gray-900">{{ invoice.student?.polytechnic_trade_id }}</td>
+                                <td class="px-3 py-2 text-sm text-gray-900">{{ invoice.bank_branch }}</td>
+                                <td class="px-3 py-2 text-sm text-gray-900">{{ invoice.bank_account }}</td>
+                                <td v-for="fee in invoice.details" :key="fee.id" colspan="2"
+                                    class="px-2 py-1 border-x border-gray-100">
                                     <Form :fee="fee" :changeAmount="changeAmount"/>
-                                </div>
-                            </td>
-                            <td>{{invoice.amount}}</td>
-                        </tr>
+                                </td>
+                                <td v-if="feeTypes && invoice.details.length < feeTypes.length"
+                                    :colspan="(feeTypes.length - invoice.details.length) * 2" class="px-3 py-2"></td>
+                                <td class="px-3 py-2 text-sm text-gray-900 text-right font-medium">{{ invoice.amount }}</td>
+                            </tr>
                         </tbody>
                         <tfoot>
-                        <tr>
-                            <td :colspan="5+ (feeTypes != null ? feeTypes.length : 0)" style="text-align: right">Total</td>
-                            <td>{{totalInvoiceAmount()}}</td>
-                        </tr>
+                            <tr class="bg-gray-50 font-semibold">
+                                <td :colspan="5 + (feeTypes != null ? feeTypes.length * 2 : 0)"
+                                    class="px-3 py-2 text-sm text-gray-700 text-right">Total</td>
+                                <td class="px-3 py-2 text-sm text-gray-900 text-right">{{ totalInvoiceAmount() }}</td>
+                            </tr>
                         </tfoot>
                     </table>
-                </div>
-                <div class="card-footer">
-
                 </div>
             </div>
         </div>
@@ -82,57 +68,15 @@
 
 <script>
 import Authenticated from "@/Layouts/Authenticated";
-import CardHeader from "@/Shared/CardHeader";
 import Back from "@/Shared/Back";
-import Button from "@/Shared/Button";
 import Form from "@/Pages/Invoice/inc/Form";
 export default {
     name: "Edit",
     props: ['can', 'errors', 'data', 'feeTypes', 'basicInfo'],
-    components: {Form, Button, Back, CardHeader, Authenticated},
-    data(){
-        return {
-            contentEditable: this.can.update
-        }
-    },
-    mounted(){
-        console.log(this.can.update)
-    },
+    components: {Form, Back, Authenticated},
     methods: {
-        search(params){
-
-        },
         totalInvoiceAmount(){
-            let total = 0;
-            const self = this
-            this.data.map(function (invoice){
-                total += invoice.amount
-            })
-            return total;
-        },
-        print: function() {
-
-            const printOptions = {
-                name: '_blank',
-                specs: [
-                    'fullscreen=yes',
-                    'titlebar=yes',
-                    'scrollbars=yes'
-                ],
-                styles: [
-                    '/css/custom_print.css',
-                    '/css/app.css',
-                ]
-            }
-
-            this.$htmlToPaper('printme', printOptions, () => {
-                console.log('Printing finished');
-            });
-        },
-        changeFees(e){
-            let invoiceDetailsId = e.target.getAttribute('invoiceDetalsId');
-            let amount = e.target.innerText;
-            this.$inertia.put(route('invoice.update', invoiceDetailsId), { amount: amount })
+            return this.data.reduce((total, invoice) => total + Number(invoice.amount), 0);
         },
         changeAmount(formData){
             this.$inertia.put(route('invoice.update', formData.invoice_details_id), formData)
@@ -140,7 +84,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-
-</style>
