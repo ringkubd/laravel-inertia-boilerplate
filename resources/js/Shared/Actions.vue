@@ -4,7 +4,7 @@
             as="button"
             type="button"
             :href="editUrl"
-            v-if="can.update"
+            v-if="can.update && editUrl"
             class="group"
         >
             <jet-button type="submit" class="hover:shadow-lg bg-blue-500">
@@ -56,6 +56,7 @@
 
 <script>
 import JetButton from "@/Shared/Button";
+import { router } from '@inertiajs/vue3'
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faPen, faTrash, faInfo } from "@fortawesome/free-solid-svg-icons";
 library.add(faPen, faTrash, faInfo);
@@ -63,41 +64,21 @@ library.add(faPen, faTrash, faInfo);
 export default {
     name: "Actions",
     props: {
-        editUrl: Boolean,
-        deleteUrl: Boolean,
+        editUrl: [Boolean, String],
+        deleteUrl: [Boolean, String],
         isDetails: Boolean,
-        detailUrl: Boolean,
+        detailUrl: [Boolean, String],
         can: {
             type: Object,
             default: []
         }
     },
     components: { JetButton },
-    inject: {
-        confirm: {
-            from: 'confirm',
-            default: null,
-        },
-    },
-    data() {
-        return {
-            isDetails: this.isDetails ?? false,
-        };
-    },
     methods: {
         confirmDelete() {
-            if (!this.confirm) {
-                if (confirm('Are you sure you want to delete this item? This action cannot be undone.')) {
-                    this.$inertia.delete(this.deleteUrl);
-                }
-                return;
+            if (confirm('Are you sure you want to delete this item? This action cannot be undone.')) {
+                router.delete(this.deleteUrl);
             }
-            this.confirm.show('Are you sure you want to delete this item? This action cannot be undone.')
-                .then((confirmed) => {
-                    if (confirmed) {
-                        this.$inertia.delete(this.deleteUrl);
-                    }
-                });
         },
     },
 };
