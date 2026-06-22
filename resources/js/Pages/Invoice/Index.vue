@@ -48,7 +48,7 @@
                             <td>{{ invoice.invoice_date }}</td>
                             <td>{{ invoice.total_amount }}</td>
                             <td>
-                                <Actions :can="can" :delete-url="route('invoice.destroy', invoice.invoice_id)" :edit-url="route('invoice.edit', invoice.invoice_id)" :detail-url="route('invoice.show', invoice.invoice_id)"></Actions>
+                                <Actions :can="{...can, delete: can.delete && !invoice.has_notesheet}" :delete-url="route('invoice.destroy', invoice.invoice_id)" :edit-url="route('invoice.edit', invoice.invoice_id)" :detail-url="route('invoice.show', invoice.invoice_id)"></Actions>
                             </td>
                         </tr>
                         </tbody>

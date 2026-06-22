@@ -29,4 +29,8 @@ class Invoice extends Model
     public function paymentSlip(){
         return $this->belongsToMany(PaymentSlip::class, 'students','id', 'student_id', 'student_id', 'student_id');
     }
+
+    public function notesheets(){
+        return $this->hasMany(Notesheet::class, 'invoice_id', 'invoice_id');
+    }
 }

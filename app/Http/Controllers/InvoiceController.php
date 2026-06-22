@@ -36,6 +36,9 @@ class InvoiceController extends Controller
         $this->authorize('view_invoice');
         $invoices = Invoice::query()
             ->select('invoice_id', 'invoice_month', 'invoice_date', DB::raw('sum(amount) as total_amount'), 'fee_type', 'session', 'semester')
+            ->selectSub(function ($q) {
+                $q->from('notesheets')->whereRaw('notesheets.invoice_id = invoices.invoice_id')->selectRaw('count(*)');
+            }, 'notesheet_count')
             ->when($request->search, function ($q, $v) {
                 $q->where('student_id', 'like', "%$v%")
                     ->orWhere('invoice_month', 'like', "%$v%")
@@ -48,6 +51,11 @@ class InvoiceController extends Controller
             ->with('details')
             ->groupBy('invoice_id')
             ->paginate();
+
+        $invoices->getCollection()->transform(function ($inv) {
+            $inv->has_notesheet = $inv->notesheet_count > 0;
+            return $inv;
+        });
         return Inertia::render('Invoice/Index', [
             'can' => $this->getPermissions(),
             'invoices' => $invoices,
