@@ -143,8 +143,8 @@
                                 <td colspan="10" style="padding-left: 2.5em!important; border: 0!important;">
                                     <strong>Note: </strong>
                                     <ul id="note">
-                                        <li>DS- Document submitted.</li>
-                                        <li>DNS- Document Not submitted.</li>
+                                        <li>DS - Document Submitted (Payable)</li>
+                                        <li>DNS - Document Not Submitted (Not Payable)</li>
                                     </ul>
                                 </td>
                             </tr>
@@ -417,10 +417,10 @@ export default {
                 return 'Not Payable';
             }
             if (remark === 'DS') {
-                return 'Document Submitted (DS)';
+                return 'Payable';
             }
             if (remark === 'DNS') {
-                return 'Document Not Submitted (DNS)';
+                return 'Not Payable';
             }
             if (remark === 'Dropout') {
                 return 'Dropout';
