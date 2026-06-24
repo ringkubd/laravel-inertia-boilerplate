@@ -56,7 +56,7 @@ class ReportController extends Controller
                 'dropout' => $group->where('status', 'dropout')->count(),
                 'no_result' => $group->where('status', 'no_result')->count(),
             ];
-        });
+        })->sortKeysDesc();
 
         $byPolytechnic = $data->groupBy(function ($d) {
             return $d['student']->polytechnicInfo?->name ?? 'Unknown';
