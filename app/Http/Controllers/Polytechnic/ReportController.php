@@ -120,8 +120,8 @@ class ReportController extends Controller
             return 'dropout';
         }
 
-        $sem8 = $results->firstWhere('semester', 8);
-        if ($sem8 && $sem8->status === 'Passed') {
+        $sem8Passed = $results->where('semester', 8)->firstWhere('status', 'Passed');
+        if ($sem8Passed) {
             return 'completed';
         }
 
