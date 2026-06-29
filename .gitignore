@@ -14,8 +14,22 @@ yarn-error.log
 /.idea
 /.vscode
 /.history
+
+# User uploaded files - never track in git (git operations destroy them)
+/public/photos
+/public/payment_slip
+/public/result_document
+/public/admission_attach
+/public/conversation
+/public/teacher_attendance
+/public/face_data
+/public/mail_attachment
+/public/mobile_app
+/public/userfiles
 /public/recovered_by_type
 /public/attendance
+
+# Compiled assets (built during deployment)
 /public/js/app.js
 /public/diploma_student.apk
 /public/isdbbisew-6098d57666ae.json

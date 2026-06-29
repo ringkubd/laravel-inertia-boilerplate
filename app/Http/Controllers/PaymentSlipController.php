@@ -228,6 +228,13 @@ class PaymentSlipController extends Controller
      */
     public function destroy(PaymentSlip $paymentSlip)
     {
+        foreach ($paymentSlip->attachments as $attach) {
+            $file = public_path($attach->path);
+            if (file_exists($file)) {
+                unlink($file);
+            }
+            $attach->delete();
+        }
         $paymentSlip->delete();
         return redirect()->route('payment-slip.index')->with('Status successfully deleted');
     }
