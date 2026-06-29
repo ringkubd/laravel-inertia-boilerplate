@@ -326,7 +326,7 @@ class PaymentSlipController extends Controller
 
             ->has('student')
             ->with('attachments')
-            ->orderBy('created_at')
+            ->orderBy('created_at', 'desc')
             ->paginate();
     }
 
