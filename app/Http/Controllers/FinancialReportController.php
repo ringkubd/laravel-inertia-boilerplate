@@ -14,12 +14,14 @@ class FinancialReportController extends Controller
 {
     public function index(Request $request)
     {
+        $now = Carbon::now();
         $invoices = Invoice::with('student.results')
             ->whereHas('student', fn($q) => $q->whereNotNull('polytechnic_id'))
             ->when($request->session, fn($q, $v) => $q->where('session', $v))
             ->when($request->from_date, fn($q, $v) => $q->whereDate('invoice_date', '>=', $v))
             ->when($request->to_date, fn($q, $v) => $q->whereDate('invoice_date', '<=', $v))
-            ->get();
+            ->get()
+            ->filter(fn($inv) => $inv->invoice_month && Carbon::parse($inv->invoice_month)->lte($now));
 
         $totalPaid = $invoices->sum('amount');
         $totalStudentsPaid = $invoices->pluck('student_id')->unique()->count();
