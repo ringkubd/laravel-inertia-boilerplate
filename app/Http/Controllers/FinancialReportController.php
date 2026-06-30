@@ -25,7 +25,7 @@ class FinancialReportController extends Controller
         $totalStudentsPaid = $invoices->pluck('student_id')->unique()->count();
 
         $monthly = $invoices->groupBy(fn($inv) => Carbon::parse($inv->invoice_month)->format('Y-m'))
-            ->sortKeys()
+            ->sortKeysDesc()
             ->map(function ($invs, $month) {
                 $studentIds = $invs->pluck('student_id')->unique();
                 $sum = $invs->sum('amount');
@@ -56,7 +56,7 @@ class FinancialReportController extends Controller
                 'months_active' => $monthsActive,
                 'avg_monthly' => $monthsActive > 0 ? round($total / $monthsActive, 2) : 0,
             ];
-        })->values();
+        })->sortByDesc('polytechnic_session')->values();
 
         $completedSummary = [
             'total_students' => $completedByStudent->count(),
@@ -82,7 +82,7 @@ class FinancialReportController extends Controller
             })->values();
 
         $bySessionSemester = $invoices->groupBy(fn($inv) => $inv->session . '|' . $inv->semester)
-            ->sortKeys()
+            ->sortKeysDesc()
             ->map(function ($invs, $key) {
                 [$session, $semester] = explode('|', $key);
                 $studentIds = $invs->pluck('student_id')->unique();
