@@ -188,6 +188,28 @@
         <div id="print-template" style="display:none;">
             <div style="padding:20px;font-family:sans-serif;">
                 <h2 style="text-align:center;margin-bottom:20px;">Financial Report</h2>
+                <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;">
+                    <div style="flex:1;min-width:120px;border:1px solid #ccc;border-radius:6px;padding:10px;text-align:center;">
+                        <div style="font-size:20px;font-weight:bold;color:#0ea5e9;">{{ Number(summary.total_paid).toLocaleString() }}</div>
+                        <div style="font-size:11px;color:#666;">Total Paid</div>
+                    </div>
+                    <div style="flex:1;min-width:120px;border:1px solid #ccc;border-radius:6px;padding:10px;text-align:center;">
+                        <div style="font-size:20px;font-weight:bold;color:#22c55e;">{{ summary.total_students_paid }}</div>
+                        <div style="font-size:11px;color:#666;">Students Paid</div>
+                    </div>
+                    <div style="flex:1;min-width:120px;border:1px solid #ccc;border-radius:6px;padding:10px;text-align:center;">
+                        <div style="font-size:20px;font-weight:bold;color:#3b82f6;">{{ Number(summary.avg_per_student_overall).toLocaleString() }}</div>
+                        <div style="font-size:11px;color:#666;">Avg/Student</div>
+                    </div>
+                    <div style="flex:1;min-width:120px;border:1px solid #ccc;border-radius:6px;padding:10px;text-align:center;">
+                        <div style="font-size:20px;font-weight:bold;color:#6366f1;">{{ summary.total_completed }}</div>
+                        <div style="font-size:11px;color:#666;">Completed</div>
+                    </div>
+                    <div style="flex:1;min-width:120px;border:1px solid #ccc;border-radius:6px;padding:10px;text-align:center;">
+                        <div style="font-size:20px;font-weight:bold;color:#6366f1;">{{ Number(summary.completed_total_received).toLocaleString() }}</div>
+                        <div style="font-size:11px;color:#666;">Completed Total</div>
+                    </div>
+                </div>
                 <div v-if="activeTab === 'monthly'">
                     <table style="width:100%;border-collapse:collapse;font-size:12px;">
                         <thead>
