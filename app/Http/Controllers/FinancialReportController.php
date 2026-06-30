@@ -30,14 +30,19 @@ class FinancialReportController extends Controller
         $monthly = $invoices->groupBy(fn($inv) => Carbon::parse($inv->invoice_month)->format('Y-m'))
             ->sortKeysDesc()
             ->map(function ($invs, $month) {
-                $studentIds = $invs->pluck('student_id')->unique();
+                $allStudents = $invs->pluck('student_id')->unique();
+                $paidStudents = $invs->where('amount', '>', 0)->pluck('student_id')->unique();
+                $zeroStudents = $invs->where('amount', '<=', 0)->pluck('student_id')->unique();
                 $sum = $invs->sum('amount');
-                $count = $studentIds->count();
+                $paidCount = $paidStudents->count();
+                $totalCount = $allStudents->count();
                 return [
                     'month' => $month,
                     'total_amount' => round($sum, 2),
-                    'students_paid' => $count,
-                    'avg_per_student' => $count > 0 ? round($sum / $count, 2) : 0,
+                    'total_students' => $totalCount,
+                    'students_paid' => $paidCount,
+                    'students_not_paid' => $totalCount - $paidCount,
+                    'avg_per_student' => $paidCount > 0 ? round($sum / $paidCount, 2) : 0,
                 ];
             })->values();
 

@@ -82,7 +82,9 @@
                                 <tr>
                                     <th>Month</th>
                                     <th class="text-right">Total Amount</th>
+                                    <th class="text-center">Total Students</th>
                                     <th class="text-center">Students Paid</th>
+                                    <th class="text-center">Not Paid</th>
                                     <th class="text-right">Avg/Student</th>
                                 </tr>
                             </thead>
@@ -90,7 +92,9 @@
                                 <tr v-for="(row, i) in monthly" :key="i">
                                     <td>{{ row.month }}</td>
                                     <td class="text-right">{{ Number(row.total_amount).toLocaleString() }}</td>
-                                    <td class="text-center">{{ row.students_paid }}</td>
+                                    <td class="text-center">{{ row.total_students }}</td>
+                                    <td class="text-center text-accent-600 font-medium">{{ row.students_paid }}</td>
+                                    <td class="text-center text-red-600 font-medium">{{ row.students_not_paid }}</td>
                                     <td class="text-right">{{ Number(row.avg_per_student).toLocaleString() }}</td>
                                 </tr>
                             </tbody>
@@ -190,7 +194,9 @@
                             <tr style="background:#0c4a6e;color:white;">
                                 <th style="padding:8px;text-align:left;border:1px solid #ccc;">Month</th>
                                 <th style="padding:8px;text-align:right;border:1px solid #ccc;">Total Amount</th>
+                                <th style="padding:8px;text-align:center;border:1px solid #ccc;">Total Students</th>
                                 <th style="padding:8px;text-align:center;border:1px solid #ccc;">Students Paid</th>
+                                <th style="padding:8px;text-align:center;border:1px solid #ccc;">Not Paid</th>
                                 <th style="padding:8px;text-align:right;border:1px solid #ccc;">Avg/Student</th>
                             </tr>
                         </thead>
@@ -198,7 +204,9 @@
                             <tr v-for="(row, i) in monthly" :key="i" style="border:1px solid #ccc;">
                                 <td style="padding:6px 8px;border:1px solid #ccc;">{{ row.month }}</td>
                                 <td style="padding:6px 8px;text-align:right;border:1px solid #ccc;">{{ Number(row.total_amount).toLocaleString() }}</td>
+                                <td style="padding:6px 8px;text-align:center;border:1px solid #ccc;">{{ row.total_students }}</td>
                                 <td style="padding:6px 8px;text-align:center;border:1px solid #ccc;">{{ row.students_paid }}</td>
+                                <td style="padding:6px 8px;text-align:center;border:1px solid #ccc;">{{ row.students_not_paid }}</td>
                                 <td style="padding:6px 8px;text-align:right;border:1px solid #ccc;">{{ Number(row.avg_per_student).toLocaleString() }}</td>
                             </tr>
                         </tbody>
