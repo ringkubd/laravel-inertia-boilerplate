@@ -18,6 +18,7 @@ class FinancialReportController extends Controller
         $invoices = Invoice::with('student.results')
             ->whereHas('student', fn($q) => $q->whereNotNull('polytechnic_id'))
             ->when($request->session, fn($q, $v) => $q->where('session', $v))
+            ->when($request->semester, fn($q, $v) => $q->where('semester', $v))
             ->when($request->from_date, fn($q, $v) => $q->whereDate('invoice_date', '>=', $v))
             ->when($request->to_date, fn($q, $v) => $q->whereDate('invoice_date', '<=', $v))
             ->get()
@@ -109,7 +110,7 @@ class FinancialReportController extends Controller
             'completedSummary' => $completedSummary,
             'bySession' => $bySession,
             'bySessionSemester' => $bySessionSemester,
-            'filters' => $request->only(['session', 'from_date', 'to_date']),
+            'filters' => $request->only(['session', 'semester', 'from_date', 'to_date']),
             'sessions' => AcademicSession::all(['session'])->pluck('session'),
         ]);
     }

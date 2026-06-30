@@ -4,12 +4,15 @@
     </Head>
     <Authenticated>
         <template #header>
-            <PageHeader>Financial Report</PageHeader>
+            <div class="flex items-center justify-between">
+                <PageHeader>Financial Report</PageHeader>
+                <button @click="print" class="btn btn-success text-sm px-3 py-1">Print</button>
+            </div>
         </template>
         <div class="container-fluid py-3">
-            <div class="card">
+            <div class="card" id="printArea">
                 <div class="card-body">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6 no-print">
                         <div class="bg-white rounded-xl border border-gray-200 p-4 text-center">
                             <div class="text-3xl font-bold text-brand-600">{{ Number(summary.total_paid).toLocaleString() }}</div>
                             <div class="text-sm text-gray-500 mt-1">Total Paid</div>
@@ -32,28 +35,36 @@
                         </div>
                     </div>
 
-                    <div class="flex flex-wrap gap-3 mb-6 p-4 bg-gray-50 rounded-lg">
+                    <div class="flex flex-wrap gap-3 mb-6 p-4 bg-gray-50 rounded-lg no-print">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Session</label>
-                            <select v-model="filters.session" class="form-control" @change="applyFilter">
+                            <select v-model="filterSession" class="form-control" @change="applyFilter">
                                 <option value="">All Sessions</option>
                                 <option v-for="s in sessions" :value="s">{{ s }}</option>
                             </select>
                         </div>
                         <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Semester</label>
+                            <select v-model="filterSemester" class="form-control" @change="applyFilter">
+                                <option value="">All Semesters</option>
+                                <option v-for="n in 8" :value="n">{{ n }}{{ ordinal_suffix_of(n) }}</option>
+                            </select>
+                        </div>
+                        <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">From Date</label>
-                            <input type="date" v-model="filters.from_date" class="form-control" @change="applyFilter">
+                            <input type="date" v-model="filterFromDate" class="form-control" @change="applyFilter">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">To Date</label>
-                            <input type="date" v-model="filters.to_date" class="form-control" @change="applyFilter">
+                            <input type="date" v-model="filterToDate" class="form-control" @change="applyFilter">
                         </div>
-                        <div class="flex items-end">
+                        <div class="flex items-end gap-1">
+                            <button @click="applyFilter" class="btn btn-success">Apply</button>
                             <button @click="resetFilter" class="btn btn-warning">Reset</button>
                         </div>
                     </div>
 
-                    <div class="border-b border-gray-200 mb-4">
+                    <div class="border-b border-gray-200 mb-4 no-print">
                         <nav class="flex flex-wrap -mb-px gap-1">
                             <button v-for="tab in tabs" :key="tab.key" @click="activeTab = tab.key"
                                 :class="activeTab === tab.key
@@ -70,9 +81,9 @@
                             <thead>
                                 <tr>
                                     <th>Month</th>
-                                    <th>Total Amount</th>
-                                    <th>Students Paid</th>
-                                    <th>Avg/Student</th>
+                                    <th class="text-right">Total Amount</th>
+                                    <th class="text-center">Students Paid</th>
+                                    <th class="text-right">Avg/Student</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -107,9 +118,9 @@
                                     <tr>
                                         <th>Student</th>
                                         <th>Session</th>
-                                        <th>Total Received</th>
-                                        <th>Months Active</th>
-                                        <th>Avg Monthly</th>
+                                        <th class="text-right">Total Received</th>
+                                        <th class="text-center">Months Active</th>
+                                        <th class="text-right">Avg Monthly</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -130,9 +141,9 @@
                             <thead>
                                 <tr>
                                     <th>Session</th>
-                                    <th>Total Amount</th>
-                                    <th>Students</th>
-                                    <th>Avg/Student</th>
+                                    <th class="text-right">Total Amount</th>
+                                    <th class="text-center">Students</th>
+                                    <th class="text-right">Avg/Student</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -152,8 +163,8 @@
                                 <tr>
                                     <th>Session</th>
                                     <th>Semester</th>
-                                    <th>Total Amount</th>
-                                    <th>Students</th>
+                                    <th class="text-right">Total Amount</th>
+                                    <th class="text-center">Students</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -190,11 +201,10 @@ export default {
     },
     data() {
         return {
-            filters: {
-                session: this.filters?.session || '',
-                from_date: this.filters?.from_date || '',
-                to_date: this.filters?.to_date || '',
-            },
+            filterSession: this.filters?.session || '',
+            filterSemester: this.filters?.semester || '',
+            filterFromDate: this.filters?.from_date || '',
+            filterToDate: this.filters?.to_date || '',
             activeTab: 'monthly',
             tabs: [
                 { key: 'monthly', label: 'Monthly' },
@@ -206,11 +216,39 @@ export default {
     },
     methods: {
         applyFilter() {
-            this.$inertia.get(route('financial.report'), this.filters, { preserveState: true });
+            const params = {};
+            if (this.filterSession) params.session = this.filterSession;
+            if (this.filterSemester) params.semester = this.filterSemester;
+            if (this.filterFromDate) params.from_date = this.filterFromDate;
+            if (this.filterToDate) params.to_date = this.filterToDate;
+            this.$inertia.get(route('financial.report'), params, { preserveState: true });
         },
         resetFilter() {
+            this.filterSession = '';
+            this.filterSemester = '';
+            this.filterFromDate = '';
+            this.filterToDate = '';
             this.$inertia.get(route('financial.report'), {}, { preserveState: true });
+        },
+        print() {
+            window.print();
+        },
+        ordinal_suffix_of(i) {
+            const j = i % 10, k = i % 100;
+            if (j === 1 && k !== 11) return 'st';
+            if (j === 2 && k !== 12) return 'nd';
+            if (j === 3 && k !== 13) return 'rd';
+            return 'th';
         },
     },
 };
 </script>
+
+<style>
+@media print {
+    .no-print { display: none !important; }
+    #printArea { border: none !important; box-shadow: none !important; }
+    .card { border: none !important; }
+    .card-body { padding: 0 !important; }
+}
+</style>
