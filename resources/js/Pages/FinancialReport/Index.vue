@@ -180,6 +180,94 @@
                 </div>
             </div>
         </div>
+
+        <div id="print-template" style="display:none;">
+            <div style="padding:20px;font-family:sans-serif;">
+                <h2 style="text-align:center;margin-bottom:20px;">Financial Report</h2>
+                <div v-if="activeTab === 'monthly'">
+                    <table style="width:100%;border-collapse:collapse;font-size:12px;">
+                        <thead>
+                            <tr style="background:#0c4a6e;color:white;">
+                                <th style="padding:8px;text-align:left;border:1px solid #ccc;">Month</th>
+                                <th style="padding:8px;text-align:right;border:1px solid #ccc;">Total Amount</th>
+                                <th style="padding:8px;text-align:center;border:1px solid #ccc;">Students Paid</th>
+                                <th style="padding:8px;text-align:right;border:1px solid #ccc;">Avg/Student</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(row, i) in monthly" :key="i" style="border:1px solid #ccc;">
+                                <td style="padding:6px 8px;border:1px solid #ccc;">{{ row.month }}</td>
+                                <td style="padding:6px 8px;text-align:right;border:1px solid #ccc;">{{ Number(row.total_amount).toLocaleString() }}</td>
+                                <td style="padding:6px 8px;text-align:center;border:1px solid #ccc;">{{ row.students_paid }}</td>
+                                <td style="padding:6px 8px;text-align:right;border:1px solid #ccc;">{{ Number(row.avg_per_student).toLocaleString() }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div v-if="activeTab === 'session'">
+                    <table style="width:100%;border-collapse:collapse;font-size:12px;">
+                        <thead>
+                            <tr style="background:#0c4a6e;color:white;">
+                                <th style="padding:8px;text-align:left;border:1px solid #ccc;">Session</th>
+                                <th style="padding:8px;text-align:right;border:1px solid #ccc;">Total Amount</th>
+                                <th style="padding:8px;text-align:center;border:1px solid #ccc;">Students</th>
+                                <th style="padding:8px;text-align:right;border:1px solid #ccc;">Avg/Student</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(row, i) in bySession" :key="i" style="border:1px solid #ccc;">
+                                <td style="padding:6px 8px;border:1px solid #ccc;">{{ row.session }}</td>
+                                <td style="padding:6px 8px;text-align:right;border:1px solid #ccc;">{{ Number(row.total_amount).toLocaleString() }}</td>
+                                <td style="padding:6px 8px;text-align:center;border:1px solid #ccc;">{{ row.students }}</td>
+                                <td style="padding:6px 8px;text-align:right;border:1px solid #ccc;">{{ Number(row.avg_per_student).toLocaleString() }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div v-if="activeTab === 'semester'">
+                    <table style="width:100%;border-collapse:collapse;font-size:12px;">
+                        <thead>
+                            <tr style="background:#0c4a6e;color:white;">
+                                <th style="padding:8px;text-align:left;border:1px solid #ccc;">Session</th>
+                                <th style="padding:8px;text-align:left;border:1px solid #ccc;">Semester</th>
+                                <th style="padding:8px;text-align:right;border:1px solid #ccc;">Total Amount</th>
+                                <th style="padding:8px;text-align:center;border:1px solid #ccc;">Students</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(row, i) in bySessionSemester" :key="i" style="border:1px solid #ccc;">
+                                <td style="padding:6px 8px;border:1px solid #ccc;">{{ row.session }}</td>
+                                <td style="padding:6px 8px;border:1px solid #ccc;">{{ ordinal_suffix_of(row.semester) }}</td>
+                                <td style="padding:6px 8px;text-align:right;border:1px solid #ccc;">{{ Number(row.total_amount).toLocaleString() }}</td>
+                                <td style="padding:6px 8px;text-align:center;border:1px solid #ccc;">{{ row.students }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div v-if="activeTab === 'completed'">
+                    <table style="width:100%;border-collapse:collapse;font-size:12px;">
+                        <thead>
+                            <tr style="background:#0c4a6e;color:white;">
+                                <th style="padding:8px;text-align:left;border:1px solid #ccc;">Student</th>
+                                <th style="padding:8px;text-align:left;border:1px solid #ccc;">Session</th>
+                                <th style="padding:8px;text-align:right;border:1px solid #ccc;">Total Received</th>
+                                <th style="padding:8px;text-align:center;border:1px solid #ccc;">Months Active</th>
+                                <th style="padding:8px;text-align:right;border:1px solid #ccc;">Avg Monthly</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(s, i) in completedByStudent" :key="i" style="border:1px solid #ccc;">
+                                <td style="padding:6px 8px;border:1px solid #ccc;">{{ s.name }}</td>
+                                <td style="padding:6px 8px;border:1px solid #ccc;">{{ s.polytechnic_session }}</td>
+                                <td style="padding:6px 8px;text-align:right;border:1px solid #ccc;">{{ Number(s.total_received).toLocaleString() }}</td>
+                                <td style="padding:6px 8px;text-align:center;border:1px solid #ccc;">{{ s.months_active }}</td>
+                                <td style="padding:6px 8px;text-align:right;border:1px solid #ccc;">{{ Number(s.avg_monthly).toLocaleString() }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </Authenticated>
 </template>
 
@@ -231,7 +319,14 @@ export default {
             this.$inertia.get(route('financial.report'), {}, { preserveState: true });
         },
         print() {
-            window.print();
+            this.$htmlToPaper('print-template', {
+                name: 'financial-report',
+                specs: ['fullscreen=yes', 'titlebar=yes', 'scrollbars=yes'],
+                styles: [
+                    'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css',
+                    '/css/app.css',
+                ],
+            });
         },
         ordinal_suffix_of(i) {
             const j = i % 10, k = i % 100;
