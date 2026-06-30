@@ -3,35 +3,35 @@
 namespace App\Http\Controllers;
 
 use App\Models\AcademicSession;
-use App\Models\PaymentSlip;
+use App\Models\Invoice;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class FinancialReportController extends Controller
 {
     public function index(Request $request)
     {
-        $paymentSlips = PaymentSlip::with('student.results')
-            ->where('status', 1)
+        $invoices = Invoice::with('student.results')
             ->whereHas('student', fn($q) => $q->whereNotNull('polytechnic_id'))
-            ->when($request->session, fn($q, $v) => $q->whereHas('student', fn($q) => $q->where('polytechnic_session', $v)))
-            ->when($request->from_date, fn($q, $v) => $q->whereDate('created_at', '>=', $v))
-            ->when($request->to_date, fn($q, $v) => $q->whereDate('created_at', '<=', $v))
+            ->when($request->session, fn($q, $v) => $q->where('session', $v))
+            ->when($request->from_date, fn($q, $v) => $q->whereDate('invoice_date', '>=', $v))
+            ->when($request->to_date, fn($q, $v) => $q->whereDate('invoice_date', '<=', $v))
             ->get();
 
-        $totalPaid = $paymentSlips->sum('amount');
-        $totalStudentsPaid = $paymentSlips->pluck('student_id')->unique()->count();
+        $totalPaid = $invoices->sum('amount');
+        $totalStudentsPaid = $invoices->pluck('student_id')->unique()->count();
 
-        $monthly = $paymentSlips->groupBy(fn($s) => $s->created_at->format('Y-m'))
+        $monthly = $invoices->groupBy(fn($inv) => $inv->invoice_date->format('Y-m'))
             ->sortKeys()
-            ->map(function ($slips, $month) {
-                $studentIds = $slips->pluck('student_id')->unique();
-                $sum = $slips->sum('amount');
+            ->map(function ($invs, $month) {
+                $studentIds = $invs->pluck('student_id')->unique();
+                $sum = $invs->sum('amount');
                 $count = $studentIds->count();
                 return [
                     'month' => $month,
-                    'total_amount' => $sum,
+                    'total_amount' => round($sum, 2),
                     'students_paid' => $count,
                     'avg_per_student' => $count > 0 ? round($sum / $count, 2) : 0,
                 ];
@@ -41,17 +41,17 @@ class FinancialReportController extends Controller
             $q->where('semester', 8)->where('status', 'Passed')
         )->whereNotNull('polytechnic_id')->pluck('id');
 
-        $completedSlips = $paymentSlips->whereIn('student_id', $completedStudentIds);
+        $completedInvs = $invoices->whereIn('student_id', $completedStudentIds);
 
-        $completedByStudent = $completedSlips->groupBy('student_id')->map(function ($slips) {
-            $student = $slips->first()->student;
-            $total = $slips->sum('amount');
-            $monthsActive = $slips->groupBy(fn($s) => $s->created_at->format('Y-m'))->count();
+        $completedByStudent = $completedInvs->groupBy('student_id')->map(function ($invs) {
+            $student = $invs->first()->student;
+            $total = $invs->sum('amount');
+            $monthsActive = $invs->groupBy(fn($inv) => $inv->invoice_date->format('Y-m'))->count();
             return [
                 'student_id' => $student->id,
                 'name' => $student->name,
                 'polytechnic_session' => $student->polytechnic_session,
-                'total_received' => $total,
+                'total_received' => round($total, 2),
                 'months_active' => $monthsActive,
                 'avg_monthly' => $monthsActive > 0 ? round($total / $monthsActive, 2) : 0,
             ];
@@ -66,36 +66,36 @@ class FinancialReportController extends Controller
                 ? round($completedByStudent->avg('total_received'), 2) : 0,
         ];
 
-        $bySession = $paymentSlips->groupBy(fn($s) => $s->student?->polytechnic_session ?? 'Unknown')
+        $bySession = $invoices->groupBy('session')
             ->sortKeysDesc()
-            ->map(function ($slips, $session) {
-                $studentIds = $slips->pluck('student_id')->unique();
-                $sum = $slips->sum('amount');
+            ->map(function ($invs, $session) {
+                $studentIds = $invs->pluck('student_id')->unique();
+                $sum = $invs->sum('amount');
                 $count = $studentIds->count();
                 return [
                     'session' => $session,
-                    'total_amount' => $sum,
+                    'total_amount' => round($sum, 2),
                     'students' => $count,
                     'avg_per_student' => $count > 0 ? round($sum / $count, 2) : 0,
                 ];
             })->values();
 
-        $bySessionSemester = $paymentSlips->groupBy(fn($s) =>
-            ($s->student?->polytechnic_session ?? 'Unknown') . '|' . $s->semester
-        )->sortKeys()->map(function ($slips, $key) {
-            [$session, $semester] = explode('|', $key);
-            $studentIds = $slips->pluck('student_id')->unique();
-            return [
-                'session' => $session,
-                'semester' => (int) $semester,
-                'total_amount' => $slips->sum('amount'),
-                'students' => $studentIds->count(),
-            ];
-        })->values();
+        $bySessionSemester = $invoices->groupBy(fn($inv) => $inv->session . '|' . $inv->semester)
+            ->sortKeys()
+            ->map(function ($invs, $key) {
+                [$session, $semester] = explode('|', $key);
+                $studentIds = $invs->pluck('student_id')->unique();
+                return [
+                    'session' => $session,
+                    'semester' => (int) $semester,
+                    'total_amount' => round($invs->sum('amount'), 2),
+                    'students' => $studentIds->count(),
+                ];
+            })->values();
 
         return Inertia::render('FinancialReport/Index', [
             'summary' => [
-                'total_paid' => $totalPaid,
+                'total_paid' => round($totalPaid, 2),
                 'total_students_paid' => $totalStudentsPaid,
                 'avg_per_student_overall' => $totalStudentsPaid > 0 ? round($totalPaid / $totalStudentsPaid, 2) : 0,
                 'total_completed' => $completedSummary['total_students'],
