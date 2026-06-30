@@ -501,6 +501,13 @@
                                             >
                                                 Note Sheet
                                             </breeze-dropdown-link>
+                                            <breeze-dropdown-link
+                                                :href="route('financial.report')"
+                                                :active="route().current('financial.report')"
+                                                v-if="$page.props.menu_permission.invoice"
+                                            >
+                                                Financial Report
+                                            </breeze-dropdown-link>
                                         </template>
                                     </breeze-dropdown>
                                 </div>
@@ -1239,6 +1246,13 @@
                                         v-if="$page.props.menu_permission.invoice"
                                     >
                                         Note Sheet
+                                    </breeze-dropdown-link>
+                                    <breeze-dropdown-link
+                                        :href="route('financial.report')"
+                                        :active="route().current('financial.report')"
+                                        v-if="$page.props.menu_permission.invoice"
+                                    >
+                                        Financial Report
                                     </breeze-dropdown-link>
                                 </template>
                             </breeze-dropdown>

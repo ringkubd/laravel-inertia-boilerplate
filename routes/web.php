@@ -312,6 +312,8 @@ Route::get('inbox', [\App\Http\Controllers\InboxController::class, 'inbox'])->na
 // Activity Log
 Route::get('activity/{user?}', [\App\Http\Controllers\ActivityLogController::class, 'index'])->name('activity');
 
+Route::get('financial-report', [\App\Http\Controllers\FinancialReportController::class, 'index'])->name('financial.report');
+
 // page
 Route::get('manifest.json', function () {
     return response()->file(public_path('manifest.json'));
