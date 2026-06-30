@@ -24,7 +24,7 @@ class FinancialReportController extends Controller
         $totalPaid = $invoices->sum('amount');
         $totalStudentsPaid = $invoices->pluck('student_id')->unique()->count();
 
-        $monthly = $invoices->groupBy(fn($inv) => Carbon::parse($inv->invoice_date)->format('Y-m'))
+        $monthly = $invoices->groupBy(fn($inv) => Carbon::parse($inv->invoice_month)->format('Y-m'))
             ->sortKeys()
             ->map(function ($invs, $month) {
                 $studentIds = $invs->pluck('student_id')->unique();
@@ -47,7 +47,7 @@ class FinancialReportController extends Controller
         $completedByStudent = $completedInvs->groupBy('student_id')->map(function ($invs) {
             $student = $invs->first()->student;
             $total = $invs->sum('amount');
-            $monthsActive = $invs->groupBy(fn($inv) => Carbon::parse($inv->invoice_date)->format('Y-m'))->count();
+            $monthsActive = $invs->groupBy(fn($inv) => Carbon::parse($inv->invoice_month)->format('Y-m'))->count();
             return [
                 'student_id' => $student->id,
                 'name' => $student->name,
