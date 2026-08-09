@@ -37,7 +37,10 @@ class InvoiceController extends Controller
         $invoices = Invoice::query()
             ->select('invoice_id', 'invoice_month', 'invoice_date', DB::raw('sum(amount) as total_amount'), 'fee_type', 'session', 'semester')
             ->selectSub(function ($q) {
-                $q->from('notesheets')->whereRaw('notesheets.invoice_id = invoices.invoice_id')->selectRaw('count(*)');
+                $q->from('notesheets')
+                    ->whereRaw('notesheets.invoice_id = invoices.invoice_id')
+                    ->whereNull('notesheets.deleted_at')
+                    ->selectRaw('count(*)');
             }, 'notesheet_count')
             ->when($request->search, function ($q, $v) {
                 $q->where('student_id', 'like', "%$v%")
